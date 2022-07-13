@@ -1,0 +1,12 @@
+@use '../../../styles/mixins' as *;
+
+.container {
+  $size-side-padding: 1em;
+
+  width: calc(100% - 2 * $size-side-padding);
+  margin: 0 auto;
+
+  @include for-desktop-up {
+    width: 120rem;
+  }
+}

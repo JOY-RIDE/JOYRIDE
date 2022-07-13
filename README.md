@@ -7,7 +7,12 @@ JOYRIDE
 └── client
    ├── public
    └── src
+      ├── assets
       ├── components
+      ├── hooks
       ├── routes
-      └── styles
+      ├── services
+      ├── states
+      ├── styles
+      └── utils
 ```

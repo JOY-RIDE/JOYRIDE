@@ -1,6 +1,2 @@
 @use '../../../styles/mixins' as *;
 @use '../../../styles/variables' as *;
-
-.footer {
-  @include horizontal-alignment;
-}
