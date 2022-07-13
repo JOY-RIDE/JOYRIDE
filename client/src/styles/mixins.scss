@@ -21,3 +21,14 @@
     @content;
   }
 }
+
+@mixin horizontal-alignment {
+  $side-padding: 1.5rem;
+
+  width: calc(100% - 2 * $side-padding);
+  margin: 0 auto;
+
+  @include for-desktop-up {
+    width: 120rem;
+  }
+}
