@@ -4,14 +4,14 @@ import Layout from 'routes/Layout';
 import Home from 'routes/Home';
 import Roads from 'routes/Roads';
 import Road from 'routes/Road';
-import Meetups from 'routes/Meetups';
-import Meetup from 'routes/Meetup';
+import Meetups from 'routes/Meetups2';
+import Meetup from 'routes/Meetup3';
 import Login from 'routes/Login';
 // import ErrorBoundary from 'components/ErrorBoundary';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
-const Mypage = lazy(() => import('routes/Mypage'));
+const Mypage = lazy(() => import('routes/Mypage2'));
 const Error = lazy(() => import('routes/Error'));
 
 const App = () => (
