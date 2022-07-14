@@ -1,5 +1,5 @@
 import React from 'react';
 
-const MeetUps = () => <h1>MeetUps</h1>;
+const Meetups = () => <h1>Meetups</h1>;
 
-export default MeetUps;
+export default Meetups;
