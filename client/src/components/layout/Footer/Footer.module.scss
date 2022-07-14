@@ -1,2 +1,31 @@
-@use '../../../styles/mixins' as *;
 @use '../../../styles/variables' as *;
+
+.footer {
+  background: $color-grey-200;
+  padding: 2.5rem 0 4.5rem 0;
+  text-align: center;
+}
+
+.logo {
+  width: 7.5rem;
+}
+
+.brand {
+  font-weight: 700;
+  color: $color-grey-700;
+  margin: 1em 0 1.5em 0;
+}
+
+.links {
+  font-weight: 500;
+  color: $color-grey-700;
+  font-size: 1.4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.link + .link {
+  border-left: 2px solid $color-grey-400;
+  padding-left: 0.5em;
+}

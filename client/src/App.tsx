@@ -6,10 +6,10 @@ import Roads from 'routes/Roads';
 import Road from 'routes/Road';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
+import Login from 'routes/Login';
 // import ErrorBoundary from 'components/ErrorBoundary';
 
 const Search = lazy(() => import('routes/Search'));
-const Login = lazy(() => import('routes/Login'));
 const Signup = lazy(() => import('routes/Signup'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
