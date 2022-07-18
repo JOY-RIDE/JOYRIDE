@@ -3,12 +3,14 @@
 .header {
   padding: 0.5rem 0;
   border-bottom: 1px solid $color-grey-300;
+  position: relative;
 }
 
 .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0;
 }
 
 .logo {
@@ -20,4 +22,47 @@
 .mypage {
   color: $color-main;
   font-size: 2.5rem;
+}
+
+.wrapper {
+  border-bottom: $border-main;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 7rem;
+  font-size: 2.5rem;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-main;
+  position: relative;
+}
+
+.input {
+  border: $border-main;
+  font-size: 2rem;
+  width: 100%;
+  padding: 1rem 1.6rem;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: $color-main;
+  }
+}
+
+.menus {
+  padding: 1.4rem 1.6rem;
+}
+
+.icon {
+  position: absolute;
+  right: 3.2rem;
 }
