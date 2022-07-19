@@ -19,6 +19,7 @@ const Footer = () => (
           href="
         https://eight-profit-b8e.notion.site/JoyRide-387ba8a71ce34dadb1ea48c15ee79533"
           target="_blank"
+          rel="noreferrer"
         >
           About Us
         </a>
@@ -26,6 +27,7 @@ const Footer = () => (
           className={cn('link')}
           href="https://github.com/JOY-RIDE/JOYRIDE"
           target="_blank"
+          rel="noreferrer"
         >
           GitHub Repository
         </a>
