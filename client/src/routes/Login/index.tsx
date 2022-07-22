@@ -1,3 +1,9 @@
-const Login = () => <h1>Login</h1>;
+import PageTitle from 'components/common/PageTitle';
+
+const Login = () => (
+  <div>
+    <PageTitle size="lg">로그인</PageTitle>
+  </div>
+);
 
 export default Login;

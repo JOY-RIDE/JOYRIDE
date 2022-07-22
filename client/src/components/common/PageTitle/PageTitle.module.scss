@@ -1,0 +1,16 @@
+.title {
+  margin: 2.25em 0 1.5em 0;
+
+  &.lg {
+    // ex: 회원가입, 로그인 페이지
+    font-size: 3.2rem;
+  }
+
+  &.md {
+    // ex: 자전거 코스/모임 리스트 페이지
+    font-size: 2.4rem;
+  }
+
+  //   &.sm {
+  //   }
+}
