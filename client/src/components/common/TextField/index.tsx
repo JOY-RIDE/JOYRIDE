@@ -1,15 +1,18 @@
+import { Component } from 'react';
 import styles from './TextField.module.scss';
 import classNames from 'classnames/bind';
 
-interface Props {
-  value: string;
+interface TextFieldProps {
   placeholder: string;
+  [key: string]: any;
 }
 
 const cn = classNames.bind(styles);
 
-const TextField = ({ value, placeholder }: Props) => (
-  <input className={cn('input')} value={value} placeholder={placeholder} />
-);
+class TextField extends Component<TextFieldProps> {
+  render() {
+    return <input className={cn('input')} {...this.props} />;
+  }
+}
 
 export default TextField;

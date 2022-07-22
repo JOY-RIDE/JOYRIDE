@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { OnChangeType } from 'typescript/types';
 
 export const useInput = () => {
-  const [value, setValue] = useState<string>('');
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setValue(e.target.value);
-
-  return [value, onChange];
+  const [value, setValue] = useState('');
+  const onChange: OnChangeType = e => setValue(e.target.value);
+  const result: [string, OnChangeType] = [value, onChange];
+  return result;
 };
