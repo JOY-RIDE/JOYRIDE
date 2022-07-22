@@ -1,4 +1,3 @@
-import React from 'react';
 import Container from 'components/common/Container';
 import logo_green from 'assets/images/logo_green.svg';
 import styles from './Footer.module.scss';
