@@ -1,7 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 
 .input {
-  width: min(100%, 34rem);
+  width: 100%;
   outline: none;
   border: none;
   border-bottom: $border-grey;

@@ -20,6 +20,8 @@ const mainColor = '#22b573';
 const theme = createTheme({
   typography: {
     htmlFontSize: 10,
+    fontFamily:
+      'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
   },
 
   palette: {

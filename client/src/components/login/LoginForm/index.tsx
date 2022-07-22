@@ -1,6 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import TextInput from '../../common/TextInput';
+import TextInput from 'components/common/TextInput';
+import { FormControlLabel } from '@mui/material';
+import CheckBox from 'components/common/CheckBox';
 import styles from './LoginForm.module.scss';
 import classNames from 'classnames/bind';
 
@@ -34,23 +36,29 @@ const LoginForm = () => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(login)}>
-      <Controller
-        name="id"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => <TextInput {...field} placeholder="아이디" />}
-      />
-      {errors.id && <p>Required</p>}
+      <div className={cn('field')}>
+        <Controller
+          name="id"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => <TextInput {...field} placeholder="아이디" />}
+        />
+        {errors.id && <p>Required</p>}
+      </div>
 
-      <Controller
-        name="password"
-        control={control}
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextInput {...field} type="password" placeholder="비밀번호" />
-        )}
-      />
-      {errors.password && <p>Required</p>}
+      <div className={cn('field')}>
+        <Controller
+          name="password"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <TextInput {...field} type="password" placeholder="비밀번호" />
+          )}
+        />
+        {errors.password && <p>Required</p>}
+      </div>
+
+      <FormControlLabel control={<CheckBox />} label="자동 로그인" />
 
       <button>로그인하기</button>
     </form>

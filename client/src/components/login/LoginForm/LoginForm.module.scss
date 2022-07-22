@@ -1,5 +1,12 @@
 .form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: min(100%, 34rem);
+  // display: flex;
+  // flex-direction: column;
+  // align-items: flex-start;
+}
+
+.field {
+  & + .field {
+    margin-top: 2rem;
+  }
 }
