@@ -1,0 +1,14 @@
+@use '../../../styles/variables.scss' as *;
+
+.input {
+  width: min(100%, 34rem);
+  outline: none;
+  border: none;
+  border-bottom: $border-grey;
+  padding: 0.8rem 0.1rem;
+  font-size: 2rem;
+
+  &:focus {
+    border-bottom: $border-main-2;
+  }
+}

@@ -25,7 +25,7 @@
 }
 
 .wrapper {
-  border-bottom: $border-main;
+  border-bottom: $border-main-1;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@
 }
 
 .input {
-  border: $border-main;
+  border: $border-main-1;
   font-size: 2rem;
   width: 100%;
   padding: 1rem 1.6rem;
