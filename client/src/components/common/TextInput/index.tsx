@@ -1,18 +1,16 @@
-import { Component } from 'react';
+import { forwardRef } from 'react';
 import styles from './TextInput.module.scss';
 import classNames from 'classnames/bind';
 
-interface TextInputProps {
+interface TextInput {
   placeholder: string;
   [key: string]: any;
 }
 
 const cn = classNames.bind(styles);
 
-class TextInput extends Component<TextInputProps> {
-  render() {
-    return <input className={cn('input')} {...this.props} />;
-  }
-}
+const TextInput = forwardRef<HTMLInputElement, TextInput>((props, ref) => (
+  <input className={cn('input')} ref={ref} {...props} />
+));
 
 export default TextInput;

@@ -1,3 +1,3 @@
-const MyPage = () => <h1>MyPage</h1>;
+const MyPage = () => <h1>Mypage</h1>;
 
 export default MyPage;
