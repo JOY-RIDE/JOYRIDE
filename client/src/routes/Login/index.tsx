@@ -1,11 +1,11 @@
 import PageTitle from 'components/common/PageTitle';
-import LoginForm from 'components/common/LoginForm';
+import LoginForm from 'components/login/LoginForm';
 
 const Login = () => (
-  <div>
+  <section>
     <PageTitle size="lg">로그인</PageTitle>
     <LoginForm />
-  </div>
+  </section>
 );
 
 export default Login;

@@ -1,9 +1,10 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import TextField from '../TextField';
+import { useLocation, useNavigate } from 'react-router-dom';
+import TextInput from '../../common/TextInput';
 import styles from './LoginForm.module.scss';
 import classNames from 'classnames/bind';
 
-interface Form {
+interface LoginForm {
   id: string;
   password: string;
 }
@@ -15,22 +16,29 @@ const LoginForm = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Form>({
+  } = useForm<LoginForm>({
     defaultValues: {
       id: '',
       password: '',
     },
+    reValidateMode: undefined,
   });
 
-  const onSubmit: SubmitHandler<Form> = data => console.log(data);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const previousPage = state as null | string;
+
+  const login: SubmitHandler<LoginForm> = data => {
+    navigate(previousPage || '/');
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form className={cn('form')} onSubmit={handleSubmit(login)}>
       <Controller
         name="id"
         control={control}
         rules={{ required: true }}
-        render={({ field }) => <TextField {...field} placeholder="아이디" />}
+        render={({ field }) => <TextInput {...field} placeholder="아이디" />}
       />
       {errors.id && <p>Required</p>}
 
@@ -39,12 +47,12 @@ const LoginForm = () => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField {...field} type="password" placeholder="비밀번호" />
+          <TextInput {...field} type="password" placeholder="비밀번호" />
         )}
       />
       {errors.password && <p>Required</p>}
 
-      <button>로그인</button>
+      <button>로그인하기</button>
     </form>
   );
 };

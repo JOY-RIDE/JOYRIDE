@@ -1,18 +1,18 @@
 import { Component } from 'react';
-import styles from './TextField.module.scss';
+import styles from './TextInput.module.scss';
 import classNames from 'classnames/bind';
 
-interface TextFieldProps {
+interface TextInputProps {
   placeholder: string;
   [key: string]: any;
 }
 
 const cn = classNames.bind(styles);
 
-class TextField extends Component<TextFieldProps> {
+class TextInput extends Component<TextInputProps> {
   render() {
     return <input className={cn('input')} {...this.props} />;
   }
 }
 
-export default TextField;
+export default TextInput;
