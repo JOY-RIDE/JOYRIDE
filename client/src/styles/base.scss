@@ -1,8 +1,10 @@
+@use './variables.scss' as *;
 @import-normalize;
 
 * {
   margin: 0;
   padding: 0;
+  outline-color: $color-main-light;
 }
 
 a {

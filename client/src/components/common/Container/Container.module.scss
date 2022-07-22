@@ -1,7 +1,7 @@
 @use '../../../styles/mixins' as *;
 
 .container {
-  $size-side-padding: 1.5em;
+  $size-side-padding: 2rem;
 
   width: calc(100% - 2 * $size-side-padding);
   margin: 0 auto;

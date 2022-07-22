@@ -1,1 +1,1 @@
-export type OnChangeType = (e: React.ChangeEvent<HTMLInputElement>) => void;
+export type ChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => void;
