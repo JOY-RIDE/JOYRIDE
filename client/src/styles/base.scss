@@ -12,12 +12,12 @@ a {
   text-decoration: none;
 }
 
+input,
 button {
-  background: none;
-  border: none;
-  cursor: pointer;
+  font: inherit;
 }
 
-input {
-  font: inherit;
+button {
+  border: none;
+  cursor: pointer;
 }

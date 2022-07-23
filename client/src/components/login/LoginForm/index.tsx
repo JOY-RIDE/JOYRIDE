@@ -1,12 +1,13 @@
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import TextInput from 'components/common/TextInput';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
+import Button from 'components/common/Button';
 import styles from './LoginForm.module.scss';
 import classNames from 'classnames/bind';
 // import ErrorMessage from 'components/common/ErrorMessage';
-import { useState } from 'react';
 
 interface LoginForm {
   id: string;
@@ -84,7 +85,9 @@ const LoginForm = () => {
         <FormControlLabel control={<CheckBox />} label="자동 로그인" />
       </div>
 
-      <button>로그인하기</button>
+      <Button color="main" size="lg">
+        로그인하기
+      </Button>
     </form>
   );
 };
