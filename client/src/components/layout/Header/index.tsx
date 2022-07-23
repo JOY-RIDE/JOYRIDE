@@ -19,7 +19,7 @@ interface Iform {
 }
 
 const Header = () => {
-  // const user = useRecoilValue(userState)
+  // const userInfo = useRecoilValue(userInfoState)
   const user = false; // 임시로 해놓음
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
