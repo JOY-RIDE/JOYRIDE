@@ -3,15 +3,15 @@ import ErrorMessage from '../ErrorMessage';
 import styles from './TextInput.module.scss';
 import classNames from 'classnames/bind';
 
-interface TextInput {
+interface TextInputProps {
   placeholder: string;
-  errorMessage?: string | undefined;
+  errorMessage?: string;
   [key: string]: any;
 }
 
 const cn = classNames.bind(styles);
 
-const TextInput = forwardRef<HTMLInputElement, TextInput>((props, ref) => {
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, ref) => {
   const { errorMessage, ...others } = props;
   return (
     <div className={cn('wrapper')}>

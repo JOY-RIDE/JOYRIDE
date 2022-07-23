@@ -3,7 +3,7 @@ import { ClickHandler } from 'typescript/types';
 import styles from './Button.module.scss';
 import classNames from 'classnames/bind';
 
-interface Button {
+interface ButtonProps {
   color: 'main' | 'white';
   size: 'md' | 'lg';
   onClick?: ClickHandler;
@@ -16,7 +16,7 @@ const Button = ({
   color = 'main',
   size = 'md',
   onClick,
-}: PropsWithChildren<Button>) => (
+}: PropsWithChildren<ButtonProps>) => (
   <button className={cn('btn', color, size)} onClick={onClick}>
     {children}
   </button>

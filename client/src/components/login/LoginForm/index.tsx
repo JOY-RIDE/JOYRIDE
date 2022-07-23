@@ -12,6 +12,7 @@ import classNames from 'classnames/bind';
 interface LoginForm {
   id: string;
   password: string;
+  autoLogin: boolean;
 }
 
 const cn = classNames.bind(styles);
@@ -29,15 +30,23 @@ const LoginForm = () => {
     // reValidateMode: 'onBlur',
   });
 
-  const [hasFailed, setHasFailed] = useState<boolean>(false);
+  const [failedLogin, setFailedLogin] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const { state } = useLocation();
   const previousPage = state as null | string;
 
   const login: SubmitHandler<LoginForm> = data => {
-    // setHasFailed(true);
-    navigate(previousPage || '/');
+    console.log(data);
+
+    // if () {
+    //   setFailedLogin(true);
+    //   return;
+    // }
+    //
+    // if (data.autoLogin) {
+    // }
+    // navigate(previousPage || '/');
   };
 
   return (
@@ -73,7 +82,7 @@ const LoginForm = () => {
         />
       </div>
 
-      {/* {hasFailed && (
+      {/* {failedLogin && (
         <div className={cn('fail')}>
           <ErrorMessage>
             아이디 또는 비밀번호가 잘못 입력되었습니다.
@@ -82,7 +91,16 @@ const LoginForm = () => {
       )} */}
 
       <div className={cn('auto-login')}>
-        <FormControlLabel control={<CheckBox />} label="자동 로그인" />
+        <Controller
+          name="autoLogin"
+          control={control}
+          render={({ field: { value: checked, ...others } }) => (
+            <FormControlLabel
+              control={<CheckBox checked={checked} {...others} />}
+              label="자동 로그인"
+            />
+          )}
+        />
       </div>
 
       <Button color="main" size="lg">
