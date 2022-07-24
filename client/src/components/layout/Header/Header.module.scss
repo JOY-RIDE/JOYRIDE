@@ -1,9 +1,10 @@
 @use '../../../styles/variables.scss' as *;
 
 .header {
-  padding: 0.5rem 0;
+  padding: 0.6rem 0;
   border-bottom: 1px solid $color-grey-300;
   position: relative;
+  z-index: 10;
 }
 
 .row {
@@ -25,7 +26,7 @@
 }
 
 .wrapper {
-  border-bottom: $border-main;
+  border-bottom: $border-main-1;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -46,7 +47,7 @@
 }
 
 .input {
-  border: $border-main;
+  border: $border-main-1;
   font-size: 2rem;
   width: 100%;
   padding: 1rem 1.6rem;

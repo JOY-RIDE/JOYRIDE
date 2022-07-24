@@ -1,5 +1,9 @@
-import React from 'react';
+import PageTitle from 'components/common/PageTitle';
 
-const Signup = () => <h1>Signup</h1>;
+const Signup = () => (
+  <div>
+    <PageTitle size="lg">회원가입</PageTitle>
+  </div>
+);
 
 export default Signup;

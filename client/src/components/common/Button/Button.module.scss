@@ -1,0 +1,32 @@
+@use '../../../styles/variables.scss' as *;
+
+@mixin color($color) {
+  @if $color == main {
+    background: $color-main;
+    color: white;
+  } @else if $color == white {
+    background: white;
+    color: $color-grey-600;
+    border: $border-grey;
+  }
+}
+
+.btn {
+  padding: 1.2rem;
+  border-radius: 0.6rem;
+  font-weight: 700;
+
+  &.md {
+    width: 16rem;
+  }
+  &.lg {
+    width: $width-flexible-mobile;
+  }
+
+  &.main {
+    @include color(main);
+  }
+  &.white {
+    @include color(white);
+  }
+}

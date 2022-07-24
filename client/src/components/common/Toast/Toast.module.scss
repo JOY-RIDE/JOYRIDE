@@ -1,0 +1,13 @@
+@use '../../../styles/mixins.scss' as *;
+
+.message {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX((-50%));
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 0.6rem;
+  white-space: nowrap;
+}

@@ -1,0 +1,16 @@
+@use '../../../styles/variables.scss' as *;
+
+.field {
+  & + .field {
+    margin-top: $gap-form-field;
+  }
+}
+
+// .fail {
+//   margin-top: 1.5rem;
+// }
+
+.auto-login {
+  color: $color-grey-800;
+  margin: 3.2rem 0 0.8rem 0;
+}

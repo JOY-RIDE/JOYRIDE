@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Container from 'components/common/Container';
@@ -19,7 +19,7 @@ interface Iform {
 }
 
 const Header = () => {
-  // const user = useRecoilValue(userState)
+  // const userInfo = useRecoilValue(userInfoState)
   const user = false; // 임시로 해놓음
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
