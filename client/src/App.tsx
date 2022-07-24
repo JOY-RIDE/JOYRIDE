@@ -7,6 +7,7 @@ import Road from 'routes/Road';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/Login';
+import Toast from 'components/common/Toast';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
@@ -49,6 +50,7 @@ const App = () => (
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
+      <Toast />
     </Suspense>
     {/* </ErrorBoundary> */}
   </ThemeProvider>

@@ -36,7 +36,6 @@ const Login = () => (
     </div>
 
     <ul className={cn('providers')}>
-      {/* TODO: map 사용 */}
       <li className={cn('provider')}>
         <SocialLoginButton
           provider="네이버"

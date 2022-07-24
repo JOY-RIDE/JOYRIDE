@@ -1,6 +1,7 @@
-import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { toastState } from 'states/atoms';
 import TextInput from 'components/common/TextInput';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
@@ -30,19 +31,20 @@ const LoginForm = () => {
     // reValidateMode: 'onBlur',
   });
 
-  const [failedLogin, setFailedLogin] = useState<boolean>(false);
-
+  // variables
   const navigate = useNavigate();
   const { state } = useLocation();
   const previousPage = state as null | string;
 
+  // callbacks
+  const openToast = useSetRecoilState(toastState);
   const login: SubmitHandler<LoginForm> = data => {
     console.log(data);
 
-    // if () {
-    //   setFailedLogin(true);
-    //   return;
-    // }
+    if (true) {
+      openToast('아이디 또는 비밀번호가 잘못 입력되었습니다.');
+      return;
+    }
     //
     // if (data.autoLogin) {
     // }
@@ -81,14 +83,6 @@ const LoginForm = () => {
           )}
         />
       </div>
-
-      {/* {failedLogin && (
-        <div className={cn('fail')}>
-          <ErrorMessage>
-            아이디 또는 비밀번호가 잘못 입력되었습니다.
-          </ErrorMessage>
-        </div> // TODO: 팝오버
-      )} */}
 
       <div className={cn('auto-login')}>
         <Controller
