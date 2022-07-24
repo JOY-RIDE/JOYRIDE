@@ -94,18 +94,16 @@ const LoginForm = () => {
         <Controller
           name="autoLogin"
           control={control}
-          render={({ field: { value: checked, ...others } }) => (
+          render={({ field: { value: isChecked, ...others } }) => (
             <FormControlLabel
-              control={<CheckBox checked={checked} {...others} />}
+              control={<CheckBox isChecked={isChecked} {...others} />}
               label="자동 로그인"
             />
           )}
         />
       </div>
 
-      <Button color="main" size="lg">
-        로그인하기
-      </Button>
+      <Button color="main" size="lg" text="로그인하기" />
     </form>
   );
 };
