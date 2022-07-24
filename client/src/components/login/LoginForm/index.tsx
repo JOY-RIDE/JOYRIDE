@@ -31,12 +31,12 @@ const LoginForm = () => {
     // reValidateMode: 'onBlur',
   });
 
-  // variables
+  // Variables
   const navigate = useNavigate();
   const { state } = useLocation();
   const previousPage = state as null | string;
 
-  // callbacks
+  // Callbacks
   const openToast = useSetRecoilState(toastState);
   const login: SubmitHandler<LoginForm> = data => {
     console.log(data);
