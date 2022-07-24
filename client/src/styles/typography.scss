@@ -5,6 +5,12 @@ html {
   font-size: 62.5%;
 }
 
+@media (max-width: 374px) {
+  html {
+    font-size: 52.5%;
+  }
+}
+
 body {
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
     sans-serif;
