@@ -1,0 +1,24 @@
+@use '../../../styles/variables.scss' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  outline: none;
+  border: none;
+  border-bottom: $border-grey;
+  padding: 0.8rem 0.1rem;
+  font-size: 2rem;
+
+  &:focus {
+    border-bottom: $border-main-2;
+  }
+
+  &.error {
+    border-bottom: $border-red;
+  }
+}

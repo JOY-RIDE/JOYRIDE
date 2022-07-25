@@ -2,11 +2,7 @@
 
 closes #
 
-<br>
-
 ## 작업 내용
-
-<br>
 
 ## Test scenario or New setup
 
