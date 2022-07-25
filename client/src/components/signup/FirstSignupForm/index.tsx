@@ -1,23 +1,19 @@
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
-import { toastState } from 'states/atoms';
+import { Controller, useFormContext } from 'react-hook-form';
 import TextInput from 'components/common/TextInput';
 import Button from 'components/common/Button';
 import styles from './FirstSignupForm.module.scss';
 import classNames from 'classnames/bind';
 // import ErrorMessage from 'components/common/ErrorMessage';
 
-// Types/Interfaces
-type Field = 'id' | 'password' | 'passwordConfirm';
+const cn = classNames.bind(styles);
 
-interface FirstSignupForm {
+// Types/interfaces
+type Field = 'id' | 'password' | 'passwordConfirm';
+interface FirstSignupFormProps {
   id: string;
   password: string;
   passwordConfirm: string;
-}
-
-interface FirstSignupFormProps {
-  goNext: () => void;
+  onSubmit: any;
 }
 
 // Variables
@@ -62,35 +58,17 @@ function getErrormessage(
   }
 }
 
-const cn = classNames.bind(styles);
-
-const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
+const FirstSignupForm = ({
+  id,
+  password,
+  passwordConfirm,
+  onSubmit,
+}: FirstSignupFormProps) => {
   const {
     control,
-    watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<FirstSignupForm>({
-    defaultValues: {
-      id: '',
-      password: '',
-      passwordConfirm: '',
-    },
-    // reValidateMode: 'onBlur',
-  });
-
-  const getPassword = watch('password');
-
-  const onSubmit: SubmitHandler<FirstSignupForm> = data => {
-    console.log(data);
-
-    // if () {
-    //   // 아이디 중복 확인 요청
-    //   return;
-    // }
-
-    goNext();
-  };
+  } = useFormContext();
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
@@ -99,9 +77,10 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="id"
           control={control}
           rules={{ required: true, pattern: /0/ }}
-          render={({ field }) => (
+          render={({ field: { value, ...others } }) => (
             <TextInput
-              {...field}
+              {...others}
+              value={id}
               placeholder="아이디"
               errorMessage={
                 errors.id && getErrormessage('id', [REQUIRED, PATTERN], errors)
@@ -116,10 +95,11 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="password"
           control={control}
           rules={{ required: true, pattern: /0/ }}
-          render={({ field }) => (
+          render={({ field: { value, ...others } }) => (
             <TextInput
-              {...field}
+              {...others}
               type="password"
+              value={password}
               placeholder="비밀번호"
               errorMessage={
                 errors.password &&
@@ -134,11 +114,12 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
         <Controller
           name="passwordConfirm"
           control={control}
-          rules={{ required: true, validate: value => value === getPassword }}
-          render={({ field }) => (
+          rules={{ required: true, validate: value => value === password }}
+          render={({ field: { value, ...others } }) => (
             <TextInput
-              {...field}
+              {...others}
               type="password"
+              value={passwordConfirm}
               placeholder="비밀번호 확인"
               errorMessage={
                 errors.passwordConfirm &&

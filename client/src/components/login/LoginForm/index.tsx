@@ -10,13 +10,13 @@ import styles from './LoginForm.module.scss';
 import classNames from 'classnames/bind';
 // import ErrorMessage from 'components/common/ErrorMessage';
 
+const cn = classNames.bind(styles);
+
 interface LoginForm {
   id: string;
   password: string;
   autoLogin: boolean;
 }
-
-const cn = classNames.bind(styles);
 
 const LoginForm = () => {
   const {
