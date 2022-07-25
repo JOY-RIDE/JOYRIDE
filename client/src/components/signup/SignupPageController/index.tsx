@@ -3,14 +3,14 @@ import FirstSignupForm from '../FirstSignupForm';
 import SocialLogin from 'components/login/SocialLogin';
 import { Link } from 'react-router-dom';
 import SecondSignupForm from '../SecondSignupForm';
-import styles from './SignupFormController.module.scss';
+import styles from './SignupPageController.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
 // Interfaces
-interface SignupFormControllerProps {
-  currentStep: number;
+interface SignupPageControllerProps {
+  currentPage: number;
   goNext: () => void;
   goPrevious: () => void;
 }
@@ -20,11 +20,11 @@ interface FirstForm {
   passwordConfirm: string;
 }
 
-const SignupFormController = ({
-  currentStep,
+const SignupPageController = ({
+  currentPage,
   goNext,
   goPrevious,
-}: SignupFormControllerProps) => {
+}: SignupPageControllerProps) => {
   // FIRST FORM
   const firstFormMethods = useForm<FirstForm>({
     defaultValues: {
@@ -52,7 +52,7 @@ const SignupFormController = ({
 
   // SECOND FORM
 
-  return currentStep === 1 ? (
+  return currentPage === 1 ? (
     <>
       <FormProvider {...firstFormMethods}>
         <FirstSignupForm {...firstFormProps} />
@@ -69,4 +69,4 @@ const SignupFormController = ({
   );
 };
 
-export default SignupFormController;
+export default SignupPageController;
