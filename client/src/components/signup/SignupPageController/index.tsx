@@ -65,7 +65,7 @@ const SignupPageController = ({
       <SocialLogin />
     </>
   ) : (
-    <SecondSignupForm />
+    <SecondSignupForm goPrevious={goPrevious} />
   );
 };
 
