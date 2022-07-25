@@ -1,6 +1,12 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import FirstSignupForm from '../FirstSignupForm';
+import SocialLogin from 'components/login/SocialLogin';
+import { Link } from 'react-router-dom';
 import SecondSignupForm from '../SecondSignupForm';
+import styles from './SignupFormController.module.scss';
+import classNames from 'classnames/bind';
+
+const cn = classNames.bind(styles);
 
 // Interfaces
 interface SignupFormControllerProps {
@@ -47,9 +53,17 @@ const SignupFormController = ({
   // SECOND FORM
 
   return currentStep === 1 ? (
-    <FormProvider {...firstFormMethods}>
-      <FirstSignupForm {...firstFormProps} />
-    </FormProvider>
+    <>
+      <FormProvider {...firstFormMethods}>
+        <FirstSignupForm {...firstFormProps} />
+      </FormProvider>
+      <div className={cn('link')}>
+        <Link to="/login" className={cn('login')}>
+          아이디가 있으신가요?
+        </Link>
+      </div>
+      <SocialLogin />
+    </>
   ) : (
     <SecondSignupForm />
   );

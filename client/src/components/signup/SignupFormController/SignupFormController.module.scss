@@ -1,0 +1,12 @@
+@use '../../../styles/variables.scss' as *;
+
+.link {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.login {
+  color: $color-main;
+  font-weight: 700;
+  text-align: center;
+}

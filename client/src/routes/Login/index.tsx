@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom';
 import PageTitle from 'components/common/PageTitle';
 import LoginForm from 'components/login/LoginForm';
-import SocialLoginButton from 'components/common/SocialLoginButton';
-import naver_circle from 'assets/images/naver_circle.svg';
-import kakao_circle from 'assets/images/kakao_circle.svg';
-import google_circle from 'assets/images/google_circle.svg';
+import SocialLogin from 'components/login/SocialLogin';
 import styles from './Login.module.scss';
 import classNames from 'classnames/bind';
 
@@ -31,34 +28,7 @@ const Login = () => (
       </div>
     </div>
 
-    <div className={cn('divider')}>
-      <span>또는</span>
-    </div>
-
-    <ul className={cn('providers')}>
-      <li className={cn('provider')}>
-        <SocialLoginButton
-          provider="네이버"
-          imageURL={naver_circle}
-          // TODO: 로그인 API 연결
-          onClick={() => {}}
-        />
-      </li>
-      <li className={cn('provider')}>
-        <SocialLoginButton
-          provider="카카오"
-          imageURL={kakao_circle}
-          onClick={() => {}}
-        />
-      </li>
-      <li className={cn('provider')}>
-        <SocialLoginButton
-          provider="구글"
-          imageURL={google_circle}
-          onClick={() => {}}
-        />
-      </li>
-    </ul>
+    <SocialLogin />
   </section>
 );
 
