@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import SecondSignupForm from '../SecondSignupForm';
 import styles from './SignupPageController.module.scss';
 import classNames from 'classnames/bind';
-import { useCallback } from 'react';
 
 const cn = classNames.bind(styles);
 
@@ -23,10 +22,10 @@ interface FirstForm {
 
 interface SecondForm {
   nickname: string;
-  gender: number;
-  age: number;
-  bicycleType: string;
-  introduce: string;
+  gender: number | undefined;
+  age: number | undefined;
+  bicycleType: string | undefined;
+  introduce: string | undefined;
 }
 
 const SignupPageController = ({
@@ -63,10 +62,6 @@ const SignupPageController = ({
   const secondFormMethods = useForm<SecondForm>({
     defaultValues: {
       nickname: '',
-      gender: 1,
-      age: 1,
-      bicycleType: '',
-      introduce: '',
     },
     // reValidateMode: 'onBlur',
   });

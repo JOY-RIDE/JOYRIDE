@@ -10,10 +10,10 @@ const cn = classNames.bind(styles);
 
 interface SecondSignupFormProps {
   nickname: string;
-  gender: number;
-  age: number;
-  bicycleType: string;
-  introduce: string;
+  gender: number | undefined;
+  age: number | undefined;
+  bicycleType: string | undefined;
+  introduce: string | undefined;
   onSubmit: any;
   goPrevious: () => void;
 }
