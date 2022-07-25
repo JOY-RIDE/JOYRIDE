@@ -26,10 +26,20 @@ const VALIDATE = 'validate';
 // Functions
 function chooseErrorMessage(field: Field, errorType: string) {
   switch (field) {
-    case 'id':
+    case 'id': {
+      if (errorType === REQUIRED) {
+        return '아이디를 입력하세요';
+      } else if (errorType === PATTERN) {
+        return '~를 포함해야 합니다';
+      } else if (errorType === VALIDATE) {
+        return '이미 존재하는 아이디입니다';
+      }
+      throw new Error();
+    }
+
     case 'password': {
       if (errorType === REQUIRED) {
-        return `${field === 'id' ? '아이디' : '비밀번호'}를 입력하세요`;
+        return '비밀번호를 입력하세요';
       } else if (errorType === PATTERN) {
         return '~를 포함해야 합니다';
       }
@@ -76,7 +86,7 @@ const FirstSignupForm = ({
       <div className={cn('field')}>
         <Controller
           name="id"
-          rules={{ required: true, pattern: /0/ }}
+          rules={{ required: true, pattern: /0/, validate: async () => false }}
           render={({ field: { value, ...others } }) => (
             <FormInputWrapper>
               <FormInput
@@ -84,10 +94,11 @@ const FirstSignupForm = ({
                 value={id}
                 placeholder="아이디"
                 hasError={errors.id}
+                style={{ paddingRight: '8rem' }}
               />
               {errors.id && (
                 <ErrorMessage>
-                  {getErrormessage('id', [REQUIRED, PATTERN], errors)}
+                  {getErrormessage('id', [REQUIRED, PATTERN, VALIDATE], errors)}
                 </ErrorMessage>
               )}
             </FormInputWrapper>

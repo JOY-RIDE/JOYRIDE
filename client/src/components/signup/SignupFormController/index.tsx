@@ -28,16 +28,10 @@ const SignupFormController = ({
     // reValidateMode: 'onBlur',
   });
 
-  // TODO: useWatch
   const id = firstFormMethods.watch('id');
   const password = firstFormMethods.watch('password');
   const passwordConfirm = firstFormMethods.watch('passwordConfirm');
   const handleFirstFormSubmit: SubmitHandler<FirstForm> = () => {
-    // if () {
-    //   // 아이디 중복 확인 요청
-    //   return;
-    // }
-
     goNext();
     console.log(id, password, passwordConfirm);
   };
