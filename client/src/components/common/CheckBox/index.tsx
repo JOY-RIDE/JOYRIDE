@@ -7,7 +7,7 @@ interface CheckBoxProps {
 }
 
 const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
-  const { isChecked = false, ...others } = props;
+  const { isChecked, ...others } = props;
   return (
     <Checkbox
       sx={{ paddingRight: '0.5rem' }}

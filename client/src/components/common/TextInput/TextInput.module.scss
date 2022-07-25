@@ -1,11 +1,5 @@
 @use '../../../styles/variables.scss' as *;
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
 .input {
   width: 100%;
   outline: none;

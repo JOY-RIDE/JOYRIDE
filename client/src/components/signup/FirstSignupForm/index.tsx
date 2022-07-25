@@ -1,5 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
+import FormInputWrapper from 'components/common/FormInputWrapper';
 import TextInput from 'components/common/TextInput';
+import ErrorMessage from 'components/common/ErrorMessage';
 import Button from 'components/common/Button';
 import styles from './FirstSignupForm.module.scss';
 import classNames from 'classnames/bind';
@@ -65,7 +67,6 @@ const FirstSignupForm = ({
   onSubmit,
 }: FirstSignupFormProps) => {
   const {
-    control,
     handleSubmit,
     formState: { errors },
   } = useFormContext();
@@ -75,17 +76,21 @@ const FirstSignupForm = ({
       <div className={cn('field')}>
         <Controller
           name="id"
-          control={control}
           rules={{ required: true, pattern: /0/ }}
           render={({ field: { value, ...others } }) => (
-            <TextInput
-              {...others}
-              value={id}
-              placeholder="아이디"
-              errorMessage={
-                errors.id && getErrormessage('id', [REQUIRED, PATTERN], errors)
-              }
-            />
+            <FormInputWrapper>
+              <TextInput
+                {...others}
+                value={id}
+                placeholder="아이디"
+                hasError={errors.id}
+              />
+              {errors.id && (
+                <ErrorMessage>
+                  {getErrormessage('id', [REQUIRED, PATTERN], errors)}
+                </ErrorMessage>
+              )}
+            </FormInputWrapper>
           )}
         />
       </div>
@@ -93,19 +98,22 @@ const FirstSignupForm = ({
       <div className={cn('field')}>
         <Controller
           name="password"
-          control={control}
           rules={{ required: true, pattern: /0/ }}
           render={({ field: { value, ...others } }) => (
-            <TextInput
-              {...others}
-              type="password"
-              value={password}
-              placeholder="비밀번호"
-              errorMessage={
-                errors.password &&
-                getErrormessage('password', [REQUIRED, PATTERN], errors)
-              }
-            />
+            <FormInputWrapper>
+              <TextInput
+                {...others}
+                type="password"
+                value={password}
+                placeholder="비밀번호"
+                hasError={errors.password}
+              />
+              {errors.password && (
+                <ErrorMessage>
+                  {getErrormessage('password', [REQUIRED, PATTERN], errors)}
+                </ErrorMessage>
+              )}
+            </FormInputWrapper>
           )}
         />
       </div>
@@ -113,19 +121,26 @@ const FirstSignupForm = ({
       <div className={cn('field')}>
         <Controller
           name="passwordConfirm"
-          control={control}
           rules={{ required: true, validate: value => value === password }}
           render={({ field: { value, ...others } }) => (
-            <TextInput
-              {...others}
-              type="password"
-              value={passwordConfirm}
-              placeholder="비밀번호 확인"
-              errorMessage={
-                errors.passwordConfirm &&
-                getErrormessage('passwordConfirm', [REQUIRED, VALIDATE], errors)
-              }
-            />
+            <FormInputWrapper>
+              <TextInput
+                {...others}
+                type="password"
+                value={passwordConfirm}
+                placeholder="비밀번호 확인"
+                hasError={errors.passwordConfirm}
+              />
+              {errors.passwordConfirm && (
+                <ErrorMessage>
+                  {getErrormessage(
+                    'passwordConfirm',
+                    [REQUIRED, VALIDATE],
+                    errors
+                  )}
+                </ErrorMessage>
+              )}
+            </FormInputWrapper>
           )}
         />
       </div>
