@@ -9,3 +9,14 @@
 .field:last-of-type {
   margin-bottom: 5rem;
 }
+
+.row {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+}

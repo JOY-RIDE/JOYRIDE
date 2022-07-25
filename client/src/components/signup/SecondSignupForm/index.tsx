@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
+import RadioButton from 'components/common/RadioButton';
 import Button from 'components/common/Button';
 import styles from './SecondSignupForm.module.scss';
 import classNames from 'classnames/bind';
@@ -74,6 +75,21 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
               )}
             </FormInputWrapper>
           )}
+        />
+      </div>
+
+      <div className={cn('field', 'row')}>
+        <RadioButton
+          isChecked={false}
+          name="gender"
+          text="남성"
+          textEng="male"
+        />
+        <RadioButton
+          isChecked={true}
+          name="gender"
+          text="여성"
+          textEng="female"
         />
       </div>
 

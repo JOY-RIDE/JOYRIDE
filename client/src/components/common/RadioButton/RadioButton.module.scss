@@ -1,0 +1,24 @@
+@use '../../../styles/variables.scss' as *;
+
+.input {
+  display: none;
+
+  &:checked + .btn {
+    font-weight: 700;
+    color: $color-main;
+    border: $border-main-2;
+  }
+}
+
+.btn {
+  cursor: pointer;
+  font-size: 2rem;
+  background: white;
+  color: $color-grey-600;
+  border: $border-grey;
+  border-radius: 0.3rem;
+  padding: 1rem 0;
+  display: inline-block;
+  width: 16rem;
+  text-align: center;
+}
