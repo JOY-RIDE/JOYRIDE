@@ -1,5 +1,6 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import FirstSignupForm from '../FirstSignupForm';
+import SecondSignupForm from '../SecondSignupForm';
 
 // Interfaces
 interface SignupFormControllerProps {
@@ -49,7 +50,9 @@ const SignupFormController = ({
     <FormProvider {...firstFormMethods}>
       <FirstSignupForm {...firstFormProps} />
     </FormProvider>
-  ) : null;
+  ) : (
+    <SecondSignupForm />
+  );
 };
 
 export default SignupFormController;

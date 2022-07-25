@@ -6,15 +6,23 @@ const cn = classNames.bind(styles);
 
 interface FormInputProps {
   placeholder: string;
-  hasError: boolean;
+  helpText?: string;
+  hasError?: boolean;
   [key: string]: any;
 }
 
 // TODO: memo
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>((props, ref) => {
-  const { hasError, ...others } = props;
+  const { helpText, hasError, ...others } = props;
   return (
-    <input className={cn('input', { error: hasError })} ref={ref} {...others} />
+    <>
+      <input
+        className={cn('input', { error: hasError })}
+        ref={ref}
+        {...others}
+      />
+      {helpText && <p className={cn('help')}>{helpText}</p>}
+    </>
   );
 });
 

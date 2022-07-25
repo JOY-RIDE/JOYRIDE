@@ -24,6 +24,15 @@ const PATTERN = 'pattern';
 const VALIDATE = 'validate';
 
 // Functions
+function getPatternInfo(field: Field) {
+  switch (field) {
+    case 'id':
+      return { pattern: /0/, helpText: '아이디 조건' };
+    case 'password':
+      return { pattern: /0/, helpText: '비밀번호 조건' };
+  }
+}
+
 function chooseErrorMessage(field: Field, errorType: string) {
   switch (field) {
     case 'id': {
@@ -78,7 +87,7 @@ const FirstSignupForm = ({
 }: FirstSignupFormProps) => {
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { isSubmitted, errors },
   } = useFormContext();
 
   return (
@@ -86,15 +95,19 @@ const FirstSignupForm = ({
       <div className={cn('field')}>
         <Controller
           name="id"
-          rules={{ required: true, pattern: /0/, validate: async () => false }}
+          rules={{
+            required: true,
+            pattern: getPatternInfo('id')?.pattern,
+            validate: async () => true,
+          }}
           render={({ field: { value, ...others } }) => (
             <FormInputWrapper>
               <FormInput
                 {...others}
                 value={id}
                 placeholder="아이디"
+                helpText={!isSubmitted && getPatternInfo('id')?.helpText}
                 hasError={errors.id}
-                style={{ paddingRight: '8rem' }}
               />
               {errors.id && (
                 <ErrorMessage>
@@ -109,7 +122,10 @@ const FirstSignupForm = ({
       <div className={cn('field')}>
         <Controller
           name="password"
-          rules={{ required: true, pattern: /0/ }}
+          rules={{
+            required: true,
+            pattern: getPatternInfo('password')?.pattern,
+          }}
           render={({ field: { value, ...others } }) => (
             <FormInputWrapper>
               <FormInput
@@ -117,6 +133,7 @@ const FirstSignupForm = ({
                 type="password"
                 value={password}
                 placeholder="비밀번호"
+                helpText={!isSubmitted && getPatternInfo('password')?.helpText}
                 hasError={errors.password}
               />
               {errors.password && (
