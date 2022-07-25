@@ -1,5 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastState } from 'states/atoms';
 import TextInput from 'components/common/TextInput';
@@ -32,27 +32,27 @@ const LoginForm = () => {
   });
 
   // Variables
+  const previousPage = useSearchParams()[0].get('next');
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const previousPage = state as null | string;
 
   // Callbacks
   const openToast = useSetRecoilState(toastState);
-  const login: SubmitHandler<LoginForm> = data => {
+  const onSubmit: SubmitHandler<LoginForm> = async data => {
     console.log(data);
 
     if (true) {
       openToast('아이디 또는 비밀번호가 잘못 입력되었습니다.');
       return;
     }
-    //
+
     // if (data.autoLogin) {
     // }
+
     // navigate(previousPage || '/');
   };
 
   return (
-    <form className={cn('form')} onSubmit={handleSubmit(login)}>
+    <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('field')}>
         <Controller
           name="id"

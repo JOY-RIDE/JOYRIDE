@@ -1,3 +1,13 @@
+@mixin auth-page {
+  width: min(100%, 34rem);
+  // TODO: 정렬
+  position: absolute;
+  // top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Media queries */
 @mixin for-tablet-portrait-up {
   @media (min-width: 600px) {
     @content;

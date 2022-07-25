@@ -1,0 +1,21 @@
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/variables.scss' as *;
+
+.signup {
+  @include auth-page;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.steps {
+  font-size: 2rem;
+  color: $color-grey-400;
+}
+
+.current {
+  color: $color-grey-600;
+}

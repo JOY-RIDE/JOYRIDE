@@ -1,12 +1,8 @@
+@use '../../styles/mixins.scss' as *;
 @use '../../styles/variables.scss' as *;
 
 .login {
-  width: min(100%, 34rem);
-  // TODO: 정렬
-  position: absolute;
-  left: 50%;
-  // top: 25%;
-  transform: translateX(-50%);
+  @include auth-page;
 }
 
 .links {
