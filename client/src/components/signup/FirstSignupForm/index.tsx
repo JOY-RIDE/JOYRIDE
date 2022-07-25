@@ -33,32 +33,32 @@ function getPatternInfo(field: Field) {
   }
 }
 
-function chooseErrorMessage(field: Field, errorType: string) {
+function chooseErrorMessage(field: Field, error: string) {
   switch (field) {
     case 'id': {
-      if (errorType === REQUIRED) {
+      if (error === REQUIRED) {
         return '아이디를 입력하세요';
-      } else if (errorType === PATTERN) {
+      } else if (error === PATTERN) {
         return '~를 포함해야 합니다';
-      } else if (errorType === VALIDATE) {
+      } else if (error === VALIDATE) {
         return '이미 존재하는 아이디입니다';
       }
       throw new Error();
     }
 
     case 'password': {
-      if (errorType === REQUIRED) {
+      if (error === REQUIRED) {
         return '비밀번호를 입력하세요';
-      } else if (errorType === PATTERN) {
+      } else if (error === PATTERN) {
         return '~를 포함해야 합니다';
       }
       throw new Error();
     }
 
     case 'passwordConfirm': {
-      if (errorType === REQUIRED) {
+      if (error === REQUIRED) {
         return '비밀번호를 확인해 주세요';
-      } else if (errorType === VALIDATE) {
+      } else if (error === VALIDATE) {
         return '동일한 비밀번호를 입력해 주세요';
       }
       throw new Error();
@@ -69,12 +69,13 @@ function chooseErrorMessage(field: Field, errorType: string) {
 // 필드 에러 있을 경우에만 실행됨
 function getErrormessage(
   field: Field,
-  errorTypes: string[],
-  errors: any
+  possibleErrors: string[],
+  currentError: any
 ): string | undefined {
-  for (const errorType of errorTypes) {
-    if (errors[field]['type'] === errorType) {
-      return chooseErrorMessage(field, errorType);
+  if (typeof currentError !== 'string') return;
+  for (const error of possibleErrors) {
+    if (error === currentError) {
+      return chooseErrorMessage(field, error);
     }
   }
 }
@@ -111,7 +112,11 @@ const FirstSignupForm = ({
               />
               {errors.id && (
                 <ErrorMessage>
-                  {getErrormessage('id', [REQUIRED, PATTERN, VALIDATE], errors)}
+                  {getErrormessage(
+                    'id',
+                    [REQUIRED, PATTERN, VALIDATE],
+                    errors.id.type
+                  )}
                 </ErrorMessage>
               )}
             </FormInputWrapper>
@@ -138,7 +143,11 @@ const FirstSignupForm = ({
               />
               {errors.password && (
                 <ErrorMessage>
-                  {getErrormessage('password', [REQUIRED, PATTERN], errors)}
+                  {getErrormessage(
+                    'password',
+                    [REQUIRED, PATTERN],
+                    errors.password.type
+                  )}
                 </ErrorMessage>
               )}
             </FormInputWrapper>
@@ -164,7 +173,7 @@ const FirstSignupForm = ({
                   {getErrormessage(
                     'passwordConfirm',
                     [REQUIRED, VALIDATE],
-                    errors
+                    errors.passwordConfirm.type
                   )}
                 </ErrorMessage>
               )}

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import SocialLoginButton from '../SocialLoginButton';
 import naver_circle from 'assets/images/naver_circle.svg';
 import kakao_circle from 'assets/images/kakao_circle.svg';
@@ -7,7 +8,7 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-const SocialLogin = () => {
+const SocialLogin = memo(() => {
   return (
     <>
       <div className={cn('divider')}>
@@ -40,6 +41,6 @@ const SocialLogin = () => {
       </ul>
     </>
   );
-};
+});
 
 export default SocialLogin;

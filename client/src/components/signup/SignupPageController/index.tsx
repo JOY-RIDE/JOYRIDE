@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SecondSignupForm from '../SecondSignupForm';
 import styles from './SignupPageController.module.scss';
 import classNames from 'classnames/bind';
+import { useCallback } from 'react';
 
 const cn = classNames.bind(styles);
 
@@ -18,6 +19,14 @@ interface FirstForm {
   id: string;
   password: string;
   passwordConfirm: string;
+}
+
+interface SecondForm {
+  nickname: string;
+  gender: number;
+  age: number;
+  bicycleType: string;
+  introduce: string;
 }
 
 const SignupPageController = ({
@@ -51,22 +60,57 @@ const SignupPageController = ({
   };
 
   // SECOND FORM
+  const secondFormMethods = useForm<SecondForm>({
+    defaultValues: {
+      nickname: '',
+      gender: 1,
+      age: 1,
+      bicycleType: '',
+      introduce: '',
+    },
+    // reValidateMode: 'onBlur',
+  });
 
-  return currentPage === 1 ? (
-    <>
-      <FormProvider {...firstFormMethods}>
-        <FirstSignupForm {...firstFormProps} />
+  const nickname = secondFormMethods.watch('nickname');
+  const gender = secondFormMethods.watch('gender');
+  const age = secondFormMethods.watch('age');
+  const bicycleType = secondFormMethods.watch('bicycleType');
+  const introduce = secondFormMethods.watch('introduce');
+  const handleSecondFormSubmit: SubmitHandler<SecondForm> = async () => {
+    goNext();
+  };
+
+  const secondFormProps = {
+    nickname,
+    gender,
+    age,
+    bicycleType,
+    introduce,
+    onSubmit: handleSecondFormSubmit,
+    goPrevious,
+  };
+
+  if (currentPage === 1) {
+    return (
+      <>
+        <FormProvider {...firstFormMethods}>
+          <FirstSignupForm {...firstFormProps} />
+        </FormProvider>
+        <div className={cn('link')}>
+          <Link to="/login" className={cn('login')}>
+            아이디가 있으신가요?
+          </Link>
+        </div>
+        <SocialLogin />
+      </>
+    );
+  } else if (currentPage === 2) {
+    return (
+      <FormProvider {...secondFormMethods}>
+        <SecondSignupForm {...secondFormProps} />
       </FormProvider>
-      <div className={cn('link')}>
-        <Link to="/login" className={cn('login')}>
-          아이디가 있으신가요?
-        </Link>
-      </div>
-      <SocialLogin />
-    </>
-  ) : (
-    <SecondSignupForm goPrevious={goPrevious} />
-  );
+    );
+  } else return null;
 };
 
 export default SignupPageController;
