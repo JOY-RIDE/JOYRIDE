@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastState } from 'states/atoms';
 import FormInputWrapper from 'components/common/FormInputWrapper';
-import TextInput from 'components/common/TextInput';
+import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
@@ -62,7 +62,7 @@ const LoginForm = () => {
           rules={{ required: true }}
           render={({ field }) => (
             <FormInputWrapper>
-              <TextInput {...field} placeholder="아이디" hasError={errors.id} />
+              <FormInput {...field} placeholder="아이디" hasError={errors.id} />
               {errors.id && <ErrorMessage>아이디를 입력하세요</ErrorMessage>}
             </FormInputWrapper>
           )}
@@ -76,7 +76,7 @@ const LoginForm = () => {
           rules={{ required: true }}
           render={({ field }) => (
             <FormInputWrapper>
-              <TextInput
+              <FormInput
                 {...field}
                 type="password"
                 placeholder="비밀번호"

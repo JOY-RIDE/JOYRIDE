@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import FormInputWrapper from 'components/common/FormInputWrapper';
-import TextInput from 'components/common/TextInput';
+import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import Button from 'components/common/Button';
 import styles from './FirstSignupForm.module.scss';
@@ -79,7 +79,7 @@ const FirstSignupForm = ({
           rules={{ required: true, pattern: /0/ }}
           render={({ field: { value, ...others } }) => (
             <FormInputWrapper>
-              <TextInput
+              <FormInput
                 {...others}
                 value={id}
                 placeholder="아이디"
@@ -101,7 +101,7 @@ const FirstSignupForm = ({
           rules={{ required: true, pattern: /0/ }}
           render={({ field: { value, ...others } }) => (
             <FormInputWrapper>
-              <TextInput
+              <FormInput
                 {...others}
                 type="password"
                 value={password}
@@ -124,7 +124,7 @@ const FirstSignupForm = ({
           rules={{ required: true, validate: value => value === password }}
           render={({ field: { value, ...others } }) => (
             <FormInputWrapper>
-              <TextInput
+              <FormInput
                 {...others}
                 type="password"
                 value={passwordConfirm}
