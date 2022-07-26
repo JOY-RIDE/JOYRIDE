@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
-import styles from './RadioButton.module.scss';
+import styles from './SelectButton.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface RadioButtonProps {
+interface SelectButtonProps {
   isChecked: boolean;
   name: string;
   text: string;
@@ -12,14 +12,14 @@ interface RadioButtonProps {
   [key: string]: any;
 }
 
-const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
+const SelectButton = forwardRef<HTMLInputElement, SelectButtonProps>(
   (props, ref) => {
     const { isChecked, text, textEng, ...others } = props;
     return (
       <div>
         <input
           ref={ref}
-          type="radio"
+          type="checkbox"
           checked={isChecked}
           id={cn('textEng')}
           className={cn('input')}
@@ -33,4 +33,4 @@ const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
   }
 );
 
-export default RadioButton;
+export default SelectButton;

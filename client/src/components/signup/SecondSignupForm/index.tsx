@@ -2,7 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
-import RadioButton from 'components/common/RadioButton';
+import SelectButton from 'components/common/SelectButton';
 import Button from 'components/common/Button';
 import styles from './SecondSignupForm.module.scss';
 import classNames from 'classnames/bind';
@@ -78,19 +78,26 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
         />
       </div>
 
-      <div className={cn('field', 'row')}>
-        <RadioButton
-          isChecked={false}
-          name="gender"
-          text="남성"
-          textEng="male"
-        />
-        <RadioButton
-          isChecked={true}
-          name="gender"
-          text="여성"
-          textEng="female"
-        />
+      <div className={cn('field')}>
+        <label className={cn('label')}>성별</label>
+        <ul className={cn('row')}>
+          <li>
+            <SelectButton
+              isChecked={false}
+              name="gender"
+              text="남성"
+              textEng="male"
+            />
+          </li>
+          <li>
+            <SelectButton
+              isChecked={true}
+              name="gender"
+              text="여성"
+              textEng="female"
+            />
+          </li>
+        </ul>
       </div>
 
       <div className={cn('btns')}>

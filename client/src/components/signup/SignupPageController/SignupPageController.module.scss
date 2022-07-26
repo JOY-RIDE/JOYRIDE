@@ -9,4 +9,8 @@
   color: $color-main;
   font-weight: 700;
   text-align: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
