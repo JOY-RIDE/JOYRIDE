@@ -14,7 +14,6 @@ interface Gender {
   text: string;
   textEng: string;
 }
-
 const genderOptions: Gender[] = [
   { value: 1, text: '남성', textEng: 'male' },
   { value: 2, text: '여성', textEng: 'female' },
@@ -90,7 +89,10 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
       </div>
 
       <div className={cn('field')}>
-        <label className={cn('label')}>성별</label>
+        <label className={cn('label')}>
+          <span className={cn('title')}>성별</span>
+          <span className={cn('optional')}>(선택)</span>
+        </label>
         <ul className={cn('row')}>
           <Controller
             name="gender"
@@ -106,13 +108,7 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
                       text={option.text}
                       textEng={option.textEng}
                       onChange={(e: any) =>
-                        onChange(
-                          e.target.checked
-                            ? [...selection, option.value]
-                            : selection.filter(
-                                (value: number) => value !== option.value
-                              )
-                        )
+                        onChange(e.target.checked ? [option.value] : [])
                       }
                       {...others}
                     />

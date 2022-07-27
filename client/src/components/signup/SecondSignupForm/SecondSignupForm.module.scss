@@ -12,8 +12,15 @@
 
 .label {
   font-size: 2rem;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.4rem;
+
+  & .optional {
+    font-size: 1.6rem;
+    color: gray;
+  }
 }
 
 .row {
