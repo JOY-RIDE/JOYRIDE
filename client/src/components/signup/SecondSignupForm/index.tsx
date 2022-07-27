@@ -9,12 +9,23 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
+interface Gender {
+  value: number;
+  text: string;
+  textEng: string;
+}
+
+const genderOptions: Gender[] = [
+  { value: 1, text: '남성', textEng: 'male' },
+  { value: 2, text: '여성', textEng: 'female' },
+];
+
 interface SecondSignupFormProps {
   nickname: string;
-  gender: number | undefined;
-  age: number | undefined;
-  bicycleType: string | undefined;
-  introduce: string | undefined;
+  gender: number[];
+  age: number[];
+  bicycleType: string;
+  introduce: string;
   onSubmit: any;
   goPrevious: () => void;
 }
@@ -81,22 +92,35 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
       <div className={cn('field')}>
         <label className={cn('label')}>성별</label>
         <ul className={cn('row')}>
-          <li>
-            <SelectButton
-              isChecked={false}
-              name="gender"
-              text="남성"
-              textEng="male"
-            />
-          </li>
-          <li>
-            <SelectButton
-              isChecked={true}
-              name="gender"
-              text="여성"
-              textEng="female"
-            />
-          </li>
+          <Controller
+            name="gender"
+            render={({ field: { value: selection, onChange, ...others } }) => (
+              <>
+                {genderOptions.map((option: Gender) => (
+                  <li key={option.value}>
+                    <SelectButton
+                      isSelected={selection.some(
+                        (value: number) => value === option.value
+                      )}
+                      value={option.value}
+                      text={option.text}
+                      textEng={option.textEng}
+                      onChange={(e: any) =>
+                        onChange(
+                          e.target.checked
+                            ? [...selection, option.value]
+                            : selection.filter(
+                                (value: number) => value !== option.value
+                              )
+                        )
+                      }
+                      {...others}
+                    />
+                  </li>
+                ))}
+              </>
+            )}
+          />
         </ul>
       </div>
 

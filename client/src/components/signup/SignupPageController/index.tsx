@@ -6,6 +6,8 @@ import SecondSignupForm from '../SecondSignupForm';
 import styles from './SignupPageController.module.scss';
 import classNames from 'classnames/bind';
 
+// TODO: refactor
+
 const cn = classNames.bind(styles);
 
 // Interfaces
@@ -22,10 +24,10 @@ interface FirstForm {
 
 interface SecondForm {
   nickname: string;
-  gender: number | undefined;
-  age: number | undefined;
-  bicycleType: string | undefined;
-  introduce: string | undefined;
+  gender: number[];
+  age: number[];
+  bicycleType: string;
+  introduce: string;
 }
 
 const SignupPageController = ({
@@ -62,16 +64,21 @@ const SignupPageController = ({
   const secondFormMethods = useForm<SecondForm>({
     defaultValues: {
       nickname: '',
+      gender: [],
+      age: [],
+      bicycleType: '',
+      introduce: '',
     },
     // reValidateMode: 'onBlur',
   });
 
   const nickname = secondFormMethods.watch('nickname');
   const gender = secondFormMethods.watch('gender');
+  console.log(gender);
   const age = secondFormMethods.watch('age');
   const bicycleType = secondFormMethods.watch('bicycleType');
   const introduce = secondFormMethods.watch('introduce');
-  const handleSecondFormSubmit: SubmitHandler<SecondForm> = async () => {
+  const handleSecondFormSubmit: SubmitHandler<SecondForm> = async data => {
     goNext();
   };
 
