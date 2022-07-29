@@ -3,6 +3,7 @@ import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import SelectButton from 'components/common/SelectButton';
+import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
 import styles from './SecondSignupForm.module.scss';
 import classNames from 'classnames/bind';
@@ -13,6 +14,11 @@ interface SelectButtonProps {
   value: number;
   text: string;
   textEng: string;
+}
+
+interface SelectListOption {
+  value: number;
+  text: string;
 }
 
 const genderOptions: SelectButtonProps[] = [
@@ -28,11 +34,17 @@ const ageOptions: SelectButtonProps[] = [
   { value: 4, text: '50대 이상', textEng: 'fifty' },
 ];
 
+const bicycleTypeOptions: SelectListOption[] = [
+  { value: 0, text: 'MTB' },
+  { value: 1, text: '로드 바이크' },
+  // TODO
+];
+
 interface SecondSignupFormProps {
   nickname: string;
   gender: number | null;
   age: number | null;
-  bicycleType: string | null;
+  bicycleType: number | string;
   introduce: string | null;
   onSubmit: any;
   goPrevious: () => void;
@@ -170,6 +182,23 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
             )}
           />
         </ul>
+      </div>
+
+      <div className={cn('field', 'bicycle-type')}>
+        <label className={cn('label')}>
+          <span className={cn('title')}>자전거 종류</span>
+          <span className={cn('optional')}>(선택 입력)</span>
+        </label>
+        <Controller
+          name="bicycleType"
+          render={({ field }) => (
+            <SelectList
+              options={bicycleTypeOptions}
+              label="자전거 종류"
+              {...field}
+            />
+          )}
+        />
       </div>
 
       <div className={cn('btns')}>
