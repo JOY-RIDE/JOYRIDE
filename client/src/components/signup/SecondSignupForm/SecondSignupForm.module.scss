@@ -1,5 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 
+$gap-row: 1.2rem;
+
 .field {
   & + .field {
     margin-top: $gap-form-field;
@@ -13,19 +15,27 @@
 .label {
   font-size: 2rem;
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
   align-items: center;
   margin-bottom: 1.4rem;
 
   & .optional {
-    font-size: 1.6rem;
-    color: gray;
+    color: $color-grey-600;
   }
 }
 
 .row {
   display: flex;
-  gap: 1.2rem;
+  gap: $gap-row;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 1 0 calc((100% - 2 * $gap-row) / 3);
+
+  & label {
+    width: 100%;
+  }
 }
 
 .btns {

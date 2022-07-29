@@ -9,22 +9,31 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface Gender {
+interface SelectButtonProps {
   value: number;
   text: string;
   textEng: string;
 }
-const genderOptions: Gender[] = [
-  { value: 1, text: '남성', textEng: 'male' },
-  { value: 2, text: '여성', textEng: 'female' },
+
+const genderOptions: SelectButtonProps[] = [
+  { value: 0, text: '남성', textEng: 'male' },
+  { value: 1, text: '여성', textEng: 'female' },
+];
+
+const ageOptions: SelectButtonProps[] = [
+  { value: 0, text: '10대', textEng: 'ten' },
+  { value: 1, text: '20대', textEng: 'twenty' },
+  { value: 2, text: '30대', textEng: 'thirty' },
+  { value: 3, text: '40대', textEng: 'forty' },
+  { value: 4, text: '50대 이상', textEng: 'fifty' },
 ];
 
 interface SecondSignupFormProps {
   nickname: string;
-  gender: number[];
-  age: number[];
-  bicycleType: string;
-  introduce: string;
+  gender: number | null;
+  age: number | null;
+  bicycleType: string | null;
+  introduce: string | null;
   onSubmit: any;
   goPrevious: () => void;
 }
@@ -62,6 +71,9 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('field')}>
+        <label className={cn('label')}>
+          <span className={cn('title')}>닉네임</span>
+        </label>
         <Controller
           name="nickname"
           rules={{
@@ -91,24 +103,64 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
       <div className={cn('field')}>
         <label className={cn('label')}>
           <span className={cn('title')}>성별</span>
-          <span className={cn('optional')}>(선택)</span>
+          <span className={cn('optional')}>(선택 입력)</span>
         </label>
         <ul className={cn('row')}>
           <Controller
             name="gender"
             render={({ field: { value: selection, onChange, ...others } }) => (
               <>
-                {genderOptions.map((option: Gender) => (
-                  <li key={option.value}>
+                {genderOptions.map((option: SelectButtonProps) => (
+                  <li key={option.value} className={cn('col')}>
                     <SelectButton
-                      isSelected={selection.some(
-                        (value: number) => value === option.value
-                      )}
+                      isSelected={
+                        selection
+                          ? selection.some(
+                              (value: number) => value === option.value
+                            )
+                          : false
+                      }
                       value={option.value}
                       text={option.text}
                       textEng={option.textEng}
                       onChange={(e: any) =>
-                        onChange(e.target.checked ? [option.value] : [])
+                        onChange(e.target.checked ? [option.value] : null)
+                      }
+                      {...others}
+                    />
+                  </li>
+                ))}
+              </>
+            )}
+          />
+        </ul>
+      </div>
+
+      <div className={cn('field')}>
+        <label className={cn('label')}>
+          <span className={cn('title')}>나이</span>
+          <span className={cn('optional')}>(선택 입력)</span>
+        </label>
+        <ul className={cn('row')}>
+          <Controller
+            name="age"
+            render={({ field: { value: selection, onChange, ...others } }) => (
+              <>
+                {ageOptions.map((option: SelectButtonProps) => (
+                  <li key={option.value} className={cn('col', 'age')}>
+                    <SelectButton
+                      isSelected={
+                        selection
+                          ? selection.some(
+                              (value: number) => value === option.value
+                            )
+                          : false
+                      }
+                      value={option.value}
+                      text={option.text}
+                      textEng={option.textEng}
+                      onChange={(e: any) =>
+                        onChange(e.target.checked ? [option.value] : null)
                       }
                       {...others}
                     />
