@@ -8,10 +8,6 @@ $gap-row: 1.2rem;
   }
 }
 
-.field:last-of-type {
-  margin-bottom: 5rem;
-}
-
 .label {
   font-size: 2rem;
   display: flex;
@@ -48,6 +44,6 @@ $gap-row: 1.2rem;
 
 .btns {
   display: flex;
-  justify-content: center;
-  gap: 0.7rem;
+  justify-content: space-between;
+  margin-top: 5rem;
 }

@@ -10,6 +10,20 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
+/* Interfaces/types */
+
+type Field = 'nickname' | 'introduce';
+
+interface SecondSignupFormProps {
+  nickname: string;
+  gender: number | null;
+  age: number | null;
+  bicycleType: number | string;
+  introduce: string;
+  onSubmit: any;
+  goPrevious: () => void;
+}
+
 interface SelectButtonProps {
   value: number;
   text: string;
@@ -40,25 +54,15 @@ const bicycleTypeOptions: SelectListOption[] = [
   // TODO
 ];
 
-interface SecondSignupFormProps {
-  nickname: string;
-  gender: number | null;
-  age: number | null;
-  bicycleType: number | string;
-  introduce: string | null;
-  onSubmit: any;
-  goPrevious: () => void;
-}
-
-function getErrorMessage(currentError: any) {
+function getErrorMessage(field: Field, currentError: any) {
   if (typeof currentError !== 'string') return;
   switch (currentError) {
     case 'required':
       return '닉네임을 입력하세요';
     case 'maxLength':
-      return '10자를 초과하였습니다';
+      return `${field === 'nickname' ? 10 : 30}자를 초과하였습니다`;
     case 'validate':
-      return '이미 존재하는 닉네임입니다';
+      return '이미 존재하는 닉네임 입니다';
     default:
       new Error();
   }
@@ -104,7 +108,7 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
               />
               {errors.nickname && (
                 <ErrorMessage>
-                  {getErrorMessage(errors.nickname.type)}
+                  {getErrorMessage('nickname', errors.nickname.type)}
                 </ErrorMessage>
               )}
             </FormInputWrapper>
@@ -197,6 +201,35 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
               label="자전거 종류"
               {...field}
             />
+          )}
+        />
+      </div>
+
+      <div className={cn('field')}>
+        <label className={cn('label')}>
+          <span className={cn('title')}>상태 메세지</span>
+          <span className={cn('optional')}>(선택 입력)</span>
+        </label>
+        <Controller
+          name="introduce"
+          rules={{
+            maxLength: 30,
+          }}
+          render={({ field: { value, ...others } }) => (
+            <FormInputWrapper>
+              <FormInput
+                {...others}
+                value={introduce}
+                placeholder="상태 메세지"
+                helpText={!isSubmitted && '최대 30자'}
+                hasError={errors.introduce}
+              />
+              {errors.introduce && (
+                <ErrorMessage>
+                  {getErrorMessage('introduce', errors.introduce.type)}
+                </ErrorMessage>
+              )}
+            </FormInputWrapper>
           )}
         />
       </div>

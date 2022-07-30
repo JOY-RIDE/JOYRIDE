@@ -27,7 +27,7 @@ interface SecondForm {
   gender: number | null;
   age: number | null;
   bicycleType: number | string;
-  introduce: string | null;
+  introduce: string;
 }
 
 const SignupPageController = ({
@@ -67,7 +67,7 @@ const SignupPageController = ({
       gender: null,
       age: null,
       bicycleType: '',
-      introduce: null,
+      introduce: '',
     },
     // reValidateMode: 'onBlur',
   });

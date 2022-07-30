@@ -182,7 +182,9 @@ const FirstSignupForm = ({
         />
       </div>
 
-      <Button color="main" size="lg" text="계속" />
+      <div className={cn('btn')}>
+        <Button color="main" size="lg" text="계속" />
+      </div>
     </form>
   );
 };
