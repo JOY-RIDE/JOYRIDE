@@ -4,7 +4,7 @@ $gap-row: 1.2rem;
 
 .field {
   & + .field {
-    margin-top: $gap-form-field;
+    margin-top: 4rem;
   }
 }
 
@@ -13,7 +13,7 @@ $gap-row: 1.2rem;
   gap: 0.5rem;
   align-items: center;
   font-size: 2rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1rem;
 
   & .title {
     font-weight: 500;

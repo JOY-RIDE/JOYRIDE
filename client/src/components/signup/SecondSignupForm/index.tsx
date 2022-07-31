@@ -146,6 +146,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
       <div className={cn('field')}>
         <label className={cn('label')}>
           <h4 className={cn('title')}>성별</h4>
+          {/* TODO: 디자인 */}
           <span className={cn('optional')}>(선택 사항)</span>
         </label>
         <ul className={cn('row')}>

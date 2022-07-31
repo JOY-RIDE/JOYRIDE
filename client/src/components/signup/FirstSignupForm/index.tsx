@@ -70,7 +70,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
   const {
     control,
     handleSubmit,
-    formState: { isSubmitted, errors },
+    formState: { errors, isSubmitted },
     watch,
   } = useForm<FirstSignupForm>({
     defaultValues: {
@@ -90,7 +90,9 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('field')}>
-        {/* TODO: label 추가 */}
+        <label className={cn('label')}>
+          <h4 className={cn('title')}>이메일</h4>
+        </label>
         <Controller
           control={control}
           name="email"
@@ -117,6 +119,9 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
       </div>
 
       <div className={cn('field')}>
+        <label className={cn('label')}>
+          <h4 className={cn('title')}>비밀번호</h4>
+        </label>
         <Controller
           control={control}
           name="password"
@@ -144,6 +149,9 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
       </div>
 
       <div className={cn('field')}>
+        <label className={cn('label')}>
+          <h4 className={cn('title')}>비밀번호 확인</h4>
+        </label>
         <Controller
           control={control}
           name="passwordConfirm"

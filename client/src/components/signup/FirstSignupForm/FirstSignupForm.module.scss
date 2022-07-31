@@ -2,7 +2,23 @@
 
 .field {
   & + .field {
-    margin-top: $gap-form-field;
+    margin-top: 4rem;
+  }
+}
+
+.label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+
+  & .title {
+    font-weight: 500;
+  }
+
+  & .optional {
+    color: $color-grey-600;
   }
 }
 
