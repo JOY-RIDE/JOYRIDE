@@ -4,13 +4,13 @@ import { firstSignupFormState } from 'components/signup/FirstSignupForm';
 import { secondSignupFormState } from 'components/signup/SecondSignupForm';
 import PageTitle from 'components/common/PageTitle';
 import SignupCompleted from 'components/signup/SignupCompleted';
-import SignupPageController from 'components/signup/SignupPageController';
+import SignupFormController from 'components/signup/SignupFormController';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-const TOTAL_STEPS = 3;
+const TOTAL_STEPS = 2;
 
 const Signup = () => {
   const [currentStep, setcurrentStep] = useState<number>(1);
@@ -19,7 +19,7 @@ const Signup = () => {
 
   const { email } = useRecoilValue(firstSignupFormState);
   const { nickname } = useRecoilValue(secondSignupFormState);
-  if (currentStep === TOTAL_STEPS) {
+  if (currentStep > TOTAL_STEPS) {
     return <SignupCompleted email={email} nickname={nickname} />;
   }
 
@@ -33,7 +33,7 @@ const Signup = () => {
         </div>
       </header>
 
-      <SignupPageController
+      <SignupFormController
         currentStep={currentStep}
         goNext={goNext}
         goPrevious={goPrevious}

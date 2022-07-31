@@ -2,22 +2,22 @@ import FirstSignupForm from '../FirstSignupForm';
 import SocialLogin from 'components/login/SocialLogin';
 import { Link } from 'react-router-dom';
 import SecondSignupForm from '../SecondSignupForm';
-import styles from './SignupPageController.module.scss';
+import styles from './SignupFormController.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface SignupPageControllerProps {
+interface SignupFormControllerProps {
   currentStep: number;
   goNext: () => void;
   goPrevious: () => void;
 }
 
-const SignupPageController = ({
+const SignupFormController = ({
   currentStep,
   goNext,
   goPrevious,
-}: SignupPageControllerProps) => (
+}: SignupFormControllerProps) => (
   <>
     <div className={cn('page', { expand: currentStep === 1 })}>
       <FirstSignupForm goNext={goNext} />
@@ -35,4 +35,4 @@ const SignupPageController = ({
   </>
 );
 
-export default SignupPageController;
+export default SignupFormController;
