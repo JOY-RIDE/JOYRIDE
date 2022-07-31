@@ -34,12 +34,12 @@ const LoginForm = () => {
   });
 
   // Variables
+  // TODO: Header에서 Link 설정
   const previousPage = useSearchParams()[0].get('next');
   const navigate = useNavigate();
 
   // Callbacks
   const openToast = useSetRecoilState(toastState);
-  // TODO: SubmitErrorHandler
   const onSubmit: SubmitHandler<LoginForm> = async data => {
     console.log(data);
 

@@ -15,10 +15,6 @@ $gap-row: 1.2rem;
   font-size: 2rem;
   margin-bottom: 1rem;
 
-  & .title {
-    font-weight: 500;
-  }
-
   & .optional {
     color: $color-grey-600;
   }
@@ -28,20 +24,14 @@ $gap-row: 1.2rem;
   display: flex;
   gap: $gap-row;
   flex-wrap: wrap;
-}
 
-.col {
-  flex: 1 0 calc((100% - 2 * $gap-row) / 3);
-
-  // TODO: refactor
-
-  & label {
-    width: 100%;
+  & .col {
+    flex: 1 0 calc((100% - 2 * $gap-row) / 3);
   }
 }
 
 .bicycle-type {
-  & div {
+  & .label + div {
     width: 100%;
   }
 }

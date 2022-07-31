@@ -2,15 +2,11 @@
 
 .field {
   & + .field {
-    margin-top: 3rem;
+    margin-top: 2.5rem;
   }
 }
 
-// .fail {
-//   margin-top: 1.5rem;
-// }
-
 .auto-login {
   color: $color-grey-800;
-  margin: 3.2rem 0 0.5rem 0;
+  margin: 3rem 0 0.5rem 0;
 }

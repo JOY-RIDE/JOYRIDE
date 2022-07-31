@@ -111,7 +111,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     const age = ageInput ? Number(ageInput) : null;
     const bicycleType = bicycleTypeInput ? Number(bicycleTypeInput) : null;
     const introduce = introduceInput || null;
-    // goNext();
+    goNext();
   };
 
   return (
