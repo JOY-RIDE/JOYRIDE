@@ -8,14 +8,14 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 const Login = () => (
-  <div className={cn('login')}>
+  <div className={cn('wrapper')}>
     <PageTitle size="lg">로그인</PageTitle>
 
     <LoginForm />
 
     <div className={cn('links')}>
       <Link to="/signup" className={cn('signup')}>
-        회원가입하기
+        회원가입
       </Link>
       <div className={cn('find')}>
         {/* TODO: API 명세서 참조 */}

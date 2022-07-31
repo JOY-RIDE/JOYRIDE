@@ -41,8 +41,6 @@ const LoginForm = () => {
   // Callbacks
   const openToast = useSetRecoilState(toastState);
   const onSubmit: SubmitHandler<LoginForm> = async data => {
-    console.log(data);
-
     if (true) {
       openToast('이메일 또는 비밀번호가 잘못 입력되었습니다.');
       return;

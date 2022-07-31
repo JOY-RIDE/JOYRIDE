@@ -1,5 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { firstSignupFormState } from '../FirstSignupForm';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
@@ -34,6 +34,12 @@ interface SelectListOption {
   value: string;
   text: string;
 }
+
+// State
+export const secondSignupFormState = atom<{ nickname: string }>({
+  key: 'secondSignupForm',
+  default: { nickname: '' },
+});
 
 // Function
 function getErrorMessage(field: Field, error: string) {
@@ -100,6 +106,8 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
 
   const { email, password, passwordConfirm } =
     useRecoilValue(firstSignupFormState);
+  const setSecondSignupFormState = useSetRecoilState(secondSignupFormState);
+
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
     nickname,
     gender: genderInput,
@@ -111,6 +119,8 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     const age = ageInput ? Number(ageInput) : null;
     const bicycleType = bicycleTypeInput ? Number(bicycleTypeInput) : null;
     const introduce = introduceInput || null;
+
+    setSecondSignupFormState({ nickname });
     goNext();
   };
 
@@ -209,7 +219,6 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
         </ul>
       </div>
 
-      {/* TODO: css */}
       <div className={cn('field', 'bicycle-type')}>
         <label className={cn('label')}>
           <h4 className={cn('title')}>자전거 종류</h4>

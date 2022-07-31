@@ -1,7 +1,7 @@
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/variables.scss' as *;
 
-.signup {
+.wrapper {
   @include auth-page;
 }
 

@@ -1,5 +1,9 @@
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { firstSignupFormState } from 'components/signup/FirstSignupForm';
+import { secondSignupFormState } from 'components/signup/SecondSignupForm';
 import PageTitle from 'components/common/PageTitle';
+import SignupCompleted from 'components/signup/SignupCompleted';
 import SignupPageController from 'components/signup/SignupPageController';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
@@ -13,8 +17,14 @@ const Signup = () => {
   const goNext = () => setcurrentStep(step => step + 1);
   const goPrevious = () => setcurrentStep(step => step - 1);
 
+  const { email } = useRecoilValue(firstSignupFormState);
+  const { nickname } = useRecoilValue(secondSignupFormState);
+  if (currentStep === TOTAL_STEPS) {
+    return <SignupCompleted email={email} nickname={nickname} />;
+  }
+
   return (
-    <div className={cn('signup')}>
+    <div className={cn('wrapper')}>
       <header className={cn('header')}>
         <PageTitle size="lg">회원가입</PageTitle>
         <div className={cn('steps')}>
@@ -25,7 +35,6 @@ const Signup = () => {
 
       <SignupPageController
         currentStep={currentStep}
-        totalSteps={TOTAL_STEPS}
         goNext={goNext}
         goPrevious={goPrevious}
       />

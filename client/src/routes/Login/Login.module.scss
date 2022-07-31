@@ -1,7 +1,7 @@
 @use '../../styles/mixins.scss' as *;
 @use '../../styles/variables.scss' as *;
 
-.login {
+.wrapper {
   @include auth-page;
 }
 

@@ -9,14 +9,12 @@ const cn = classNames.bind(styles);
 
 interface SignupPageControllerProps {
   currentStep: number;
-  totalSteps: number;
   goNext: () => void;
   goPrevious: () => void;
 }
 
 const SignupPageController = ({
   currentStep,
-  totalSteps,
   goNext,
   goPrevious,
 }: SignupPageControllerProps) => (
@@ -34,8 +32,6 @@ const SignupPageController = ({
     <div className={cn('page', { expand: currentStep === 2 })}>
       <SecondSignupForm goNext={goNext} goPrevious={goPrevious} />
     </div>
-
-    <div className={cn('page', { expand: currentStep === totalSteps })}></div>
   </>
 );
 
