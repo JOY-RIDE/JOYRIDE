@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 const Login = () => (
-  <section className={styles.login}>
+  <div className={cn('login')}>
     <PageTitle size="lg">로그인</PageTitle>
 
     <LoginForm />
@@ -29,7 +29,7 @@ const Login = () => (
     </div>
 
     <SocialLogin />
-  </section>
+  </div>
 );
 
 export default Login;

@@ -62,7 +62,7 @@ function getErrorMessage(field: Field, currentError: any) {
     case 'maxLength':
       return `${field === 'nickname' ? 10 : 30}자를 초과하였습니다`;
     case 'validate':
-      return '이미 존재하는 닉네임 입니다';
+      return '이미 존재하는 닉네임입니다';
     default:
       new Error();
   }

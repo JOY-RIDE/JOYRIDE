@@ -6,27 +6,30 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-const TOTAL_STEPS = 2;
+const TOTAL_STEPS = 3;
 
 const Signup = () => {
-  const [currentPage, setcurrentPage] = useState<number>(1);
-  const goNext = () => setcurrentPage(step => step + 1);
-  const goPrevious = () => setcurrentPage(step => step - 1);
-  const pageControllerProps = { currentPage, goNext, goPrevious };
+  const [currentStep, setcurrentStep] = useState<number>(1);
+  const goNext = () => setcurrentStep(step => step + 1);
+  const goPrevious = () => setcurrentStep(step => step - 1);
 
   return (
-    <section className={cn('signup')}>
+    <div className={cn('signup')}>
       <header className={cn('header')}>
         <PageTitle size="lg">회원가입</PageTitle>
-
         <div className={cn('steps')}>
-          <span className={cn('current')}>{currentPage}</span>
+          <span className={cn('current')}>{currentStep}</span>
           <span className={cn('total')}>/{TOTAL_STEPS}</span>
         </div>
       </header>
 
-      <SignupPageController {...pageControllerProps} />
-    </section>
+      <SignupPageController
+        currentStep={currentStep}
+        totalSteps={TOTAL_STEPS}
+        goNext={goNext}
+        goPrevious={goPrevious}
+      />
+    </div>
   );
 };
 

@@ -1,5 +1,13 @@
 @use '../../../styles/variables.scss' as *;
 
+.page {
+  display: none;
+
+  &.expand {
+    display: block;
+  }
+}
+
 .link {
   text-align: center;
   margin-top: 2rem;

@@ -1,4 +1,3 @@
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import FirstSignupForm from '../FirstSignupForm';
 import SocialLogin from 'components/login/SocialLogin';
 import { Link } from 'react-router-dom';
@@ -6,112 +5,74 @@ import SecondSignupForm from '../SecondSignupForm';
 import styles from './SignupPageController.module.scss';
 import classNames from 'classnames/bind';
 
-// TODO: refactor
-
 const cn = classNames.bind(styles);
 
-// Interfaces
 interface SignupPageControllerProps {
-  currentPage: number;
+  currentStep: number;
+  totalSteps: number;
   goNext: () => void;
   goPrevious: () => void;
 }
-interface FirstForm {
-  id: string;
-  password: string;
-  passwordConfirm: string;
-}
 
-interface SecondForm {
-  nickname: string;
-  gender: number | null;
-  age: number | null;
-  bicycleType: number | string;
-  introduce: string;
-}
+// interface SecondForm {
+//   nickname: string;
+//   gender: number | null;
+//   age: number | null;
+//   bicycleType: number | string;
+//   introduce: string;
+// }
 
 const SignupPageController = ({
-  currentPage,
+  currentStep,
+  totalSteps,
   goNext,
   goPrevious,
 }: SignupPageControllerProps) => {
-  // FIRST FORM
-  const firstFormMethods = useForm<FirstForm>({
-    defaultValues: {
-      id: '',
-      password: '',
-      passwordConfirm: '',
-    },
-    // reValidateMode: 'onBlur',
-  });
+  // // SECOND FORM
+  // const secondFormMethods = useForm<SecondForm>({
+  //   defaultValues: {
+  //     nickname: '',
+  //     gender: null,
+  //     age: null,
+  //     bicycleType: '',
+  //     introduce: '',
+  //   },
+  //   // reValidateMode: 'onBlur',
+  // });
 
-  const id = firstFormMethods.watch('id');
-  const password = firstFormMethods.watch('password');
-  const passwordConfirm = firstFormMethods.watch('passwordConfirm');
-  const handleFirstFormSubmit: SubmitHandler<FirstForm> = () => {
-    goNext();
-    console.log(id, password, passwordConfirm);
-  };
+  // const handleSecondFormSubmit: SubmitHandler<SecondForm> = async data => {
+  //   goNext();
+  // };
 
-  const firstFormProps = {
-    id,
-    password,
-    passwordConfirm,
-    onSubmit: handleFirstFormSubmit,
-  };
+  // const secondFormProps = {
+  //   nickname,
+  //   gender,
+  //   age,
+  //   bicycleType,
+  //   introduce,
+  //   onSubmit: handleSecondFormSubmit,
+  //   goPrevious,
+  // };
 
-  // SECOND FORM
-  const secondFormMethods = useForm<SecondForm>({
-    defaultValues: {
-      nickname: '',
-      gender: null,
-      age: null,
-      bicycleType: '',
-      introduce: '',
-    },
-    // reValidateMode: 'onBlur',
-  });
-
-  const nickname = secondFormMethods.watch('nickname');
-  const gender = secondFormMethods.watch('gender');
-  const age = secondFormMethods.watch('age');
-  const bicycleType = secondFormMethods.watch('bicycleType');
-  const introduce = secondFormMethods.watch('introduce');
-  const handleSecondFormSubmit: SubmitHandler<SecondForm> = async data => {
-    goNext();
-  };
-
-  const secondFormProps = {
-    nickname,
-    gender,
-    age,
-    bicycleType,
-    introduce,
-    onSubmit: handleSecondFormSubmit,
-    goPrevious,
-  };
-
-  if (currentPage === 1) {
-    return (
-      <>
-        <FormProvider {...firstFormMethods}>
-          <FirstSignupForm {...firstFormProps} />
-        </FormProvider>
+  return (
+    <>
+      <div className={cn('page', { expand: currentStep === 1 })}>
+        <FirstSignupForm goNext={goNext} />
         <div className={cn('link')}>
           <Link to="/login" className={cn('login')}>
             아이디가 있으신가요?
           </Link>
         </div>
         <SocialLogin />
-      </>
-    );
-  } else if (currentPage === 2) {
-    return (
-      <FormProvider {...secondFormMethods}>
-        <SecondSignupForm {...secondFormProps} />
-      </FormProvider>
-    );
-  } else return null;
+      </div>
+
+      <div className={cn('page', { expand: currentStep === 2 })}>
+        <SecondSignupForm goNext={goNext} goPrevious={goPrevious} />
+      </div>
+
+      <div className={cn('page', { expand: currentStep === totalSteps })}></div>
+    </>
+  );
 };
 
 export default SignupPageController;
