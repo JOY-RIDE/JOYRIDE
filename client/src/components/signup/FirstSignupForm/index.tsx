@@ -1,4 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { atom, useSetRecoilState } from 'recoil';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -8,6 +9,7 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
+// Type/interfaces
 type Field = 'email' | 'password' | 'passwordConfirm';
 interface FirstSignupFormProps {
   goNext: () => void;
@@ -18,6 +20,13 @@ interface FirstSignupForm {
   passwordConfirm: string;
 }
 
+// State
+export const firstSignupFormState = atom<FirstSignupForm>({
+  key: 'firstSignupForm',
+  default: { email: '', password: '', passwordConfirm: '' },
+});
+
+// Function
 function getErrorMessage(field: Field, error: string) {
   switch (field) {
     case 'email': {
@@ -60,6 +69,7 @@ function getErrorMessage(field: Field, error: string) {
   }
 }
 
+// Variable
 const patterns = {
   email:
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -70,7 +80,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitted },
+    formState: { isSubmitted, errors },
     watch,
   } = useForm<FirstSignupForm>({
     defaultValues: {
@@ -79,11 +89,15 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
       passwordConfirm: '',
     },
   });
-
   const password = watch('password');
 
-  const onSubmit: SubmitHandler<FirstSignupForm> = async data => {
-    console.log(data);
+  const setFirstSignupForm = useSetRecoilState(firstSignupFormState);
+  const onSubmit: SubmitHandler<FirstSignupForm> = async ({
+    email,
+    password,
+    passwordConfirm,
+  }) => {
+    setFirstSignupForm({ email, password, passwordConfirm });
     goNext();
   };
 

@@ -1,4 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
+import { firstSignupFormState } from '../FirstSignupForm';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -10,7 +12,7 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// Types/interfaces
+// Type/interfaces
 type Field = 'nickname' | 'introduce';
 interface SecondSignupFormProps {
   goNext: () => void;
@@ -33,6 +35,7 @@ interface SelectListOption {
   text: string;
 }
 
+// Function
 function getErrorMessage(field: Field, error: string) {
   switch (field) {
     case 'nickname': {
@@ -95,6 +98,8 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     },
   });
 
+  const { email, password, passwordConfirm } =
+    useRecoilValue(firstSignupFormState);
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
     nickname,
     gender: genderInput,
@@ -106,7 +111,6 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     const age = ageInput ? Number(ageInput) : null;
     const bicycleType = bicycleTypeInput ? Number(bicycleTypeInput) : null;
     const introduce = introduceInput || null;
-
     // goNext();
   };
 
