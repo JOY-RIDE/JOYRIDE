@@ -2,11 +2,7 @@
 
 @mixin auth-page {
   width: $width-flexible-mobile;
-  // TODO: 정렬
-  position: absolute;
-  // top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
+  margin: 0 auto;
 }
 
 /* Media queries */

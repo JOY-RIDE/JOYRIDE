@@ -95,20 +95,19 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     },
   });
 
-  // TODO: useWatch?
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
     nickname,
-    gender,
-    age,
-    bicycleType,
-    introduce,
+    gender: genderInput,
+    age: ageInput,
+    bicycleType: bicycleTypeInput,
+    introduce: introduceInput,
   }) => {
-    gender = gender || null;
-    age = age || null;
-    bicycleType = bicycleType || null;
-    introduce = introduce || null;
+    const gender = genderInput ? Number(genderInput) : null;
+    const age = ageInput ? Number(ageInput) : null;
+    const bicycleType = bicycleTypeInput ? Number(bicycleTypeInput) : null;
+    const introduce = introduceInput || null;
 
-    goNext();
+    // goNext();
   };
 
   return (
