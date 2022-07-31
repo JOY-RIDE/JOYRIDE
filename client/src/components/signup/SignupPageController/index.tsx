@@ -14,65 +14,29 @@ interface SignupPageControllerProps {
   goPrevious: () => void;
 }
 
-// interface SecondForm {
-//   nickname: string;
-//   gender: number | null;
-//   age: number | null;
-//   bicycleType: number | string;
-//   introduce: string;
-// }
-
 const SignupPageController = ({
   currentStep,
   totalSteps,
   goNext,
   goPrevious,
-}: SignupPageControllerProps) => {
-  // // SECOND FORM
-  // const secondFormMethods = useForm<SecondForm>({
-  //   defaultValues: {
-  //     nickname: '',
-  //     gender: null,
-  //     age: null,
-  //     bicycleType: '',
-  //     introduce: '',
-  //   },
-  //   // reValidateMode: 'onBlur',
-  // });
-
-  // const handleSecondFormSubmit: SubmitHandler<SecondForm> = async data => {
-  //   goNext();
-  // };
-
-  // const secondFormProps = {
-  //   nickname,
-  //   gender,
-  //   age,
-  //   bicycleType,
-  //   introduce,
-  //   onSubmit: handleSecondFormSubmit,
-  //   goPrevious,
-  // };
-
-  return (
-    <>
-      <div className={cn('page', { expand: currentStep === 1 })}>
-        <FirstSignupForm goNext={goNext} />
-        <div className={cn('link')}>
-          <Link to="/login" className={cn('login')}>
-            이미 계정이 있으신가요?
-          </Link>
-        </div>
-        <SocialLogin />
+}: SignupPageControllerProps) => (
+  <>
+    <div className={cn('page', { expand: currentStep === 1 })}>
+      <FirstSignupForm goNext={goNext} />
+      <div className={cn('link')}>
+        <Link to="/login" className={cn('login')}>
+          이미 계정이 있으신가요?
+        </Link>
       </div>
+      <SocialLogin />
+    </div>
 
-      <div className={cn('page', { expand: currentStep === 2 })}>
-        {/* <SecondSignupForm goNext={goNext} goPrevious={goPrevious} /> */}
-      </div>
+    <div className={cn('page', { expand: currentStep === 2 })}>
+      <SecondSignupForm goNext={goNext} goPrevious={goPrevious} />
+    </div>
 
-      <div className={cn('page', { expand: currentStep === totalSteps })}></div>
-    </>
-  );
-};
+    <div className={cn('page', { expand: currentStep === totalSteps })}></div>
+  </>
+);
 
 export default SignupPageController;

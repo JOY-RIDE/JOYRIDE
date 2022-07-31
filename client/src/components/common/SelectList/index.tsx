@@ -1,9 +1,5 @@
 import { forwardRef } from 'react';
 import { Select, MenuItem } from '@mui/material';
-import styles from './SelectList.module.scss';
-import classNames from 'classnames/bind';
-
-const cn = classNames.bind(styles);
 
 interface Option {
   value: string;
@@ -20,21 +16,22 @@ const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
     const { options, label, ...others } = props;
     return (
       <Select
-        className={cn('list')}
         inputProps={{ 'aria-label': label }}
+        sx={{
+          fontSize: '2rem',
+          '& .MuiSelect-select': {
+            padding: '1rem 1.6rem',
+          },
+        }}
         displayEmpty
         inputRef={ref}
         {...others}
       >
-        <MenuItem value="" className={cn('item')}>
+        <MenuItem value="">
           <em>선택</em>
         </MenuItem>
         {options.map(option => (
-          <MenuItem
-            key={option.value}
-            value={option.value}
-            className={cn('item')}
-          >
+          <MenuItem key={option.value} value={option.value}>
             {option.text}
           </MenuItem>
         ))}

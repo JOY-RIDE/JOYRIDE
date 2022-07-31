@@ -82,7 +82,6 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
 
   const password = watch('password');
 
-  // TODO: 데이터들 state로 저장
   const onSubmit: SubmitHandler<FirstSignupForm> = async data => {
     console.log(data);
     goNext();
@@ -98,7 +97,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           rules={{
             required: true,
             pattern: patterns.email,
-            validate: async () => false,
+            validate: async () => true,
           }}
           render={({ field }) => (
             <FormInputWrapper>

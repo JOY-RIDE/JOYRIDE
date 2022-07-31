@@ -11,7 +11,7 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
   return (
     <Checkbox
       checked={isChecked}
-      sx={{ paddingRight: '0.5rem' }}
+      sx={{ paddingRight: 0, marginRight: '0.5rem' }}
       disableRipple
       inputRef={ref}
       {...others}
