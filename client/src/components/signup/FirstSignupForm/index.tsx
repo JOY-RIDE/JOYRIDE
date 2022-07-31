@@ -8,7 +8,6 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// Types/interfaces
 type Field = 'email' | 'password' | 'passwordConfirm';
 interface FirstSignupFormProps {
   goNext: () => void;
@@ -25,6 +24,8 @@ function getErrorMessage(field: Field, error: string) {
       switch (error) {
         case 'required':
           return '이메일을 입력하세요';
+        case 'pattern':
+          return '이메일 형식이 올바르지 않습니다';
         case 'validate':
           return '이미 등록된 이메일입니다';
         default:
@@ -59,6 +60,12 @@ function getErrorMessage(field: Field, error: string) {
   }
 }
 
+const patterns = {
+  email:
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  password: /0/,
+};
+
 const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
   const {
     control,
@@ -83,7 +90,6 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
-      {/* TODO: 아이디 + 이메일 회사 */}
       <div className={cn('field')}>
         {/* TODO: label 추가 */}
         <Controller
@@ -91,12 +97,12 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="email"
           rules={{
             required: true,
+            pattern: patterns.email,
             validate: async () => false,
           }}
           render={({ field }) => (
             <FormInputWrapper>
               <FormInput
-                type="email"
                 placeholder="이메일"
                 hasError={errors.email}
                 {...field}
@@ -117,7 +123,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="password"
           rules={{
             required: true,
-            pattern: /0/,
+            pattern: patterns.password,
           }}
           render={({ field }) => (
             <FormInputWrapper>

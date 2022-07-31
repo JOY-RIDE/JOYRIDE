@@ -1,5 +1,7 @@
+@use './variables.scss' as *;
+
 @mixin auth-page {
-  width: min(100%, 34rem);
+  width: $width-flexible-mobile;
   // TODO: 정렬
   position: absolute;
   // top: 25%;
