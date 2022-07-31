@@ -10,11 +10,11 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
   const { isChecked, ...others } = props;
   return (
     <Checkbox
-      sx={{ paddingRight: '0.5rem' }}
-      inputRef={ref}
       checked={isChecked}
-      {...others}
+      sx={{ paddingRight: '0.5rem' }}
       disableRipple
+      inputRef={ref}
+      {...others}
     />
   );
 });

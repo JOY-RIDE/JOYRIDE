@@ -67,7 +67,7 @@ const SignupPageController = ({
       </div>
 
       <div className={cn('page', { expand: currentStep === 2 })}>
-        <SecondSignupForm goNext={goNext} goPrevious={goPrevious} />
+        {/* <SecondSignupForm goNext={goNext} goPrevious={goPrevious} /> */}
       </div>
 
       <div className={cn('page', { expand: currentStep === totalSteps })}></div>

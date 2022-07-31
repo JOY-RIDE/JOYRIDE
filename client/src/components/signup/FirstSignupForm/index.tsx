@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// Types/Interfaces
+// Types/interfaces
 type Field = 'id' | 'password' | 'passwordConfirm';
 interface FirstSignupFormProps {
   goNext: () => void;
@@ -104,8 +104,8 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('field')}>
         <Controller
-          name="id"
           control={control}
+          name="id"
           rules={{
             required: true,
             pattern: getPatternInfo('id').pattern,
@@ -120,9 +120,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
                 {...field}
               />
               {errors.id && (
-                <ErrorMessage>
-                  {getErrorMessage('id', errors.id.type)}
-                </ErrorMessage>
+                <ErrorMessage text={getErrorMessage('id', errors.id.type)} />
               )}
             </FormInputWrapper>
           )}
@@ -131,8 +129,8 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
 
       <div className={cn('field')}>
         <Controller
-          name="password"
           control={control}
+          name="password"
           rules={{
             required: true,
             pattern: getPatternInfo('password').pattern,
@@ -147,9 +145,9 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
                 {...field}
               />
               {errors.password && (
-                <ErrorMessage>
-                  {getErrorMessage('password', errors.password.type)}
-                </ErrorMessage>
+                <ErrorMessage
+                  text={getErrorMessage('password', errors.password.type)}
+                />
               )}
             </FormInputWrapper>
           )}
@@ -158,8 +156,8 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
 
       <div className={cn('field')}>
         <Controller
-          name="passwordConfirm"
           control={control}
+          name="passwordConfirm"
           rules={{ required: true, validate: value => value === password }}
           render={({ field }) => (
             <FormInputWrapper>
@@ -170,12 +168,12 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
                 {...field}
               />
               {errors.passwordConfirm && (
-                <ErrorMessage>
-                  {getErrorMessage(
+                <ErrorMessage
+                  text={getErrorMessage(
                     'passwordConfirm',
                     errors.passwordConfirm.type
                   )}
-                </ErrorMessage>
+                />
               )}
             </FormInputWrapper>
           )}

@@ -55,7 +55,6 @@ const bicycleTypeOptions: SelectListOption[] = [
 ];
 
 function getErrorMessage(field: Field, currentError: any) {
-  if (typeof currentError !== 'string') return;
   switch (currentError) {
     case 'required':
       return '닉네임을 입력하세요';
@@ -106,11 +105,11 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
                 helpText={!isSubmitted && '최대 10자'}
                 hasError={errors.nickname}
               />
-              {errors.nickname && (
-                <ErrorMessage>
-                  {getErrorMessage('nickname', errors.nickname.type)}
-                </ErrorMessage>
-              )}
+              {/* {errors.nickname && (
+                <ErrorMessage
+                  text={getErrorMessage('nickname', errors.nickname.type)}
+                />
+              )} */}
             </FormInputWrapper>
           )}
         />
@@ -224,11 +223,11 @@ const SecondSignupForm = (props: SecondSignupFormProps) => {
                 helpText={!isSubmitted && '최대 30자'}
                 hasError={errors.introduce}
               />
-              {errors.introduce && (
-                <ErrorMessage>
-                  {getErrorMessage('introduce', errors.introduce.type)}
-                </ErrorMessage>
-              )}
+              {/* {errors.introduce && (
+                <ErrorMessage
+                  text={getErrorMessage('introduce', errors.introduce.type)}
+                />
+              )} */}
             </FormInputWrapper>
           )}
         />

@@ -63,7 +63,7 @@ const LoginForm = () => {
           render={({ field }) => (
             <FormInputWrapper>
               <FormInput {...field} placeholder="아이디" hasError={errors.id} />
-              {errors.id && <ErrorMessage>아이디를 입력하세요</ErrorMessage>}
+              {errors.id && <ErrorMessage text="아이디를 입력하세요" />}
             </FormInputWrapper>
           )}
         />
@@ -82,9 +82,7 @@ const LoginForm = () => {
                 placeholder="비밀번호"
                 hasError={errors.password}
               />
-              {errors.password && (
-                <ErrorMessage>비밀번호를 입력하세요</ErrorMessage>
-              )}
+              {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
             </FormInputWrapper>
           )}
         />
