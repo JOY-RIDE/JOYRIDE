@@ -9,43 +9,24 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 // Types/interfaces
-type Field = 'id' | 'password' | 'passwordConfirm';
+type Field = 'email' | 'password' | 'passwordConfirm';
 interface FirstSignupFormProps {
   goNext: () => void;
 }
 interface FirstSignupForm {
-  id: string;
+  email: string;
   password: string;
   passwordConfirm: string;
 }
 
-// Variables
-const REQUIRED = 'required';
-const PATTERN = 'pattern';
-const VALIDATE = 'validate';
-
-// Functions
-function getPatternInfo(field: Field) {
-  switch (field) {
-    case 'id':
-      return { pattern: /0/, helpText: '아이디 조건' };
-    case 'password':
-      return { pattern: /0/, helpText: '비밀번호 조건' };
-    default:
-      throw new Error();
-  }
-}
-
 function getErrorMessage(field: Field, error: string) {
   switch (field) {
-    case 'id': {
+    case 'email': {
       switch (error) {
-        case REQUIRED:
-          return '아이디를 입력하세요';
-        case PATTERN:
-          return '~를 포함해야 합니다';
-        case VALIDATE:
-          return '이미 존재하는 아이디입니다';
+        case 'required':
+          return '이메일을 입력하세요';
+        case 'validate':
+          return '이미 등록된 이메일입니다';
         default:
           throw new Error();
       }
@@ -53,9 +34,9 @@ function getErrorMessage(field: Field, error: string) {
 
     case 'password': {
       switch (error) {
-        case REQUIRED:
+        case 'required':
           return '비밀번호를 입력하세요';
-        case PATTERN:
+        case 'pattern':
           return '~를 포함해야 합니다';
         default:
           throw new Error();
@@ -64,9 +45,9 @@ function getErrorMessage(field: Field, error: string) {
 
     case 'passwordConfirm': {
       switch (error) {
-        case REQUIRED:
+        case 'required':
           return '비밀번호를 확인해 주세요';
-        case VALIDATE:
+        case 'validate':
           return '동일한 비밀번호를 입력해 주세요';
         default:
           throw new Error();
@@ -86,7 +67,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
     watch,
   } = useForm<FirstSignupForm>({
     defaultValues: {
-      id: '',
+      email: '',
       password: '',
       passwordConfirm: '',
     },
@@ -97,30 +78,33 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
   // TODO: 데이터들 state로 저장
   const onSubmit: SubmitHandler<FirstSignupForm> = async data => {
     console.log(data);
-    // goNext()
+    goNext();
   };
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
+      {/* TODO: 아이디 + 이메일 회사 */}
       <div className={cn('field')}>
+        {/* TODO: label 추가 */}
         <Controller
           control={control}
-          name="id"
+          name="email"
           rules={{
             required: true,
-            pattern: getPatternInfo('id').pattern,
-            validate: async () => true,
+            validate: async () => false,
           }}
           render={({ field }) => (
             <FormInputWrapper>
               <FormInput
-                placeholder="아이디"
-                helpText={!isSubmitted && getPatternInfo('id').helpText}
-                hasError={errors.id}
+                type="email"
+                placeholder="이메일"
+                hasError={errors.email}
                 {...field}
               />
-              {errors.id && (
-                <ErrorMessage text={getErrorMessage('id', errors.id.type)} />
+              {errors.email && (
+                <ErrorMessage
+                  text={getErrorMessage('email', errors.email.type)}
+                />
               )}
             </FormInputWrapper>
           )}
@@ -133,14 +117,14 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="password"
           rules={{
             required: true,
-            pattern: getPatternInfo('password').pattern,
+            pattern: /0/,
           }}
           render={({ field }) => (
             <FormInputWrapper>
               <FormInput
                 type="password"
                 placeholder="비밀번호"
-                helpText={!isSubmitted && getPatternInfo('password').helpText}
+                helpText={!isSubmitted && '비밀번호 조건'}
                 hasError={errors.password}
                 {...field}
               />

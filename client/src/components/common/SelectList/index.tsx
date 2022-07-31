@@ -6,10 +6,9 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface Option {
-  value: number;
+  value: string;
   text: string;
 }
-
 interface SelectListProps {
   options: Option[];
   label: string;
@@ -21,11 +20,11 @@ const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
     const { options, label, ...others } = props;
     return (
       <Select
-        inputRef={ref}
-        className={cn('select')}
+        className={cn('list')}
         inputProps={{ 'aria-label': label }}
-        {...others}
         displayEmpty
+        inputRef={ref}
+        {...others}
       >
         <MenuItem value="" className={cn('item')}>
           <em>선택</em>

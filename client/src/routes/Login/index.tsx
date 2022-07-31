@@ -19,8 +19,8 @@ const Login = () => (
       </Link>
       <div className={cn('find')}>
         {/* TODO: API 명세서 참조 */}
-        <Link to="/" className={cn('id')}>
-          아이디
+        <Link to="/" className={cn('email')}>
+          이메일
         </Link>
         <Link to="/" className={cn('password')}>
           비밀번호 찾기

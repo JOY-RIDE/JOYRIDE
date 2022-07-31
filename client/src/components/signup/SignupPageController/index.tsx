@@ -60,7 +60,7 @@ const SignupPageController = ({
         <FirstSignupForm goNext={goNext} />
         <div className={cn('link')}>
           <Link to="/login" className={cn('login')}>
-            아이디가 있으신가요?
+            이미 계정이 있으신가요?
           </Link>
         </div>
         <SocialLogin />

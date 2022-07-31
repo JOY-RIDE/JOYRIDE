@@ -14,7 +14,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface LoginForm {
-  id: string;
+  email: string;
   password: string;
   autoLogin: boolean;
 }
@@ -26,7 +26,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginForm>({
     defaultValues: {
-      id: '',
+      email: '',
       password: '',
       autoLogin: false,
     },
@@ -43,7 +43,7 @@ const LoginForm = () => {
     console.log(data);
 
     if (true) {
-      openToast('아이디 또는 비밀번호가 잘못 입력되었습니다.');
+      openToast('이메일 또는 비밀번호가 잘못 입력되었습니다.');
       return;
     }
 
@@ -57,13 +57,18 @@ const LoginForm = () => {
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('field')}>
         <Controller
-          name="id"
           control={control}
+          name="email"
           rules={{ required: true }}
           render={({ field }) => (
             <FormInputWrapper>
-              <FormInput {...field} placeholder="아이디" hasError={errors.id} />
-              {errors.id && <ErrorMessage text="아이디를 입력하세요" />}
+              <FormInput
+                type="email"
+                placeholder="이메일"
+                hasError={errors.email}
+                {...field}
+              />
+              {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
             </FormInputWrapper>
           )}
         />
@@ -71,16 +76,16 @@ const LoginForm = () => {
 
       <div className={cn('field')}>
         <Controller
-          name="password"
           control={control}
+          name="password"
           rules={{ required: true }}
           render={({ field }) => (
             <FormInputWrapper>
               <FormInput
-                {...field}
                 type="password"
                 placeholder="비밀번호"
                 hasError={errors.password}
+                {...field}
               />
               {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
             </FormInputWrapper>
@@ -90,8 +95,8 @@ const LoginForm = () => {
 
       <div className={cn('auto-login')}>
         <Controller
-          name="autoLogin"
           control={control}
+          name="autoLogin"
           render={({ field: { value: isChecked, ...others } }) => (
             <FormControlLabel
               control={<CheckBox isChecked={isChecked} {...others} />}

@@ -19,11 +19,11 @@ const SelectButton = forwardRef<HTMLInputElement, SelectButtonProps>(
     return (
       <>
         <input
-          ref={ref}
           type="checkbox"
           checked={isSelected}
           id={cn(textEng)}
           className={cn('input')}
+          ref={ref}
           {...others}
         />
         <label htmlFor={cn(textEng)} className={cn('btn')}>
