@@ -1,0 +1,30 @@
+
+server:
+  port:
+
+spring:
+  profiles:
+    include: secret
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+    username:
+    password:
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+            scope:
+
+jwt:
+  secret:
+    access:
+    refresh:
+  time:
+    access:
+    refresh:
