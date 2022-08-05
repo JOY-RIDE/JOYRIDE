@@ -1,6 +1,6 @@
 # JOYRIDE
 
-### 폴더 구조
+### 프론트엔드 폴더 구조
 
 ```
 JOYRIDE
@@ -15,6 +15,31 @@ JOYRIDE
       ├── states
       ├── styles
       └── utils
+```
+
+### 백엔드 폴더 구조
+
+```
+JOYRIDE
+└── src
+   ├── test
+   |   └── java
+   |       └── joyride
+   └── main
+       └── java
+           ├── util
+           ├── src
+           |   ├── auth
+           |   |   ├── dto
+           |   |   ├── model
+           |   ├── user
+           |   |   ├── model
+           |   ├── jwt
+           |   |   └── filter
+           |   |   └── handler
+           |   ├── config
+       |   └── JoyrideServerApplication
+       └── resources
 ```
 
 ### JOYRIDE GitHub flow
