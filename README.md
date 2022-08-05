@@ -27,17 +27,17 @@ JOYRIDE
    |       └── joyride
    └── main
        └── java
-           ├── util
-           ├── src
-           |   ├── auth
-           |   |   ├── dto
-           |   |   ├── model
-           |   ├── user
-           |   |   ├── model
-           |   ├── jwt
-           |   |   └── filter
-           |   |   └── handler
-           |   ├── config
+       |   ├── util
+       |   ├── src
+       |   |   ├── auth
+       |   |   |   ├── dto
+       |   |   |   ├── model
+       |   |   ├── user
+       |   |   |   ├── model
+       |   |   ├── jwt
+       |   |   |   └── filter
+       |   |   |   └── handler
+       |   |   ├── config
        |   └── JoyrideServerApplication
        └── resources
 ```
