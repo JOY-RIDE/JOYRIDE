@@ -1,3 +1,11 @@
+@use './variables.scss' as *;
+
+@mixin auth-page {
+  width: $width-flexible-mobile;
+  margin: 0 auto;
+}
+
+/* Media queries */
 @mixin for-tablet-portrait-up {
   @media (min-width: 600px) {
     @content;

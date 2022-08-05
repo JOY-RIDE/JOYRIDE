@@ -1,13 +1,6 @@
 @use '../../../styles/variables.scss' as *;
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 .input {
-  width: 100%;
   outline: none;
   border: none;
   border-bottom: $border-grey;
@@ -16,9 +9,20 @@
 
   &:focus {
     border-bottom: $border-main-2;
+
+    & + .help {
+      display: block;
+    }
   }
 
   &.error {
     border-bottom: $border-red;
   }
+}
+
+.help {
+  display: none;
+  color: $color-main;
+  font-size: 1.3rem;
+  margin-top: 0.2rem;
 }

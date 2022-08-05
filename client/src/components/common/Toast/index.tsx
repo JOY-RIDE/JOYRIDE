@@ -34,10 +34,10 @@ const Toast = () => {
     <AnimatePresence>
       {message && (
         <motion.p
-          className={styles.message}
           variants={variants}
           animate="enter"
           exit="exit"
+          className={styles.message}
         >
           {message}
         </motion.p>

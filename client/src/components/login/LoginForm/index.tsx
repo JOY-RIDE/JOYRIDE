@@ -1,22 +1,23 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastState } from 'states/atoms';
-import TextInput from 'components/common/TextInput';
+import FormInputWrapper from 'components/common/FormInputWrapper';
+import FormInput from 'components/common/FormInput';
+import ErrorMessage from 'components/common/ErrorMessage';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
 import Button from 'components/common/Button';
 import styles from './LoginForm.module.scss';
 import classNames from 'classnames/bind';
-// import ErrorMessage from 'components/common/ErrorMessage';
+
+const cn = classNames.bind(styles);
 
 interface LoginForm {
-  id: string;
+  email: string;
   password: string;
   autoLogin: boolean;
 }
-
-const cn = classNames.bind(styles);
 
 const LoginForm = () => {
   const {
@@ -25,69 +26,76 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginForm>({
     defaultValues: {
-      id: '',
+      email: '',
       password: '',
+      autoLogin: false,
     },
     // reValidateMode: 'onBlur',
   });
 
   // Variables
+  // TODO: Header에서 Link 설정
+  const previousPage = useSearchParams()[0].get('next');
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const previousPage = state as null | string;
 
   // Callbacks
   const openToast = useSetRecoilState(toastState);
-  const login: SubmitHandler<LoginForm> = data => {
-    console.log(data);
-
+  const onSubmit: SubmitHandler<LoginForm> = async data => {
     if (true) {
-      openToast('아이디 또는 비밀번호가 잘못 입력되었습니다.');
+      openToast('이메일 또는 비밀번호가 잘못 입력되었습니다.');
       return;
     }
-    //
+
     // if (data.autoLogin) {
     // }
+
     // navigate(previousPage || '/');
   };
 
   return (
-    <form className={cn('form')} onSubmit={handleSubmit(login)}>
+    <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('field')}>
         <Controller
-          name="id"
           control={control}
+          name="email"
           rules={{ required: true }}
           render={({ field }) => (
-            <TextInput
-              {...field}
-              placeholder="아이디"
-              errorMessage={errors.id && '아이디를 입력하세요'}
-            />
+            <FormInputWrapper>
+              <FormInput
+                type="email"
+                placeholder="이메일"
+                hasError={errors.email}
+                {...field}
+              />
+              {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
+            </FormInputWrapper>
           )}
         />
       </div>
 
       <div className={cn('field')}>
         <Controller
-          name="password"
           control={control}
+          name="password"
           rules={{ required: true }}
           render={({ field }) => (
-            <TextInput
-              {...field}
-              type="password"
-              placeholder="비밀번호"
-              errorMessage={errors.password && '비밀번호를 입력하세요'}
-            />
+            <FormInputWrapper>
+              <FormInput
+                type="password"
+                placeholder="비밀번호"
+                hasError={errors.password}
+                {...field}
+              />
+              {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
+            </FormInputWrapper>
           )}
         />
       </div>
 
       <div className={cn('auto-login')}>
         <Controller
-          name="autoLogin"
           control={control}
+          name="autoLogin"
           render={({ field: { value: isChecked, ...others } }) => (
             <FormControlLabel
               control={<CheckBox isChecked={isChecked} {...others} />}

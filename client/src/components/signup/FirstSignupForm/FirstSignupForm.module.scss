@@ -1,0 +1,23 @@
+@use '../../../styles/variables.scss' as *;
+
+.field {
+  & + .field {
+    margin-top: 4rem;
+  }
+}
+
+.label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+
+  & .optional {
+    color: $color-grey-600;
+  }
+}
+
+.btn {
+  margin-top: 5rem;
+}
