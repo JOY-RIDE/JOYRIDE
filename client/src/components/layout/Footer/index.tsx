@@ -7,8 +7,9 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 const Footer = () => {
-  const isOnLogin = useMatch('login');
-  const isOnSignup = useMatch('signup');
+  // TODO
+  const isOnLogin = useMatch('/login');
+  const isOnSignup = useMatch('/signup');
   if (isOnLogin || isOnSignup) return null;
 
   return (

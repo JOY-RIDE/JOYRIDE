@@ -35,6 +35,7 @@ const theme = createTheme({
 const App = () => (
   <ThemeProvider theme={theme}>
     {/*<ErrorBoundary> */}
+    {/* TODO: Suspense 배치 */}
     <Suspense fallback={<div />}>
       <Routes>
         <Route path="/" element={<Layout />}>

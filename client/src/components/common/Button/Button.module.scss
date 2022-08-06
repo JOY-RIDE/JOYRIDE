@@ -16,17 +16,17 @@
   border-radius: 0.6rem;
   font-weight: 700;
 
-  &.md {
-    width: 16rem;
-  }
-  &.lg {
-    width: $width-flexible-mobile;
-  }
-
   &.main {
     @include color(main);
   }
   &.white {
     @include color(white);
+  }
+
+  &.md {
+    width: 16.5rem;
+  }
+  &.lg {
+    width: $width-flexible-mobile;
   }
 }
