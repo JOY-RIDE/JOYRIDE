@@ -1,5 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { authAPIState, toastState } from 'states/atoms';
 import { firstSignupFormState } from '../FirstSignupForm';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
@@ -20,10 +21,10 @@ interface SecondSignupFormProps {
 }
 interface SecondSignupForm {
   nickname: string;
-  gender: string | null;
-  age: string | null;
-  bicycleType: string | null;
-  introduce: string | null;
+  gender: string;
+  old: string;
+  bicycleType: string;
+  introduce: string;
 }
 interface SelectButtonProps {
   value: string;
@@ -73,10 +74,10 @@ function getErrorMessage(field: Field, error: string) {
 
 // Variables
 const genderOptions: SelectButtonProps[] = [
-  { value: '0', text: '남성', textEng: 'male' },
-  { value: '1', text: '여성', textEng: 'female' },
+  { value: 'm', text: '남성', textEng: 'male' },
+  { value: 'f', text: '여성', textEng: 'female' },
 ];
-const ageOptions: SelectButtonProps[] = [
+const oldOptions: SelectButtonProps[] = [
   { value: '0', text: '10대', textEng: 'ten' },
   { value: '1', text: '20대', textEng: 'twenty' },
   { value: '2', text: '30대', textEng: 'thirty' },
@@ -84,8 +85,8 @@ const ageOptions: SelectButtonProps[] = [
   { value: '4', text: '50대 이상', textEng: 'fifty' },
 ];
 const bicycleTypeOptions: SelectListOption[] = [
-  { value: '0', text: 'MTB' },
-  { value: '1', text: '로드 바이크' },
+  { value: 'MTB', text: 'MTB' },
+  { value: '로드 바이크', text: '로드 바이크' },
   // TODO: 옵션 추가
 ];
 
@@ -98,30 +99,49 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     defaultValues: {
       nickname: '',
       gender: '',
-      age: '',
+      old: '',
       bicycleType: '',
       introduce: '',
     },
   });
 
-  const { email, password, passwordConfirm } =
-    useRecoilValue(firstSignupFormState);
+  const { email, password } = useRecoilValue(firstSignupFormState);
+  const authAPI = useRecoilValue(authAPIState);
+  const openToast = useSetRecoilState(toastState);
   const setSecondSignupFormState = useSetRecoilState(secondSignupFormState);
 
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
     nickname,
     gender: genderInput,
-    age: ageInput,
+    old: oldInput,
     bicycleType: bicycleTypeInput,
     introduce: introduceInput,
   }) => {
-    const gender = genderInput ? Number(genderInput) : null;
-    const age = ageInput ? Number(ageInput) : null;
-    const bicycleType = bicycleTypeInput ? Number(bicycleTypeInput) : null;
+    const gender = genderInput || null;
+    const old = oldInput ? Number(oldInput) : null;
+    const bicycleType = bicycleTypeInput || null;
     const introduce = introduceInput || null;
 
-    setSecondSignupFormState({ nickname });
-    goNext();
+    const payload = {
+      isTermsEnable: true,
+      email,
+      password,
+      nickname,
+      gender,
+      old,
+      bicycleType,
+      introduce,
+    };
+    const resultCode = await authAPI.signup(payload);
+
+    if (resultCode === 1000) {
+      setSecondSignupFormState({ nickname });
+      goNext();
+      return;
+    }
+
+    // TODO
+    openToast('Error: console 확인');
   };
 
   return (
@@ -196,10 +216,10 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
         <ul className={cn('row')}>
           <Controller
             control={control}
-            name="age"
+            name="old"
             render={({ field: { value, onChange, ...others } }) => (
               <>
-                {ageOptions.map((option: SelectButtonProps) => (
+                {oldOptions.map((option: SelectButtonProps) => (
                   <li key={option.value} className={cn('col')}>
                     <SelectButton
                       isSelected={value === option.value ? true : false}

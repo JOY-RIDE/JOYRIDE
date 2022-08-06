@@ -83,6 +83,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
     formState: { isSubmitted, errors },
     watch,
   } = useForm<FirstSignupForm>({
+    // TODO: yup
     defaultValues: {
       email: '',
       password: '',
