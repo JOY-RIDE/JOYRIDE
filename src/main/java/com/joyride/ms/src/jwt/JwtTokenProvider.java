@@ -88,7 +88,7 @@ public class JwtTokenProvider {
     }
 
     public String getUseridFromRef(String token) {
-        return Jwts.parserBuilder().setSigningKey(accessKey).build()
+        return Jwts.parserBuilder().setSigningKey(refreshKey).build()
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
