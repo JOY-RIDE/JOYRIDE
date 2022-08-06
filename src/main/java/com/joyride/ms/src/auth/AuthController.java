@@ -18,16 +18,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static com.joyride.ms.util.BaseResponseStatus.SUCCESS;
-import static com.joyride.ms.util.BaseResponseStatus.USERS_DISACCORD_PASSWORD;
+import static com.joyride.ms.util.BaseResponseStatus.*;
 
 @Slf4j
 @RestController
@@ -112,7 +108,7 @@ public class AuthController {
      * @return
      */
     @PostMapping("/signin/auto")
-    public BaseResponse<PostAutoSigninRes> autoLogin(@RequestBody PostAutoSigninReq postAutoSigninReq) {
+    public BaseResponse<PostAutoSigninRes> signinAuto(@RequestBody PostAutoSigninReq postAutoSigninReq) {
         User user = null;
         try {
             user = userProvider.retrieveByEmail(postAutoSigninReq.getEmail());
@@ -184,6 +180,45 @@ public class AuthController {
         }
     }
 
+    /**
+     * 1.9.1 이메일 중복체크 api
+     * [GET] /email?email=
+     *
+     * @param email
+     * @return
+     */
+    @GetMapping("/email")
+    public BaseResponse<String> getCheckEmail(@RequestParam(required = true) String email) {
+        try {
+            if (userProvider.checkEmail(email) == 0) { // 새 user
+                return new BaseResponse<>("가능한 이메일입니다.");
+            } else { // 이미 있는 유저
+                return new BaseResponse<>(BaseResponseStatus.POST_USERS_EXISTS_EMAIL);
+            }
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 1.9.2 닉네임 중복체크 api
+     * [GET] /nickname?nickname=
+     *
+     * @param nickname
+     * @return
+     */
+    @GetMapping("/nickname")
+    public BaseResponse<String> getCheckNickname(@RequestParam(required = true) String nickname) {
+        try {
+            if (userProvider.checkNickname(nickname) != 1) { // 닉네임이 중복아닌 경우
+                return new BaseResponse<>("가능한 닉네임입니다.");
+            } else { // 닉네임 중복
+                throw new BaseException(POST_USERS_EXISTS_NICKNAME);
+            }
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 
     public Authentication attemptAuthentication(User user) throws BaseException{
         Collection<GrantedAuthority> userAuthorities = new ArrayList<>();
