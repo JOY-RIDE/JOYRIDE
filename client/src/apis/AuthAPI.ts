@@ -12,12 +12,10 @@ interface NewUser {
 }
 
 export default class AuthAPI {
-  async signup(payload: NewUser) {
-    // TODO: message X
+  async signup(newUser: NewUser) {
     const {
       data: { code, message },
-    } = await axios.post('/auth/signup', payload);
-    console.log(message);
+    } = await axios.post('/auth/signup', newUser);
     return code;
   }
 
@@ -35,5 +33,11 @@ export default class AuthAPI {
     return code;
   }
 
-  async login() {}
+  async login(email: string, password: string) {
+    const {
+      data: { code, result },
+    } = await axios.post('/auth/signin', { email, password });
+    const accessToken = result?.token.accessToken;
+    return { code, accessToken };
+  }
 }

@@ -123,7 +123,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     const bicycleType = bicycleTypeInput || null;
     const message = messageInput || null;
 
-    const payload = {
+    const newUser = {
       isTermsEnable: true,
       email,
       password,
@@ -133,16 +133,19 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
       bicycleType,
       message,
     };
-    const resultCode = await authAPI.signup(payload);
+    try {
+      const resultCode = await authAPI.signup(newUser);
 
-    if (resultCode === 1000) {
-      setSecondSignupFormState({ nickname });
-      goNext();
-      return;
+      if (resultCode === 1000) {
+        setSecondSignupFormState({ nickname });
+        goNext();
+        return;
+      }
+
+      openToast('회원가입 중 에러가 발생했습니다. 관리자에게 문의해 주세요');
+    } catch (e) {
+      openToast('회원가입 중 에러가 발생했습니다. 다시 시도해 주세요');
     }
-
-    // TODO
-    openToast('Error: console 확인');
   };
 
   return (

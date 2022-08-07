@@ -39,7 +39,7 @@ const SignupTerms = ({ goNext }: { goNext: () => void }) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(isServiceTermAgreed && isPrivacyTermAgreed)) {
-      openToast('약관에 동의해 주세요');
+      openToast('약관 동의가 필요합니다');
       return;
     }
 
@@ -49,17 +49,15 @@ const SignupTerms = ({ goNext }: { goNext: () => void }) => {
   // TODO: 디자인
   return (
     <form className={cn('form')} onSubmit={handleSubmit}>
-      <div className={cn('field')}>
-        <FormControlLabel
-          control={<CheckBox onChange={toggleAreAllTermsAgreed} />}
-          label="전체 동의"
-          sx={{
-            '& .MuiTypography-root': {
-              fontWeight: 700,
-            },
-          }}
-        />
-      </div>
+      <FormControlLabel
+        control={<CheckBox onChange={toggleAreAllTermsAgreed} />}
+        label="전체 동의"
+        sx={{
+          '& .MuiTypography-root': {
+            fontWeight: 700,
+          },
+        }}
+      />
 
       <div className={cn('field')}>
         <FormControlLabel

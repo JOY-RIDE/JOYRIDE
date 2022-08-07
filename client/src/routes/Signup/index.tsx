@@ -26,7 +26,7 @@ const Signup = () => {
   }
 
   return (
-    <div className={cn('wrapper')}>
+    <section className={cn('wrapper')}>
       <header className={cn('header')}>
         <PageTitle size="lg">회원가입</PageTitle>
         {currentStep ? (
@@ -46,7 +46,7 @@ const Signup = () => {
       ) : (
         <SignupTerms goNext={goNext} />
       )}
-    </div>
+    </section>
   );
 };
 
