@@ -1,0 +1,31 @@
+@use '../../../styles/variables.scss' as *;
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@mixin rotation($num) {
+  -webkit-animation: spin $num linear infinite;
+  -moz-animation: spin $num linear infinite;
+  -o-animation: spin $num linear infinite;
+  animation: spin $num linear infinite;
+}
+
+.loading {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include rotation(2s);
+}
+
+.wheel {
+  font-size: 8rem;
+  color: $color-main;
+}
