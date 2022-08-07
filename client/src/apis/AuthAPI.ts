@@ -14,7 +14,7 @@ interface NewUser {
 export default class AuthAPI {
   async signup(newUser: NewUser) {
     const {
-      data: { code, message },
+      data: { code },
     } = await axios.post('/auth/signup', newUser);
     return code;
   }

@@ -133,6 +133,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
       bicycleType,
       message,
     };
+
     try {
       const resultCode = await authAPI.signup(newUser);
 
