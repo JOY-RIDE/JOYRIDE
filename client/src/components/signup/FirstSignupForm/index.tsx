@@ -1,5 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { atom, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { authAPIState } from 'states/atoms';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -89,9 +90,11 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
       password: '',
       passwordConfirm: '',
     },
-    // mode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
   const password = watch('password');
+
+  const authAPI = useRecoilValue(authAPIState);
 
   const setFirstSignupForm = useSetRecoilState(firstSignupFormState);
   const onSubmit: SubmitHandler<FirstSignupForm> = async ({
@@ -115,7 +118,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           rules={{
             required: true,
             pattern: patterns.email,
-            validate: async () => true,
+            validate: async email => (await authAPI.checkEmail(email)) === 1000,
           }}
           render={({ field }) => (
             <FormInputWrapper>
@@ -171,7 +174,10 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
         <Controller
           control={control}
           name="passwordConfirm"
-          rules={{ required: true, validate: value => value === password }}
+          rules={{
+            required: true,
+            validate: passwordConfirm => passwordConfirm === password,
+          }}
           render={({ field }) => (
             <FormInputWrapper>
               <FormInput

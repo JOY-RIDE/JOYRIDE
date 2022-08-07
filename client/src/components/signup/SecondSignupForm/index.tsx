@@ -103,6 +103,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
       bicycleType: '',
       message: '',
     },
+    reValidateMode: 'onBlur',
   });
 
   const { email, password } = useRecoilValue(firstSignupFormState);
@@ -156,7 +157,8 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
           rules={{
             required: true,
             maxLength: 10,
-            validate: async () => true,
+            validate: async nickname =>
+              (await authAPI.checkNickname(nickname)) === 1000,
           }}
           render={({ field }) => (
             <FormInputWrapper>

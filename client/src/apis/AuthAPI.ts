@@ -16,10 +16,22 @@ export default class AuthAPI {
     // TODO: message X
     const {
       data: { code, message },
-    } = await axios.post('/auth/signup', payload, {
-      withCredentials: true,
-    });
+    } = await axios.post('/auth/signup', payload);
     console.log(message);
+    return code;
+  }
+
+  async checkEmail(email: string) {
+    const {
+      data: { code },
+    } = await axios.get('/auth/email', { params: { email } });
+    return code;
+  }
+
+  async checkNickname(nickname: string) {
+    const {
+      data: { code },
+    } = await axios.get('/auth/nickname', { params: { nickname } });
     return code;
   }
 

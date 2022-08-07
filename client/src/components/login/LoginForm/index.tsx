@@ -30,7 +30,7 @@ const LoginForm = () => {
       password: '',
       autoLogin: false,
     },
-    // reValidateMode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
 
   // Variables
