@@ -3,18 +3,18 @@
 ### 프론트엔드 폴더 구조
 
 ```
-JOYRIDE
-└── client
-   ├── public
-   └── src
-      ├── assets
-      ├── components
-      ├── hooks
-      ├── routes
-      ├── services
-      ├── states
-      ├── styles
-      └── utils
+client
+├── public
+└── src
+   ├── apis
+   ├── assets
+   ├── components
+   ├── hooks
+   ├── routes
+   ├── states
+   ├── styles
+   ├── typescript
+   └── utils
 ```
 
 ### 백엔드 폴더 구조

@@ -1,5 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { authAPIState, toastState } from 'states/atoms';
 import { firstSignupFormState } from '../FirstSignupForm';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
@@ -13,17 +14,17 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 // Type/interfaces
-type Field = 'nickname' | 'introduce';
+type Field = 'nickname' | 'message';
 interface SecondSignupFormProps {
   goNext: () => void;
   goPrevious: () => void;
 }
 interface SecondSignupForm {
   nickname: string;
-  gender: string | null;
-  age: string | null;
-  bicycleType: string | null;
-  introduce: string | null;
+  gender: string;
+  age: string;
+  bicycleType: string;
+  message: string;
 }
 interface SelectButtonProps {
   value: string;
@@ -57,7 +58,7 @@ function getErrorMessage(field: Field, error: string) {
       }
     }
 
-    case 'introduce': {
+    case 'message': {
       switch (error) {
         case 'maxLength':
           return '30자를 초과하였습니다';
@@ -73,8 +74,8 @@ function getErrorMessage(field: Field, error: string) {
 
 // Variables
 const genderOptions: SelectButtonProps[] = [
-  { value: '0', text: '남성', textEng: 'male' },
-  { value: '1', text: '여성', textEng: 'female' },
+  { value: 'm', text: '남성', textEng: 'male' },
+  { value: 'f', text: '여성', textEng: 'female' },
 ];
 const ageOptions: SelectButtonProps[] = [
   { value: '0', text: '10대', textEng: 'ten' },
@@ -84,8 +85,8 @@ const ageOptions: SelectButtonProps[] = [
   { value: '4', text: '50대 이상', textEng: 'fifty' },
 ];
 const bicycleTypeOptions: SelectListOption[] = [
-  { value: '0', text: 'MTB' },
-  { value: '1', text: '로드 바이크' },
+  { value: 'MTB', text: 'MTB' },
+  { value: '로드 바이크', text: '로드 바이크' },
   // TODO: 옵션 추가
 ];
 
@@ -100,12 +101,14 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
       gender: '',
       age: '',
       bicycleType: '',
-      introduce: '',
+      message: '',
     },
+    reValidateMode: 'onBlur',
   });
 
-  const { email, password, passwordConfirm } =
-    useRecoilValue(firstSignupFormState);
+  const { email, password } = useRecoilValue(firstSignupFormState);
+  const authAPI = useRecoilValue(authAPIState);
+  const openToast = useSetRecoilState(toastState);
   const setSecondSignupFormState = useSetRecoilState(secondSignupFormState);
 
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
@@ -113,15 +116,33 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     gender: genderInput,
     age: ageInput,
     bicycleType: bicycleTypeInput,
-    introduce: introduceInput,
+    message: messageInput,
   }) => {
-    const gender = genderInput ? Number(genderInput) : null;
+    const gender = genderInput || null;
     const age = ageInput ? Number(ageInput) : null;
-    const bicycleType = bicycleTypeInput ? Number(bicycleTypeInput) : null;
-    const introduce = introduceInput || null;
+    const bicycleType = bicycleTypeInput || null;
+    const message = messageInput || null;
 
-    setSecondSignupFormState({ nickname });
-    goNext();
+    const payload = {
+      isTermsEnable: true,
+      email,
+      password,
+      nickname,
+      gender,
+      old: age,
+      bicycleType,
+      message,
+    };
+    const resultCode = await authAPI.signup(payload);
+
+    if (resultCode === 1000) {
+      setSecondSignupFormState({ nickname });
+      goNext();
+      return;
+    }
+
+    // TODO
+    openToast('Error: console 확인');
   };
 
   return (
@@ -136,7 +157,8 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
           rules={{
             required: true,
             maxLength: 10,
-            validate: async () => true,
+            validate: async nickname =>
+              (await authAPI.checkNickname(nickname)) === 1000,
           }}
           render={({ field }) => (
             <FormInputWrapper>
@@ -244,7 +266,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
         </label>
         <Controller
           control={control}
-          name="introduce"
+          name="message"
           rules={{
             maxLength: 30,
           }}
@@ -253,12 +275,12 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
               <FormInput
                 placeholder="상태 메세지"
                 helpText={!isSubmitted && '최대 30자'}
-                hasError={errors.introduce}
+                hasError={errors.message}
                 {...field}
               />
-              {errors.introduce && (
+              {errors.message && (
                 <ErrorMessage
-                  text={getErrorMessage('introduce', errors.introduce.type)}
+                  text={getErrorMessage('message', errors.message.type)}
                 />
               )}
             </FormInputWrapper>

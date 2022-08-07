@@ -30,7 +30,7 @@ const LoginForm = () => {
       password: '',
       autoLogin: false,
     },
-    // reValidateMode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
 
   // Variables
@@ -42,7 +42,7 @@ const LoginForm = () => {
   const openToast = useSetRecoilState(toastState);
   const onSubmit: SubmitHandler<LoginForm> = async data => {
     if (true) {
-      openToast('이메일 또는 비밀번호가 잘못 입력되었습니다.');
+      openToast('이메일 또는 비밀번호가 잘못 입력되었습니다');
       return;
     }
 

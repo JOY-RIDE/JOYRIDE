@@ -11,13 +11,13 @@ import Toast from 'components/common/Toast';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
+import { mainColor } from 'utils/constants';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
 
-const mainColor = '#22b573';
 const theme = createTheme({
   typography: {
     htmlFontSize: 10,
