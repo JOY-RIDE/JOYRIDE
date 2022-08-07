@@ -14,7 +14,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 // Type/interfaces
-type Field = 'nickname' | 'introduce';
+type Field = 'nickname' | 'message';
 interface SecondSignupFormProps {
   goNext: () => void;
   goPrevious: () => void;
@@ -22,9 +22,9 @@ interface SecondSignupFormProps {
 interface SecondSignupForm {
   nickname: string;
   gender: string;
-  old: string;
+  age: string;
   bicycleType: string;
-  introduce: string;
+  message: string;
 }
 interface SelectButtonProps {
   value: string;
@@ -58,7 +58,7 @@ function getErrorMessage(field: Field, error: string) {
       }
     }
 
-    case 'introduce': {
+    case 'message': {
       switch (error) {
         case 'maxLength':
           return '30자를 초과하였습니다';
@@ -77,7 +77,7 @@ const genderOptions: SelectButtonProps[] = [
   { value: 'm', text: '남성', textEng: 'male' },
   { value: 'f', text: '여성', textEng: 'female' },
 ];
-const oldOptions: SelectButtonProps[] = [
+const ageOptions: SelectButtonProps[] = [
   { value: '0', text: '10대', textEng: 'ten' },
   { value: '1', text: '20대', textEng: 'twenty' },
   { value: '2', text: '30대', textEng: 'thirty' },
@@ -99,9 +99,9 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     defaultValues: {
       nickname: '',
       gender: '',
-      old: '',
+      age: '',
       bicycleType: '',
-      introduce: '',
+      message: '',
     },
   });
 
@@ -113,14 +113,14 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
     nickname,
     gender: genderInput,
-    old: oldInput,
+    age: ageInput,
     bicycleType: bicycleTypeInput,
-    introduce: introduceInput,
+    message: messageInput,
   }) => {
     const gender = genderInput || null;
-    const old = oldInput ? Number(oldInput) : null;
+    const age = ageInput ? Number(ageInput) : null;
     const bicycleType = bicycleTypeInput || null;
-    const introduce = introduceInput || null;
+    const message = messageInput || null;
 
     const payload = {
       isTermsEnable: true,
@@ -128,9 +128,9 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
       password,
       nickname,
       gender,
-      old,
+      old: age,
       bicycleType,
-      introduce,
+      message,
     };
     const resultCode = await authAPI.signup(payload);
 
@@ -216,10 +216,10 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
         <ul className={cn('row')}>
           <Controller
             control={control}
-            name="old"
+            name="age"
             render={({ field: { value, onChange, ...others } }) => (
               <>
-                {oldOptions.map((option: SelectButtonProps) => (
+                {ageOptions.map((option: SelectButtonProps) => (
                   <li key={option.value} className={cn('col')}>
                     <SelectButton
                       isSelected={value === option.value ? true : false}
@@ -264,7 +264,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
         </label>
         <Controller
           control={control}
-          name="introduce"
+          name="message"
           rules={{
             maxLength: 30,
           }}
@@ -273,12 +273,12 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
               <FormInput
                 placeholder="상태 메세지"
                 helpText={!isSubmitted && '최대 30자'}
-                hasError={errors.introduce}
+                hasError={errors.message}
                 {...field}
               />
-              {errors.introduce && (
+              {errors.message && (
                 <ErrorMessage
-                  text={getErrorMessage('introduce', errors.introduce.type)}
+                  text={getErrorMessage('message', errors.message.type)}
                 />
               )}
             </FormInputWrapper>

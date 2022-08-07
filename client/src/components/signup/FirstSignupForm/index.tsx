@@ -89,6 +89,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
       password: '',
       passwordConfirm: '',
     },
+    // mode: 'onBlur',
   });
   const password = watch('password');
 

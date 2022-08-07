@@ -1,0 +1,14 @@
+@use '../../../styles/variables.scss' as *;
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.term {
+  width: 100%;
+}
+
+.btn {
+  margin-top: 5rem;
+}

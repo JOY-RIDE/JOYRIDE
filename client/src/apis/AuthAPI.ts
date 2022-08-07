@@ -8,7 +8,7 @@ interface NewUser {
   gender: string | null;
   old: number | null;
   bicycleType: string | null;
-  introduce: string | null;
+  message: string | null;
 }
 
 export default class AuthAPI {
