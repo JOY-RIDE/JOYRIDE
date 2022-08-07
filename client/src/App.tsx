@@ -12,6 +12,7 @@ import Toast from 'components/common/Toast';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { mainColor } from 'utils/constants';
+import UserOnly from 'components/common/UserOnly';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
@@ -47,7 +48,14 @@ const App = () => (
           <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="mypage" element={<Mypage />} />
+          <Route
+            path="mypage"
+            element={
+              <UserOnly>
+                <Mypage />
+              </UserOnly>
+            }
+          />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
