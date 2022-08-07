@@ -48,14 +48,9 @@ const App = () => (
           <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route
-            path="mypage"
-            element={
-              <UserOnly>
-                <Mypage />
-              </UserOnly>
-            }
-          />
+          <Route path="mypage" element={<UserOnly />}>
+            <Route index element={<Mypage />} />
+          </Route>
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

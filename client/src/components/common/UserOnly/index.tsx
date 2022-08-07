@@ -1,11 +1,10 @@
-import { ReactElement } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userState } from 'states/atoms';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-const UserOnly = ({ children }: { children: ReactElement }) => {
+const UserOnly = () => {
   const user = useRecoilValue(userState);
-  return user ? children : <Navigate to="/" />;
+  return user ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default UserOnly;
