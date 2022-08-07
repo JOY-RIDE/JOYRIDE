@@ -1,0 +1,31 @@
+@use '../../styles/variables.scss' as *;
+
+.home {
+  display: flex;
+  flex-direction: column;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.content {
+  margin: 2.5rem auto;
+  width: 100%;
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.4rem;
+    .title {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .to-list {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: $color-grey-500;
+    }
+  }
+}

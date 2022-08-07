@@ -38,7 +38,7 @@ JOYRIDE
        |   |   |   └── filter
        |   |   |   └── handler
        |   |   ├── config
-       |   └── JoyrideServerApplication
+       |   └── JoyriderServerApplication
        └── resources
 ```
 
