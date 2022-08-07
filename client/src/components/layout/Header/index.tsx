@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { userDataState } from 'states/selectors';
 import Container from 'components/common/Container';
 import logo from 'assets/images/logo.svg';
 import { FiLogIn } from 'react-icons/fi';
@@ -20,8 +21,7 @@ interface Iform {
 
 const Header = () => {
   // TODO
-  // const userInfo = useRecoilValue(userInfoState)
-  const user = false; // 임시로 해놓음
+  const userData = useRecoilValue(userDataState);
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
   const onClickMenu = () => {
@@ -57,7 +57,7 @@ const Header = () => {
             <img className={cn('logo')} src={logo} alt="로고" />
           </Link>
 
-          {user ? (
+          {userData ? (
             <Link
               to="/mypage"
               className={cn('mypage')}
