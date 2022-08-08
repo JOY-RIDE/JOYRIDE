@@ -51,12 +51,12 @@ public class SecurityConfig {
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors()
+                .and()
                 .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider, userProvider, authenticationManagerBuilder.getObject()),
                         UsernamePasswordAuthenticationFilter.class);
 
         http.csrf().disable() // 세션 사용 안하므로
-                .cors()
-                .and()
                 // exception handling 새로 만든 클래스로
                 .exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPointHandler())
