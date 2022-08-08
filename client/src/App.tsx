@@ -1,5 +1,7 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { authAPIState, loggedInState } from 'states/atoms';
 import Layout from 'routes/Layout';
 import Home from 'routes/Home';
 import Roads from 'routes/Roads';
@@ -7,12 +9,12 @@ import Road from 'routes/Road';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/Login';
+import UserOnly from 'components/common/UserOnly';
 import Toast from 'components/common/Toast';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { mainColor } from 'utils/constants';
-import UserOnly from 'components/common/UserOnly';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
@@ -33,31 +35,40 @@ const theme = createTheme({
   },
 });
 
-const App = () => (
-  <ThemeProvider theme={theme}>
-    {/*<ErrorBoundary> */}
-    {/* TODO: Suspense 배치 */}
-    <Suspense fallback={<div />}>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="roads" element={<Roads />} />
-          <Route path="roads/:roadId" element={<Road />} />
-          <Route path="meetups" element={<Meetups />} />
-          <Route path="meetups/:meetupId" element={<Meetup />} />
-          <Route path="search" element={<Search />} />
-          <Route path="login" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="mypage" element={<UserOnly />}>
-            <Route index element={<Mypage />} />
+const App = () => {
+  const authAPI = useRecoilValue(authAPIState);
+  const setLoggedIn = useSetRecoilState(loggedInState);
+
+  useEffect(() => {
+    authAPI.silentRefresh().then(code => code === 1000 && setLoggedIn(true));
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      {/*<ErrorBoundary> */}
+      {/* TODO: Suspense 배치 */}
+      <Suspense fallback={<div />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="roads" element={<Roads />} />
+            <Route path="roads/:roadId" element={<Road />} />
+            <Route path="meetups" element={<Meetups />} />
+            <Route path="meetups/:meetupId" element={<Meetup />} />
+            <Route path="search" element={<Search />} />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="mypage" element={<UserOnly />}>
+              <Route index element={<Mypage />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path="*" element={<Error />} />
-      </Routes>
-      <Toast />
-    </Suspense>
-    {/* </ErrorBoundary> */}
-  </ThemeProvider>
-);
+          <Route path="*" element={<Error />} />
+        </Routes>
+        <Toast />
+      </Suspense>
+      {/* </ErrorBoundary> */}
+    </ThemeProvider>
+  );
+};
 
 export default App;

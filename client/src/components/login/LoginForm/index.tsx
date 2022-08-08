@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState, toastState, userState } from 'states/atoms';
+import { authAPIState, toastState, loggedInState } from 'states/atoms';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -51,7 +51,7 @@ const LoginForm = () => {
 
   // Variables
   const authAPI = useRecoilValue(authAPIState);
-  const setUser = useSetRecoilState(userState);
+  const setLoggedIn = useSetRecoilState(loggedInState);
   // TODO: Header에서 Link 설정
   const previousPage = useSearchParams()[0].get('next');
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const LoginForm = () => {
       // if (autoLogin) {
       // }
       await authAPI.login(email, password);
-      setUser({ email });
+      setLoggedIn(true);
       navigate(previousPage || '/');
     } catch (e) {
       if (!(e instanceof Error)) return;

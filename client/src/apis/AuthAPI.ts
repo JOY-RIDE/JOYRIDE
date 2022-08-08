@@ -45,15 +45,23 @@ export default class AuthAPI {
       throw new Error(code);
     }
 
-    const accessToken = result.token.accessToken;
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    this.onLoginSuccess(result.token.accessToken);
   }
 
-  // async getNewAccessToken(refreshToken: string) {
-  //   const {
-  //     data: { code, result },
-  //   } = await axios.post('/auth/jwt', { refreshToken });
-  //   const accessToken = result?.token.accessToken;
-  //   return { code, accessToken };
-  // }
+  async silentRefresh() {
+    const {
+      data: { code, result },
+    } = await axios.get('/auth/jwt');
+
+    if (code === 1000) {
+      this.onLoginSuccess(result.token.accessToken);
+    }
+    return code;
+  }
+
+  async onLoginSuccess(accessToken: string) {
+    const JWT_EXPIRY_TIME = 2 * 3600 * 1000;
+    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    setTimeout(this.silentRefresh, JWT_EXPIRY_TIME - 30 * 1000);
+  }
 }
