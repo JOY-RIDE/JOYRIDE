@@ -1,6 +1,7 @@
 package com.joyride.ms.src.jwt;
 
 import com.joyride.ms.src.auth.AuthProvider;
+import com.joyride.ms.src.auth.model.Token;
 import com.joyride.ms.util.BaseException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -17,6 +18,7 @@ import java.security.Key;
 import java.util.Date;
 
 import static com.joyride.ms.util.BaseResponseStatus.DIFFERENT_REFRESH_TOKEN;
+import static com.joyride.ms.util.BaseResponseStatus.EXPIRED_JWT;
 
 @Slf4j
 @Component
@@ -56,6 +58,29 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
+
+    public Token createToken(Long userId) {
+        Claims claims = Jwts.claims().setSubject(userId.toString()); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
+        Date now = new Date();
+
+        String accessToken = Jwts.builder()
+                                .setClaims(claims) // 정보 저장
+                                .setIssuedAt(now) // 토큰 발행 시간 정보
+                                .setExpiration(new Date(now.getTime() + JWT_ACCESS_TOKEN_EXPTIME)) // set Expire Time
+                                .signWith(accessKey, SignatureAlgorithm.HS256)  // 사용할 암호화 알고리즘과
+                                .compact();
+
+        String refreshToken =  Jwts.builder()
+                                .setClaims(claims) // 정보 저장
+                                .setIssuedAt(now) // 토큰 발행 시간 정보
+                                .setExpiration(new Date(now.getTime() + JWT_REFRESH_TOKEN_EXPTIME)) // set Expire Time
+                                .signWith(refreshKey, SignatureAlgorithm.HS256) // 사용할 암호화 알고리즘과
+                                // signature 에 들어갈 secret값 세팅
+                                .compact();
+
+        return new Token(accessToken, refreshToken);
+    }
+
     public String createAccessToken(Long userId) {
         Claims claims = Jwts.claims().setSubject(userId.toString()); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
 
@@ -104,6 +129,7 @@ public class JwtTokenProvider {
             log.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
             log.error("Expired JWT token");
+            throw new BaseException(EXPIRED_JWT);
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {

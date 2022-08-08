@@ -12,6 +12,7 @@ import com.joyride.ms.util.BaseResponse;
 import com.joyride.ms.util.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -74,7 +76,7 @@ public class AuthController {
      * @return
      */
     @PostMapping("/signin")
-    public BaseResponse<PostSigninRes> signin(@RequestBody PostSigninReq postSigninReq) {
+    public BaseResponse<PostSigninRes> signin(@RequestBody PostSigninReq postSigninReq, HttpServletResponse response) {
         User user = null;
         try {
             user = userProvider.retrieveByEmail(postSigninReq.getEmail());
@@ -93,9 +95,19 @@ public class AuthController {
         PrincipalDetails userEntity = (PrincipalDetails) authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
         Long userId = userEntity.getUser().getId();
-        String accessToken = jwtTokenProvider.createAccessToken(userId);
-        Token token = new Token(accessToken, "");
-        PostSigninRes postSigninRes = new PostSigninRes(token);
+
+        Token token = jwtTokenProvider.createToken(userId);
+        String accessToken = token.getAccessToken();
+        String refreshToken = token.getRefreshToken();
+
+        PostSigninRes postSigninRes = new PostSigninRes(accessToken);
+        authService.registerRefreshToken(userId, refreshToken);
+
+        ResponseCookie cookie = ResponseCookie.from("refreshToken",refreshToken)
+                .httpOnly(true)
+                .build();
+        response.setHeader("Set-Cookie", cookie.toString());
+
 
         return new BaseResponse<>(postSigninRes);
     }
@@ -108,7 +120,7 @@ public class AuthController {
      * @return
      */
     @PostMapping("/signin/auto")
-    public BaseResponse<PostAutoSigninRes> signinAuto(@RequestBody PostAutoSigninReq postAutoSigninReq) {
+    public BaseResponse<PostAutoSigninRes> signinAuto(@RequestBody PostAutoSigninReq postAutoSigninReq, HttpServletResponse response) {
         User user = null;
         try {
             user = userProvider.retrieveByEmail(postAutoSigninReq.getEmail());
@@ -128,14 +140,19 @@ public class AuthController {
 
         Long userId = userEntity.getUser().getId();
 
-        String accessToken = jwtTokenProvider.createAccessToken(userId);
-        String refreshToken = jwtTokenProvider.createRefreshToken(userId);
+        Token token = jwtTokenProvider.createToken(userId);
+        String accessToken = token.getAccessToken();
+        String refreshToken = token.getRefreshToken();
+        PostAutoSigninRes postAutoSigninRes = new PostAutoSigninRes(accessToken);
 
         authService.registerRefreshToken(userId, refreshToken);
 
-        Token token = new Token(accessToken, refreshToken);
-        PostAutoSigninRes postAutoSigninRes = new PostAutoSigninRes(token);
 
+        ResponseCookie cookie = ResponseCookie.from("refreshToken",refreshToken)
+                .maxAge(90 * 24 *60 *60)
+                .httpOnly(true)
+                .build();
+        response.setHeader("Set-Cookie", cookie.toString());
         return new BaseResponse<>(postAutoSigninRes);
     }
 
@@ -159,12 +176,12 @@ public class AuthController {
      * 1.5 토큰 재발급 api
      * [GET] /auth/jwt
      * access token 만료시 재발급
-     * @param postAccessReq
-     * @return
+     * @cookie refreshToken
+     * @return accessToken
      */
     @PostMapping("/jwt")
-    public BaseResponse<PostAccessRes> postAccess(@RequestBody PostAccessReq postAccessReq) {
-        String refreshToken = postAccessReq.getRefreshToken();
+    public BaseResponse<PostAccessRes> postAccess(@CookieValue("refreshToken") String refreshToken) {
+
         try {
             jwtTokenProvider.AssertRefreshTokenEqualAndValid(refreshToken);
         } catch (BaseException exception) {
@@ -172,8 +189,8 @@ public class AuthController {
         }
 
         try {
-            Token newToken = authService.createAccess(refreshToken);
-            PostAccessRes postAccessRes = new PostAccessRes(newToken);
+            String newAccessToken = authService.createAccess(refreshToken);
+            PostAccessRes postAccessRes = new PostAccessRes(newAccessToken);
             return new BaseResponse<>(postAccessRes);
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
