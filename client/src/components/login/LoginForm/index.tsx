@@ -19,6 +19,22 @@ interface LoginForm {
   autoLogin: boolean;
 }
 
+function handleLoginFail(code: string) {
+  switch (code) {
+    case '2011': {
+      return '등록되지 않은 이메일입니다';
+    }
+    case '2112': {
+      return '비밀번호를 다시 확인해 주세요';
+    }
+    case '4000': {
+      return '로그인 중 에러가 발생했습니다. 관리자에게 문의해 주세요';
+    }
+    default:
+      return '로그인 중 에러가 발생했습니다. 다시 시도해 주세요';
+  }
+}
+
 const LoginForm = () => {
   const {
     control,
@@ -48,24 +64,14 @@ const LoginForm = () => {
     autoLogin,
   }) => {
     try {
-      const { code, accessToken } = await authAPI.login(email, password);
       // if (autoLogin) {
       // }
-      if (code === 1000) {
-        setUser({ email, accessToken });
-        navigate(previousPage || '/');
-        return;
-      }
-
-      if (code === 2011) {
-        openToast('등록되지 않은 이메일입니다');
-      } else if (code === 2112) {
-        openToast('비밀번호를 다시 확인해 주세요');
-      } else {
-        openToast('로그인 중 에러가 발생했습니다. 관리자에게 문의해 주세요');
-      }
+      await authAPI.login(email, password);
+      setUser({ email });
+      navigate(previousPage || '/');
     } catch (e) {
-      openToast('로그인 중 에러가 발생했습니다. 다시 시도해 주세요');
+      if (!(e instanceof Error)) return;
+      openToast(handleLoginFail(e.message));
     }
   };
 

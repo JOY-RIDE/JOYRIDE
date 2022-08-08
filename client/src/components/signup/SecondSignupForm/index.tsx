@@ -135,17 +135,18 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     };
 
     try {
-      const resultCode = await authAPI.signup(newUser);
-
-      if (resultCode === 1000) {
-        setSecondSignupFormState({ nickname });
-        goNext();
-        return;
-      }
-
-      openToast('회원가입 중 에러가 발생했습니다. 관리자에게 문의해 주세요');
+      await authAPI.signup(newUser);
+      setSecondSignupFormState({ nickname });
+      goNext();
     } catch (e) {
-      openToast('회원가입 중 에러가 발생했습니다. 다시 시도해 주세요');
+      if (!(e instanceof Error)) return;
+      openToast(
+        `회원가입 중 에러가 발생했습니다. ${
+          e.message === '4000'
+            ? '관리자에게 문의해 주세요'
+            : '다시 시도해 주세요'
+        }`
+      );
     }
   };
 
@@ -161,8 +162,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
           rules={{
             required: true,
             maxLength: 10,
-            validate: async nickname =>
-              (await authAPI.checkNickname(nickname)) === 1000,
+            validate: async nickname => await authAPI.checkNickname(nickname),
           }}
           render={({ field }) => (
             <FormInputWrapper>

@@ -16,28 +16,44 @@ export default class AuthAPI {
     const {
       data: { code },
     } = await axios.post('/auth/signup', newUser);
-    return code;
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
   }
 
   async checkEmail(email: string) {
     const {
       data: { code },
     } = await axios.get('/auth/email', { params: { email } });
-    return code;
+    return code === 1000 ? true : false;
   }
 
   async checkNickname(nickname: string) {
     const {
       data: { code },
     } = await axios.get('/auth/nickname', { params: { nickname } });
-    return code;
+    return code === 1000 ? true : false;
   }
 
   async login(email: string, password: string) {
     const {
       data: { code, result },
     } = await axios.post('/auth/signin', { email, password });
-    const accessToken = result?.token.accessToken;
-    return { code, accessToken };
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+
+    const accessToken = result.token.accessToken;
+    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }
+
+  // async getNewAccessToken(refreshToken: string) {
+  //   const {
+  //     data: { code, result },
+  //   } = await axios.post('/auth/jwt', { refreshToken });
+  //   const accessToken = result?.token.accessToken;
+  //   return { code, accessToken };
+  // }
 }

@@ -71,7 +71,7 @@ function getErrorMessage(field: Field, error: string) {
 }
 
 // Variable
-const patterns = {
+const PATTERNS = {
   email:
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   password: /0/,
@@ -117,8 +117,8 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="email"
           rules={{
             required: true,
-            pattern: patterns.email,
-            validate: async email => (await authAPI.checkEmail(email)) === 1000,
+            pattern: PATTERNS.email,
+            validate: async email => await authAPI.checkEmail(email),
           }}
           render={({ field }) => (
             <FormInputWrapper>
@@ -146,7 +146,7 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
           name="password"
           rules={{
             required: true,
-            pattern: patterns.password,
+            pattern: PATTERNS.password,
           }}
           render={({ field }) => (
             <FormInputWrapper>

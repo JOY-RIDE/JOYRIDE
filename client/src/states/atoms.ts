@@ -6,7 +6,6 @@ export const authAPIState = atom({ key: 'authAPI', default: authAPI });
 
 interface User {
   email: string;
-  accessToken: string;
 }
 export const userState = atom<User | null>({
   key: 'user',
