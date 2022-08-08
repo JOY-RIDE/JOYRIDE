@@ -46,6 +46,8 @@ public class SecurityConfig {
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors()
+                .and()
                 .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider, userProvider, authenticationManagerBuilder.getObject()),
                         UsernamePasswordAuthenticationFilter.class);
 
