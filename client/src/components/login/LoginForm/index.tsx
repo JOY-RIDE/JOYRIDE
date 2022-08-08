@@ -16,7 +16,7 @@ const cn = classNames.bind(styles);
 interface LoginForm {
   email: string;
   password: string;
-  autoLogin: boolean;
+  isAuto: boolean;
 }
 
 function handleLoginFail(code: string) {
@@ -44,7 +44,7 @@ const LoginForm = () => {
     defaultValues: {
       email: '',
       password: '',
-      autoLogin: false,
+      isAuto: false,
     },
     reValidateMode: 'onBlur',
   });
@@ -61,13 +61,10 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginForm> = async ({
     email,
     password,
-    autoLogin,
+    isAuto,
   }) => {
     try {
-      // if (autoLogin) {
-      // }
-      await authAPI.login(email, password);
-      setLoggedIn(true);
+      await authAPI.login(email, password, isAuto, setLoggedIn);
       navigate(previousPage || '/');
     } catch (e) {
       if (!(e instanceof Error)) return;
@@ -118,7 +115,7 @@ const LoginForm = () => {
       <div className={cn('auto-login')}>
         <Controller
           control={control}
-          name="autoLogin"
+          name="isAuto"
           render={({ field: { value: isChecked, ...others } }) => (
             <FormControlLabel
               control={<CheckBox isChecked={isChecked} {...others} />}

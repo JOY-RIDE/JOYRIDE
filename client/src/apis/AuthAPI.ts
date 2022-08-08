@@ -10,6 +10,7 @@ interface NewUser {
   bicycleType: string | null;
   message: string | null;
 }
+type SetLoggedIn = (loggedIn: boolean) => void;
 
 export default class AuthAPI {
   async signup(newUser: NewUser) {
@@ -36,32 +37,53 @@ export default class AuthAPI {
     return code === 1000 ? true : false;
   }
 
-  async login(email: string, password: string) {
+  async login(
+    email: string,
+    password: string,
+    isAuto: boolean,
+    setLoggedIn: SetLoggedIn
+  ) {
     const {
       data: { code, result },
-    } = await axios.post('/auth/signin', { email, password });
+    } = await axios.post(`/auth/signin${isAuto ? '/auto' : ''}`, {
+      email,
+      password,
+    });
 
     if (code !== 1000) {
       throw new Error(code);
     }
 
-    this.onLoginSuccess(result.token.accessToken);
+    this.onLoginSuccess(result.accessToken, setLoggedIn);
   }
 
-  async silentRefresh() {
-    const {
-      data: { code, result },
-    } = await axios.get('/auth/jwt');
-
-    if (code === 1000) {
-      this.onLoginSuccess(result.token.accessToken);
-    }
-    return code;
-  }
-
-  async onLoginSuccess(accessToken: string) {
+  async onLoginSuccess(accessToken: string, setLoggedIn: SetLoggedIn) {
     const JWT_EXPIRY_TIME = 2 * 3600 * 1000;
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    setTimeout(this.silentRefresh, JWT_EXPIRY_TIME - 30 * 1000);
+    setLoggedIn(true);
+    setTimeout(
+      () => this.silentRefresh(setLoggedIn),
+      JWT_EXPIRY_TIME - 30 * 1000
+    );
   }
+
+  async silentRefresh(setLoggedIn: SetLoggedIn) {
+    try {
+      const {
+        data: { code, result },
+      } = await axios.post('/auth/jwt');
+
+      if (code !== 1000) {
+        // TODO: 로그아웃
+        setLoggedIn(false);
+        return;
+      }
+
+      this.onLoginSuccess(result.accessToken, setLoggedIn);
+    } catch (e) {
+      // refresh cookie X
+    }
+  }
+
+  async loginGoogle() {}
 }

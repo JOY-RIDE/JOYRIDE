@@ -40,7 +40,7 @@ const App = () => {
   const setLoggedIn = useSetRecoilState(loggedInState);
 
   useEffect(() => {
-    authAPI.silentRefresh().then(code => code === 1000 && setLoggedIn(true));
+    authAPI.silentRefresh(setLoggedIn);
   }, []);
 
   return (
