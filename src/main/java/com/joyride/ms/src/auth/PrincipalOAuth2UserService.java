@@ -34,6 +34,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         String provider_id = (String) oAuth2User.getAttributes().get("sub");
 
         User user = null;
+        // todo: 회원가입된 소셜계정 validate
         try {
             if (userProvider.checkEmail(email, provider) == 1)
                 user = userProvider.retrieveByEmail(email, provider);

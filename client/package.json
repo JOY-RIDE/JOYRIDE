@@ -10,6 +10,7 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.14.182",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
@@ -22,13 +23,12 @@
     "react-icons": "^4.4.0",
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-transition-group": "^4.4.2",
     "recoil": "^0.7.4",
     "sass": "^1.53.0",
     "typescript": "^4.4.2",
-    "web-vitals": "^2.1.0",
-    "@types/lodash": "^4.14.182"
+    "web-vitals": "^2.1.0"
   },
   "proxy": "http://localhost:9001",
   "scripts": {
