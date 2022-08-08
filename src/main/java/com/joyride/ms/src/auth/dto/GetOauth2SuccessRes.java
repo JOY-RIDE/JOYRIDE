@@ -9,21 +9,21 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@JsonPropertyOrder({"isNewUser", "user", "token"})
+@JsonPropertyOrder({"isNewUser", "user", "accessToken"})
 @JsonIgnoreProperties({"newUser", "deleted"}) // newUser/isNewUser 중복 방지
 public class GetOauth2SuccessRes {
     @JsonProperty("isNewUser")
     private boolean isNewUser;
     private GetOauth2UserRes user;
-    private Token token;
+    private String accessToken;
 
     public GetOauth2SuccessRes(boolean isNewUser, GetOauth2UserRes user) {
         this.isNewUser = isNewUser;
         this.user = user;
     }
 
-    public GetOauth2SuccessRes(boolean isNewUser, Token token) {
+    public GetOauth2SuccessRes(boolean isNewUser, String accessToken) {
         this.isNewUser = isNewUser;
-        this.token = token;
+        this.accessToken = accessToken;
     }
 }
