@@ -21,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -105,6 +106,7 @@ public class AuthController {
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken",refreshToken)
                 .httpOnly(true)
+                .path("/")
                 .build();
         response.setHeader("Set-Cookie", cookie.toString());
 
@@ -151,8 +153,10 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie.from("refreshToken",refreshToken)
                 .maxAge(90 * 24 *60 *60)
                 .httpOnly(true)
+                .path("/")
                 .build();
         response.setHeader("Set-Cookie", cookie.toString());
+
         return new BaseResponse<>(postAutoSigninRes);
     }
 
