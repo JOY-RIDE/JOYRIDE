@@ -2,8 +2,6 @@ package com.joyride.ms.src.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.joyride.ms.src.auth.AuthService;
-import com.joyride.ms.src.auth.dto.GetOauth2SuccessRes;
-import com.joyride.ms.src.auth.dto.GetOauth2UserRes;
 import com.joyride.ms.src.auth.model.PrincipalDetails;
 import com.joyride.ms.src.auth.model.Token;
 import com.joyride.ms.src.jwt.JwtTokenProvider;

@@ -19,12 +19,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.joyride.ms.util.BaseResponseStatus.*;
 
@@ -58,7 +62,12 @@ public class AuthController {
      * @return 결과 메세지
      */
     @PostMapping("/signup")
-    public BaseResponse<String> singup(@RequestBody PostSignupReq postSignupReq) {
+    public BaseResponse<String> singup(@Validated @RequestBody PostSignupReq postSignupReq, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            System.out.println(errors.toString());
+            return new BaseResponse<>(errors);
+        }
         try {
             String encodedPassword = passwordEncoder.encode(postSignupReq.getPassword());
             User user = new User(postSignupReq.getNickname(), postSignupReq.getEmail(), encodedPassword, postSignupReq.getGender(), postSignupReq.getOld(), postSignupReq.getBicycleType(), "ROLE_USER", "none", "none");
@@ -160,24 +169,8 @@ public class AuthController {
         return new BaseResponse<>(postAutoSigninRes);
     }
 
-     /**
-     * 1.4 소셜 회원가입 api
-     * [POST] /auth/signup/oauth2
-     * 소셜 로그인 시도 후 새로운 유저라면 클라이언트가 약관 동의 후에
-     * 이 api 호출하여 최종 회원가입
-     */
-    @PostMapping("/signup/oauth2")
-    public BaseResponse<BaseResponseStatus> PostSignupOauth2(@RequestBody PostSignupOauth2Req postSignupOauth2Req) {
-        try{
-            userService.createOauth2User(postSignupOauth2Req);
-            return new BaseResponse<>(SUCCESS);
-        }catch(BaseException exception){
-            return new BaseResponse<>(exception.getStatus());
-        }
-    }
-
     /**
-     * 1.5 토큰 재발급 api
+     * 1.4 토큰 재발급 api
      * [GET] /auth/jwt
      * access token 만료시 재발급
      * @cookie refreshToken

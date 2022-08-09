@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.List;
+
 import static com.joyride.ms.util.BaseResponseStatus.SUCCESS;
 
 @Getter
@@ -31,5 +34,11 @@ public class BaseResponse<T> {
         this.isSuccess = status.isSuccess();
         this.message = status.getMessage();
         this.code = status.getCode();
+    }
+
+    public BaseResponse(List<String> message) {
+        this.isSuccess = false;
+        this.message = message.toString();
+        this.code = 2001;
     }
 }
