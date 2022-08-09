@@ -45,7 +45,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .path("/")
                 .build();
         response.setHeader("Set-Cookie", cookie.toString());
-        String targetUri = "http://localhost:3000/login";
+        String targetUri = "http://localhost:3000";
 
         getRedirectStrategy().sendRedirect(request,response,targetUri);
     }
