@@ -2,9 +2,9 @@ import { useRecoilValue } from 'recoil';
 import { loggedInState } from 'states/atoms';
 import { Navigate, Outlet } from 'react-router-dom';
 
-const UserOnly = () => {
+const PublicRoute = () => {
   const loggedIn = useRecoilValue(loggedInState);
-  return loggedIn ? <Outlet /> : <Navigate to="/" />;
+  return loggedIn ? <Navigate to="/" /> : <Outlet />;
 };
 
-export default UserOnly;
+export default PublicRoute;

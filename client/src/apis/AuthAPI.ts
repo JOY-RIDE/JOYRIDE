@@ -85,5 +85,8 @@ export default class AuthAPI {
     }
   }
 
-  async loginGoogle() {}
+  async loginGoogle() {
+    const res = await axios.get('/oauth2/authorization/google');
+    console.log(res);
+  }
 }
