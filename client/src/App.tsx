@@ -9,13 +9,13 @@ import Road from 'routes/Road';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/Login';
-import AuthRoute from 'components/common/AuthRoute';
 import Toast from 'components/common/Toast';
+import AuthRoute from 'components/common/AuthRoute';
+import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { mainColor } from 'utils/constants';
-import PublicRoute from 'components/common/PublicRoute copy';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));

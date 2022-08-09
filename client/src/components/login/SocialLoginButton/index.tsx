@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom';
 import styles from './SocialLoginButton.module.scss';
 
 interface SocialLoginButtonProps {
@@ -12,10 +13,16 @@ const SocialLoginButton = ({
   provider,
   imageURL,
 }: // onClick,
-SocialLoginButtonProps) => (
-  <a href={href} aria-label={`${provider} 로그인 버튼`}>
-    <img className={styles.img} src={imageURL} alt={provider} />
-  </a>
-);
+SocialLoginButtonProps) => {
+  const nextURL = useSearchParams()[0].get('next');
+  return (
+    <a
+      href={`${href}${nextURL ? `?next=${nextURL}` : ''}`}
+      aria-label={`${provider} 로그인 버튼`}
+    >
+      <img className={styles.img} src={imageURL} alt={provider} />
+    </a>
+  );
+};
 
 export default SocialLoginButton;
