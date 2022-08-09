@@ -15,6 +15,7 @@ import Toast from 'components/common/Toast';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { mainColor } from 'utils/constants';
+import PublicRoute from 'components/common/PublicRoute copy';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
@@ -56,12 +57,17 @@ const App = () => {
             <Route path="meetups" element={<Meetups />} />
             <Route path="meetups/:meetupId" element={<Meetup />} />
             <Route path="search" element={<Search />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
+
             <Route element={<AuthRoute />}>
               <Route path="mypage" element={<Mypage />} />
             </Route>
+
+            <Route element={<PublicRoute />}>
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+            </Route>
           </Route>
+
           <Route path="*" element={<Error />} />
         </Routes>
         <Toast />
