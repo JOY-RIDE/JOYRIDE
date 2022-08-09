@@ -9,7 +9,7 @@ import Road from 'routes/Road';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/Login';
-import UserOnly from 'components/common/UserOnly';
+import AuthRoute from 'components/common/AuthRoute';
 import Toast from 'components/common/Toast';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
@@ -58,8 +58,8 @@ const App = () => {
             <Route path="search" element={<Search />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="mypage" element={<UserOnly />}>
-              <Route index element={<Mypage />} />
+            <Route element={<AuthRoute />}>
+              <Route path="mypage" element={<Mypage />} />
             </Route>
           </Route>
           <Route path="*" element={<Error />} />
