@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userDataState } from 'states/selectors';
 import Container from 'components/common/Container';
@@ -21,6 +21,12 @@ interface Iform {
 
 const Header = () => {
   const userData = useRecoilValue(userDataState);
+  const { pathname } = useLocation();
+  const isAtHome = useMatch('/');
+  const isAtLogin = useMatch('/login');
+  const isAtSignup = useMatch('/signup');
+  const nextQuery =
+    isAtHome || isAtLogin || isAtSignup ? '' : `?next=${pathname}`;
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
   const onClickMenu = () => {
@@ -68,7 +74,7 @@ const Header = () => {
             </Link>
           ) : (
             <Link
-              to="/login"
+              to={`/login${nextQuery}`}
               className={cn('login')}
               aria-label="로그인 페이지 링크 버튼"
             >

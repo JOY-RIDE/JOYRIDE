@@ -52,8 +52,7 @@ const LoginForm = () => {
   // Variables
   const authAPI = useRecoilValue(authAPIState);
   const setLoggedIn = useSetRecoilState(loggedInState);
-  // TODO: Header에서 Link 설정
-  const previousPage = useSearchParams()[0].get('next');
+  const nextURL = useSearchParams()[0].get('next');
   const navigate = useNavigate();
 
   // Callbacks
@@ -65,7 +64,8 @@ const LoginForm = () => {
   }) => {
     try {
       await authAPI.login(email, password, isAuto, setLoggedIn);
-      navigate(previousPage || '/');
+      // TODO
+      // navigate(nextURL || '/');
     } catch (e) {
       if (!(e instanceof Error)) return;
       openToast(handleLoginFail(e.message));

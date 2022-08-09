@@ -1,4 +1,4 @@
-import axios from 'apis/axios';
+import axios from './axios';
 
 interface NewUser {
   isTermsEnable: boolean;
@@ -27,14 +27,14 @@ export default class AuthAPI {
     const {
       data: { code },
     } = await axios.get('/auth/email', { params: { email } });
-    return code === 1000 ? true : false;
+    return code === 1000;
   }
 
   async checkNickname(nickname: string) {
     const {
       data: { code },
     } = await axios.get('/auth/nickname', { params: { nickname } });
-    return code === 1000 ? true : false;
+    return code === 1000;
   }
 
   async login(
@@ -83,10 +83,5 @@ export default class AuthAPI {
     } catch (e) {
       // refresh cookie X
     }
-  }
-
-  async loginGoogle() {
-    const res = await axios.get('/oauth2/authorization/google');
-    console.log(res);
   }
 }
