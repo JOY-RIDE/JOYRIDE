@@ -14,7 +14,7 @@ const SocialLogin = () => (
     </div>
 
     <ul className={cn('providers')}>
-      // TODO
+      {/* TODO */}
       <li className={cn('provider')}>
         <SocialLoginButton href="#" provider="네이버" imageURL={naver_circle} />
       </li>
