@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 @Component
+@RestController
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -42,6 +44,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             GetOauth2UserRes getOauth2UserRes = new GetOauth2UserRes(oAuth2User.getUser().getNickname(),
                     oAuth2User.getUser().getEmail(), oAuth2User.getUser().getProvider(), oAuth2User.getUser().getProvider_id());
             getOauth2SuccessRes = new GetOauth2SuccessRes(true, getOauth2UserRes);
+            ResponseCookie cookie = ResponseCookie.from("providerId",getOauth2SuccessRes.getUser().getProviderId())
+                    .httpOnly(true)
+                    .path("/")
+                    .build();
+            response.setHeader("Set-Cookie", cookie.toString());
+
         } else { // 기존 유저
 
             Token token = jwtTokenProvider.createToken(oAuth2User.getUser().getId());
@@ -61,6 +69,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String result = objectMapper.writeValueAsString(new BaseResponse<>(getOauth2SuccessRes));
         response.getWriter().write(result);
         String targetUri = "http://localhost:3000/login";
+
         getRedirectStrategy().sendRedirect(request,response,targetUri);
     }
 }
