@@ -1,14 +1,11 @@
 package com.joyride.ms.src.auth;
 
-import com.joyride.ms.src.auth.dto.GetOauth2UserRes;
 import com.joyride.ms.src.auth.dto.PostSignupOauth2Req;
 import com.joyride.ms.src.auth.model.PrincipalDetails;
-import com.joyride.ms.src.user.UserDao;
 import com.joyride.ms.src.user.UserProvider;
 import com.joyride.ms.src.user.UserService;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.util.BaseException;
-import com.joyride.ms.util.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -16,8 +13,6 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
-import static com.joyride.ms.util.BaseResponseStatus.SUCCESS;
 
 @Slf4j
 @Service
