@@ -60,5 +60,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
         String result = objectMapper.writeValueAsString(new BaseResponse<>(getOauth2SuccessRes));
         response.getWriter().write(result);
+        String targetUri = "http://localhost:3000/login";
+        getRedirectStrategy().sendRedirect(request,response,targetUri);
     }
 }
