@@ -1,8 +1,8 @@
-import { FormEvent, useEffect } from 'react';
-import { useSignupStep } from 'routes/Signup';
+import { FormEvent, memo, useEffect } from 'react';
 import { useCheckBox } from 'hooks/useCheckBox';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/atoms';
+import { useSignupStepControls } from 'routes/Signup';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
 import { privacyTerm, serviceTerm } from './terms';
@@ -12,7 +12,10 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// TODO: react hook form
+const Term = memo(({ term }: { term: string }) => (
+  <textarea className={cn('term')} rows={8} defaultValue={term} readOnly />
+));
+
 const SignupTerms = () => {
   const [
     isServiceTermAgreed,
@@ -36,8 +39,9 @@ const SignupTerms = () => {
     }
   }, [areAllTermsAgreed]);
 
-  const { increaseStep } = useSignupStep();
   const showToastMessage = useSetRecoilState(toastMessageState);
+  const { increaseStep } = useSignupStepControls();
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(isServiceTermAgreed && isPrivacyTermAgreed)) {
@@ -71,12 +75,7 @@ const SignupTerms = () => {
           }
           label="이용약관에 동의합니다."
         />
-        <textarea
-          className={cn('term')}
-          rows={8}
-          defaultValue={serviceTerm}
-          readOnly
-        />
+        <Term term={serviceTerm} />
       </div>
 
       <div className={cn('field')}>
@@ -89,12 +88,7 @@ const SignupTerms = () => {
           }
           label="개인정보처리방침에 동의합니다."
         />
-        <textarea
-          className={cn('term')}
-          rows={8}
-          defaultValue={privacyTerm}
-          readOnly
-        />
+        <Term term={privacyTerm} />
       </div>
 
       <div className={cn('btn')}>

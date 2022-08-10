@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/atoms';
 import { firstSignupFormState } from '../SignupBasicForm';
-import FormInputWrapper from 'components/common/FormInputWrapper';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import SelectButton from 'components/common/SelectButton';
@@ -32,36 +32,6 @@ interface SelectButtonProps {
 interface SelectListOption {
   value: string;
   text: string;
-}
-
-// Function
-function getErrorMessage(field: 'nickname' | 'message', error: string) {
-  switch (field) {
-    case 'nickname': {
-      switch (error) {
-        case 'required':
-          return '닉네임을 입력하세요';
-        case 'maxLength':
-          return '10자를 초과하였습니다';
-        case 'validate':
-          return '이미 존재하는 닉네임입니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    case 'message': {
-      switch (error) {
-        case 'maxLength':
-          return '30자를 초과하였습니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    default:
-      throw new Error();
-  }
 }
 
 // Variables
@@ -152,7 +122,7 @@ const SignupDetailForm = () => {
             validate: async nickname => await authAPI.checkNickname(nickname),
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="닉네임"
                 helpText={!isSubmitted && '최대 10자'}
@@ -164,7 +134,7 @@ const SignupDetailForm = () => {
                   text={getErrorMessage('nickname', errors.nickname.type)}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -262,7 +232,7 @@ const SignupDetailForm = () => {
             maxLength: 30,
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="상태 메세지"
                 helpText={!isSubmitted && '최대 30자'}
@@ -274,7 +244,7 @@ const SignupDetailForm = () => {
                   text={getErrorMessage('message', errors.message.type)}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>

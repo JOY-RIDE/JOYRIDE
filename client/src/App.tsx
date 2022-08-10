@@ -16,7 +16,7 @@ import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-import { mainColor } from 'utils/constants';
+import { MAIN_COLOR } from 'utils/constants';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
@@ -32,7 +32,7 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: mainColor,
+      main: MAIN_COLOR,
     },
   },
 });

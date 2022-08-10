@@ -1,8 +1,11 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
-import FormInputWrapper from 'components/common/FormInputWrapper';
+import { useSignup } from 'hooks/useSignup';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
+import { REGEX } from 'utils/constants';
+import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import ErrorMessage from 'components/common/ErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
@@ -10,76 +13,18 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// Type/interfaces
-type Field = 'email' | 'password' | 'passwordConfirm';
 interface SignupBasicForm {
   email: string;
   password: string;
   passwordConfirm: string;
 }
 
-// State
-export const firstSignupFormState = atom<FirstSignupForm>({
-  key: 'firstSignupForm',
-  default: { email: '', password: '', passwordConfirm: '' },
-});
-
-// Function
-function getErrorMessage(field: Field, error: string) {
-  switch (field) {
-    case 'email': {
-      switch (error) {
-        case 'required':
-          return '이메일을 입력하세요';
-        case 'pattern':
-          return '이메일 형식이 올바르지 않습니다';
-        case 'validate':
-          return '이미 등록된 이메일입니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    case 'password': {
-      switch (error) {
-        case 'required':
-          return '비밀번호를 입력하세요';
-        case 'pattern':
-          return '~를 포함해야 합니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    case 'passwordConfirm': {
-      switch (error) {
-        case 'required':
-          return '비밀번호를 확인해 주세요';
-        case 'validate':
-          return '동일한 비밀번호를 입력해 주세요';
-        default:
-          throw new Error();
-      }
-    }
-
-    default:
-      throw new Error();
-  }
-}
-
-// Variable
-const PATTERNS = {
-  email:
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  password: /0/,
-};
-
 const SignupBasicForm = () => {
   const {
     control,
-    handleSubmit,
     formState: { isSubmitted, errors },
     watch,
+    handleSubmit,
   } = useForm<SignupBasicForm>({
     // TODO: yup
     defaultValues: {
@@ -91,13 +36,15 @@ const SignupBasicForm = () => {
   });
   const password = watch('password');
 
+  const { validateEmail } = useSignup();
   const setSignupFormData = useSetRecoilState(signupFormDataState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
+
   const onSubmit: SubmitHandler<SignupBasicForm> = async ({
     email,
     password,
   }) => {
-    setSignupFormData({ email, password });
+    setSignupFormData(data => ({ ...data, email, password }));
     increaseStep();
   };
 
@@ -112,22 +59,22 @@ const SignupBasicForm = () => {
           name="email"
           rules={{
             required: true,
-            pattern: PATTERNS.email,
-            validate: async email => await authAPI.checkEmail(email),
+            pattern: REGEX.email,
+            validate: email => validateEmail(email),
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="이메일"
-                hasError={errors.email}
+                hasError={Boolean(errors.email)}
                 {...field}
               />
               {errors.email && (
                 <ErrorMessage
-                  text={getErrorMessage('email', errors.email.type)}
+                  text={getSignupFormErrorMessage('email', errors.email.type)}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -141,23 +88,27 @@ const SignupBasicForm = () => {
           name="password"
           rules={{
             required: true,
-            pattern: PATTERNS.password,
+            minLength: 8,
+            pattern: REGEX.password,
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 type="password"
                 placeholder="비밀번호"
                 helpText={!isSubmitted && '비밀번호 조건'}
-                hasError={errors.password}
+                hasError={Boolean(errors.password)}
                 {...field}
               />
               {errors.password && (
                 <ErrorMessage
-                  text={getErrorMessage('password', errors.password.type)}
+                  text={getSignupFormErrorMessage(
+                    'password',
+                    errors.password.type
+                  )}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -174,22 +125,22 @@ const SignupBasicForm = () => {
             validate: passwordConfirm => passwordConfirm === password,
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 type="password"
                 placeholder="비밀번호 확인"
-                hasError={errors.passwordConfirm}
+                hasError={Boolean(errors.passwordConfirm)}
                 {...field}
               />
               {errors.passwordConfirm && (
                 <ErrorMessage
-                  text={getErrorMessage(
+                  text={getSignupFormErrorMessage(
                     'passwordConfirm',
                     errors.passwordConfirm.type
                   )}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>

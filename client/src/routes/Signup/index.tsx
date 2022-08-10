@@ -19,7 +19,12 @@ interface SignupDetailFormData {
 }
 interface SignupFormData extends SignupBasicFormData, SignupDetailFormData {}
 
-// Context/state
+// State/context
+export const signupFormDataState = atom<SignupFormData>({
+  key: 'signupFormData',
+  default: { email: '', password: '', nickname: '' },
+});
+
 const SignupStepControlsContext = createContext<SignupStepControls>({
   decreaseStep: () => {},
   increaseStep: () => {},
@@ -27,12 +32,7 @@ const SignupStepControlsContext = createContext<SignupStepControls>({
 export const useSignupStepControls = () =>
   useContext(SignupStepControlsContext);
 
-export const signupFormDataState = atom<SignupFormData>({
-  key: 'signupFormData',
-  default: { email: '', password: '', nickname: '' },
-});
-
-const TOTAL_STEPS = 2;
+const TOTAL_STEPS = 3;
 
 const Signup = () => {
   const [step, setStep] = useState<number>(1);
@@ -40,7 +40,6 @@ const Signup = () => {
   const increaseStep = () => setStep(step => step + 1);
 
   const { email, nickname } = useRecoilValue(signupFormDataState);
-
   if (step > TOTAL_STEPS) {
     return <SignupCompleted email={email} nickname={nickname} />;
   }

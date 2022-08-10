@@ -13,32 +13,40 @@ interface NewUser {
   introduce: string | null;
 }
 
-export const authAPI = () => {
+export const authAPI = {
   // const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
-  const signup = async (newUser: NewUser) => {
+  async signup(newUser: NewUser) {
     const {
       data: { code },
     } = await axios.post('/auth/signup', newUser);
 
     if (code !== 1000) {
-      throw new Error();
+      throw new Error(code);
     }
-  };
+  },
 
-  // const checkEmail = async (email: string)  => {
-  //   const {
-  //     data: { code },
-  //   } = await axios.get('/auth/email', { params: { email } });
-  //   return code === 1000;
-  // }
+  async checkIfEmailExists(email: string) {
+    const {
+      data: { code },
+    } = await axios.get('/auth/email', { params: { email } });
 
-  // const checkNickname = async (nickname: string) {
-  //   const {
-  //     data: { code },
-  //   } = await axios.get('/auth/nickname', { params: { nickname } });
-  //   return code === 1000;
-  // }
+    // TODO
+    console.log(typeof code);
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
+  async checkIfNicknameExists(nickname: string) {
+    const {
+      data: { code },
+    } = await axios.get('/auth/nickname', { params: { nickname } });
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
 
   //  const login = async (
   //     email: string,
@@ -83,6 +91,4 @@ export const authAPI = () => {
   //   const JWT_EXPIRY_TIME_IN_SECONDS = 2 * 3600;
   //   setTimeout(() => silentRefresh(), (JWT_EXPIRY_TIME_IN_SECONDS - 30) * 1000);
   // };
-
-  return { signup };
 };

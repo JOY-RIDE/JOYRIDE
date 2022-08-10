@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState, isLoggedInState } from 'states/atoms';
 import { authAPI } from 'apis/authAPI';
-import FormInputWrapper from 'components/common/FormInputWrapper';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { FormControlLabel } from '@mui/material';
@@ -82,7 +82,7 @@ const LoginForm = () => {
           name="email"
           rules={{ required: true }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 type="email"
                 placeholder="이메일"
@@ -90,7 +90,7 @@ const LoginForm = () => {
                 {...field}
               />
               {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -101,7 +101,7 @@ const LoginForm = () => {
           name="password"
           rules={{ required: true }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 type="password"
                 placeholder="비밀번호"
@@ -109,7 +109,7 @@ const LoginForm = () => {
                 {...field}
               />
               {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
