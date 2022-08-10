@@ -8,7 +8,8 @@ import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
 import Loading from 'components/common/Loading';
 import Paging from 'components/common/Paging';
-import Sort from 'components/common/Sort';
+import Sort from 'components/course/Sort';
+import Filter from 'components/course/Filter';
 import _ from 'lodash';
 
 const cn = classNames.bind(styles);
@@ -38,13 +39,13 @@ const Roads = () => {
   //   console.log(data);
 
   const sortOptionData = [
-    '가나다순',
-    '짧은시간순',
-    '긴시간순',
-    '짧은길이순',
-    '긴길이순',
-    '좋아요순',
-    '평점순',
+    { name: 'abc', value: '가나다순' },
+    { name: 'shortHour', value: '짧은시간순' },
+    { name: 'longHour', value: '긴시간순' },
+    { name: 'shorDstnc', value: '짧은길이순' },
+    { name: 'longDstnc', value: '긴길이순' },
+    { name: 'likes', value: '좋아요순' },
+    { name: 'ratings', value: '평점순' },
   ];
 
   const [currentSort, setCurrentSort] = useState('가나다순');
@@ -61,7 +62,7 @@ const Roads = () => {
         <div className={cn('container')}>
           <PageTitle size="md">자전거 코스</PageTitle>
           <div className={cn('func')}>
-            <div>필터</div>
+            <Filter />
             <Sort
               sortOptionData={sortOptionData}
               setCurrentSort={setCurrentSort}
@@ -72,13 +73,14 @@ const Roads = () => {
             {RoadsData?.slice(offset, offset + LIMIT).map(road => (
               <li className={cn('content')} key={road.crsKorNm}>
                 <Link to={`${road.crsKorNm}`} state={{ name: road.crsKorNm }}>
+                  {/* 사진 있을시
                   <div className={cn('top')}>
                     <img
                       className={cn('image')}
                       src="https://images.unsplash.com/photo-1559235270-2df4dcfb4eca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop"
                       alt="cycling"
                     />
-                  </div>
+                  </div> */}
                   <div className={cn('bottom')}>
                     <p className={cn('title')}>
                       <span className={cn('sigun')}>{road.sigun}</span>{' '}

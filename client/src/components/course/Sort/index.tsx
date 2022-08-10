@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Sort.module.scss';
 import classNames from 'classnames/bind';
-import { AiOutlineDown } from 'react-icons/ai';
+import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 
 const cn = classNames.bind(styles);
 
 interface SortProps {
-  sortOptionData: Array<string>;
+  sortOptionData: Array<{ name: string; value: string }>;
   setCurrentSort: (currentSort: string) => void;
   currentSort: string;
 }
@@ -31,19 +31,23 @@ const Sort = ({ sortOptionData, setCurrentSort, currentSort }: SortProps) => {
         }}
       >
         <span>{currentSort}</span>
-        <AiOutlineDown />
+        {isSortActive ? <AiOutlineUp /> : <AiOutlineDown />}
       </button>
       <ul className={cn(`${isSortActive ? '' : 'hidden'}`, 'options')}>
         {sortOptionData?.map(option => (
           <li
             className={cn('option')}
-            key={option}
+            key={option.value}
             onClick={() => {
-              setCurrentSort(option);
+              setCurrentSort(option.value);
               setIsSortActive(false);
             }}
           >
-            <Link to={`?sort_by=${option}`}>{option}</Link>
+            <Link
+              to={`?sort_by=${JSON.stringify(option.name).replace(/\"/gi, '')}`}
+            >
+              {option.value}
+            </Link>
           </li>
         ))}
       </ul>
