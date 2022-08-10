@@ -1,18 +1,19 @@
 import { FormEvent, useEffect } from 'react';
+import { useSignupStep } from 'routes/Signup';
 import { useCheckBox } from 'hooks/useCheckBox';
 import { useSetRecoilState } from 'recoil';
-import { toastState } from 'states/atoms';
+import { toastMessageState } from 'states/atoms';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
+import { privacyTerm, serviceTerm } from './terms';
 import Button from 'components/common/Button';
-import { privacyTerm, serviceTerm } from 'utils/constants';
 import styles from './SignupTerms.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// TODO: react hook form?
-const SignupTerms = ({ goNext }: { goNext: () => void }) => {
+// TODO: react hook form
+const SignupTerms = () => {
   const [
     isServiceTermAgreed,
     setIsServiceTermAgreed,
@@ -35,15 +36,16 @@ const SignupTerms = ({ goNext }: { goNext: () => void }) => {
     }
   }, [areAllTermsAgreed]);
 
-  const openToast = useSetRecoilState(toastState);
+  const { increaseStep } = useSignupStep();
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(isServiceTermAgreed && isPrivacyTermAgreed)) {
-      openToast('약관 동의가 필요합니다');
+      showToastMessage('약관 동의가 필요합니다');
       return;
     }
 
-    goNext();
+    increaseStep();
   };
 
   // TODO: 디자인

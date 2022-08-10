@@ -1,6 +1,9 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useSignupStep } from 'routes/Signup';
+import { AxiosError } from 'axios';
+
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState, toastState } from 'states/atoms';
+import { toastMessageState } from 'states/atoms';
 import { firstSignupFormState } from '../FirstSignupForm';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
@@ -13,12 +16,7 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// Type/interfaces
-type Field = 'nickname' | 'message';
-interface SecondSignupFormProps {
-  goNext: () => void;
-  goPrevious: () => void;
-}
+// Interfaces
 interface SecondSignupForm {
   nickname: string;
   gender: string;
@@ -43,7 +41,7 @@ export const secondSignupFormState = atom<{ nickname: string }>({
 });
 
 // Function
-function getErrorMessage(field: Field, error: string) {
+function getErrorMessage(field: 'nickname' | 'message', error: string) {
   switch (field) {
     case 'nickname': {
       switch (error) {
@@ -90,7 +88,7 @@ const bicycleTypeOptions: SelectListOption[] = [
   // TODO: 옵션 추가
 ];
 
-const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
+const SecondSignupForm = () => {
   const {
     control,
     handleSubmit,
@@ -108,45 +106,41 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
 
   const { email, password } = useRecoilValue(firstSignupFormState);
   const authAPI = useRecoilValue(authAPIState);
-  const openToast = useSetRecoilState(toastState);
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const setSecondSignupFormState = useSetRecoilState(secondSignupFormState);
 
+  const { decreaseStep, increaseStep } = useSignupStep();
   const onSubmit: SubmitHandler<SecondSignupForm> = async ({
     nickname,
-    gender: genderInput,
-    age: ageInput,
-    bicycleType: bicycleTypeInput,
-    message: messageInput,
+    gender,
+    age,
+    bicycleType,
+    message,
   }) => {
-    const gender = genderInput || null;
-    const age = ageInput ? Number(ageInput) : null;
-    const bicycleType = bicycleTypeInput || null;
-    const message = messageInput || null;
-
     const newUser = {
       isTermsEnable: true,
       email,
       password,
       nickname,
-      gender,
-      old: age,
-      bicycleType,
-      message,
+      gender: gender || null,
+      old: Number(age) || null,
+      bicycleType: bicycleType || null,
+      introduce: message || null,
     };
 
     try {
-      await authAPI.signup(newUser);
+      const { signup } = AuthAPI;
+      await signup(newUser);
       setSecondSignupFormState({ nickname });
-      goNext();
+      increaseStep();
     } catch (e) {
-      if (!(e instanceof Error)) return;
-      openToast(
-        `회원가입 중 에러가 발생했습니다. ${
-          e.message === '4000'
-            ? '관리자에게 문의해 주세요'
-            : '다시 시도해 주세요'
-        }`
-      );
+      let toastMessage = '회원가입 중 에러가 발생했습니다.';
+      if (e instanceof Error) {
+        toastMessage += ' 관리자에게 문의해 주세요';
+      } else if (e instanceof AxiosError) {
+        toastMessage += ' 다시 시도해 주세요';
+      }
+      showToastMessage(toastMessage);
     }
   };
 
@@ -298,7 +292,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
           color="white"
           size="md"
           text="이전"
-          onClick={goPrevious}
+          onClick={decreaseStep}
         />
         <Button color="main" size="md" text="회원가입하기" />
       </div>

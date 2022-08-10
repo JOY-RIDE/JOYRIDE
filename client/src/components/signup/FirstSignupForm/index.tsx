@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState } from 'states/atoms';
+import { useSignupStepControls } from 'routes/Signup';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -12,9 +12,6 @@ const cn = classNames.bind(styles);
 
 // Type/interfaces
 type Field = 'email' | 'password' | 'passwordConfirm';
-interface FirstSignupFormProps {
-  goNext: () => void;
-}
 interface FirstSignupForm {
   email: string;
   password: string;
@@ -77,7 +74,7 @@ const PATTERNS = {
   password: /0/,
 };
 
-const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
+const FirstSignupForm = () => {
   const {
     control,
     handleSubmit,
@@ -97,13 +94,14 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
   const authAPI = useRecoilValue(authAPIState);
 
   const setFirstSignupForm = useSetRecoilState(firstSignupFormState);
+  const { decreaseStep, increaseStep } = useSignupStepControls();
   const onSubmit: SubmitHandler<FirstSignupForm> = async ({
     email,
     password,
     passwordConfirm,
   }) => {
     setFirstSignupForm({ email, password, passwordConfirm });
-    goNext();
+    increaseStep();
   };
 
   return (
@@ -199,8 +197,15 @@ const FirstSignupForm = ({ goNext }: FirstSignupFormProps) => {
         />
       </div>
 
-      <div className={cn('btn')}>
-        <Button color="main" size="lg" text="계속" />
+      <div className={cn('btns')}>
+        <Button
+          type="button"
+          color="white"
+          size="md"
+          text="이전"
+          onClick={decreaseStep}
+        />
+        <Button color="main" size="md" text="계속" />
       </div>
     </form>
   );

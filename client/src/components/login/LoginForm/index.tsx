@@ -1,7 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState, toastState, loggedInState } from 'states/atoms';
+import { useSetRecoilState } from 'recoil';
+import { toastMessageState, isLoggedInState } from 'states/atoms';
+import { authAPI } from 'apis/authAPI_temp';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -50,25 +51,26 @@ const LoginForm = () => {
   });
 
   // Variables
-  const authAPI = useRecoilValue(authAPIState);
-  const setLoggedIn = useSetRecoilState(loggedInState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const nextURL = useSearchParams()[0].get('next');
   const navigate = useNavigate();
 
   // Callbacks
-  const openToast = useSetRecoilState(toastState);
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<LoginForm> = async ({
     email,
     password,
     isAuto,
   }) => {
+    const { login } = authAPI;
+
     try {
-      await authAPI.login(email, password, isAuto, setLoggedIn);
+      await login(email, password, isAuto, setIsLoggedIn);
       // TODO
       // navigate(nextURL || '/');
     } catch (e) {
       if (!(e instanceof Error)) return;
-      openToast(handleLoginFail(e.message));
+      showToastMessage(handleLoginFail(e.message));
     }
   };
 
