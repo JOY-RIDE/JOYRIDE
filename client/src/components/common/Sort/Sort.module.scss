@@ -1,0 +1,49 @@
+@use '../../../styles/variables.scss' as *;
+
+.sort {
+  position: relative;
+  .select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    color: $color-grey-600;
+    font-weight: 500;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .options.hidden {
+    display: none;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    width: 10rem;
+    position: absolute;
+    top: 2.43rem;
+    right: 0;
+    z-index: 1;
+    background-color: white;
+    border: $border-grey;
+    border-radius: 0.3rem;
+    .option {
+      transition: all ease-in-out;
+      display: flex;
+      align-items: center;
+      height: 3rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 1.2rem;
+      line-height: 1.4rem;
+      color: $color-grey-600;
+      font-weight: 500;
+      a {
+        width: 100%;
+      }
+    }
+  }
+}

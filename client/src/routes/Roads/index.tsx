@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { fetchCourses } from '../../api';
+import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
 import Loading from 'components/common/Loading';
 import Paging from 'components/common/Paging';
+import Sort from 'components/common/Sort';
 import _ from 'lodash';
 
 const cn = classNames.bind(styles);
@@ -34,6 +36,19 @@ const Roads = () => {
   const { isLoading, data } = useQuery<IRoad[]>('allCourses', fetchCourses);
   const RoadsData = _.uniqBy(data, 'crsIdx');
   //   console.log(data);
+
+  const sortOptionData = [
+    '가나다순',
+    '짧은시간순',
+    '긴시간순',
+    '짧은길이순',
+    '긴길이순',
+    '좋아요순',
+    '평점순',
+  ];
+
+  const [currentSort, setCurrentSort] = useState('가나다순');
+
   const LIMIT = 5;
   const [page, setPage] = useState(1);
   const offset = (page - 1) * LIMIT;
@@ -45,6 +60,14 @@ const Roads = () => {
       ) : (
         <div className={cn('container')}>
           <PageTitle size="md">자전거 코스</PageTitle>
+          <div className={cn('func')}>
+            <div>필터</div>
+            <Sort
+              sortOptionData={sortOptionData}
+              setCurrentSort={setCurrentSort}
+              currentSort={currentSort}
+            />
+          </div>
           <ul className={cn('contents')}>
             {RoadsData?.slice(offset, offset + LIMIT).map(road => (
               <li className={cn('content')} key={road.crsKorNm}>
@@ -102,11 +125,12 @@ const Roads = () => {
               </li>
             ))}
           </ul>
+          {/* TODO 페이지 이동시 url에 값 전달 */}
           <Paging
             total={RoadsData.length}
             limit={LIMIT}
             page={page}
-            setPage={setPage}
+            handlePageChange={setPage}
           />
         </div>
       )}

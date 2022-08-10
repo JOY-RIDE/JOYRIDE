@@ -5,10 +5,10 @@ interface PaginationProps {
   total: number;
   limit: number;
   page: number;
-  setPage: (page: number) => void;
+  handlePageChange: (page: number) => void;
 }
 
-const Paging = ({ total, limit, page, setPage }: PaginationProps) => {
+const Paging = ({ total, limit, page, handlePageChange }: PaginationProps) => {
   return (
     <Pagination
       activePage={page}
@@ -17,7 +17,7 @@ const Paging = ({ total, limit, page, setPage }: PaginationProps) => {
       pageRangeDisplayed={5}
       prevPageText={'‹'}
       nextPageText={'›'}
-      onChange={setPage}
+      onChange={handlePageChange}
     />
   );
 
