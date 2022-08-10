@@ -1,23 +1,23 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useSignupStep } from 'routes/Signup';
+import { signupFormDataState, useSignupStep } from 'routes/Signup';
 import { AxiosError } from 'axios';
 
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/atoms';
-import { firstSignupFormState } from '../FirstSignupForm';
+import { firstSignupFormState } from '../SignupBasicForm';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import SelectButton from 'components/common/SelectButton';
 import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
-import styles from './SecondSignupForm.module.scss';
+import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
 // Interfaces
-interface SecondSignupForm {
+interface SignupDetailForm {
   nickname: string;
   gender: string;
   age: string;
@@ -33,12 +33,6 @@ interface SelectListOption {
   value: string;
   text: string;
 }
-
-// State
-export const secondSignupFormState = atom<{ nickname: string }>({
-  key: 'secondSignupForm',
-  default: { nickname: '' },
-});
 
 // Function
 function getErrorMessage(field: 'nickname' | 'message', error: string) {
@@ -88,12 +82,12 @@ const bicycleTypeOptions: SelectListOption[] = [
   // TODO: 옵션 추가
 ];
 
-const SecondSignupForm = () => {
+const SignupDetailForm = () => {
   const {
     control,
     handleSubmit,
     formState: { isSubmitted, errors },
-  } = useForm<SecondSignupForm>({
+  } = useForm<SignupDetailForm>({
     defaultValues: {
       nickname: '',
       gender: '',
@@ -105,12 +99,11 @@ const SecondSignupForm = () => {
   });
 
   const { email, password } = useRecoilValue(firstSignupFormState);
-  const authAPI = useRecoilValue(authAPIState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const setSecondSignupFormState = useSetRecoilState(secondSignupFormState);
+  const setSignupFormData = useSetRecoilState(signupFormDataState);
 
   const { decreaseStep, increaseStep } = useSignupStep();
-  const onSubmit: SubmitHandler<SecondSignupForm> = async ({
+  const onSubmit: SubmitHandler<SignupDetailForm> = async ({
     nickname,
     gender,
     age,
@@ -131,7 +124,7 @@ const SecondSignupForm = () => {
     try {
       const { signup } = AuthAPI;
       await signup(newUser);
-      setSecondSignupFormState({ nickname });
+      // setSignupDetailFormState({ nickname });
       increaseStep();
     } catch (e) {
       let toastMessage = '회원가입 중 에러가 발생했습니다.';
@@ -300,4 +293,4 @@ const SecondSignupForm = () => {
   );
 };
 
-export default SecondSignupForm;
+export default SignupDetailForm;

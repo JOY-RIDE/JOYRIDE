@@ -1,18 +1,18 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { useSignupStepControls } from 'routes/Signup';
+import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import Button from 'components/common/Button';
-import styles from './FirstSignupForm.module.scss';
+import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
 // Type/interfaces
 type Field = 'email' | 'password' | 'passwordConfirm';
-interface FirstSignupForm {
+interface SignupBasicForm {
   email: string;
   password: string;
   passwordConfirm: string;
@@ -74,13 +74,13 @@ const PATTERNS = {
   password: /0/,
 };
 
-const FirstSignupForm = () => {
+const SignupBasicForm = () => {
   const {
     control,
     handleSubmit,
     formState: { isSubmitted, errors },
     watch,
-  } = useForm<FirstSignupForm>({
+  } = useForm<SignupBasicForm>({
     // TODO: yup
     defaultValues: {
       email: '',
@@ -91,16 +91,13 @@ const FirstSignupForm = () => {
   });
   const password = watch('password');
 
-  const authAPI = useRecoilValue(authAPIState);
-
-  const setFirstSignupForm = useSetRecoilState(firstSignupFormState);
+  const setSignupFormData = useSetRecoilState(signupFormDataState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
-  const onSubmit: SubmitHandler<FirstSignupForm> = async ({
+  const onSubmit: SubmitHandler<SignupBasicForm> = async ({
     email,
     password,
-    passwordConfirm,
   }) => {
-    setFirstSignupForm({ email, password, passwordConfirm });
+    setSignupFormData({ email, password });
     increaseStep();
   };
 
@@ -211,4 +208,4 @@ const FirstSignupForm = () => {
   );
 };
 
-export default FirstSignupForm;
+export default SignupBasicForm;

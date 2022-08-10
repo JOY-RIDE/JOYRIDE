@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState, isLoggedInState } from 'states/atoms';
-import { authAPI } from 'apis/authAPI_temp';
+import { authAPI } from 'apis/authAPI';
 import FormInputWrapper from 'components/common/FormInputWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
