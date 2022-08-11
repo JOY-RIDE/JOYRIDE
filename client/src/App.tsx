@@ -1,7 +1,8 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState, loggedInState } from 'states/atoms';
+import { useSetRecoilState } from 'recoil';
+import { isLoggedInState } from 'states/atoms';
+import { authAPI } from 'apis/authAPI';
 import Layout from 'routes/Layout';
 import Home from 'routes/Home';
 import Roads from 'routes/Roads';
@@ -15,7 +16,7 @@ import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-import { mainColor } from 'utils/constants';
+import { MAIN_COLOR } from 'utils/constants';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
@@ -31,17 +32,16 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: mainColor,
+      main: MAIN_COLOR,
     },
   },
 });
 
 const App = () => {
-  const authAPI = useRecoilValue(authAPIState);
-  const setLoggedIn = useSetRecoilState(loggedInState);
-
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const { silentRefresh } = authAPI;
   useEffect(() => {
-    authAPI.silentRefresh(setLoggedIn);
+    silentRefresh(setIsLoggedIn);
   }, []);
 
   return (

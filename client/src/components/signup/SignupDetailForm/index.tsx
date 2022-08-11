@@ -1,25 +1,22 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState, toastState } from 'states/atoms';
-import { firstSignupFormState } from '../FirstSignupForm';
-import FormInputWrapper from 'components/common/FormInputWrapper';
+import { toastMessageState } from 'states/atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
+import { authAPI, NewUser } from 'apis/authAPI';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
+import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import SelectButton from 'components/common/SelectButton';
 import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
-import styles from './SecondSignupForm.module.scss';
+import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// Type/interfaces
-type Field = 'nickname' | 'message';
-interface SecondSignupFormProps {
-  goNext: () => void;
-  goPrevious: () => void;
-}
-interface SecondSignupForm {
+// Interfaces
+interface SignupDetailForm {
   nickname: string;
   gender: string;
   age: string;
@@ -34,42 +31,6 @@ interface SelectButtonProps {
 interface SelectListOption {
   value: string;
   text: string;
-}
-
-// State
-export const secondSignupFormState = atom<{ nickname: string }>({
-  key: 'secondSignupForm',
-  default: { nickname: '' },
-});
-
-// Function
-function getErrorMessage(field: Field, error: string) {
-  switch (field) {
-    case 'nickname': {
-      switch (error) {
-        case 'required':
-          return '닉네임을 입력하세요';
-        case 'maxLength':
-          return '10자를 초과하였습니다';
-        case 'validate':
-          return '이미 존재하는 닉네임입니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    case 'message': {
-      switch (error) {
-        case 'maxLength':
-          return '30자를 초과하였습니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    default:
-      throw new Error();
-  }
 }
 
 // Variables
@@ -90,12 +51,12 @@ const bicycleTypeOptions: SelectListOption[] = [
   // TODO: 옵션 추가
 ];
 
-const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
+const SignupDetailForm = () => {
   const {
     control,
-    handleSubmit,
     formState: { isSubmitted, errors },
-  } = useForm<SecondSignupForm>({
+    handleSubmit,
+  } = useForm<SignupDetailForm>({
     defaultValues: {
       nickname: '',
       gender: '',
@@ -106,48 +67,53 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
     reValidateMode: 'onBlur',
   });
 
-  const { email, password } = useRecoilValue(firstSignupFormState);
-  const authAPI = useRecoilValue(authAPIState);
-  const openToast = useSetRecoilState(toastState);
-  const setSecondSignupFormState = useSetRecoilState(secondSignupFormState);
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const validateNickname = async (nickname: string) => {
+    try {
+      await authAPI.checkIfNicknameExists(nickname);
+      return true;
+    } catch (e) {
+      if (e instanceof Error) {
+        if (e.message === '2032') return false;
+        showToastMessage('닉네임 중복 확인 중 에러가 발생했습니다');
+      }
+    }
+  };
 
-  const onSubmit: SubmitHandler<SecondSignupForm> = async ({
+  const [{ email, password }, setSignupFormData] =
+    useRecoilState(signupFormDataState);
+  const signup = async (newUser: NewUser) => {
+    try {
+      await authAPI.signup(newUser);
+    } catch (e) {
+      if (e instanceof Error) {
+        showToastMessage('회원가입 중 에러가 발생했습니다');
+      }
+    }
+  };
+  const { decreaseStep, increaseStep } = useSignupStepControls();
+
+  const onSubmit: SubmitHandler<SignupDetailForm> = async ({
     nickname,
-    gender: genderInput,
-    age: ageInput,
-    bicycleType: bicycleTypeInput,
-    message: messageInput,
+    gender,
+    age,
+    bicycleType,
+    message,
   }) => {
-    const gender = genderInput || null;
-    const age = ageInput ? Number(ageInput) : null;
-    const bicycleType = bicycleTypeInput || null;
-    const message = messageInput || null;
-
     const newUser = {
       isTermsEnable: true,
       email,
       password,
       nickname,
-      gender,
-      old: age,
-      bicycleType,
-      message,
+      gender: gender || null,
+      old: age ? Number(age) : null,
+      bicycleType: bicycleType || null,
+      introduce: message || null,
     };
 
-    try {
-      await authAPI.signup(newUser);
-      setSecondSignupFormState({ nickname });
-      goNext();
-    } catch (e) {
-      if (!(e instanceof Error)) return;
-      openToast(
-        `회원가입 중 에러가 발생했습니다. ${
-          e.message === '4000'
-            ? '관리자에게 문의해 주세요'
-            : '다시 시도해 주세요'
-        }`
-      );
-    }
+    await signup(newUser);
+    setSignupFormData(data => ({ ...data, nickname }));
+    increaseStep();
   };
 
   return (
@@ -162,22 +128,25 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
           rules={{
             required: true,
             maxLength: 10,
-            validate: async nickname => await authAPI.checkNickname(nickname),
+            validate: nickname => validateNickname(nickname),
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="닉네임"
-                helpText={!isSubmitted && '최대 10자'}
-                hasError={errors.nickname}
+                helpText={!isSubmitted && '닉네임 조건'}
+                hasError={Boolean(errors.nickname)}
                 {...field}
               />
               {errors.nickname && (
                 <ErrorMessage
-                  text={getErrorMessage('nickname', errors.nickname.type)}
+                  text={getSignupFormErrorMessage(
+                    'nickname',
+                    errors.nickname.type
+                  )}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -197,7 +166,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
                 {genderOptions.map((option: SelectButtonProps) => (
                   <li key={option.value} className={cn('col')}>
                     <SelectButton
-                      isSelected={value === option.value ? true : false}
+                      isSelected={value === option.value}
                       value={option.value}
                       text={option.text}
                       textEng={option.textEng}
@@ -228,7 +197,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
                 {ageOptions.map((option: SelectButtonProps) => (
                   <li key={option.value} className={cn('col')}>
                     <SelectButton
-                      isSelected={value === option.value ? true : false}
+                      isSelected={value === option.value}
                       value={option.value}
                       text={option.text}
                       textEng={option.textEng}
@@ -275,19 +244,22 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
             maxLength: 30,
           }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="상태 메세지"
-                helpText={!isSubmitted && '최대 30자'}
+                helpText={!isSubmitted && '상태 메세지 조건'}
                 hasError={errors.message}
                 {...field}
               />
               {errors.message && (
                 <ErrorMessage
-                  text={getErrorMessage('message', errors.message.type)}
+                  text={getSignupFormErrorMessage(
+                    'message',
+                    errors.message.type
+                  )}
                 />
               )}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -298,7 +270,7 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
           color="white"
           size="md"
           text="이전"
-          onClick={goPrevious}
+          onClick={decreaseStep}
         />
         <Button color="main" size="md" text="회원가입하기" />
       </div>
@@ -306,4 +278,4 @@ const SecondSignupForm = ({ goNext, goPrevious }: SecondSignupFormProps) => {
   );
 };
 
-export default SecondSignupForm;
+export default SignupDetailForm;

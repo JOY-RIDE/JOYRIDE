@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { toastState } from 'states/atoms';
+import { toastMessageState } from 'states/atoms';
 import { AnimatePresence, motion } from 'framer-motion';
 import styles from './Toast.module.scss';
 
@@ -21,8 +21,8 @@ const variants = {
 };
 
 const Toast = () => {
-  const message = useRecoilValue(toastState);
-  const closeToast = useResetRecoilState(toastState);
+  const message = useRecoilValue(toastMessageState);
+  const closeToast = useResetRecoilState(toastMessageState);
 
   useEffect(() => {
     if (message) {

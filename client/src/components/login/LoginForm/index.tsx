@@ -1,8 +1,9 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authAPIState, toastState, loggedInState } from 'states/atoms';
-import FormInputWrapper from 'components/common/FormInputWrapper';
+import { useSetRecoilState } from 'recoil';
+import { toastMessageState, isLoggedInState } from 'states/atoms';
+import { authAPI } from 'apis/authAPI';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { FormControlLabel } from '@mui/material';
@@ -19,27 +20,22 @@ interface LoginForm {
   isAuto: boolean;
 }
 
-function handleLoginFail(code: string) {
+function getLoginFailErrorMessage(code: string) {
   switch (code) {
-    case '2011': {
+    case '2011':
       return '등록되지 않은 이메일입니다';
-    }
-    case '2112': {
+    case '2112':
       return '비밀번호를 다시 확인해 주세요';
-    }
-    case '4000': {
-      return '로그인 중 에러가 발생했습니다. 관리자에게 문의해 주세요';
-    }
     default:
-      return '로그인 중 에러가 발생했습니다. 다시 시도해 주세요';
+      return '로그인 중 에러가 발생했습니다.';
   }
 }
 
 const LoginForm = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
   } = useForm<LoginForm>({
     defaultValues: {
       email: '',
@@ -50,25 +46,25 @@ const LoginForm = () => {
   });
 
   // Variables
-  const authAPI = useRecoilValue(authAPIState);
-  const setLoggedIn = useSetRecoilState(loggedInState);
   const nextURL = useSearchParams()[0].get('next');
   const navigate = useNavigate();
 
   // Callbacks
-  const openToast = useSetRecoilState(toastState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<LoginForm> = async ({
     email,
     password,
     isAuto,
   }) => {
     try {
-      await authAPI.login(email, password, isAuto, setLoggedIn);
+      await authAPI.login(email, password, isAuto, setIsLoggedIn);
       // TODO
       // navigate(nextURL || '/');
     } catch (e) {
-      if (!(e instanceof Error)) return;
-      openToast(handleLoginFail(e.message));
+      if (e instanceof Error) {
+        showToastMessage(getLoginFailErrorMessage(e.message));
+      }
     }
   };
 
@@ -80,7 +76,7 @@ const LoginForm = () => {
           name="email"
           rules={{ required: true }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 type="email"
                 placeholder="이메일"
@@ -88,7 +84,7 @@ const LoginForm = () => {
                 {...field}
               />
               {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -99,7 +95,7 @@ const LoginForm = () => {
           name="password"
           rules={{ required: true }}
           render={({ field }) => (
-            <FormInputWrapper>
+            <FormInputWithErrorMessageWrapper>
               <FormInput
                 type="password"
                 placeholder="비밀번호"
@@ -107,7 +103,7 @@ const LoginForm = () => {
                 {...field}
               />
               {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
-            </FormInputWrapper>
+            </FormInputWithErrorMessageWrapper>
           )}
         />
       </div>

@@ -13,7 +13,7 @@ interface SignupCompletedProps {
 
 const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
   const navigate = useNavigate();
-  const onClick = () => navigate('/login');
+  const handleLoginClick = () => navigate('/login');
 
   return (
     <div className={cn('wrapper')}>
@@ -28,7 +28,12 @@ const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
         <br />
         클릭하시면 계정이 활성화됩니다.
       </p>
-      <Button color="main" size="md" text="로그인하기" onClick={onClick} />
+      <Button
+        color="main"
+        size="md"
+        text="로그인하기"
+        onClick={handleLoginClick}
+      />
     </div>
   );
 };
