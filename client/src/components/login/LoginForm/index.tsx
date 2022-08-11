@@ -20,27 +20,22 @@ interface LoginForm {
   isAuto: boolean;
 }
 
-function handleLoginFail(code: string) {
+function getLoginFailErrorMessage(code: string) {
   switch (code) {
-    case '2011': {
+    case '2011':
       return '등록되지 않은 이메일입니다';
-    }
-    case '2112': {
+    case '2112':
       return '비밀번호를 다시 확인해 주세요';
-    }
-    case '4000': {
-      return '로그인 중 에러가 발생했습니다. 관리자에게 문의해 주세요';
-    }
     default:
-      return '로그인 중 에러가 발생했습니다. 다시 시도해 주세요';
+      return '로그인 중 에러가 발생했습니다.';
   }
 }
 
 const LoginForm = () => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
   } = useForm<LoginForm>({
     defaultValues: {
       email: '',
@@ -51,26 +46,26 @@ const LoginForm = () => {
   });
 
   // Variables
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const nextURL = useSearchParams()[0].get('next');
   const navigate = useNavigate();
 
   // Callbacks
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<LoginForm> = async ({
     email,
     password,
     isAuto,
   }) => {
-    // const { login } = authAPI;
-    // try {
-    //   await login(email, password, isAuto, setIsLoggedIn);
-    //   // TODO
-    //   // navigate(nextURL || '/');
-    // } catch (e) {
-    //   if (!(e instanceof Error)) return;
-    //   showToastMessage(handleLoginFail(e.message));
-    // }
+    try {
+      await authAPI.login(email, password, isAuto, setIsLoggedIn);
+      // TODO
+      // navigate(nextURL || '/');
+    } catch (e) {
+      if (e instanceof Error) {
+        showToastMessage(getLoginFailErrorMessage(e.message));
+      }
+    }
   };
 
   return (
