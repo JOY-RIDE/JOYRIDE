@@ -1,5 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useSignup } from 'hooks/useSignup';
+import { authAPI } from 'apis/authAPI';
+import { toastMessageState } from 'states/atoms';
 import { useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
@@ -36,10 +37,21 @@ const SignupBasicForm = () => {
   });
   const password = watch('password');
 
-  const { validateEmail } = useSignup();
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const validateEmail = async (email: string) => {
+    try {
+      await authAPI.checkIfEmailExists(email);
+      return true;
+    } catch (e) {
+      if (e instanceof Error) {
+        if (e.message === '2017') return false;
+        showToastMessage('이메일 중복 확인 중 에러가 발생했습니다');
+      }
+    }
+  };
+
   const setSignupFormData = useSetRecoilState(signupFormDataState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
-
   const onSubmit: SubmitHandler<SignupBasicForm> = ({ email, password }) => {
     setSignupFormData(data => ({ ...data, email, password }));
     increaseStep();

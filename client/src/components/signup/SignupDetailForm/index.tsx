@@ -1,7 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useSignup } from 'hooks/useSignup';
+import { toastMessageState } from 'states/atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { authAPI, NewUser } from 'apis/authAPI';
 import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -66,9 +67,30 @@ const SignupDetailForm = () => {
     reValidateMode: 'onBlur',
   });
 
-  const { validateNickname, signup } = useSignup();
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const validateNickname = async (nickname: string) => {
+    try {
+      await authAPI.checkIfNicknameExists(nickname);
+      return true;
+    } catch (e) {
+      if (e instanceof Error) {
+        if (e.message === '2032') return false;
+        showToastMessage('닉네임 중복 확인 중 에러가 발생했습니다');
+      }
+    }
+  };
+
   const [{ email, password }, setSignupFormData] =
     useRecoilState(signupFormDataState);
+  const signup = async (newUser: NewUser) => {
+    try {
+      await authAPI.signup(newUser);
+    } catch (e) {
+      if (e instanceof Error) {
+        showToastMessage('회원가입 중 에러가 발생했습니다');
+      }
+    }
+  };
   const { decreaseStep, increaseStep } = useSignupStepControls();
 
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
