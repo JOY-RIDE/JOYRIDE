@@ -17,15 +17,15 @@ const SignupForms = ({ step, totalSteps }: SignupFormsProps) => (
   <>
     <div className={cn('page', { expand: step === 1 })}>
       <SignupTerms />
-    </div>
-    <div className={cn('page', { expand: step === 2 })}>
-      <SignupBasicForm />
-      <div className={cn('link')}>
+      <div className={cn('login-wrapper')}>
         <Link to="/login" className={cn('login')}>
           이미 계정이 있으신가요?
         </Link>
       </div>
       <SocialLogin />
+    </div>
+    <div className={cn('page', { expand: step === 2 })}>
+      <SignupBasicForm />
     </div>
     <div className={cn('page', { expand: step === totalSteps })}>
       <SignupDetailForm />
