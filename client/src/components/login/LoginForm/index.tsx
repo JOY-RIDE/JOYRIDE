@@ -3,8 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState, isLoggedInState } from 'states/atoms';
 import { authAPI } from 'apis/authAPI';
-import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
-import FormInput from 'components/common/FormInput';
+import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
@@ -76,15 +76,15 @@ const LoginForm = () => {
           name="email"
           rules={{ required: true }}
           render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
+            <AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
                 type="email"
                 placeholder="이메일"
                 hasError={errors.email}
                 {...field}
               />
               {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
-            </FormInputWithErrorMessageWrapper>
+            </AuthFormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -95,15 +95,15 @@ const LoginForm = () => {
           name="password"
           rules={{ required: true }}
           render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
+            <AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
                 type="password"
                 placeholder="비밀번호"
                 hasError={errors.password}
                 {...field}
               />
               {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
-            </FormInputWithErrorMessageWrapper>
+            </AuthFormInputWithErrorMessageWrapper>
           )}
         />
       </div>

@@ -3,8 +3,8 @@ import { toastMessageState } from 'states/atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import { authAPI, NewUser } from 'apis/authAPI';
-import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
-import FormInput from 'components/common/FormInput';
+import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import SelectButton from 'components/common/SelectButton';
@@ -131,8 +131,8 @@ const SignupDetailForm = () => {
             validate: nickname => validateNickname(nickname),
           }}
           render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
+            <AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
                 placeholder="닉네임"
                 helpText={!isSubmitted && '닉네임 조건'}
                 hasError={Boolean(errors.nickname)}
@@ -146,7 +146,7 @@ const SignupDetailForm = () => {
                   )}
                 />
               )}
-            </FormInputWithErrorMessageWrapper>
+            </AuthFormInputWithErrorMessageWrapper>
           )}
         />
       </div>
@@ -244,8 +244,8 @@ const SignupDetailForm = () => {
             maxLength: 30,
           }}
           render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
+            <AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
                 placeholder="상태 메세지"
                 helpText={!isSubmitted && '상태 메세지 조건'}
                 hasError={errors.message}
@@ -259,7 +259,7 @@ const SignupDetailForm = () => {
                   )}
                 />
               )}
-            </FormInputWithErrorMessageWrapper>
+            </AuthFormInputWithErrorMessageWrapper>
           )}
         />
       </div>
