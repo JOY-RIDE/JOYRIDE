@@ -1,8 +1,8 @@
 import { joyrideAxios as axios } from './axios';
-import { useSetRecoilState } from 'recoil';
-import { isLoggedInState } from 'states/atoms';
+import { SetterOrUpdater } from 'recoil';
 
-interface NewUser {
+type SetIsLoggedIn = SetterOrUpdater<boolean>;
+export interface NewUser {
   isTermsEnable: boolean;
   email: string;
   password: string;
@@ -13,32 +13,21 @@ interface NewUser {
   introduce: string | null;
 }
 
-export const authAPI = {
+// TODO: 클로저 공부
+export const authAPI = (() => {
   // const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
-  async signup(newUser: NewUser) {
-    const {
-      data: { code },
-    } = await axios.post('/auth/signup', newUser);
-
-    if (code !== 1000) {
-      throw new Error(code);
-    }
-  },
-
-  async checkIfEmailExists(email: string) {
+  const checkIfEmailExists = async (email: string) => {
     const {
       data: { code },
     } = await axios.get('/auth/email', { params: { email } });
 
-    // TODO
-    console.log(typeof code);
     if (code !== 1000) {
       throw new Error(code);
     }
-  },
+  };
 
-  async checkIfNicknameExists(nickname: string) {
+  const checkIfNicknameExists = async (nickname: string) => {
     const {
       data: { code },
     } = await axios.get('/auth/nickname', { params: { nickname } });
@@ -46,7 +35,17 @@ export const authAPI = {
     if (code !== 1000) {
       throw new Error(code);
     }
-  },
+  };
+
+  const signup = async (newUser: NewUser) => {
+    const {
+      data: { code },
+    } = await axios.post('/auth/signup', newUser);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  };
 
   //  const login = async (
   //     email: string,
@@ -67,7 +66,7 @@ export const authAPI = {
   //     onLoginSuccess(result.accessToken);
   //   }
 
-  // const silentRefresh = async () => {
+  // const silentRefresh = async (setIsLoggedIn: SetIsLoggedIn) => {
   //   try {
   //     const {
   //       data: { code, result },
@@ -75,20 +74,30 @@ export const authAPI = {
 
   //     if (code !== 1000) {
   //       // TODO: 로그아웃
+  //       delete axios.defaults.headers.common.Authorization;
   //       setIsLoggedIn(false);
   //       return;
   //     }
 
-  //     handleLoginSuccess(result.accessToken);
+  //     handleLoginSuccess(result.accessToken, setIsLoggedIn);
   //   } catch (e) {
   //     // refresh cookie X
   //   }
   // };
 
-  // const handleLoginSuccess = (accessToken: string) => {
+  // const handleLoginSuccess = (
+  //   accessToken: string,
+  //   setIsLoggedIn: SetIsLoggedIn
+  // ) => {
   //   axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   //   setIsLoggedIn(true);
+
   //   const JWT_EXPIRY_TIME_IN_SECONDS = 2 * 3600;
-  //   setTimeout(() => silentRefresh(), (JWT_EXPIRY_TIME_IN_SECONDS - 30) * 1000);
+  //   setTimeout(
+  //     () => silentRefresh(setIsLoggedIn),
+  //     (JWT_EXPIRY_TIME_IN_SECONDS - 30) * 1000
+  //   );
   // };
-};
+
+  return { checkIfEmailExists, checkIfNicknameExists, signup };
+})();

@@ -1,13 +1,11 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { signupFormDataState, useSignupStep } from 'routes/Signup';
-import { AxiosError } from 'axios';
-
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { toastMessageState } from 'states/atoms';
-import { firstSignupFormState } from '../SignupBasicForm';
+import { useSignup } from 'hooks/useSignup';
+import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import FormInput from 'components/common/FormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
+import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import SelectButton from 'components/common/SelectButton';
 import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
@@ -55,8 +53,8 @@ const bicycleTypeOptions: SelectListOption[] = [
 const SignupDetailForm = () => {
   const {
     control,
-    handleSubmit,
     formState: { isSubmitted, errors },
+    handleSubmit,
   } = useForm<SignupDetailForm>({
     defaultValues: {
       nickname: '',
@@ -68,11 +66,11 @@ const SignupDetailForm = () => {
     reValidateMode: 'onBlur',
   });
 
-  const { email, password } = useRecoilValue(firstSignupFormState);
-  const showToastMessage = useSetRecoilState(toastMessageState);
-  const setSignupFormData = useSetRecoilState(signupFormDataState);
+  const { validateNickname, signup } = useSignup();
+  const [{ email, password }, setSignupFormData] =
+    useRecoilState(signupFormDataState);
+  const { decreaseStep, increaseStep } = useSignupStepControls();
 
-  const { decreaseStep, increaseStep } = useSignupStep();
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
     nickname,
     gender,
@@ -86,25 +84,14 @@ const SignupDetailForm = () => {
       password,
       nickname,
       gender: gender || null,
-      old: Number(age) || null,
+      old: age ? Number(age) : null,
       bicycleType: bicycleType || null,
       introduce: message || null,
     };
 
-    try {
-      const { signup } = AuthAPI;
-      await signup(newUser);
-      // setSignupDetailFormState({ nickname });
-      increaseStep();
-    } catch (e) {
-      let toastMessage = '회원가입 중 에러가 발생했습니다.';
-      if (e instanceof Error) {
-        toastMessage += ' 관리자에게 문의해 주세요';
-      } else if (e instanceof AxiosError) {
-        toastMessage += ' 다시 시도해 주세요';
-      }
-      showToastMessage(toastMessage);
-    }
+    await signup(newUser);
+    setSignupFormData(data => ({ ...data, nickname }));
+    increaseStep();
   };
 
   return (
@@ -119,19 +106,22 @@ const SignupDetailForm = () => {
           rules={{
             required: true,
             maxLength: 10,
-            validate: async nickname => await authAPI.checkNickname(nickname),
+            validate: nickname => validateNickname(nickname),
           }}
           render={({ field }) => (
             <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="닉네임"
-                helpText={!isSubmitted && '최대 10자'}
-                hasError={errors.nickname}
+                helpText={!isSubmitted && '닉네임 조건'}
+                hasError={Boolean(errors.nickname)}
                 {...field}
               />
               {errors.nickname && (
                 <ErrorMessage
-                  text={getErrorMessage('nickname', errors.nickname.type)}
+                  text={getSignupFormErrorMessage(
+                    'nickname',
+                    errors.nickname.type
+                  )}
                 />
               )}
             </FormInputWithErrorMessageWrapper>
@@ -154,7 +144,7 @@ const SignupDetailForm = () => {
                 {genderOptions.map((option: SelectButtonProps) => (
                   <li key={option.value} className={cn('col')}>
                     <SelectButton
-                      isSelected={value === option.value ? true : false}
+                      isSelected={value === option.value}
                       value={option.value}
                       text={option.text}
                       textEng={option.textEng}
@@ -185,7 +175,7 @@ const SignupDetailForm = () => {
                 {ageOptions.map((option: SelectButtonProps) => (
                   <li key={option.value} className={cn('col')}>
                     <SelectButton
-                      isSelected={value === option.value ? true : false}
+                      isSelected={value === option.value}
                       value={option.value}
                       text={option.text}
                       textEng={option.textEng}
@@ -235,13 +225,16 @@ const SignupDetailForm = () => {
             <FormInputWithErrorMessageWrapper>
               <FormInput
                 placeholder="상태 메세지"
-                helpText={!isSubmitted && '최대 30자'}
+                helpText={!isSubmitted && '상태 메세지 조건'}
                 hasError={errors.message}
                 {...field}
               />
               {errors.message && (
                 <ErrorMessage
-                  text={getErrorMessage('message', errors.message.type)}
+                  text={getSignupFormErrorMessage(
+                    'message',
+                    errors.message.type
+                  )}
                 />
               )}
             </FormInputWithErrorMessageWrapper>

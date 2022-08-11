@@ -62,16 +62,15 @@ const LoginForm = () => {
     password,
     isAuto,
   }) => {
-    const { login } = authAPI;
-
-    try {
-      await login(email, password, isAuto, setIsLoggedIn);
-      // TODO
-      // navigate(nextURL || '/');
-    } catch (e) {
-      if (!(e instanceof Error)) return;
-      showToastMessage(handleLoginFail(e.message));
-    }
+    // const { login } = authAPI;
+    // try {
+    //   await login(email, password, isAuto, setIsLoggedIn);
+    //   // TODO
+    //   // navigate(nextURL || '/');
+    // } catch (e) {
+    //   if (!(e instanceof Error)) return;
+    //   showToastMessage(handleLoginFail(e.message));
+    // }
   };
 
   return (

@@ -3,7 +3,7 @@ import SignupBasicForm from '../SignupBasicForm';
 import SocialLogin from 'components/login/SocialLogin';
 import { Link } from 'react-router-dom';
 import SignupDetailForm from '../SignupDetailForm';
-import styles from './SignupFormController.module.scss';
+import styles from './SignupForms.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
