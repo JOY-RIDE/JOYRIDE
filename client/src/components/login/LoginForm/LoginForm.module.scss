@@ -1,9 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
-.field {
-  & + .field {
-    margin-top: 2.5rem;
-  }
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .auto-login {

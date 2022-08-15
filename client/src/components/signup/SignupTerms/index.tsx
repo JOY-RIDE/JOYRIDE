@@ -51,40 +51,45 @@ const SignupTerms = () => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit}>
-      <FormControlLabel
-        control={<CheckBox onChange={toggleAreAllTermsAgreed} />}
-        label="전체 동의"
-        sx={{
-          '& .MuiTypography-root': {
-            fontWeight: 700,
-          },
-        }}
-      />
-
-      <div className={cn('field')}>
+      <div className={cn('agree-all')}>
         <FormControlLabel
-          control={
-            <CheckBox
-              isChecked={isServiceTermAgreed}
-              onChange={toggleIsServiceTermAgreed}
-            />
-          }
-          label="이용약관에 동의합니다."
+          control={<CheckBox onChange={toggleAreAllTermsAgreed} />}
+          label="모두 동의합니다."
+          sx={{
+            '& .MuiTypography-root': {
+              fontWeight: 700,
+              fontSize: '2rem',
+            },
+          }}
         />
-        <TextArea defaultText={serviceTerm} readOnly />
       </div>
 
-      <div className={cn('field')}>
-        <FormControlLabel
-          control={
-            <CheckBox
-              isChecked={isPrivacyTermAgreed}
-              onChange={toggleIsPrivacyTermAgreed}
-            />
-          }
-          label="개인정보처리방침에 동의합니다."
-        />
-        <TextArea defaultText={privacyTerm} readOnly />
+      <div className={cn('terms')}>
+        <div className={cn('term')}>
+          <FormControlLabel
+            control={
+              <CheckBox
+                isChecked={isServiceTermAgreed}
+                onChange={toggleIsServiceTermAgreed}
+              />
+            }
+            label="이용약관 (필수)"
+          />
+          <TextArea defaultText={serviceTerm} readOnly />
+        </div>
+
+        <div className={cn('term')}>
+          <FormControlLabel
+            control={
+              <CheckBox
+                isChecked={isPrivacyTermAgreed}
+                onChange={toggleIsPrivacyTermAgreed}
+              />
+            }
+            label="개인정보처리방침 (필수)"
+          />
+          <TextArea defaultText={privacyTerm} readOnly />
+        </div>
       </div>
 
       <div className={cn('btn')}>

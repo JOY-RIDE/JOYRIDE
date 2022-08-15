@@ -1,11 +1,27 @@
 @use '../../../styles/variables.scss' as *;
 
-.field {
+.agree-all {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $color-grey-300;
+  margin-bottom: 1.5rem;
+}
+
+.terms {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.term {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+
   & textarea {
     width: 100%;
   }
 }
 
 .btn {
-  margin-top: 5rem;
+  margin-top: 3rem;
 }

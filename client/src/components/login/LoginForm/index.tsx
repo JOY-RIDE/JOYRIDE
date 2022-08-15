@@ -70,42 +70,46 @@ const LoginForm = () => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
-      <div className={cn('field')}>
-        <Controller
-          control={control}
-          name="email"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <AuthFormInputWithErrorMessageWrapper>
-              <AuthFormInput
-                type="email"
-                placeholder="이메일"
-                hasError={errors.email}
-                {...field}
-              />
-              {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
-            </AuthFormInputWithErrorMessageWrapper>
-          )}
-        />
-      </div>
+      <div className={cn('fields')}>
+        <div className={cn('field')}>
+          <Controller
+            control={control}
+            name="email"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <AuthFormInputWithErrorMessageWrapper>
+                <AuthFormInput
+                  type="email"
+                  placeholder="이메일"
+                  hasError={errors.email}
+                  {...field}
+                />
+                {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
+              </AuthFormInputWithErrorMessageWrapper>
+            )}
+          />
+        </div>
 
-      <div className={cn('field')}>
-        <Controller
-          control={control}
-          name="password"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <AuthFormInputWithErrorMessageWrapper>
-              <AuthFormInput
-                type="password"
-                placeholder="비밀번호"
-                hasError={errors.password}
-                {...field}
-              />
-              {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
-            </AuthFormInputWithErrorMessageWrapper>
-          )}
-        />
+        <div className={cn('field')}>
+          <Controller
+            control={control}
+            name="password"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <AuthFormInputWithErrorMessageWrapper>
+                <AuthFormInput
+                  type="password"
+                  placeholder="비밀번호"
+                  hasError={errors.password}
+                  {...field}
+                />
+                {errors.password && (
+                  <ErrorMessage text="비밀번호를 입력하세요" />
+                )}
+              </AuthFormInputWithErrorMessageWrapper>
+            )}
+          />
+        </div>
       </div>
 
       <div className={cn('auto-login')}>
