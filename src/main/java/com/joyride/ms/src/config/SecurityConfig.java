@@ -8,6 +8,7 @@ import com.joyride.ms.src.jwt.handler.CustomAccessDeniedHandler;
 import com.joyride.ms.src.jwt.handler.CustomAuthenticationEntryPointHandler;
 import com.joyride.ms.src.jwt.handler.OAuth2SuccessHandler;
 import com.joyride.ms.src.user.UserProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +17,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig {
 
     private final PrincipalOAuth2UserService principalOAuth2UserService;
@@ -49,7 +51,8 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider, userProvider, authenticationManagerBuilder.getObject()),
                         UsernamePasswordAuthenticationFilter.class);
 
-        http.csrf().disable() // 세션 사용 안하므로
+        http.cors().and()
+                .csrf().disable() // 세션 사용 안하므로
                 // exception handling 새로 만든 클래스로
                 .exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPointHandler())
@@ -83,10 +86,5 @@ public class SecurityConfig {
                 .successHandler(new OAuth2SuccessHandler(jwtTokenProvider, authService));
 
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
     }
 }

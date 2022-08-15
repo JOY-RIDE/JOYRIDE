@@ -1,9 +1,10 @@
 ---
 name: "\U0001F41EBUG"
 about: 버그 발생 시 작성해 주세요.
-title: "bug: "
+title: 'bug: '
 labels: "bug\U0001F41E"
-assignees: ""
+assignees: ''
+
 ---
 
 ## 설명

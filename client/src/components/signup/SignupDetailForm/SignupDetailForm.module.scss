@@ -2,10 +2,10 @@
 
 $gap-row: 1.2rem;
 
-.field {
-  & + .field {
-    margin-top: 4rem;
-  }
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
 .label {

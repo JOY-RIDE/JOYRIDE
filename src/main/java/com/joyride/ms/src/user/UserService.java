@@ -6,6 +6,7 @@ import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class UserService {
     private final UserDao userDao;
 
     @Autowired
-    public UserService(PasswordEncoder passwordEncoder, UserProvider userProvider, UserDao userDao) {
+    public UserService( PasswordEncoder passwordEncoder, UserProvider userProvider, UserDao userDao) {
         this.passwordEncoder = passwordEncoder;
         this.userProvider = userProvider;
         this.userDao = userDao;

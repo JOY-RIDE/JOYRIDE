@@ -8,9 +8,9 @@ const cn = classNames.bind(styles);
 
 const Footer = () => {
   // TODO
-  const isOnLogin = useMatch('/login');
-  const isOnSignup = useMatch('/signup');
-  if (isOnLogin || isOnSignup) return null;
+  const isAtLogin = useMatch('/login');
+  const isAtSignup = useMatch('/signup');
+  if (isAtLogin || isAtSignup) return null;
 
   return (
     <footer className={cn('footer')}>

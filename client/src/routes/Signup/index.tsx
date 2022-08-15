@@ -1,52 +1,68 @@
-import { useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { firstSignupFormState } from 'components/signup/FirstSignupForm';
-import { secondSignupFormState } from 'components/signup/SecondSignupForm';
+import { createContext, useContext, useState } from 'react';
+import { SignupStepControls } from 'typescript/interfaces';
+import { atom, useRecoilValue } from 'recoil';
 import PageTitle from 'components/common/PageTitle';
+import SignupForms from 'components/signup/SignupForms';
 import SignupCompleted from 'components/signup/SignupCompleted';
-import SignupFormController from 'components/signup/SignupFormController';
-import SignupTerms from 'components/signup/SignupTerms';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-const TOTAL_STEPS = 2;
+// Interfaces
+interface SignupBasicFormData {
+  email: string;
+  password: string;
+}
+interface SignupDetailFormData {
+  nickname: string;
+}
+interface SignupFormData extends SignupBasicFormData, SignupDetailFormData {}
+
+// State/context
+export const signupFormDataState = atom<SignupFormData>({
+  key: 'signupFormData',
+  default: { email: '', password: '', nickname: '' },
+});
+
+const SignupStepControlsContext = createContext<SignupStepControls>({
+  decreaseStep: () => {},
+  increaseStep: () => {},
+});
+export const useSignupStepControls = () =>
+  useContext(SignupStepControlsContext);
+
+const TOTAL_STEPS = 3;
 
 const Signup = () => {
-  const [currentStep, setcurrentStep] = useState<number>(0);
-  const goNext = () => setcurrentStep(step => step + 1);
-  const goPrevious = () => setcurrentStep(step => step - 1);
+  const [step, setStep] = useState<number>(1);
+  const decreaseStep = () => setStep(step => step - 1);
+  const increaseStep = () => setStep(step => step + 1);
 
-  const { email } = useRecoilValue(firstSignupFormState);
-  const { nickname } = useRecoilValue(secondSignupFormState);
-
-  if (currentStep > TOTAL_STEPS) {
+  const { email, nickname } = useRecoilValue(signupFormDataState);
+  if (step > TOTAL_STEPS) {
     return <SignupCompleted email={email} nickname={nickname} />;
   }
 
   return (
-    <section className={cn('wrapper')}>
-      <header className={cn('header')}>
-        <PageTitle size="lg">회원가입</PageTitle>
-        {currentStep ? (
+    <SignupStepControlsContext.Provider
+      value={{
+        decreaseStep,
+        increaseStep,
+      }}
+    >
+      <section className={cn('wrapper')}>
+        <header className={cn('header')}>
+          <PageTitle size="lg">회원가입</PageTitle>
           <div className={cn('steps')}>
-            <span className={cn('current')}>{currentStep}</span>
+            <span className={cn('current')}>{step}</span>
             <span className={cn('total')}>/{TOTAL_STEPS}</span>
           </div>
-        ) : null}
-      </header>
+        </header>
 
-      {currentStep ? (
-        <SignupFormController
-          currentStep={currentStep}
-          goNext={goNext}
-          goPrevious={goPrevious}
-        />
-      ) : (
-        <SignupTerms goNext={goNext} />
-      )}
-    </section>
+        <SignupForms step={step} totalSteps={TOTAL_STEPS} />
+      </section>
+    </SignupStepControlsContext.Provider>
   );
 };
 

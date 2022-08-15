@@ -1,0 +1,10 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  border: 0.5rem solid $color-grey-400;
+  border-radius: 0.3rem;
+}
+
+.top {
+  display: flex;
+}

@@ -1,0 +1,14 @@
+@use '../../../styles/variables.scss' as *;
+
+.textarea {
+  background: $color-grey-100;
+  padding: 1.4rem 1.5rem;
+  border: none;
+  border-radius: 0.3rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+
+.readOnly {
+  color: $color-grey-500;
+}

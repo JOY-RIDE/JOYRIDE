@@ -1,9 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
-.field {
-  & + .field {
-    margin-top: 4rem;
-  }
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
 }
 
 .label {
@@ -18,6 +18,8 @@
   }
 }
 
-.btn {
+.btns {
+  display: flex;
+  justify-content: space-between;
   margin-top: 5rem;
 }
