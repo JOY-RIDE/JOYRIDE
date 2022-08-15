@@ -1,8 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
-.term {
-  display: block;
-  width: 100%;
+.field {
+  & textarea {
+    width: 100%;
+  }
 }
 
 .btn {
