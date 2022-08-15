@@ -3,8 +3,8 @@ import { toastMessageState } from 'states/atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import { authAPI, NewUser } from 'apis/authAPI';
-import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
-import FormInput from 'components/common/FormInput';
+import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import SelectButton from 'components/common/SelectButton';
@@ -118,150 +118,152 @@ const SignupDetailForm = () => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
-      <div className={cn('field')}>
-        <label className={cn('label')}>
-          <h4 className={cn('title')}>닉네임</h4>
-        </label>
-        <Controller
-          control={control}
-          name="nickname"
-          rules={{
-            required: true,
-            maxLength: 10,
-            validate: nickname => validateNickname(nickname),
-          }}
-          render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
-                placeholder="닉네임"
-                helpText={!isSubmitted && '닉네임 조건'}
-                hasError={Boolean(errors.nickname)}
-                {...field}
-              />
-              {errors.nickname && (
-                <ErrorMessage
-                  text={getSignupFormErrorMessage(
-                    'nickname',
-                    errors.nickname.type
-                  )}
+      <div className={cn('fields')}>
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>닉네임</h4>
+          </label>
+          <Controller
+            control={control}
+            name="nickname"
+            rules={{
+              required: true,
+              maxLength: 10,
+              validate: nickname => validateNickname(nickname),
+            }}
+            render={({ field }) => (
+              <AuthFormInputWithErrorMessageWrapper>
+                <AuthFormInput
+                  placeholder="닉네임"
+                  helpText={!isSubmitted && '닉네임 조건'}
+                  hasError={Boolean(errors.nickname)}
+                  {...field}
                 />
+                {errors.nickname && (
+                  <ErrorMessage
+                    text={getSignupFormErrorMessage(
+                      'nickname',
+                      errors.nickname.type
+                    )}
+                  />
+                )}
+              </AuthFormInputWithErrorMessageWrapper>
+            )}
+          />
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>성별</h4>
+            {/* TODO: 디자인 */}
+            <span className={cn('optional')}>(선택 사항)</span>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="gender"
+              render={({ field: { value, onChange, ...others } }) => (
+                <>
+                  {genderOptions.map((option: SelectButtonProps) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        isSelected={value === option.value}
+                        value={option.value}
+                        text={option.text}
+                        textEng={option.textEng}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          onChange(e.target.checked ? option.value : '')
+                        }
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
               )}
-            </FormInputWithErrorMessageWrapper>
-          )}
-        />
-      </div>
-
-      <div className={cn('field')}>
-        <label className={cn('label')}>
-          <h4 className={cn('title')}>성별</h4>
-          {/* TODO: 디자인 */}
-          <span className={cn('optional')}>(선택 사항)</span>
-        </label>
-        <ul className={cn('row')}>
-          <Controller
-            control={control}
-            name="gender"
-            render={({ field: { value, onChange, ...others } }) => (
-              <>
-                {genderOptions.map((option: SelectButtonProps) => (
-                  <li key={option.value} className={cn('col')}>
-                    <SelectButton
-                      isSelected={value === option.value}
-                      value={option.value}
-                      text={option.text}
-                      textEng={option.textEng}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        onChange(e.target.checked ? option.value : '')
-                      }
-                      {...others}
-                    />
-                  </li>
-                ))}
-              </>
-            )}
-          />
-        </ul>
-      </div>
-
-      <div className={cn('field')}>
-        <label className={cn('label')}>
-          <h4 className={cn('title')}>나이</h4>
-          <span className={cn('optional')}>(선택 사항)</span>
-        </label>
-        <ul className={cn('row')}>
-          <Controller
-            control={control}
-            name="age"
-            render={({ field: { value, onChange, ...others } }) => (
-              <>
-                {ageOptions.map((option: SelectButtonProps) => (
-                  <li key={option.value} className={cn('col')}>
-                    <SelectButton
-                      isSelected={value === option.value}
-                      value={option.value}
-                      text={option.text}
-                      textEng={option.textEng}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        onChange(e.target.checked ? option.value : '')
-                      }
-                      {...others}
-                    />
-                  </li>
-                ))}
-              </>
-            )}
-          />
-        </ul>
-      </div>
-
-      <div className={cn('field', 'bicycle-type')}>
-        <label className={cn('label')}>
-          <h4 className={cn('title')}>자전거 종류</h4>
-          <span className={cn('optional')}>(선택 사항)</span>
-        </label>
-        <Controller
-          control={control}
-          name="bicycleType"
-          render={({ field }) => (
-            <SelectList
-              options={bicycleTypeOptions}
-              label="자전거 종류"
-              {...field}
             />
-          )}
-        />
-      </div>
+          </ul>
+        </div>
 
-      <div className={cn('field')}>
-        <label className={cn('label')}>
-          <h4 className={cn('title')}>상태 메세지</h4>
-          <span className={cn('optional')}>(선택 사항)</span>
-        </label>
-        <Controller
-          control={control}
-          name="message"
-          rules={{
-            maxLength: 30,
-          }}
-          render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
-                placeholder="상태 메세지"
-                helpText={!isSubmitted && '상태 메세지 조건'}
-                hasError={errors.message}
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>나이</h4>
+            <span className={cn('optional')}>(선택 사항)</span>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="age"
+              render={({ field: { value, onChange, ...others } }) => (
+                <>
+                  {ageOptions.map((option: SelectButtonProps) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        isSelected={value === option.value}
+                        value={option.value}
+                        text={option.text}
+                        textEng={option.textEng}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          onChange(e.target.checked ? option.value : '')
+                        }
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+        </div>
+
+        <div className={cn('field', 'bicycle-type')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>자전거 종류</h4>
+            <span className={cn('optional')}>(선택 사항)</span>
+          </label>
+          <Controller
+            control={control}
+            name="bicycleType"
+            render={({ field }) => (
+              <SelectList
+                options={bicycleTypeOptions}
+                label="자전거 종류"
                 {...field}
               />
-              {errors.message && (
-                <ErrorMessage
-                  text={getSignupFormErrorMessage(
-                    'message',
-                    errors.message.type
-                  )}
+            )}
+          />
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>상태 메세지</h4>
+            <span className={cn('optional')}>(선택 사항)</span>
+          </label>
+          <Controller
+            control={control}
+            name="message"
+            rules={{
+              maxLength: 30,
+            }}
+            render={({ field }) => (
+              <AuthFormInputWithErrorMessageWrapper>
+                <AuthFormInput
+                  placeholder="상태 메세지"
+                  helpText={!isSubmitted && '상태 메세지 조건'}
+                  hasError={errors.message}
+                  {...field}
                 />
-              )}
-            </FormInputWithErrorMessageWrapper>
-          )}
-        />
+                {errors.message && (
+                  <ErrorMessage
+                    text={getSignupFormErrorMessage(
+                      'message',
+                      errors.message.type
+                    )}
+                  />
+                )}
+              </AuthFormInputWithErrorMessageWrapper>
+            )}
+          />
+        </div>
       </div>
 
       <div className={cn('btns')}>

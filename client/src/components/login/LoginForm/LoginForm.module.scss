@@ -1,12 +1,19 @@
 @use '../../../styles/variables.scss' as *;
 
-.field {
-  & + .field {
-    margin-top: 2.5rem;
-  }
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
-.auto-login {
+.auto-login-wrapper {
+  display: flex;
+  align-items: center;
   color: $color-grey-800;
-  margin: 3rem 0 0.5rem 0;
+  margin: 3rem 0 1.5rem 0;
+
+  & label {
+    cursor: pointer;
+    margin-left: 0.3em;
+  }
 }
