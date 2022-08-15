@@ -19,7 +19,6 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
       sx={{
         color: '#e0e0e0',
         paddingRight: 0,
-        marginRight: '0.5rem',
         '& svg': { fontSize: '2rem' },
       }}
       disableRipple

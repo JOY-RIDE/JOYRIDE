@@ -120,6 +120,9 @@ const LoginForm = () => {
             <FormControlLabel
               control={<CheckBox isChecked={isChecked} {...others} />}
               label="자동 로그인"
+              sx={{
+                gap: '0.5rem',
+              }}
             />
           )}
         />

@@ -56,6 +56,10 @@ const SignupTerms = () => {
           control={<CheckBox onChange={toggleAreAllTermsAgreed} isCircle />}
           label="모두 동의합니다."
           sx={{
+            gap: '0.7rem',
+            '& svg': {
+              fontSize: '2.5rem',
+            },
             '& .MuiTypography-root': {
               fontWeight: 700,
               fontSize: '2rem',
@@ -75,6 +79,9 @@ const SignupTerms = () => {
               />
             }
             label="이용약관 (필수)"
+            sx={{
+              gap: '0.5rem',
+            }}
           />
           <TextArea defaultText={serviceTerm} readOnly />
         </div>
@@ -89,6 +96,9 @@ const SignupTerms = () => {
               />
             }
             label="개인정보처리방침 (필수)"
+            sx={{
+              gap: '0.5rem',
+            }}
           />
           <TextArea defaultText={privacyTerm} readOnly />
         </div>
