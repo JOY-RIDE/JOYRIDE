@@ -6,7 +6,7 @@ import {
   Link,
 } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { fetchCourseInfo } from '../../api';
+import { fetchCourseInfo } from '../../apis/CrsAPI';
 import styles from './Road.module.scss';
 import classNames from 'classnames/bind';
 import Loading from 'components/common/Loading';
@@ -112,7 +112,7 @@ const Road = () => {
           </div>
           {/* <PageTitle size="sm">코스 사진</PageTitle> */}
           <PageTitle size="sm">코스 후기</PageTitle>
-          <Button color="mainwhite" size="lg" text="후기 쓰기"></Button>
+          <Button color="whiteMain" size="lg" text="후기 쓰기"></Button>
           <PageTitle size="sm">관련 모임</PageTitle>
         </div>
       )}

@@ -7,7 +7,7 @@ const cn = classNames.bind(styles);
 
 interface ButtonProps {
   type?: 'button';
-  color: 'main' | 'white' | 'mainwhite';
+  color: 'main' | 'whiteGrey' | 'whiteMain';
   size: 'md' | 'lg';
   text: string;
   onClick?: ClickHandler;

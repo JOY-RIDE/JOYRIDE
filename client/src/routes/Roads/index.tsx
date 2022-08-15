@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { fetchCourses } from '../../api';
+import { fetchCourses } from '../../apis/CrsAPI';
 import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';

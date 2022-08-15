@@ -4,11 +4,11 @@
   @if $color == main {
     background: $color-main;
     color: white;
-  } @else if $color == white {
+  } @else if $color == whiteGrey {
     background: white;
     color: $color-grey-600;
     border: $border-grey;
-  } @else if $color == mainwhite {
+  } @else if $color == whiteMain {
     background: white;
     border: $border-main-1;
     color: $color-main;
@@ -23,11 +23,11 @@
   &.main {
     @include color(main);
   }
-  &.white {
-    @include color(white);
+  &.whiteGrey {
+    @include color(whiteGrey);
   }
-  &.mainwhite {
-    @include color(mainwhite);
+  &.whiteMain {
+    @include color(whiteMain);
   }
 
   &.md {
