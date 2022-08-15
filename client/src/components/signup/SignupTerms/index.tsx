@@ -3,7 +3,6 @@ import { useCheckBox } from 'hooks/useCheckBox';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/atoms';
 import { useSignupStepControls } from 'routes/Signup';
-import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
 import TextArea from 'components/common/TextArea';
 import { privacyTerm, serviceTerm } from './terms';
@@ -51,55 +50,35 @@ const SignupTerms = () => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit}>
-      <div className={cn('agree-all')}>
-        <FormControlLabel
-          control={<CheckBox onChange={toggleAreAllTermsAgreed} isCircle />}
-          label="모두 동의합니다."
-          sx={{
-            gap: '0.7rem',
-            '& svg': {
-              fontSize: '2.5rem',
-            },
-            '& .MuiTypography-root': {
-              fontWeight: 700,
-              fontSize: '2rem',
-            },
-          }}
-        />
+      <div className={cn('agree-all', 'term-check')}>
+        <CheckBox isCircle id={cn('all')} onChange={toggleAreAllTermsAgreed} />
+        <label htmlFor={cn('all')}>모두 동의합니다.</label>
       </div>
 
       <div className={cn('terms')}>
         <div className={cn('term')}>
-          <FormControlLabel
-            control={
-              <CheckBox
-                isChecked={isServiceTermAgreed}
-                isCircle
-                onChange={toggleIsServiceTermAgreed}
-              />
-            }
-            label="이용약관 (필수)"
-            sx={{
-              gap: '0.5rem',
-            }}
-          />
+          <div className={cn('term-check')}>
+            <CheckBox
+              isChecked={isServiceTermAgreed}
+              isCircle
+              id={cn('first')}
+              onChange={toggleIsServiceTermAgreed}
+            />
+            <label htmlFor={cn('first')}>이용약관 (필수)</label>
+          </div>
           <TextArea defaultText={serviceTerm} readOnly />
         </div>
 
         <div className={cn('term')}>
-          <FormControlLabel
-            control={
-              <CheckBox
-                isChecked={isPrivacyTermAgreed}
-                isCircle
-                onChange={toggleIsPrivacyTermAgreed}
-              />
-            }
-            label="개인정보처리방침 (필수)"
-            sx={{
-              gap: '0.5rem',
-            }}
-          />
+          <div className={cn('term-check')}>
+            <CheckBox
+              isChecked={isPrivacyTermAgreed}
+              isCircle
+              id={cn('second')}
+              onChange={toggleIsPrivacyTermAgreed}
+            />
+            <label htmlFor={cn('second')}>개인정보처리방침 (필수)</label>
+          </div>
           <TextArea defaultText={privacyTerm} readOnly />
         </div>
       </div>

@@ -18,7 +18,7 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
       checkedIcon={isCircle && <CheckCircleIcon />}
       sx={{
         color: '#e0e0e0',
-        paddingRight: 0,
+        padding: 0,
         '& svg': { fontSize: '2rem' },
       }}
       disableRipple

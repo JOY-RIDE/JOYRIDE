@@ -6,7 +6,6 @@ import { authAPI } from 'apis/authAPI';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
-import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
 import Button from 'components/common/Button';
 import styles from './LoginForm.module.scss';
@@ -112,20 +111,15 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <div className={cn('auto-login')}>
+      <div className={cn('auto-login-wrapper')}>
         <Controller
           control={control}
           name="isAuto"
           render={({ field: { value: isChecked, ...others } }) => (
-            <FormControlLabel
-              control={<CheckBox isChecked={isChecked} {...others} />}
-              label="자동 로그인"
-              sx={{
-                gap: '0.5rem',
-              }}
-            />
+            <CheckBox isChecked={isChecked} id={cn('auto-login')} {...others} />
           )}
         />
+        <label htmlFor={cn('auto-login')}>자동 로그인</label>
       </div>
 
       <Button color="main" size="lg" text="로그인하기" />
