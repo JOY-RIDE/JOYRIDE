@@ -53,7 +53,7 @@ const SignupTerms = () => {
     <form className={cn('form')} onSubmit={handleSubmit}>
       <div className={cn('agree-all')}>
         <FormControlLabel
-          control={<CheckBox onChange={toggleAreAllTermsAgreed} />}
+          control={<CheckBox onChange={toggleAreAllTermsAgreed} isCircle />}
           label="모두 동의합니다."
           sx={{
             '& .MuiTypography-root': {
@@ -70,6 +70,7 @@ const SignupTerms = () => {
             control={
               <CheckBox
                 isChecked={isServiceTermAgreed}
+                isCircle
                 onChange={toggleIsServiceTermAgreed}
               />
             }
@@ -83,6 +84,7 @@ const SignupTerms = () => {
             control={
               <CheckBox
                 isChecked={isPrivacyTermAgreed}
+                isCircle
                 onChange={toggleIsPrivacyTermAgreed}
               />
             }
