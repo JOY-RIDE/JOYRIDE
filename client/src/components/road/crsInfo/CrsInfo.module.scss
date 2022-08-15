@@ -1,0 +1,17 @@
+@use '../../../styles/variables.scss' as *;
+
+.info {
+  display: flex;
+  font-size: 1.4rem;
+  line-height: 1.68rem;
+  color: $color-grey-800;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: 500;
+}
+
+.content {
+  font-weight: 700;
+}

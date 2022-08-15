@@ -8,8 +8,8 @@ import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
 import Loading from 'components/common/Loading';
 import Paging from 'components/common/Paging';
-import Sort from 'components/course/Sort';
-import Filter from 'components/course/Filter';
+import Sort from 'components/roads/Sort';
+import Filter from 'components/roads/Filter';
 import _ from 'lodash';
 
 const cn = classNames.bind(styles);

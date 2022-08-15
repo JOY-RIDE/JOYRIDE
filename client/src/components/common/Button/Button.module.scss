@@ -8,6 +8,10 @@
     background: white;
     color: $color-grey-600;
     border: $border-grey;
+  } @else if $color == mainwhite {
+    background: white;
+    border: $border-main-1;
+    color: $color-main;
   }
 }
 
@@ -21,6 +25,9 @@
   }
   &.white {
     @include color(white);
+  }
+  &.mainwhite {
+    @include color(mainwhite);
   }
 
   &.md {
