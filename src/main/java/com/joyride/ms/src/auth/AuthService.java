@@ -19,7 +19,7 @@ public class AuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
     @Transactional
-    public Long registerRefreshToken(Long userId, String refreshToken) {
+    public Integer registerRefreshToken(Integer userId, String refreshToken) {
         if(authDao.checkUser(userId))
             authDao.updateRefreshToken(userId, refreshToken);
         else
@@ -30,7 +30,7 @@ public class AuthService {
     @Transactional
     public String createAccess(String refreshToken) throws BaseException {
 
-        Long userId = Long.parseLong(jwtTokenProvider.getUseridFromRef(refreshToken));
+        Integer userId = Integer.parseInt(jwtTokenProvider.getUseridFromRef(refreshToken));
 
         String newAccessToken = jwtTokenProvider.createAccessToken(userId);
 

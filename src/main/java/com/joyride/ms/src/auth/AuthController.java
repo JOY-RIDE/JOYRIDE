@@ -70,7 +70,7 @@ public class AuthController {
         }
         try {
             String encodedPassword = passwordEncoder.encode(postSignupReq.getPassword());
-            User user = new User(postSignupReq.getNickname(), postSignupReq.getEmail(), encodedPassword, postSignupReq.getGender(), postSignupReq.getOld(), postSignupReq.getBicycleType(), "ROLE_USER", "none", "none");
+            User user = new User(postSignupReq.getNickname(), postSignupReq.getEmail(), encodedPassword, postSignupReq.getGender(), postSignupReq.getOld(), postSignupReq.getBicycleType(),postSignupReq.getBicycleCareer(), "ROLE_USER", "none", "none");
             userService.createUser(user, postSignupReq.isTermsEnable());
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
@@ -104,7 +104,7 @@ public class AuthController {
         }
         PrincipalDetails userEntity = (PrincipalDetails) authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Long userId = userEntity.getUser().getId();
+        Integer userId = userEntity.getUser().getId();
 
         Token token = jwtTokenProvider.createToken(userId);
         String accessToken = token.getAccessToken();
@@ -149,7 +149,7 @@ public class AuthController {
 
         PrincipalDetails userEntity = (PrincipalDetails) authentication.getPrincipal();
 
-        Long userId = userEntity.getUser().getId();
+        Integer userId = userEntity.getUser().getId();
 
         Token token = jwtTokenProvider.createToken(userId);
         String accessToken = token.getAccessToken();

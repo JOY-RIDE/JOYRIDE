@@ -50,7 +50,7 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         }
         if (user == null) {
             log.info("구글 로그인 최초입니다. 회원가입을 진행합니다.");
-            user = new User(name,email,"", "",null,"","", provider, provider_id);
+            user = new User(name,email,"", "",null,"",null,"", provider, provider_id);
             // 여기서 회원 가입 실제로 하지 않고, 가능 여부 파악 후 클라이언트에서 /auth/signup/oauth2 api 호출하여 실제 회원가입함
 
             PostSignupOauth2Req postSignupOauth2Req = new PostSignupOauth2Req(email,provider,provider_id,true);

@@ -47,7 +47,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String jwtHeader = request.getHeader("Authorization");
 
             if (StringUtils.hasText(jwtHeader) && jwtTokenProvider.validateToken(jwtHeader)) {
-                Long userId = Long.parseLong(jwtTokenProvider.getUseridFromAcs(jwtHeader));
+                Integer userId = Integer.parseInt(jwtTokenProvider.getUseridFromAcs(jwtHeader));
 
                 Collection<GrantedAuthority> userAuthorities = new ArrayList<>();
                 userAuthorities.add(new GrantedAuthority() {

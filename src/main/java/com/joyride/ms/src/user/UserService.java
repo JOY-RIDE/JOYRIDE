@@ -46,6 +46,38 @@ public class UserService {
         }
 
     }
+    @Transactional
+    public void removeUser(Integer userId) throws BaseException {
+        if (userProvider.checkId(userId) == 0)
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        try {
+            userDao.updateUserStatus(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void removeRefreshToken(Integer userId) throws BaseException {
+        if (userProvider.checkId(userId) == 0)
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        try {
+            userDao.deleteRefreshToken(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public void removeUserExpired(String targetDate) throws BaseException {
+        try {
+            userDao.deleteByUserStatus(targetDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public void createOauth2User(PostSignupOauth2Req postSignupOauth2Req) throws BaseException {
         // provider가 "google" 인지
         if (!userProvider.isProviderCorrect(postSignupOauth2Req.getProvider())) {
@@ -57,7 +89,7 @@ public class UserService {
         }
         String password = passwordEncoder.encode(postSignupOauth2Req.getProviderId());
         User user = new User(nickname, postSignupOauth2Req.getEmail(),
-                password,"",null,"", "ROLE_USER", postSignupOauth2Req.getProvider(), postSignupOauth2Req.getProviderId());
+                password,"",null,"",null, "ROLE_USER", postSignupOauth2Req.getProvider(), postSignupOauth2Req.getProviderId());
         createUser(user, postSignupOauth2Req.isTermsEnable());
     }
 
