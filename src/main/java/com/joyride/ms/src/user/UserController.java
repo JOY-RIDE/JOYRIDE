@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -73,11 +75,14 @@ public class UserController {
      * @return
      */
     @PostMapping("/signout")
-    public BaseResponse<BaseResponseStatus> signout(HttpServletRequest request) {
+    public BaseResponse<BaseResponseStatus> signout(HttpServletRequest request, HttpServletResponse response) {
         try {
             Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
             /* remove refreshToken */
             userService.removeRefreshToken(userId);
+            Cookie cookie = new Cookie("refreshToken",null);
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
             return new BaseResponse<>(BaseResponseStatus.SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
