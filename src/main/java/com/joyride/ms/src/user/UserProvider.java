@@ -47,6 +47,25 @@ public class UserProvider {
         }
 
     }
+    @Transactional(readOnly = true)
+    public User retrieveById(Integer userId) throws BaseException {
+        if (checkId(userId) == 0)
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        try {
+            return userDao.selectById(userId);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    @Transactional(readOnly = true)
+    public int checkId(Integer userId) throws BaseException {
+        try {
+            return userDao.checkId(userId);
+        } catch (Exception exception) {
+            log.warn(exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
     public int checkEmail(String email) throws BaseException {
         return checkEmail(email, "none");

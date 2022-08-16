@@ -19,9 +19,11 @@ public class PostSignupReq {
     private String email;
     @NotBlank(message="패스워드는 필수 입력값입니다.")
     private String password;
+    @Size(min=1, max=1,message="gender: m/f")
     private String gender; // m/f
     private Integer old;
     private String bicycleType;
+    private Integer bicycleCareer;
     @JsonProperty("isTermsEnable")
     private boolean isTermsEnable;
 }
