@@ -39,11 +39,11 @@ const genderOptions: SelectButtonProps[] = [
   { value: 'f', text: '여성', textEng: 'female' },
 ];
 const ageOptions: SelectButtonProps[] = [
-  { value: '0', text: '10대', textEng: 'ten' },
-  { value: '1', text: '20대', textEng: 'twenty' },
-  { value: '2', text: '30대', textEng: 'thirty' },
-  { value: '3', text: '40대', textEng: 'forty' },
-  { value: '4', text: '50대 이상', textEng: 'fifty' },
+  { value: '1', text: '10대', textEng: 'ten' },
+  { value: '2', text: '20대', textEng: 'twenty' },
+  { value: '3', text: '30대', textEng: 'thirty' },
+  { value: '4', text: '40대', textEng: 'forty' },
+  { value: '5', text: '50대 이상', textEng: 'fifty' },
 ];
 const bicycleTypeOptions: SelectListOption[] = [
   { value: 'MTB', text: 'MTB' },
