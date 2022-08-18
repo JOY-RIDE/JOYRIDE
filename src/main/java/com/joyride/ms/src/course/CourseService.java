@@ -3,11 +3,11 @@ package com.joyride.ms.src.course;
 import com.joyride.ms.src.course.model.CourseInfo;
 import com.joyride.ms.src.course.model.GetCourseListRes;
 import com.joyride.ms.util.BaseException;
-import com.joyride.ms.util.SecretKey;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,6 +24,9 @@ import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 @RequiredArgsConstructor
 public class CourseService {
 
+    @Value("${durunubi.secret}")
+    private String API_SECRET_KEY;
+
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
@@ -36,7 +39,7 @@ public class CourseService {
                 String result = "";
 
                 URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
-                        "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + SecretKey.API_SECRET_KEY +
+                        "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
                         "&brdDiv=DNBW&numOfRows=3004&pageNo=1&_type=json");
 
                 BufferedReader bf;
@@ -44,10 +47,10 @@ public class CourseService {
                 result = bf.readLine();
 
                 JSONParser jsonParser = new JSONParser();
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
-                JSONObject response = (JSONObject) jsonObject.get("response");
-                JSONObject body = (JSONObject) response.get("body");
-                JSONObject items = (JSONObject) body.get("items");
+                JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
+                JSONObject response = (JSONObject)jsonObject.get("response");
+                JSONObject body = (JSONObject)response.get("body");
+                JSONObject items = (JSONObject)body.get("items");
 
                 JSONArray courseArr = (JSONArray) items.get("item");
 
@@ -95,6 +98,7 @@ public class CourseService {
             }
         }
         catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
