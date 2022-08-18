@@ -28,7 +28,7 @@ public class CourseInfo {
 //    private String travelerinfo;
 
     //total_rate
-//    private double total_rate;
+    private double total_rate;
 
     //거리 distance
     private double crsDstnc;
@@ -39,18 +39,19 @@ public class CourseInfo {
     private String sigun;
 
     //소요시간
-    private double required_at;
+    private String required_at;
 
-    //private LocalDateTime created_at;
+    private LocalDateTime created_at;
 
-    //private LocalDateTime updated_at;
+    private LocalDateTime updated_at;
 
     //자전거 길/걷기 길
-    private String brdDiv;
+    //private String brdDiv;
 
     //==생성 메서드==//
     public static CourseInfo createCourseInfo(String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,
-                                              double crsDstnc, int crsLevel, String sigun, double required_at, String brdDiv) {
+                                              double crsDstnc, int crsLevel, String sigun, String required_at) {
+        System.out.println("객체생성");
         CourseInfo courseInfo = new CourseInfo();
 //        courseInfo.setId(id);
         courseInfo.setCrsKorNm(crsKorNm);
@@ -66,9 +67,8 @@ public class CourseInfo {
         courseInfo.setCrsLevel(crsLevel);
         courseInfo.setSigun(sigun);
         courseInfo.setRequired_at(required_at);
-//        courseInfo.setCreated_at(LocalDateTime.now());
-//        courseInfo.setUpdated_at(LocalDateTime.now());
-        courseInfo.setBrdDiv(brdDiv);
+        courseInfo.setCreated_at(LocalDateTime.now());
+        courseInfo.setUpdated_at(LocalDateTime.now());
 
 
         return courseInfo;

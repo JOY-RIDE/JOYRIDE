@@ -15,12 +15,13 @@ public class CourseController {
     private final CourseProvider courseProvider;
     private final CourseService courseService;
 
-    //일단은 이 URI를 거쳐서만 들어간다고 생각하고 코드 작성
-   @ResponseBody
+    //CourseList 를 출력하는게 아니라 바로 디테일로 누르면 어떻게 해야하지...
+    //무조건 여기를 거쳐서 가도록? 아니면 갈리는 부분마다 다 api 호출 확인??
+    @ResponseBody
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
-            List<GetCourseListRes> getCourseListRes = courseService.createCourseList();
+            List<GetCourseListRes> getCourseListRes = courseService.getCourseList();
             return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

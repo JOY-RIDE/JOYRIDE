@@ -15,12 +15,17 @@ public class CourseProvider {
 
     private final CourseDao courseDao;
 
-    public List<GetCourseListRes> retrieveCourseList() throws BaseException {
+    public List<GetCourseListRes> getCourseList() throws BaseException {
+        System.out.println("프로바이더 호출됨");
         try{
-            List<GetCourseListRes> getCourseListRes = courseDao.selectCourseList();
+            List<GetCourseListRes> getCourseListRes = courseDao.getCourseList();
+            System.out.println("getCourseListRes = " + getCourseListRes);
             return getCourseListRes;
+
         }
         catch (Exception exception) {
+            //이것도 baseException
+//            throw new BaseException(DATABASE_ERROR);
             throw new BaseException(DATABASE_ERROR);
         }
     }
