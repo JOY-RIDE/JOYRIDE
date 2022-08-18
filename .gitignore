@@ -38,3 +38,6 @@ out/
 ### VS Code ###
 .vscode/
 src/main/resources/application-secret.yml
+
+### API_SECRET_KEY ###
+src/main/java/com/joyride/ms/util/SecretKey.java
