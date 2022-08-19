@@ -15,7 +15,7 @@ public class AuthDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public boolean checkUser(Long userId) {
+    public boolean checkUser(Integer userId) {
         String checkUserQuery = "select exists(select user_id from token where user_id=?)";
 
         int result = this.jdbcTemplate.queryForObject(checkUserQuery, int.class, userId);
@@ -26,7 +26,7 @@ public class AuthDao {
         return true;
     }
 
-    public Long insertRefreshToken(Long userId, String refreshToken) {
+    public Integer insertRefreshToken(Integer userId, String refreshToken) {
         String insertRefreshTokenQuery = "insert into token(user_id, refresh_token) values (?,?)";
         Object[] insertRefreshTokenParams = new Object[]{userId, refreshToken};
 
@@ -35,7 +35,7 @@ public class AuthDao {
         return userId;
     }
 
-    public String updateRefreshToken(Long userId, String newRefreshToken) {
+    public String updateRefreshToken(Integer userId, String newRefreshToken) {
         String updateRefreshTokenQuery = "update token set refresh_token = ? where user_id=?";
         Object[] updateRefreshTokenParams = new Object[]{newRefreshToken,userId};
 

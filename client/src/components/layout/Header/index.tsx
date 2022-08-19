@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userDataState } from 'states/selectors';
@@ -12,6 +12,7 @@ import classNames from 'classnames/bind';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 
 const cn = classNames.bind(styles);
 
@@ -29,9 +30,14 @@ const Header = () => {
     isAtHome || isAtLogin || isAtSignup ? '' : `?next=${pathname}`;
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
-  const onClickMenu = () => {
+  const onClickOtherMenu = () => {
     setMenuToggle(false);
   };
+  const menuRef = useRef<HTMLDivElement>(null);
+  const clickOutsidehandler = () => {
+    setMenuToggle(false);
+  };
+  useOnClickOutside(menuRef, clickOutsidehandler);
 
   const { register, handleSubmit, reset } = useForm<Iform>();
   const navigate = useNavigate();
@@ -42,7 +48,7 @@ const Header = () => {
   };
 
   return (
-    <header className={cn('header')}>
+    <div className={cn('header')} ref={menuRef}>
       <Container>
         <div className={cn('row')}>
           <button
@@ -57,7 +63,7 @@ const Header = () => {
             to="/"
             className={cn('home')}
             aria-label="메인 페이지 링크 버튼"
-            onClick={onClickMenu}
+            onClick={onClickOtherMenu}
           >
             <img className={cn('logo')} src={logo} alt="로고" />
           </Link>
@@ -67,7 +73,7 @@ const Header = () => {
               to="/mypage"
               className={cn('mypage')}
               aria-label="마이 페이지 링크 버튼"
-              onClick={onClickMenu}
+              onClick={onClickOtherMenu}
             >
               {/* TODO: 백엔드에서 유저 사진 받아오기 */}
               <FaRegUserCircle />
@@ -92,7 +98,7 @@ const Header = () => {
               to="/roads"
               className={cn('roads', 'menus')}
               aria-label="자전거 코스 링크 버튼"
-              onClick={onClickMenu}
+              onClick={onClickOtherMenu}
             >
               자전거 코스
             </Link>
@@ -100,7 +106,7 @@ const Header = () => {
               to="/meetups"
               className={cn('meetups', 'menus')}
               aria-label="자전거 모임 링크 버튼"
-              onClick={onClickMenu}
+              onClick={onClickOtherMenu}
             >
               자전거 모임
             </Link>
@@ -118,7 +124,7 @@ const Header = () => {
           </motion.div>
         )}
       </Container>
-    </header>
+    </div>
   );
 };
 

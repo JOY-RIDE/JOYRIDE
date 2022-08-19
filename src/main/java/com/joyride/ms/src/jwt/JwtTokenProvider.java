@@ -59,7 +59,7 @@ public class JwtTokenProvider {
 
     // JWT 토큰 생성
 
-    public Token createToken(Long userId) {
+    public Token createToken(Integer userId) {
         Claims claims = Jwts.claims().setSubject(userId.toString()); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
         Date now = new Date();
 
@@ -81,7 +81,7 @@ public class JwtTokenProvider {
         return new Token(accessToken, refreshToken);
     }
 
-    public String createAccessToken(Long userId) {
+    public String createAccessToken(Integer userId) {
         Claims claims = Jwts.claims().setSubject(userId.toString()); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
 
         Date now = new Date();
@@ -93,7 +93,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken(Long userId) {
+    public String createRefreshToken(Integer userId) {
         Claims claims = Jwts.claims().setSubject(userId.toString()); // JWT payload 에 저장되는 정보단위, 보통 여기서 user를 식별하는 값을 넣는다.
 
         Date now = new Date();

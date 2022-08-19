@@ -1,0 +1,79 @@
+@use '../../../styles/variables.scss' as *;
+
+.filter {
+  position: relative;
+  .select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    color: $color-grey-600;
+    font-weight: 500;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .options.hidden {
+    display: none;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    width: 34.5rem;
+    margin: 0 auto;
+    position: absolute;
+    top: 2.43rem;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+    border: $border-grey;
+    border-radius: 0.3rem;
+    transition: all 0.2s ease-in-out;
+
+    .option {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      padding: 1.5rem;
+      .label {
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        height: 2.2rem;
+        color: $color-grey-600;
+        font-weight: 500;
+      }
+    }
+
+    .tags {
+      padding: 0.7rem 1.5rem;
+      height: 3.4rem;
+      background-color: $color-grey-100;
+    }
+
+    .btns {
+      display: flex;
+      width: 100%;
+      .btn {
+        width: 50%;
+        height: 3.5rem;
+        padding: 0.9rem 1.5rem;
+        font-weight: 500;
+        font-size: 1.4rem;
+        line-height: 1.7rem;
+      }
+      .reset {
+        background-color: white;
+        color: $color-grey-600;
+        font-weight: 500;
+      }
+      .submit {
+        background-color: $color-main;
+        color: white;
+        font-weight: 500;
+      }
+    }
+  }
+}

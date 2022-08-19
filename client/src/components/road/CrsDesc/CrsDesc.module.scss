@@ -1,0 +1,34 @@
+@use '../../../styles/variables.scss' as *;
+
+.desc {
+  padding: 0.7rem 0;
+  border-top: $border-main-1;
+
+  .label {
+    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .contents {
+    white-space: pre-wrap;
+    word-break: keep-all;
+    padding: 0 0.89rem 0 1rem;
+    margin-bottom: 2rem;
+
+    .content {
+      .li-disc {
+        color: $color-main;
+        margin-right: 0.4rem;
+        font-size: 2rem;
+      }
+      text-indent: -1.11rem;
+      padding-left: 1rem;
+      font-weight: 500;
+      font-size: 1.4rem;
+      line-height: 150%;
+      color: $color-grey-800;
+    }
+  }
+}

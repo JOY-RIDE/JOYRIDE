@@ -3,10 +3,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState, isLoggedInState } from 'states/atoms';
 import { authAPI } from 'apis/authAPI';
-import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
-import FormInput from 'components/common/FormInput';
+import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
-import { FormControlLabel } from '@mui/material';
 import CheckBox from 'components/common/CheckBox';
 import Button from 'components/common/Button';
 import styles from './LoginForm.module.scss';
@@ -70,55 +69,57 @@ const LoginForm = () => {
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
-      <div className={cn('field')}>
-        <Controller
-          control={control}
-          name="email"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
-                type="email"
-                placeholder="이메일"
-                hasError={errors.email}
-                {...field}
-              />
-              {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
-            </FormInputWithErrorMessageWrapper>
-          )}
-        />
+      <div className={cn('fields')}>
+        <div className={cn('field')}>
+          <Controller
+            control={control}
+            name="email"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <AuthFormInputWithErrorMessageWrapper>
+                <AuthFormInput
+                  type="email"
+                  placeholder="이메일"
+                  hasError={errors.email}
+                  {...field}
+                />
+                {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
+              </AuthFormInputWithErrorMessageWrapper>
+            )}
+          />
+        </div>
+
+        <div className={cn('field')}>
+          <Controller
+            control={control}
+            name="password"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <AuthFormInputWithErrorMessageWrapper>
+                <AuthFormInput
+                  type="password"
+                  placeholder="비밀번호"
+                  hasError={errors.password}
+                  {...field}
+                />
+                {errors.password && (
+                  <ErrorMessage text="비밀번호를 입력하세요" />
+                )}
+              </AuthFormInputWithErrorMessageWrapper>
+            )}
+          />
+        </div>
       </div>
 
-      <div className={cn('field')}>
-        <Controller
-          control={control}
-          name="password"
-          rules={{ required: true }}
-          render={({ field }) => (
-            <FormInputWithErrorMessageWrapper>
-              <FormInput
-                type="password"
-                placeholder="비밀번호"
-                hasError={errors.password}
-                {...field}
-              />
-              {errors.password && <ErrorMessage text="비밀번호를 입력하세요" />}
-            </FormInputWithErrorMessageWrapper>
-          )}
-        />
-      </div>
-
-      <div className={cn('auto-login')}>
+      <div className={cn('auto-login-wrapper')}>
         <Controller
           control={control}
           name="isAuto"
           render={({ field: { value: isChecked, ...others } }) => (
-            <FormControlLabel
-              control={<CheckBox isChecked={isChecked} {...others} />}
-              label="자동 로그인"
-            />
+            <CheckBox isChecked={isChecked} id={cn('auto-login')} {...others} />
           )}
         />
+        <label htmlFor={cn('auto-login')}>자동 로그인</label>
       </div>
 
       <Button color="main" size="lg" text="로그인하기" />
