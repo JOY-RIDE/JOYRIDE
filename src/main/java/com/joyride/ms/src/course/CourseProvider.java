@@ -21,7 +21,6 @@ public class CourseProvider {
             return getCourseListRes;
         }
         catch (Exception exception) {
-            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

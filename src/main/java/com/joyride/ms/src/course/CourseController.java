@@ -23,7 +23,6 @@ public class CourseController {
             List<GetCourseListRes> getCourseListRes = courseService.createCourseList();
             return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
-            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }
