@@ -2,6 +2,7 @@ package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.CourseInfo;
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.PostCourseReviewReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -54,6 +55,26 @@ public class CourseDao {
                 courseInfo.getRequired_at(), courseInfo.getBrdDiv()};
         this.jdbcTemplate.update(createCourseListQuery, createUserParams);
     }
+
+    // 리뷰 생성 Dao
+    public int insertCourseReview(PostCourseReviewReq postCourseReviewReq, double totalRate){
+
+        String insertCourseReviewQuery = "insert into courseReview (user_id, course_id, total_rate, scene_rate, facilities_rate, " +
+                "safety_rate, accessibility_rate, total_review, scene_review, facilities_review, safety_review, accessibility_review) " +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        Object[] insertCourseReviewParams = new Object[]{postCourseReviewReq.getUser_id(), postCourseReviewReq.getCourse_id(),
+                totalRate, postCourseReviewReq.getScene_rate(), postCourseReviewReq.getFacilities_rate(), postCourseReviewReq.getSafety_rate(),
+                postCourseReviewReq.getAccessibility_rate(), postCourseReviewReq.getTotal_review(), postCourseReviewReq.getScene_review(),
+                postCourseReviewReq.getFacilities_review(), postCourseReviewReq.getSafety_review(), postCourseReviewReq.getAccessibility_review()};
+
+        this.jdbcTemplate.update(insertCourseReviewQuery, insertCourseReviewParams);
+
+        // 마지막으로 insert 된 id 리턴
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+
 
 
 }
