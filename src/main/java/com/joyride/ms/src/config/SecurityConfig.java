@@ -65,7 +65,6 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/oauth2/**").permitAll()
-                .antMatchers("/courses/**").permitAll()
 
                 // swagger
                 .antMatchers("/swagger-ui/**").permitAll()
