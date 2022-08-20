@@ -2,6 +2,8 @@ package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.CourseInfo;
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.PostCourseReviewReq;
+import com.joyride.ms.src.course.model.PostCourseReviewRes;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -100,5 +102,33 @@ public class CourseService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 리뷰작성 service
+    @Transactional
+    public PostCourseReviewRes createCourseReview(PostCourseReviewReq postCourseReviewReq) throws BaseException {
+
+        try{
+            double totalRate = calculateTotalRate(postCourseReviewReq);
+            int id = courseDao.insertCourseReview(postCourseReviewReq, totalRate);
+            String message = "리뷰 작성에 성공했습니다.";
+            return new PostCourseReviewRes(id, message);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //totalRate 계산 메소드
+    public Double calculateTotalRate(PostCourseReviewReq postCourseReviewReq) throws BaseException {
+        try{
+            double sum = postCourseReviewReq.getAccessibility_rate() + postCourseReviewReq.getFacilities_rate() +
+                    postCourseReviewReq.getSafety_rate() + postCourseReviewReq.getScene_rate();
+            double totalRate = sum / 4;
+
+            return totalRate;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
 
