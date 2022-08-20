@@ -159,7 +159,7 @@ const SignupBasicForm = () => {
       <div className={cn('btns')}>
         <Button
           type="button"
-          color="white"
+          color="whiteGrey"
           size="md"
           text="이전"
           onClick={decreaseStep}

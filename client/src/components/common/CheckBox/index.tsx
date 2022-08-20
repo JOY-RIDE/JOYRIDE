@@ -4,18 +4,18 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 interface CheckBoxProps {
+  shape: 'square' | 'circle';
   isChecked: boolean;
-  isCircle?: boolean;
   [key: string]: any;
 }
 
 const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
-  const { isChecked, isCircle, ...others } = props;
+  const { shape, isChecked, ...others } = props;
   return (
     <Checkbox
+      icon={shape === 'circle' ? <RadioButtonUncheckedIcon /> : undefined}
+      checkedIcon={shape === 'circle' ? <CheckCircleIcon /> : undefined}
       checked={isChecked}
-      icon={isCircle && <RadioButtonUncheckedIcon />}
-      checkedIcon={isCircle && <CheckCircleIcon />}
       sx={{
         color: '#e0e0e0',
         padding: 0,

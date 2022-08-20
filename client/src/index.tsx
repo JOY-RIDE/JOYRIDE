@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 const queryClient = new QueryClient();
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
+const root = createRoot(document.getElementById('root') as HTMLDivElement);
 root.render(
   <React.StrictMode>
     <RecoilRoot>

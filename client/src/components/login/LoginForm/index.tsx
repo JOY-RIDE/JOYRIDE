@@ -116,7 +116,12 @@ const LoginForm = () => {
           control={control}
           name="isAuto"
           render={({ field: { value: isChecked, ...others } }) => (
-            <CheckBox isChecked={isChecked} id={cn('auto-login')} {...others} />
+            <CheckBox
+              shape="square"
+              isChecked={isChecked}
+              id={cn('auto-login')}
+              {...others}
+            />
           )}
         />
         <label htmlFor={cn('auto-login')}>자동 로그인</label>
