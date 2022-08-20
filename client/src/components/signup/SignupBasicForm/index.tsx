@@ -1,5 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
+import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
@@ -10,7 +11,6 @@ import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
-import { AxiosError } from 'axios';
 
 const cn = classNames.bind(styles);
 
@@ -43,12 +43,12 @@ const SignupBasicForm = () => {
       await authAPI.checkIfEmailExists(email);
       return true;
     } catch (e) {
-      if (e instanceof Error) {
+      if (e instanceof AxiosError) {
+        setError('email', { type: 'etc' });
+      } else if (e instanceof Error) {
         setError('email', {
           type: e.message === '2017' ? 'duplicated' : 'etc',
         });
-      } else if (e instanceof AxiosError) {
-        setError('email', { type: 'etc' });
       }
       return false;
     }

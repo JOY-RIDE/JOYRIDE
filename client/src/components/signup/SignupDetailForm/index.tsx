@@ -74,12 +74,12 @@ const SignupDetailForm = () => {
       await authAPI.checkIfNicknameExists(nickname);
       return true;
     } catch (e) {
-      if (e instanceof Error) {
+      if (e instanceof AxiosError) {
+        setError('nickname', { type: 'etc' });
+      } else if (e instanceof Error) {
         setError('nickname', {
           type: e.message === '2032' ? 'duplicated' : 'etc',
         });
-      } else if (e instanceof AxiosError) {
-        setError('nickname', { type: 'etc' });
       }
       return false;
     }

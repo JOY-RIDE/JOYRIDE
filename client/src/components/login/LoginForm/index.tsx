@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState, isLoggedInState } from 'states/atoms';
 import { authAPI } from 'apis/authAPI';
+import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -26,7 +27,7 @@ function getLoginFailErrorMessage(code: string) {
     case '2112':
       return '비밀번호를 다시 확인해 주세요';
     default:
-      return '로그인 중 에러가 발생했습니다.';
+      return '로그인 중 문제가 발생했습니다.';
   }
 }
 
@@ -61,7 +62,9 @@ const LoginForm = () => {
       // TODO
       // navigate(nextURL || '/');
     } catch (e) {
-      if (e instanceof Error) {
+      if (e instanceof AxiosError) {
+        showToastMessage(getLoginFailErrorMessage(e.message));
+      } else if (e instanceof Error) {
         showToastMessage(getLoginFailErrorMessage(e.message));
       }
     }
