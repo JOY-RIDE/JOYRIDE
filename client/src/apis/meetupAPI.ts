@@ -2,6 +2,7 @@ import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 
 interface Meetup {
+  id: number;
   title: string;
   image: string;
   meetingDate: Date;
@@ -28,9 +29,10 @@ interface MeetupAPI {
 
 export const mockMeetupAPI: MeetupAPI = {
   getAllMeetups: () =>
-    Array(10).map(() => ({
+    Array.from({ length: 10 }, (_, index) => ({
+      id: index,
       title: faker.lorem.words(),
-      image: faker.image.animals(undefined, undefined, true),
+      image: faker.image.cats(undefined, undefined, true),
       meetingDate: faker.date.future(),
       dueDate: faker.date.soon(),
       courseLevel: faker.helpers.arrayElement([1, 2, 3]),

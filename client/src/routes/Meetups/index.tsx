@@ -2,6 +2,8 @@ import PageTitle from 'components/common/PageTitle';
 import { BiPlusCircle } from 'react-icons/bi';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
+import { mockMeetupAPI } from 'apis/meetupAPI';
+import MeetupCardContainer from 'components/meetups/MeetupCardContainer';
 
 const cn = classNames.bind(styles);
 
@@ -14,6 +16,9 @@ const Meetups = () => (
         <span>모임 만들기</span>
       </button>
     </header>
+    {mockMeetupAPI.getAllMeetups().map(meetup => (
+      <MeetupCardContainer key={meetup.id} {...meetup} />
+    ))}
   </div>
 );
 
