@@ -51,7 +51,11 @@ const SignupTerms = () => {
   return (
     <form className={cn('form')} onSubmit={handleSubmit}>
       <div className={cn('agree-all', 'term-check')}>
-        <CheckBox isCircle id={cn('all')} onChange={toggleAreAllTermsAgreed} />
+        <CheckBox
+          shape="circle"
+          id={cn('all')}
+          onChange={toggleAreAllTermsAgreed}
+        />
         <label htmlFor={cn('all')}>모두 동의합니다.</label>
       </div>
 
@@ -59,8 +63,8 @@ const SignupTerms = () => {
         <div className={cn('term')}>
           <div className={cn('term-check')}>
             <CheckBox
+              shape="circle"
               isChecked={isServiceTermAgreed}
-              isCircle
               id={cn('first')}
               onChange={toggleIsServiceTermAgreed}
             />
@@ -72,8 +76,8 @@ const SignupTerms = () => {
         <div className={cn('term')}>
           <div className={cn('term-check')}>
             <CheckBox
+              shape="circle"
               isChecked={isPrivacyTermAgreed}
-              isCircle
               id={cn('second')}
               onChange={toggleIsPrivacyTermAgreed}
             />

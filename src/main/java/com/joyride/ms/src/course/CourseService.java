@@ -2,11 +2,14 @@ package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.CourseInfo;
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.PostCourseReviewReq;
+import com.joyride.ms.src.course.model.PostCourseReviewRes;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +26,8 @@ import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 @RequiredArgsConstructor
 public class CourseService {
 
+    @Value("${durunubi.secret}")
+    private String API_SECRET_KEY;
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
@@ -33,8 +38,9 @@ public class CourseService {
             // 만약 db에 정보가 없다면
             if (check == 0) {
                 String result = "";
+
                 URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
-                        "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=JuZZRYW0TJ1Rh%2FEUVtpmO08L826y%2BRKT1t2aGVHq3RZa8Bh3GpM%2BsQENuVD3zMGUQP47PZCUCI0OV67gOtky%2Bw%3D%3D" +
+                        "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
                         "&brdDiv=DNBW&numOfRows=3004&pageNo=1&_type=json");
 
                 BufferedReader bf;
@@ -68,6 +74,7 @@ public class CourseService {
                     String crsContents = (String)course.get("crsContents");
                     String crsSummary = (String)course.get("crsSummary");
                     String crsTourInfo = (String)course.get("crsTourInfo");
+                    String travelerinfo = (String)course.get("travelerinfo");
                     String crsDstncStr = (String)course.get("crsDstnc");
                     double crsDstnc = Double.parseDouble(crsDstncStr);
                     String crsLevelStr = (String)course.get("crsLevel");
@@ -78,7 +85,7 @@ public class CourseService {
                     String brdDiv = (String)course.get("brdDiv");
 
                     CourseInfo courseInfo = CourseInfo.createCourseInfo(crsKorNm, crsContents, crsSummary, crsTourInfo,
-                            crsDstnc, crsLevel, sigun, crsTotlRqrmHour, brdDiv);
+                            travelerinfo, crsDstnc, crsLevel, sigun, crsTotlRqrmHour, brdDiv);
 
                     courseDao.insertCourse(courseInfo);
 
@@ -95,4 +102,33 @@ public class CourseService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 리뷰작성 service
+    @Transactional
+    public PostCourseReviewRes createCourseReview(PostCourseReviewReq postCourseReviewReq) throws BaseException {
+
+        try{
+            double totalRate = calculateTotalRate(postCourseReviewReq);
+            int id = courseDao.insertCourseReview(postCourseReviewReq, totalRate);
+            String message = "리뷰 작성에 성공했습니다.";
+            return new PostCourseReviewRes(id, message);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //totalRate 계산 메소드
+    public Double calculateTotalRate(PostCourseReviewReq postCourseReviewReq) throws BaseException {
+        try{
+            double sum = postCourseReviewReq.getAccessibility_rate() + postCourseReviewReq.getFacilities_rate() +
+                    postCourseReviewReq.getSafety_rate() + postCourseReviewReq.getScene_rate();
+            double totalRate = sum / 4;
+
+            return totalRate;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
+

@@ -2,7 +2,7 @@ import { joyrideAxios as axios } from './axios';
 import { SetterOrUpdater } from 'recoil';
 
 type SetIsLoggedIn = SetterOrUpdater<boolean>;
-export interface NewUser {
+interface NewUser {
   isTermsEnable: boolean;
   email: string;
   password: string;

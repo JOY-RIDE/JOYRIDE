@@ -25,8 +25,8 @@ public class GetCourseListRes {
     //tour_point 둘 중 뭐지?
     private String crsTourInfo;
 
-//    @Lob
-//    private String travelerinfo;
+    //    @Lob
+    private String travelerinfo;
 
     //total_rate
     //private double total_rate;
@@ -50,7 +50,7 @@ public class GetCourseListRes {
 
     //==생성 메서드==//
     public static GetCourseListRes  createGetCourseListRes(int id, String crsKorNm, String image, String crsContents, String crsSummary, String crsTourInfo,
-                                                           double crsDstnc, int crsLevel, String sigun,
+                                                           String travelerinfo, double crsDstnc, int crsLevel, String sigun,
                                                            double required_at, String created_at, String updated_at) {
         GetCourseListRes getCourseListRes = new GetCourseListRes();
         getCourseListRes.setId(id);
@@ -60,7 +60,7 @@ public class GetCourseListRes {
         getCourseListRes.setCrsContents(crsContents);
         getCourseListRes.setCrsSummary(crsSummary);
         getCourseListRes.setCrsTourInfo(crsTourInfo);
-//        getCourseListRes.setTravelerinfo(travelerinfo);
+        getCourseListRes.setTravelerinfo(travelerinfo);
 //        getCourseListRes.setTotal_rate(total_rate);
         getCourseListRes.setCrsDstnc(crsDstnc);
 //        getCourseListRes.setCrsTotlRqrmHour(crsTotlRqrmHour);

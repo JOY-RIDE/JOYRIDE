@@ -24,8 +24,8 @@ public class CourseInfo {
 
     private String crsTourInfo;
 
-//    @Lob
-//    private String travelerinfo;
+
+    private String travelerinfo;
 
     //total_rate
 //    private double total_rate;
@@ -49,7 +49,7 @@ public class CourseInfo {
     private String brdDiv;
 
     //==생성 메서드==//
-    public static CourseInfo createCourseInfo(String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,
+    public static CourseInfo createCourseInfo(String crsKorNm, String crsContents, String crsSummary, String crsTourInfo, String travelerinfo,
                                               double crsDstnc, int crsLevel, String sigun, double required_at, String brdDiv) {
         CourseInfo courseInfo = new CourseInfo();
 //        courseInfo.setId(id);
@@ -59,10 +59,10 @@ public class CourseInfo {
         courseInfo.setCrsContents(crsContents);
         courseInfo.setCrsSummary(crsSummary);
         courseInfo.setCrsTourInfo(crsTourInfo);
-//        getCourseListRes.setTravelerinfo(travelerinfo);
+        courseInfo.setTravelerinfo(travelerinfo);
         //courseInfo.setTotal_rate(total_rate);
         courseInfo.setCrsDstnc(crsDstnc);
-//        getCourseListRes.setCrsTotlRqrmHour(crsTotlRqrmHour);
+//        courseInfo.setCrsTotlRqrmHour(crsTotlRqrmHour);
         courseInfo.setCrsLevel(crsLevel);
         courseInfo.setSigun(sigun);
         courseInfo.setRequired_at(required_at);
@@ -74,3 +74,4 @@ public class CourseInfo {
         return courseInfo;
     }
 }
+

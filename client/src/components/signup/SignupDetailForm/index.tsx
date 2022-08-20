@@ -2,7 +2,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
-import { authAPI, NewUser } from 'apis/authAPI';
+import { authAPI } from 'apis/authAPI';
+import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -56,6 +57,7 @@ const SignupDetailForm = () => {
     control,
     formState: { isSubmitted, errors },
     handleSubmit,
+    setError,
   } = useForm<SignupDetailForm>({
     defaultValues: {
       nickname: '',
@@ -64,33 +66,28 @@ const SignupDetailForm = () => {
       bicycleType: '',
       message: '',
     },
-    reValidateMode: 'onBlur',
+    // reValidateMode: 'onBlur',
   });
 
-  const showToastMessage = useSetRecoilState(toastMessageState);
   const validateNickname = async (nickname: string) => {
     try {
       await authAPI.checkIfNicknameExists(nickname);
       return true;
     } catch (e) {
-      if (e instanceof Error) {
-        if (e.message === '2032') return false;
-        showToastMessage('닉네임 중복 확인 중 에러가 발생했습니다');
+      if (e instanceof AxiosError) {
+        setError('nickname', { type: 'etc' });
+      } else if (e instanceof Error) {
+        setError('nickname', {
+          type: e.message === '2032' ? 'duplicated' : 'etc',
+        });
       }
+      return false;
     }
   };
 
   const [{ email, password }, setSignupFormData] =
     useRecoilState(signupFormDataState);
-  const signup = async (newUser: NewUser) => {
-    try {
-      await authAPI.signup(newUser);
-    } catch (e) {
-      if (e instanceof Error) {
-        showToastMessage('회원가입 중 에러가 발생했습니다');
-      }
-    }
-  };
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
 
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
@@ -100,6 +97,9 @@ const SignupDetailForm = () => {
     bicycleType,
     message,
   }) => {
+    const isNicknameValid = await validateNickname(nickname);
+    if (!isNicknameValid) return;
+
     const newUser = {
       isTermsEnable: true,
       email,
@@ -111,9 +111,13 @@ const SignupDetailForm = () => {
       introduce: message || null,
     };
 
-    await signup(newUser);
-    setSignupFormData(data => ({ ...data, nickname }));
-    increaseStep();
+    try {
+      await authAPI.signup(newUser);
+      setSignupFormData(data => ({ ...data, nickname }));
+      increaseStep();
+    } catch (e) {
+      showToastMessage('회원가입 중 문제가 발생했습니다');
+    }
   };
 
   return (
@@ -129,7 +133,6 @@ const SignupDetailForm = () => {
             rules={{
               required: true,
               maxLength: 10,
-              validate: nickname => validateNickname(nickname),
             }}
             render={({ field }) => (
               <AuthFormInputWithErrorMessageWrapper>
@@ -155,8 +158,6 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>성별</h4>
-            {/* TODO: 디자인 */}
-            <span className={cn('optional')}>(선택 사항)</span>
           </label>
           <ul className={cn('row')}>
             <Controller
@@ -187,7 +188,6 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>나이</h4>
-            <span className={cn('optional')}>(선택 사항)</span>
           </label>
           <ul className={cn('row')}>
             <Controller
@@ -218,7 +218,6 @@ const SignupDetailForm = () => {
         <div className={cn('field', 'bicycle-type')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>자전거 종류</h4>
-            <span className={cn('optional')}>(선택 사항)</span>
           </label>
           <Controller
             control={control}
@@ -236,7 +235,7 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>상태 메세지</h4>
-            <span className={cn('optional')}>(선택 사항)</span>
+            <span className={cn('optional')}>(선택)</span>
           </label>
           <Controller
             control={control}
@@ -269,7 +268,7 @@ const SignupDetailForm = () => {
       <div className={cn('btns')}>
         <Button
           type="button"
-          color="white"
+          color="whiteGrey"
           size="md"
           text="이전"
           onClick={decreaseStep}

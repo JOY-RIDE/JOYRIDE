@@ -28,3 +28,6 @@ jwt:
   time:
     access:
     refresh:
+
+durunubi:
+  secret:
