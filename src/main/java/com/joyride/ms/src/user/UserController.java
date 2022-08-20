@@ -91,26 +91,6 @@ public class UserController {
     }
 
     /**
-     * 2.4 프로필 수정 API
-     *
-     * @param request
-     * @return
-     */
-
-    @PatchMapping("/profile")
-    public BaseResponse<PatchUserRes> patchProfile(HttpServletRequest request, @RequestBody PatchUserReq patchUserReq) {
-        try {
-            Long user_id = Long.parseLong(request.getAttribute("user_id").toString());
-            PatchUserRes patchUserRes = userService.modifyProfile(user_id, patchUserReq);
-            return new BaseResponse<>(patchUserRes);
-        } catch (BaseException e) {
-            writeExceptionWithAuthorizedRequest(e, request, patchUserReq.toString());
-            return new BaseResponse(e.getStatus());
-        }
-    }
-
-
-    /**
     * 보관기간 1달 지난 유저 삭제
     *
     *
