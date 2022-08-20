@@ -15,28 +15,30 @@ import _ from 'lodash';
 const cn = classNames.bind(styles);
 
 interface IRoad {
-  brdDiv: string;
-  createdtime: number;
+  id: number;
   crsContents: string;
-  crsCycle: string;
   crsDstnc: number;
-  crsIdx: string;
   crsKorNm: string;
   crsLevel: number;
   crsSummary: string;
   crsTotlRqrmHour: number;
   crsTourInfo: string;
-  gpxpath: string;
-  modifiedtime: number;
-  routeIdx: string;
   sigun: string;
+  image: null;
   travelerinfo: number;
+  created_at: string;
+  updated_at: string;
+  required_at: number;
 }
 
 const Roads = () => {
   const { isLoading, data } = useQuery<IRoad[]>('allCourses', fetchCourses);
-  const RoadsData = _.uniqBy(data, 'crsIdx');
-  //   console.log(data);
+  //   const { isLoading, data } = useQuery<IRoad[]>('allCourses', async () => {
+  //     const { data } = await axios.get('/courses');
+  //     return data;
+  //   });
+  const RoadsData = _.uniqBy(data, 'crsKorNm');
+  //   console.log(RoadsData);
 
   const sortOptionData = [
     { name: 'abc', value: '가나다순' },
@@ -71,8 +73,8 @@ const Roads = () => {
           </div>
           <ul className={cn('contents')}>
             {RoadsData?.slice(offset, offset + LIMIT).map(road => (
-              <li className={cn('content')} key={road.crsKorNm}>
-                <Link to={`${road.crsKorNm}`} state={{ name: road.crsKorNm }}>
+              <li className={cn('content')} key={road.id}>
+                <Link to={`${road.id}`} state={{ id: road.id }}>
                   {/* 사진 있을시
                   <div className={cn('top')}>
                     <img
@@ -89,12 +91,12 @@ const Roads = () => {
                     <p className={cn('info')}>
                       <span className={cn('dstnc')}>{road.crsDstnc}km </span>
                       <span className={cn('hour')}>
-                        {road.crsTotlRqrmHour < 60
-                          ? `${road.crsTotlRqrmHour}분`
-                          : road.crsTotlRqrmHour % 60 == 0
-                          ? `${Math.floor(road.crsTotlRqrmHour / 60)}시간`
-                          : `${Math.floor(road.crsTotlRqrmHour / 60)}시간 ${
-                              road.crsTotlRqrmHour % 60
+                        {road.required_at < 60
+                          ? `${road.required_at}분`
+                          : road.required_at % 60 == 0
+                          ? `${Math.floor(road.required_at / 60)}시간`
+                          : `${Math.floor(road.required_at / 60)}시간 ${
+                              road.required_at % 60
                             }분`}
                       </span>
                     </p>
@@ -112,13 +114,11 @@ const Roads = () => {
                       ·
                       <span className={cn('rate')}>
                         <span className={cn('type')}>평점</span>{' '}
-                        {/* TODO 코스 평점(없으면 - 로 표시) */}
                         <span className={cn('value')}>4.5</span>
                       </span>
                       ·
                       <span className={cn('likes')}>
                         <span className={cn('type')}>♥</span>{' '}
-                        {/* TODO 코스 좋아요 수 */}
                         <span className={cn('value')}>12</span>
                       </span>
                     </p>
