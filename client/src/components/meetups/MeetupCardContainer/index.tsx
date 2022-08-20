@@ -4,24 +4,24 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface MeetupCardContainer {
-  MeetupInfo: any;
-  imageSRC: string;
+  // MeetupInfo: any;
   title: string;
-  MeetupRoute: any;
+  image: string;
+  // MeetupPath: any;
 }
 
 const MeetupCardContainer = ({
-  MeetupInfo,
-  imageSRC,
+  // MeetupInfo,
   title,
-  MeetupRoute,
-}: MeetupCardContainer) => (
+  image,
+}: // MeetupPath,
+MeetupCardContainer) => (
   <article className={cn('container')}>
     <div className={cn('top')}>
-      <MeetupInfo />
-      <img className={cn('img')} src={imageSRC} alt={title} />
+      {/* <MeetupInfo /> */}
+      <img className={cn('img')} src={image} alt={title} />
     </div>
-    <MeetupRoute />
+    {/* {<MeetupPath />} */}
   </article>
 );
 
