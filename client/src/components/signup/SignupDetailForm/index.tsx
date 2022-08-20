@@ -64,7 +64,7 @@ const SignupDetailForm = () => {
       bicycleType: '',
       message: '',
     },
-    reValidateMode: 'onBlur',
+    // reValidateMode: 'onBlur',
   });
 
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -155,8 +155,6 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>성별</h4>
-            {/* TODO: 디자인 */}
-            <span className={cn('optional')}>(선택 사항)</span>
           </label>
           <ul className={cn('row')}>
             <Controller
@@ -187,7 +185,6 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>나이</h4>
-            <span className={cn('optional')}>(선택 사항)</span>
           </label>
           <ul className={cn('row')}>
             <Controller
@@ -218,7 +215,6 @@ const SignupDetailForm = () => {
         <div className={cn('field', 'bicycle-type')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>자전거 종류</h4>
-            <span className={cn('optional')}>(선택 사항)</span>
           </label>
           <Controller
             control={control}
@@ -236,7 +232,7 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>상태 메세지</h4>
-            <span className={cn('optional')}>(선택 사항)</span>
+            <span className={cn('optional')}>(선택)</span>
           </label>
           <Controller
             control={control}

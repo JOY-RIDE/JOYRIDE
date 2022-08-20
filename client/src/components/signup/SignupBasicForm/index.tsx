@@ -1,6 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
-import { toastMessageState } from 'states/atoms';
 import { useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
@@ -11,6 +10,7 @@ import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
+import { AxiosError } from 'axios';
 
 const cn = classNames.bind(styles);
 
@@ -26,6 +26,7 @@ const SignupBasicForm = () => {
     formState: { isSubmitted, errors },
     watch,
     handleSubmit,
+    setError,
   } = useForm<SignupBasicForm>({
     // TODO: yup
     defaultValues: {
@@ -33,26 +34,35 @@ const SignupBasicForm = () => {
       password: '',
       passwordConfirm: '',
     },
-    reValidateMode: 'onBlur',
+    // reValidateMode: 'onBlur',
   });
   const password = watch('password');
 
-  const showToastMessage = useSetRecoilState(toastMessageState);
   const validateEmail = async (email: string) => {
     try {
       await authAPI.checkIfEmailExists(email);
       return true;
     } catch (e) {
       if (e instanceof Error) {
-        if (e.message === '2017') return false;
-        showToastMessage('이메일 중복 확인 중 에러가 발생했습니다');
+        setError('email', {
+          type: e.message === '2017' ? 'duplicated' : 'etc',
+        });
+      } else if (e instanceof AxiosError) {
+        setError('email', { type: 'etc' });
       }
+      return false;
     }
   };
 
   const setSignupFormData = useSetRecoilState(signupFormDataState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
-  const onSubmit: SubmitHandler<SignupBasicForm> = ({ email, password }) => {
+  const onSubmit: SubmitHandler<SignupBasicForm> = async ({
+    email,
+    password,
+  }) => {
+    const isEmailValid = await validateEmail(email);
+    if (!isEmailValid) return;
+
     setSignupFormData(data => ({ ...data, email, password }));
     increaseStep();
   };
@@ -70,7 +80,6 @@ const SignupBasicForm = () => {
             rules={{
               required: true,
               pattern: REGEX.email,
-              validate: email => validateEmail(email),
             }}
             render={({ field }) => (
               <AuthFormInputWithErrorMessageWrapper>

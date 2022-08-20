@@ -15,8 +15,10 @@ export function getSignupFormErrorMessage(
           return '이메일을 입력하세요';
         case 'pattern':
           return '이메일 형식이 올바르지 않습니다';
-        case 'validate':
+        case 'duplicated':
           return '이미 등록된 이메일입니다';
+        case 'etc':
+          return '이메일 중복 확인 중 문제가 발생했습니다';
         default:
           throw new Error();
       }
