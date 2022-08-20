@@ -177,7 +177,7 @@ public class AuthController {
      * @return accessToken
      */
     @PostMapping("/jwt")
-    public BaseResponse<PostAccessRes> postAccess(@CookieValue("refreshToken") String refreshToken) {
+    public BaseResponse<PostAccessRes> postAccess(@CookieValue(value = "refreshToken", required = false) String refreshToken) {
 
         try {
             jwtTokenProvider.AssertRefreshTokenEqualAndValid(refreshToken);
