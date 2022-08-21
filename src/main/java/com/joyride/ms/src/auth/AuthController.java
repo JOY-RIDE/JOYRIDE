@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -230,6 +231,43 @@ public class AuthController {
             }
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 1.9.3 이메일 검증 api
+     * [GET] /auth/email/existence?email=
+     *
+     * @param email
+     * @return
+     */
+    @GetMapping("/email/existence")
+    public BaseResponse<String> checkEmailExistence(HttpServletRequest request, @RequestParam(required = true) String email) {
+        try {
+            if (userProvider.checkEmail(email) == 1) { // email 확인
+                return new BaseResponse<>("존재하는 일반 이메일 입니다.");
+            } else { // 일반 email이 없는 경우
+                return new BaseResponse<>(BaseResponseStatus.USERS_EMPTY_USER_EMAIL);
+            }
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    /**
+     * 1.9.4 비밀번호 재설정 API
+     * [PATCH] /auth/password
+     *
+     * @param request
+     * @return
+     */
+    @PatchMapping("/password")
+    public BaseResponse<BaseResponseStatus> patchUserPassword(HttpServletRequest request, @RequestBody PatchPasswordReq patchPasswordReq) {
+        try {
+            userService.modifyPassword(patchPasswordReq);
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
         }
     }
 

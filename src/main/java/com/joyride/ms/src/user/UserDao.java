@@ -118,6 +118,12 @@ public class UserDao {
         this.jdbcTemplate.update(updateStatusQuery, updateStatusParam);
     }
 
+    public void updatePassword(String email, String encodedPassword) {
+        String updatePasswordQuery = "update user set password = ? where email = ? and provider = 'none'";
+        Object[] updatePasswordParams = new Object[]{encodedPassword, email};
+        this.jdbcTemplate.update(updatePasswordQuery, updatePasswordParams);
+    }
+
     public void updateProfile(Integer userId, PatchUserReq patchUserReq) {
         String updateProfileQuery = "update user set nickname = ? , gender =?, old = ?, introduce = ?, bicycle_type = ?, bicycle_career = ? where id = ? and status = 1";
         Object[] updateProfileParams = new Object[]{patchUserReq.getNickname(),patchUserReq.getGender(),patchUserReq.getOld(), patchUserReq.getIntroduce(), patchUserReq.getBicycleType(),patchUserReq.getBicycleCareer(), userId};

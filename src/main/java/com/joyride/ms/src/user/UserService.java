@@ -1,5 +1,6 @@
 package com.joyride.ms.src.user;
 
+import com.joyride.ms.src.auth.dto.PatchPasswordReq;
 import com.joyride.ms.src.auth.dto.PostSignupOauth2Req;
 import com.joyride.ms.src.s3.dto.PostProfileImgRes;
 import com.joyride.ms.src.user.dto.PatchUserReq;
@@ -56,6 +57,23 @@ public class UserService {
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+    @Transactional
+    public void modifyPassword(PatchPasswordReq patchPasswordReq) throws BaseException {
+        String email = patchPasswordReq.getEmail();
+        //validation
+        if (userProvider.checkEmail(email) != 1)
+            throw new BaseException(USERS_EMPTY_USER_EMAIL);
+
+        String encodedPassword = passwordEncoder.encode(patchPasswordReq.getNewPassword());
+
+        try {
+            userDao.updatePassword(email, encodedPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+
     }
 
     @Transactional
