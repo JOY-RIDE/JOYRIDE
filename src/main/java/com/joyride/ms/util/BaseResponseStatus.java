@@ -91,7 +91,9 @@ public enum BaseResponseStatus {
 
     // 5000 : AWS관련 오류
     AWS_ACCESS_DENIED(false,5001 ,"접근 권한이 없습니다."),
-    AWS_FILE_NOT_FOUND(false,5002 ,"파일 키에 해당하는 파일이 존재하지 않습니다.");
+    AWS_FILE_NOT_FOUND(false,5002 ,"파일 키에 해당하는 파일이 존재하지 않습니다."),
+    AWS_FILE_CONVERT_FAIL(false, 5003, "파일 변환에 실패했습니다.");
+
     // 6000 : 필요시 만들어서 쓰세요
 
 

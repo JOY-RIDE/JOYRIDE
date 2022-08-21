@@ -1,6 +1,8 @@
 package com.joyride.ms.src.user;
 
 import com.joyride.ms.src.auth.dto.PostSignupOauth2Req;
+import com.joyride.ms.src.s3.dto.PostProfileImgRes;
+import com.joyride.ms.src.user.dto.PatchUserReq;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponseStatus;
@@ -46,6 +48,39 @@ public class UserService {
         }
 
     }
+
+    @Transactional
+    public PostProfileImgRes setProfileImg(Integer userId, String profile_img_url) throws BaseException {
+        try {
+            return new PostProfileImgRes(userId, this.userDao.updateProfileImg(userId, profile_img_url));
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public void modifyProfileImgToDefault(Integer userId) throws BaseException {
+        try {
+            this.userDao.updateProfileImgToDefault(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    @Transactional
+    public void modifyProfile(Integer userId, PatchUserReq patchUserReq) throws BaseException {
+        if (userProvider.checkOtherUserNickname(userId,patchUserReq.getNickname()) == 1)
+            throw new BaseException(POST_USERS_EXISTS_NICKNAME);
+        try {
+            userDao.updateProfile(userId, patchUserReq);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     @Transactional
     public void removeUser(Integer userId) throws BaseException {
         if (userProvider.checkId(userId) == 0)
@@ -57,7 +92,7 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional
     public void removeRefreshToken(Integer userId) throws BaseException {
         if (userProvider.checkId(userId) == 0)
             throw new BaseException(USERS_EMPTY_USER_ID);
@@ -68,7 +103,7 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional
     public void removeUserExpired(String targetDate) throws BaseException {
         try {
             userDao.deleteByUserStatus(targetDate);
@@ -77,7 +112,7 @@ public class UserService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional
     public void createOauth2User(PostSignupOauth2Req postSignupOauth2Req) throws BaseException {
         // provider가 "google" 인지
         if (!userProvider.isProviderCorrect(postSignupOauth2Req.getProvider())) {

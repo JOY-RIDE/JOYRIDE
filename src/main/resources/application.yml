@@ -21,6 +21,27 @@ spring:
             client-secret:
             scope:
 
+  servlet:
+    multipart:
+      max-file-size:
+      max-request-size:
+
+  # AWS Account Credentials
+
+cloud:
+  aws:
+    credentials:
+      access-key:
+      secret-key:
+
+    # AWS S3 bucket Info
+    s3:
+      bucket:
+    region:
+      static:
+    stack:
+      auto:
+
 jwt:
   secret:
     access:

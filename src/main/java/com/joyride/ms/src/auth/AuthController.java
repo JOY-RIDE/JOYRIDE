@@ -65,7 +65,6 @@ public class AuthController {
     public BaseResponse<String> singup(@Validated @RequestBody PostSignupReq postSignupReq, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
-            System.out.println(errors.toString());
             return new BaseResponse<>(errors);
         }
         try {

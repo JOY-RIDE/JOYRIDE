@@ -106,4 +106,13 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    @Transactional(readOnly = true)
+    public int checkOtherUserNickname(Integer userId,String nickname) throws BaseException {
+        try {
+            return userDao.checkOtherUserNickname(userId,nickname);
+        } catch (Exception exception) {
+            log.warn(exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
