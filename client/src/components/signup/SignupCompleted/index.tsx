@@ -16,7 +16,7 @@ const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
   const handleLoginClick = () => navigate('/login');
 
   return (
-    <div className={cn('wrapper')}>
+    <div className={cn('page')}>
       <img src={completed} alt="가입 완료" />
       <h1 className={cn('title')}>
         {nickname}님,

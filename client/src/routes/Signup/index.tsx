@@ -51,7 +51,7 @@ const Signup = () => {
         increaseStep,
       }}
     >
-      <section className={cn('wrapper')}>
+      <section className={cn('page')}>
         <header className={cn('header')}>
           <PageTitle size="lg">회원가입</PageTitle>
           <div className={cn('steps')}>

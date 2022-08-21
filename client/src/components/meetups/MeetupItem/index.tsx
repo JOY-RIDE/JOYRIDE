@@ -1,26 +1,28 @@
+import { ReactElement } from 'react';
 import styles from './MeetupItem.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
 interface MeetupItem {
-  // MeetupInfo: any;
+  MeetupInfo: ReactElement;
   title: string;
   imgSRC: string;
-  // MeetupPath: any;
+  // MeetupPath: ReactElement;
 }
 
 const MeetupItem = ({
-  // MeetupInfo,
+  MeetupInfo,
   title,
   imgSRC,
 }: // MeetupPath,
 MeetupItem) => (
   <article className={cn('container')}>
     <div className={cn('container__top')}>
-      {/* <MeetupInfo /> */}
+      {MeetupInfo}
       <img className={cn('img')} src={imgSRC} alt={title} />
     </div>
+
     {/* {<MeetupPath />} */}
   </article>
 );

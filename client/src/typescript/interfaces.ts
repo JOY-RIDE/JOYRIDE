@@ -10,14 +10,14 @@ export interface Meetup {
   meetingDate: Date;
   dueDate: Date;
   courseLevel: number;
-  ridingLevel: number[]; // TODO
-  bicycleType: string[];
-  numberOfParticipants: number; // TODO
-  maxNumberOfParticipants: number;
+  ridingLevels: number[];
+  bicycleTypes: string[];
+  currentParticipants: {}[]; // TODO
+  maxNumOfParticipants: number;
   courseName: null | string;
-  path: string;
+  ridingPath: string;
   location: string;
   gender: string;
-  age: number[];
+  ages: number[];
   participationFee: number;
 }

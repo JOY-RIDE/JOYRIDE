@@ -7,7 +7,7 @@ import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInpu
 import AuthFormInput from 'components/common/AuthFormInput';
 import { REGEX } from 'utils/constants';
 import ErrorMessage from 'components/common/ErrorMessage';
-import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
+import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
@@ -90,7 +90,10 @@ const SignupBasicForm = () => {
                 />
                 {errors.email && (
                   <ErrorMessage
-                    text={getSignupFormErrorMessage('email', errors.email.type)}
+                    text={getSignupFormFieldErrorMessage(
+                      'email',
+                      errors.email.type
+                    )}
                   />
                 )}
               </AuthFormInputWithErrorMessageWrapper>
@@ -121,7 +124,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.password && (
                   <ErrorMessage
-                    text={getSignupFormErrorMessage(
+                    text={getSignupFormFieldErrorMessage(
                       'password',
                       errors.password.type
                     )}
@@ -153,7 +156,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.passwordConfirm && (
                   <ErrorMessage
-                    text={getSignupFormErrorMessage(
+                    text={getSignupFormFieldErrorMessage(
                       'passwordConfirm',
                       errors.passwordConfirm.type
                     )}

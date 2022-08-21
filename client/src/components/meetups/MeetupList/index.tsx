@@ -1,9 +1,7 @@
 import { Meetup } from 'typescript/interfaces';
 import MeetupItem from '../MeetupItem';
+import MeetupInfo from '../MeetupInfo';
 import styles from './MeetupList.module.scss';
-import classNames from 'classnames/bind';
-
-const cn = classNames.bind(styles);
 
 interface MeetupList {
   meetups: Meetup[];
@@ -12,8 +10,12 @@ interface MeetupList {
 const MeetupList = ({ meetups }: MeetupList) => (
   <section className={styles.meetups}>
     {meetups.map(meetup => {
-      const { image: imgSRC, ...others } = meetup;
-      return <MeetupItem key={meetup.id} imgSRC={imgSRC} {...others} />;
+      const props = {
+        MeetupInfo: <MeetupInfo {...meetup} />,
+        title: meetup.title,
+        imgSRC: meetup.image,
+      };
+      return <MeetupItem key={meetup.id} {...props} />;
     })}
   </section>
 );

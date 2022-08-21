@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 const Login = () => (
-  <section className={cn('wrapper')}>
+  <section className={cn('page')}>
     <PageTitle size="lg">로그인</PageTitle>
 
     <LoginForm />

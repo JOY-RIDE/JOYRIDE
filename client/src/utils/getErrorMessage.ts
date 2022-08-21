@@ -4,7 +4,7 @@ type SignupFormField =
   | 'passwordConfirm'
   | 'nickname'
   | 'message';
-export function getSignupFormErrorMessage(
+export function getSignupFormFieldErrorMessage(
   field: SignupFormField,
   errorType: string
 ) {
