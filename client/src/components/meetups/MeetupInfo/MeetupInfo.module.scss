@@ -1,6 +1,12 @@
 @use '../../../styles/variables.scss' as *;
 
-.wrapper {
+.container {
+  flex-grow: 1; // 중요
+  display: flex;
+}
+
+.text {
+  flex-grow: 1;
   padding: 1.4rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -35,21 +41,21 @@
   overflow: hidden;
 }
 
-.wrapper__bottom {
+.rest-info-wrapper {
   font-size: 1.4rem;
   display: flex;
   gap: 1.5rem;
 }
 
 .labels,
-.rest-data {
+.rest-info {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   color: $color-grey-600;
 }
 
-.rest-data {
+.rest-info {
   font-weight: 700;
 
   & .emphasized {
@@ -60,4 +66,10 @@
 .riding-levels {
   display: flex;
   gap: 0.5rem;
+}
+
+.img {
+  width: 35%;
+  aspect-ratio: 0.9;
+  object-fit: cover;
 }
