@@ -1,3 +1,4 @@
+@use '../../styles/mixins.scss' as *;
 @use '../../styles/variables.scss' as *;
 
 .header {
@@ -19,5 +20,15 @@
 
   & span {
     text-decoration: underline;
+  }
+}
+
+.meetups-wrapper {
+  display: flex;
+  justify-content: center;
+
+  // TODO
+  @include for-tablet-landscape-up {
+    justify-content: right;
   }
 }

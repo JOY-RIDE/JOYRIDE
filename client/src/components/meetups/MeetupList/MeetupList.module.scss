@@ -1,0 +1,11 @@
+@use '../../../styles/mixins.scss' as *;
+
+.meetups {
+  display: inline-grid;
+  gap: 2rem;
+
+  // TODO
+  @include for-tablet-landscape-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
