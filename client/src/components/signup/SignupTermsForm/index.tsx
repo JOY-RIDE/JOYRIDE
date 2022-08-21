@@ -7,13 +7,12 @@ import CheckBox from 'components/common/CheckBox';
 import TextArea from 'components/common/TextArea';
 import { privacyTerm, serviceTerm } from './terms';
 import Button from 'components/common/Button';
-import styles from './SignupTerms.module.scss';
+import styles from './SignupTermsForm.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// TODO: rename SignupAgreementForm
-const SignupTerms = () => {
+const SignupTermsForm = () => {
   const [
     isServiceTermAgreed,
     setIsServiceTermAgreed,
@@ -95,4 +94,4 @@ const SignupTerms = () => {
   );
 };
 
-export default SignupTerms;
+export default SignupTermsForm;
