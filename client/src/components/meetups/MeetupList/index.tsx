@@ -1,5 +1,5 @@
 import { Meetup } from 'typescript/interfaces';
-import MeetupCardContainer from '../MeetupCardContainer';
+import MeetupItem from '../MeetupItem';
 import styles from './MeetupList.module.scss';
 import classNames from 'classnames/bind';
 
@@ -13,9 +13,7 @@ const MeetupList = ({ meetups }: MeetupList) => (
   <section className={styles.meetups}>
     {meetups.map(meetup => {
       const { image: imgSRC, ...others } = meetup;
-      return (
-        <MeetupCardContainer key={meetup.id} imgSRC={imgSRC} {...others} />
-      );
+      return <MeetupItem key={meetup.id} imgSRC={imgSRC} {...others} />;
     })}
   </section>
 );

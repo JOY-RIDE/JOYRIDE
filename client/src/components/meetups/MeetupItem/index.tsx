@@ -1,21 +1,21 @@
-import styles from './MeetupCardContainer.module.scss';
+import styles from './MeetupItem.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface MeetupCardContainer {
+interface MeetupItem {
   // MeetupInfo: any;
   title: string;
   imgSRC: string;
   // MeetupPath: any;
 }
 
-const MeetupCardContainer = ({
+const MeetupItem = ({
   // MeetupInfo,
   title,
   imgSRC,
 }: // MeetupPath,
-MeetupCardContainer) => (
+MeetupItem) => (
   <article className={cn('container')}>
     <div className={cn('container__top')}>
       {/* <MeetupInfo /> */}
@@ -25,4 +25,4 @@ MeetupCardContainer) => (
   </article>
 );
 
-export default MeetupCardContainer;
+export default MeetupItem;
