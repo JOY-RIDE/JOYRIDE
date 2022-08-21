@@ -1,3 +1,4 @@
+import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/atoms';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -46,11 +47,10 @@ const ageOptions: SelectButtonProps[] = [
   { value: '4', text: '40대', textEng: 'forty' },
   { value: '5', text: '50대 이상', textEng: 'fifty' },
 ];
-const bicycleTypeOptions: SelectListOption[] = [
-  { value: 'MTB', text: 'MTB' },
-  { value: '로드 바이크', text: '로드 바이크' },
-  // TODO: 옵션 추가
-];
+const bicycleTypeOptions: SelectListOption[] = BICYCLE_TYPES.map(type => ({
+  value: type,
+  text: type,
+}));
 
 const SignupDetailForm = () => {
   const {

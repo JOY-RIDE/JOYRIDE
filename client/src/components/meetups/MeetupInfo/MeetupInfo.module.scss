@@ -47,6 +47,10 @@
   gap: 1.5rem;
 }
 
+.labels {
+  flex-shrink: 0;
+}
+
 .labels,
 .rest-info {
   display: flex;
@@ -61,11 +65,12 @@
   & .emphasized {
     color: $color-main;
   }
-}
 
-.riding-levels {
-  display: flex;
-  gap: 0.5rem;
+  & > ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
 }
 
 .img {

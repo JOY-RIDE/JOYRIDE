@@ -22,7 +22,7 @@ const MeetupPath = ({ courseName, ridingPath }: MeetupPathProps) => {
           {from}
           {pathLength > 2 && ' → '}
         </span>
-        <p className={cn('path')}>{restPathString}</p>
+        <p className={cn('rest-path')}>{restPathString}</p>
         <span className={cn('to')}> → {to}</span>
       </div>
     </div>

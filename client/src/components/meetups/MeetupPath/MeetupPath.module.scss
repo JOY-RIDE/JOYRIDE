@@ -19,15 +19,15 @@
   display: flex;
 }
 
-.path {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-}
-
 .from,
 .to {
   flex-shrink: 0;
   white-space: pre;
+}
+
+.rest-path {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }

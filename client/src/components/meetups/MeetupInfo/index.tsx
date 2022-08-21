@@ -11,7 +11,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 const MeetupInfo = (props: Meetup) => {
-  const restInfoLabels = ['코스 난이도', '라이딩 실력', '인원'];
+  const restInfoLabels = ['코스 난이도', '자전거 종류', '라이딩 실력', '인원'];
   return (
     <div className={cn('container')}>
       <div className={cn('text')}>
@@ -38,11 +38,16 @@ const MeetupInfo = (props: Meetup) => {
             ))}
           </div>
           <div className={cn('rest-info')}>
-            <div className={cn('course-level')}>
-              <span className={cn('emphasized')}>
-                {stringifyCourseLevel(props.courseLevel)}
-              </span>
-            </div>
+            <span className={cn('emphasized')}>
+              {stringifyCourseLevel(props.courseLevel)}
+            </span>
+            <ul className={cn('bicycle-types')}>
+              {props.bicycleTypes.map((type, index) => (
+                <li key={index} className={cn('emphasized')}>
+                  {type}
+                </li>
+              ))}
+            </ul>
             <ul className={cn('riding-levels')}>
               {props.ridingLevels.map((level, index) => (
                 <li key={index} className={cn('emphasized')}>
