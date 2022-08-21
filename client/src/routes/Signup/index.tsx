@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { SignupStepControls } from 'typescript/interfaces';
+import { SignupStepControls } from 'types/authentication';
 import { atom, useRecoilValue } from 'recoil';
 import PageTitle from 'components/common/PageTitle';
 import SignupForms from 'components/signup/SignupForms';
@@ -51,7 +51,7 @@ const Signup = () => {
         increaseStep,
       }}
     >
-      <section className={cn('wrapper')}>
+      <section className={cn('page')}>
         <header className={cn('header')}>
           <PageTitle size="lg">회원가입</PageTitle>
           <div className={cn('steps')}>

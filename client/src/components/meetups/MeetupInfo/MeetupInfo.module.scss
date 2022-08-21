@@ -1,0 +1,63 @@
+@use '../../../styles/variables.scss' as *;
+
+.wrapper {
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.date-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.meeting-date {
+  color: $color-grey-800;
+  font-size: 1.4rem;
+}
+
+.due-date {
+  color: $color-grey-600;
+  font-size: 1.2rem;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  margin-top: 0.6rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.wrapper__bottom {
+  font-size: 1.4rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.labels,
+.rest-data {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: $color-grey-600;
+}
+
+.rest-data {
+  font-weight: 700;
+
+  & .emphasized {
+    color: $color-main;
+  }
+}
+
+.riding-levels {
+  display: flex;
+  gap: 0.5rem;
+}

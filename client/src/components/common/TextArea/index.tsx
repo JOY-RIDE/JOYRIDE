@@ -4,17 +4,17 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface TextArea {
+interface TextAreaProps {
   defaultText?: string;
   readOnly?: boolean;
 }
 
-const TextArea = memo(({ defaultText, readOnly }: TextArea) => (
+const TextArea = memo(({ defaultText, readOnly }: TextAreaProps) => (
   <textarea
     className={cn('textarea', { readOnly })}
     defaultValue={defaultText}
     readOnly={readOnly}
-    rows={4}
+    rows={6}
   />
 ));
 

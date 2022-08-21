@@ -1,0 +1,26 @@
+@use '../../../styles/variables.scss' as *;
+
+.link {
+  display: flex; // 중요
+}
+
+.container {
+  border: 0.1rem solid $color-grey-400;
+  border-radius: 0.3rem;
+  // TODO
+  max-width: 40rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.container__top {
+  flex-grow: 1; // 중요
+  display: flex;
+  justify-content: space-between;
+}
+
+.img {
+  width: 35%;
+  aspect-ratio: 0.9;
+  object-fit: cover;
+}

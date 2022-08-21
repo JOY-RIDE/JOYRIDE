@@ -15,7 +15,7 @@ interface SignupFormsProps {
 
 const SignupForms = ({ step, totalSteps }: SignupFormsProps) => (
   <>
-    <div className={cn('page', { expand: step === 1 })}>
+    <div className={cn('form-wrapper', { expand: step === 1 })}>
       <SignupTerms />
       <div className={cn('login-wrapper')}>
         <Link to="/login" className={cn('login')}>
@@ -24,10 +24,10 @@ const SignupForms = ({ step, totalSteps }: SignupFormsProps) => (
       </div>
       <SocialLogin />
     </div>
-    <div className={cn('page', { expand: step === 2 })}>
+    <div className={cn('form-wrapper', { expand: step === 2 })}>
       <SignupBasicForm />
     </div>
-    <div className={cn('page', { expand: step === totalSteps })}>
+    <div className={cn('form-wrapper', { expand: step === totalSteps })}>
       <SignupDetailForm />
     </div>
   </>

@@ -7,7 +7,7 @@ import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
-import { getSignupFormErrorMessage } from 'utils/getErrorMessage';
+import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import SelectButton from 'components/common/SelectButton';
 import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
@@ -144,7 +144,7 @@ const SignupDetailForm = () => {
                 />
                 {errors.nickname && (
                   <ErrorMessage
-                    text={getSignupFormErrorMessage(
+                    text={getSignupFormFieldErrorMessage(
                       'nickname',
                       errors.nickname.type
                     )}
@@ -253,7 +253,7 @@ const SignupDetailForm = () => {
                 />
                 {errors.message && (
                   <ErrorMessage
-                    text={getSignupFormErrorMessage(
+                    text={getSignupFormFieldErrorMessage(
                       'message',
                       errors.message.type
                     )}

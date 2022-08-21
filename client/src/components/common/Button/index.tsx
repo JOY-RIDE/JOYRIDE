@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ClickHandler } from 'typescript/types';
+import { ClickHandler } from 'types/callback';
 import styles from './Button.module.scss';
 import classNames from 'classnames/bind';
 

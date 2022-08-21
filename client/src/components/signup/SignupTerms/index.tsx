@@ -12,6 +12,7 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
+// TODO: rename SignupAgreementForm
 const SignupTerms = () => {
   const [
     isServiceTermAgreed,
