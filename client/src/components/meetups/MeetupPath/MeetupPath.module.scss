@@ -26,7 +26,8 @@
   overflow: hidden;
 }
 
-.destination {
+.from,
+.to {
   flex-shrink: 0;
   white-space: pre;
 }
