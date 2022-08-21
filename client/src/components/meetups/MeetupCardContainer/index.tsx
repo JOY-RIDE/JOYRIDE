@@ -6,20 +6,20 @@ const cn = classNames.bind(styles);
 interface MeetupCardContainer {
   // MeetupInfo: any;
   title: string;
-  image: string;
+  imgSRC: string;
   // MeetupPath: any;
 }
 
 const MeetupCardContainer = ({
   // MeetupInfo,
   title,
-  image,
+  imgSRC,
 }: // MeetupPath,
 MeetupCardContainer) => (
   <article className={cn('container')}>
-    <div className={cn('top')}>
+    <div className={cn('container__top')}>
       {/* <MeetupInfo /> */}
-      <img className={cn('img')} src={image} alt={title} />
+      <img className={cn('img')} src={imgSRC} alt={title} />
     </div>
     {/* {<MeetupPath />} */}
   </article>

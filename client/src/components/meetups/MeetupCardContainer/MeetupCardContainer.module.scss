@@ -1,10 +1,19 @@
 @use '../../../styles/variables.scss' as *;
 
 .container {
-  border: 0.5rem solid $color-grey-400;
+  border: 0.1rem solid $color-grey-400;
   border-radius: 0.3rem;
+  // TODO: media query
+  max-width: 45rem;
 }
 
-.top {
+.container__top {
   display: flex;
+  justify-content: space-between;
+}
+
+.img {
+  width: 35%;
+  aspect-ratio: 0.85;
+  object-fit: cover;
 }

@@ -16,9 +16,12 @@ const Meetups = () => (
         <span>모임 만들기</span>
       </button>
     </header>
-    {mockMeetupAPI.getAllMeetups().map(meetup => (
-      <MeetupCardContainer key={meetup.id} {...meetup} />
-    ))}
+    {mockMeetupAPI.getAllMeetups().map(meetup => {
+      const { image: imgSRC, ...others } = meetup;
+      return (
+        <MeetupCardContainer key={meetup.id} imgSRC={imgSRC} {...others} />
+      );
+    })}
   </div>
 );
 
