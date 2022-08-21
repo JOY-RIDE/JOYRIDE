@@ -7,27 +7,26 @@ const cn = classNames.bind(styles);
 
 interface MeetupItemProps {
   MeetupInfo: ReactElement;
+  MeetupPath: ReactElement;
   id: number;
   title: string;
   imgSRC: string;
-  // MeetupPath: ReactElement;
 }
 
 const MeetupItem = ({
   id,
   MeetupInfo,
+  MeetupPath,
   title,
   imgSRC,
-}: // MeetupPath,
-MeetupItemProps) => (
-  <Link to={`${id}`}>
+}: MeetupItemProps) => (
+  <Link to={`${id}`} className={cn('link')}>
     <article className={cn('container')}>
       <div className={cn('container__top')}>
         {MeetupInfo}
         <img className={cn('img')} src={imgSRC} alt={title} />
       </div>
-
-      {/* {<MeetupPath />} */}
+      {MeetupPath}
     </article>
   </Link>
 );

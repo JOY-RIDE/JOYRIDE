@@ -1,6 +1,8 @@
 import { CourseLevel } from './course';
 
 export type RidingLevel = 1 | 2 | 3;
+export type CourseName = null | string;
+export type RidingPath = string[];
 
 export interface Meetup {
   id: number;
@@ -13,8 +15,8 @@ export interface Meetup {
   bicycleTypes: string[];
   currentParticipants: {}[]; // TODO
   maxNumOfParticipants: number;
-  courseName: null | string;
-  ridingPath: string;
+  courseName: CourseName;
+  ridingPath: RidingPath;
   location: string;
   gender: string;
   ages: number[];

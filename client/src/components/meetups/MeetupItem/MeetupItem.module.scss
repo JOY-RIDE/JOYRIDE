@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+.link {
+  display: flex; // 중요
+}
+
 .container {
   border: 0.1rem solid $color-grey-400;
   border-radius: 0.3rem;

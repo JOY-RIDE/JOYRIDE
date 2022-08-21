@@ -1,0 +1,32 @@
+@use '../../../styles/variables.scss' as *;
+
+.wrapper {
+  background: $color-grey-200;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.4rem;
+}
+
+.course {
+  color: $color-main;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.path-wrapper {
+  color: $color-grey-600;
+  display: flex;
+}
+
+.path {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.destination {
+  flex-shrink: 0;
+  white-space: pre;
+}
