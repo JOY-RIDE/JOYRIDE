@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChangeHandler } from 'typescript/types';
+import { ChangeHandler } from 'types/callback';
 
 export const useInput = () => {
   const [value, setValue] = useState<string>('');

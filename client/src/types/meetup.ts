@@ -1,7 +1,6 @@
-export interface SignupStepControls {
-  decreaseStep: () => void;
-  increaseStep: () => void;
-}
+import { CourseLevel } from './course';
+
+export type RidingLevel = 1 | 2 | 3;
 
 export interface Meetup {
   id: number;
@@ -9,8 +8,8 @@ export interface Meetup {
   image: string;
   meetingDate: Date;
   dueDate: Date;
-  courseLevel: number;
-  ridingLevels: number[];
+  courseLevel: CourseLevel;
+  ridingLevels: RidingLevel[];
   bicycleTypes: string[];
   currentParticipants: {}[]; // TODO
   maxNumOfParticipants: number;

@@ -1,18 +1,14 @@
-import { stringifyCourseLevel, stringifyRidingLevel } from 'utils/stringify';
+import { Meetup } from 'types/meetup';
+import {
+  stringifyCourseLevel,
+  stringifyDate,
+  stringifyRidingLevel,
+} from 'utils/stringify';
+import { calculateRemainingDays } from 'utils/calculate';
 import styles from './MeetupInfo.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
-
-interface MeetupInfo {
-  title: string;
-  courseLevel: number;
-  ridingLevels: number[];
-  currentParticipants: {}[];
-  maxNumOfParticipants: number;
-  meetingDate: Date;
-  dueDate: Date;
-}
 
 const MeetupInfo = ({
   title,
@@ -22,13 +18,15 @@ const MeetupInfo = ({
   maxNumOfParticipants,
   meetingDate,
   dueDate,
-}: MeetupInfo) => (
+}: Meetup) => (
   <div className={cn('container')}>
     <div className={cn('container__top')}>
       <div className={cn('date-wrapper')}>
-        <span className={cn('meeting-date')}>{String(meetingDate)}</span>
+        <span className={cn('meeting-date')}>
+          {stringifyDate(meetingDate, { year: false, month: true, day: true })}
+        </span>
         <span className={cn('due-date')}>
-          {String(dueDate)} 일 뒤 모집 마감
+          {calculateRemainingDays(new Date(), dueDate)}일 뒤 모집 마감
         </span>
       </div>
       <h2 className={cn('title')}>{title}</h2>

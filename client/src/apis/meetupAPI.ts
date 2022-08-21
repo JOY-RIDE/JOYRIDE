@@ -1,4 +1,4 @@
-import { Meetup } from 'typescript/interfaces';
+import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 
@@ -17,7 +17,7 @@ export const mockMeetupAPI: MeetupAPI = {
       title: faker.lorem.words(),
       image: faker.image.cats(undefined, undefined, true),
       meetingDate: faker.date.future(),
-      dueDate: faker.date.soon(),
+      dueDate: faker.date.soon(10),
       courseLevel: faker.helpers.arrayElement([1, 2, 3]),
       ridingLevels: faker.helpers.arrayElements([1, 2, 3], 2),
       bicycleTypes: faker.helpers.arrayElements(

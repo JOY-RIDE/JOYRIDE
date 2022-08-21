@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { SignupStepControls } from 'typescript/interfaces';
+import { SignupStepControls } from 'types/authentication';
 import { atom, useRecoilValue } from 'recoil';
 import PageTitle from 'components/common/PageTitle';
 import SignupForms from 'components/signup/SignupForms';
