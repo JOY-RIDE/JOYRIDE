@@ -16,16 +16,16 @@ const SocialLogin = () => (
     <ul className={cn('providers')}>
       {/* TODO */}
       <li className={cn('provider')}>
-        <SocialLoginButton href="#" provider="네이버" imageURL={naver_circle} />
+        <SocialLoginButton href="#" provider="네이버" image={naver_circle} />
       </li>
       <li className={cn('provider')}>
-        <SocialLoginButton href="#" provider="카카오" imageURL={kakao_circle} />
+        <SocialLoginButton href="#" provider="카카오" image={kakao_circle} />
       </li>
       <li className={cn('provider')}>
         <SocialLoginButton
           href="http://localhost:9001/oauth2/authorization/google"
           provider="구글"
-          imageURL={google_circle}
+          image={google_circle}
         />
       </li>
     </ul>

@@ -4,14 +4,14 @@ import styles from './SocialLoginButton.module.scss';
 interface SocialLoginButtonProps {
   href: string;
   provider: string;
-  imageURL: string;
+  image: string;
   // onClick: ClickHandler;
 }
 
 const SocialLoginButton = ({
   href,
   provider,
-  imageURL,
+  image,
 }: // onClick,
 SocialLoginButtonProps) => {
   const nextURL = useSearchParams()[0].get('next');
@@ -20,7 +20,7 @@ SocialLoginButtonProps) => {
       href={`${href}${nextURL ? `?next=${nextURL}` : ''}`}
       aria-label={`${provider} 로그인 버튼`}
     >
-      <img className={styles.img} src={imageURL} alt={provider} />
+      <img className={styles.img} src={image} alt={provider} />
     </a>
   );
 };
