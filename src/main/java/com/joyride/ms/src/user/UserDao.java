@@ -1,5 +1,6 @@
 package com.joyride.ms.src.user;
 
+import com.joyride.ms.src.user.dto.PatchUserReq;
 import com.joyride.ms.src.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -105,10 +106,44 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(checkStatusDisabledQuery, int.class, checkStatusDisabledParams);
     }
 
+    public int checkOtherUserNickname(Integer userId,String nickname) {
+        String checkOtherUserNicknameQuery = "select exists(select nickname from user where nickname = ? and id != ?)";
+        Object[] checkOtherUserNicknameParams = new Object[]{nickname, userId};
+        return this.jdbcTemplate.queryForObject(checkOtherUserNicknameQuery, int.class, checkOtherUserNicknameParams);
+    }
+
     public void updateUserStatus(Integer userId) {
         String updateStatusQuery = "update user set status = 0 where id = ?";
         Integer updateStatusParam = userId;
         this.jdbcTemplate.update(updateStatusQuery, updateStatusParam);
+    }
+
+    public void updatePassword(String email, String encodedPassword) {
+        String updatePasswordQuery = "update user set password = ? where email = ? and provider = 'none'";
+        Object[] updatePasswordParams = new Object[]{encodedPassword, email};
+        this.jdbcTemplate.update(updatePasswordQuery, updatePasswordParams);
+    }
+
+    public void updateProfile(Integer userId, PatchUserReq patchUserReq) {
+        String updateProfileQuery = "update user set nickname = ? , gender =?, old = ?, introduce = ?, bicycle_type = ?, bicycle_career = ? where id = ? and status = 1";
+        Object[] updateProfileParams = new Object[]{patchUserReq.getNickname(),patchUserReq.getGender(),patchUserReq.getOld(), patchUserReq.getIntroduce(), patchUserReq.getBicycleType(),patchUserReq.getBicycleCareer(), userId};
+
+        this.jdbcTemplate.update(updateProfileQuery, updateProfileParams);
+
+    }
+
+    public String updateProfileImg(Integer userId, String profile_img_url) {
+        String updateProfileImgQuery = "update user set profile_img_url = ? where id = ? and status = 1";
+        Object[] updateProfileImgParams = new Object[]{profile_img_url, userId};
+
+        this.jdbcTemplate.update(updateProfileImgQuery, updateProfileImgParams);
+
+        return profile_img_url;
+    }
+
+    public void updateProfileImgToDefault(Integer userId) {
+        String updateProfileImgToDefaultQuery = "update user set profile_img_url = 'https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.png' where id = ?";
+        this.jdbcTemplate.update(updateProfileImgToDefaultQuery,userId);
     }
 
     public void deleteRefreshToken(Integer userId) {
