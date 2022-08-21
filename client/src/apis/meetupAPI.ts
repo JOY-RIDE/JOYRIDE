@@ -14,7 +14,7 @@ export const mockMeetupAPI: MeetupAPI = {
   getAllMeetups: () =>
     Array.from({ length: 10 }, (_, index) => ({
       id: index,
-      title: faker.lorem.words(),
+      title: faker.lorem.sentence(),
       image: faker.image.cats(undefined, undefined, true),
       meetingDate: faker.date.future(),
       dueDate: faker.date.soon(10),

@@ -14,7 +14,7 @@ const TextArea = memo(({ defaultText, readOnly }: TextArea) => (
     className={cn('textarea', { readOnly })}
     defaultValue={defaultText}
     readOnly={readOnly}
-    rows={4}
+    rows={6}
   />
 ));
 

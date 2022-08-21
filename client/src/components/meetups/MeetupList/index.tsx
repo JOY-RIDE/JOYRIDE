@@ -3,15 +3,16 @@ import MeetupItem from '../MeetupItem';
 import MeetupInfo from '../MeetupInfo';
 import styles from './MeetupList.module.scss';
 
-interface MeetupList {
+interface MeetupListProps {
   meetups: Meetup[];
 }
 
-const MeetupList = ({ meetups }: MeetupList) => (
+const MeetupList = ({ meetups }: MeetupListProps) => (
   <section className={styles.meetups}>
     {meetups.map(meetup => {
       const props = {
         MeetupInfo: <MeetupInfo {...meetup} />,
+        id: meetup.id,
         title: meetup.title,
         imgSRC: meetup.image,
       };

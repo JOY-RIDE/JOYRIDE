@@ -28,10 +28,9 @@ ul.pagination li {
   align-items: center;
 }
 
-ul.pagination li:first-child,
-li:last-child,
-li:nth-child(2),
-li:nth-child(8) {
+/* 지현: 선택자 문제 발생하여 수정함 */
+ul.pagination
+  :where(li:first-child, li:last-child, li:nth-child(2), li:nth-child(8)) {
   font-size: 1.7rem;
 }
 
