@@ -34,41 +34,41 @@
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.3;
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  word-break: break-all;
 }
 
-.rest-info-wrapper {
+.detail {
   font-size: 1.4rem;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.labels {
-  flex-shrink: 0;
-}
-
-.labels,
-.rest-info {
+  color: $color-grey-600;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: $color-grey-600;
-}
-
-.rest-info {
-  font-weight: 700;
 
   & .emphasized {
     color: $color-main;
   }
+}
+
+.detail__row {
+  display: flex;
+
+  & > .label {
+    width: 8rem;
+    flex-shrink: 0;
+  }
+
+  & > *:last-child {
+    font-weight: 700;
+  }
 
   & > ul {
     display: flex;
-    gap: 0.5rem;
+    gap: 0 0.5rem;
     flex-wrap: wrap;
   }
 }

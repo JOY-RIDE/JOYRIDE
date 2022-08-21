@@ -20,7 +20,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   dueDate: faker.date.soon(10),
   courseLevel: faker.helpers.arrayElement([1, 2, 3]),
   ridingLevels: faker.helpers.arrayElements([1, 2, 3]),
-  bicycleTypes: faker.helpers.arrayElements(BICYCLE_TYPES),
+  bicycleTypes: faker.helpers.arrayElements(BICYCLE_TYPES, 3),
   currentParticipants: Array.from(
     { length: faker.datatype.number(15) },
     () => ({})
