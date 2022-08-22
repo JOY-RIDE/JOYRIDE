@@ -10,7 +10,7 @@ interface ButtonProps {
   color: 'main' | 'whiteGrey' | 'whiteMain';
   size: 'md' | 'lg';
   text: string;
-  onClick?: ClickHandler;
+  onClick?: ClickHandler<HTMLButtonElement>;
 }
 
 const Button = memo(

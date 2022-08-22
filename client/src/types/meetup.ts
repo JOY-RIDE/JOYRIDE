@@ -41,16 +41,16 @@ export interface Meetup {
 
 export type MeetupFilterOptionName =
   | 'location'
-  | 'gender'
-  | 'age'
   | 'pathDifficulty'
   | 'bicycleType'
   | 'ridingSkill'
   | 'minNumOfParticipants'
   | 'maxNumOfParticipants'
+  | 'gender'
+  | 'age'
   | 'hasParticipationFee';
 export type MeetupFilterOption = {
   name: MeetupFilterOptionName;
-  payload: any;
+  selected: any;
 };
 export type MeetupOrderOption = '-createdAt' | 'meetingDate';

@@ -1,0 +1,32 @@
+@use '../../../styles/variables.scss' as *;
+
+.input {
+  display: none;
+
+  &:checked {
+    & + .chip {
+      border: 1px solid $color-main;
+
+      & .delete-btn {
+        display: block;
+      }
+    }
+  }
+}
+
+.chip {
+  cursor: pointer;
+  border: 1px solid $color-grey-300;
+  border-radius: 0.2rem;
+  padding: 0.5rem 0.7rem;
+  background: white;
+  color: $color-grey-800;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.delete-btn {
+  display: none;
+  font-size: 1.1rem;
+}

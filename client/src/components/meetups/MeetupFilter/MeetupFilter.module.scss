@@ -41,7 +41,7 @@
   }
 }
 
-.options {
+.options-container {
   padding: 1.5rem;
   background: white;
   display: flex;
@@ -49,20 +49,31 @@
   gap: 2rem;
 }
 
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 .label {
   font-size: 1.4rem;
   color: $color-grey-600;
-  font-weight: 600;
 }
 
-.choices {
-  margin-top: 0.8rem;
+.options,
+.option {
   display: flex;
   align-items: center;
 }
 
+.options,
+.choices {
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .participation-fee {
-  & div {
+  & .option {
     gap: 0.5rem;
   }
 
@@ -75,19 +86,6 @@
 .selection {
   background: $color-grey-100;
   padding: 0.7rem 1.5rem;
-}
-
-.tags {
-  display: flex;
-  align-items: center;
-}
-
-ul {
-  &.choices,
-  .tags {
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
 }
 
 .btn {

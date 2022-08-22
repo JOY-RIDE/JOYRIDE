@@ -4,11 +4,14 @@ import CheckBox from 'components/common/CheckBox';
 import styles from './MeetupFilter.module.scss';
 // import styles from '../../roads/Filter/Filter.module.scss';
 import classNames from 'classnames/bind';
+import { LOCATIONS } from 'utils/constants';
+import Chip from 'components/common/Chip';
 
 const cn = classNames.bind(styles);
 
 const MeetupFilter = () => {
   const { isOpen, toggle, ref } = useToggle();
+
   return (
     <div className={cn('boundary')} ref={ref}>
       <button className={cn('toggle-btn')} onClick={toggle}>
@@ -17,38 +20,42 @@ const MeetupFilter = () => {
       </button>
 
       <form className={cn('filter', { hidden: !isOpen })}>
-        <ul className={cn('options')}>
-          <li className={cn('option')}>
+        <ul className={cn('options-container')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>지역</label>
-            <ul className={cn('choices')}>공간</ul>
+            <ul className={cn('options')}>
+              {['전체', ...LOCATIONS].map(location => (
+                <Chip name="location" value={location} text={location} />
+              ))}
+            </ul>
           </li>
-          <li className={cn('option')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>코스 난이도</label>
-            <ul className={cn('choices')}>공간</ul>
+            <ul className={cn('options')}>공간</ul>
           </li>
-          <li className={cn('option')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>자전거 종류</label>
-            <ul className={cn('choices')}>공간</ul>
+            <ul className={cn('options')}>공간</ul>
           </li>
-          <li className={cn('option')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>라이딩 실력</label>
-            <ul className={cn('choices')}>공간</ul>
+            <ul className={cn('options')}>공간</ul>
           </li>
-          <li className={cn('option')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>성별</label>
-            <ul className={cn('choices')}>공간</ul>
+            <ul className={cn('options')}>공간</ul>
           </li>
-          <li className={cn('option')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>연령대</label>
-            <ul className={cn('choices')}>공간</ul>
+            <ul className={cn('options')}>공간</ul>
           </li>
-          <li className={cn('option')}>
+          <li className={cn('row')}>
             <label className={cn('label')}>인원</label>
-            <div className={cn('choices')}>공간</div>
+            <div className={cn('option')}>공간</div>
           </li>
-          <li className={cn('option', 'participation-fee')}>
+          <li className={cn('row', 'participation-fee')}>
             <label className={cn('label')}>참가비 여부</label>
-            <div className={cn('choices')}>
+            <div className={cn('option')}>
               <CheckBox shape="square" />
               <p>참가비 없는 모임만 보기</p>
             </div>
@@ -56,15 +63,15 @@ const MeetupFilter = () => {
         </ul>
 
         <div className={cn('selection')}>
-          <ul className={cn('tags')}></ul>
+          <ul className={cn('choices')}></ul>
         </div>
 
-        <ul className={cn('btns')}>
+        <div className={cn('btns')}>
           <button type="button" className={cn('btn', 'reset-btn')}>
             초기화
           </button>
           <button className={cn('btn', 'submit-btn')}>확인</button>
-        </ul>
+        </div>
       </form>
     </div>
   );
