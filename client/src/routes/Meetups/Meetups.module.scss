@@ -23,12 +23,18 @@
   }
 }
 
+.filter-sort {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
 .meetups-wrapper {
   display: flex;
   justify-content: center;
 
   // TODO
   @include for-tablet-landscape-up {
-    justify-content: right;
+    justify-content: center;
   }
 }

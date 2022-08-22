@@ -1,6 +1,7 @@
 import PageTitle from 'components/common/PageTitle';
 import { BiPlusCircle } from 'react-icons/bi';
 import { mockMeetupAPI } from 'apis/meetupAPI';
+import MeetupFilter from 'components/meetups/MeetupFilter';
 import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
@@ -21,7 +22,9 @@ const Meetups = () => {
         </button>
       </header>
 
-      <div className={cn('filter-sort')}></div>
+      <div className={cn('filter-sort')}>
+        <MeetupFilter />
+      </div>
 
       <div className={cn('meetups-wrapper')}>
         <MeetupList meetups={meetups} />

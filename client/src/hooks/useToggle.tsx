@@ -5,7 +5,7 @@ const useToggle = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggle = () => setIsOpen(isOpen => !isOpen);
   const close = () => setIsOpen(false);
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, close);
   return { isOpen, toggle, close, ref };
 };

@@ -1,9 +1,8 @@
-@use '../../../styles/mixins' as *;
+@use '../../../styles/mixins.scss' as *;
+@use '../../../styles/variables.scss' as *;
 
 .container {
-  $size-side-padding: 2rem;
-
-  width: calc(100% - 2 * $size-side-padding);
+  width: calc(100% - 2 * $side-padding);
   margin: 0 auto;
 
   @include for-desktop-up {

@@ -1,0 +1,106 @@
+@use '../../../styles/mixins.scss' as *;
+@use '../../../styles/variables.scss' as *;
+
+.boundary {
+  position: relative;
+}
+
+.toggle-btn {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  color: $color-grey-600;
+
+  & span {
+    font-weight: 600;
+  }
+
+  & svg {
+    font-size: 1.4rem;
+    color: $color-grey-500;
+    position: relative;
+    bottom: 0.2rem;
+  }
+}
+
+.filter {
+  &.hidden {
+    display: none;
+  }
+
+  position: absolute;
+  top: 2.5rem;
+  z-index: 2;
+  width: min(calc(100vw - 2 * $side-padding), 40rem);
+  border: $border-grey;
+  border-radius: 0.3rem;
+  //   transition: all 0.2s ease-in-out
+
+  @include for-tablet-landscape-up {
+    // TODO: 변화
+  }
+}
+
+.options {
+  padding: 1.5rem;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.label {
+  font-size: 1.4rem;
+  color: $color-grey-600;
+  font-weight: 600;
+}
+
+.choices {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+}
+ul.choices {
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.participation-fee {
+  & div {
+    gap: 0.5rem;
+  }
+
+  & p {
+    font-size: 1.4rem;
+    color: $color-grey-800;
+  }
+}
+
+// .tags {
+//   padding: 0.7rem 1.5rem;
+//   height: 3.4rem;
+//   background-color: $color-grey-100;
+// }
+
+// .btns {
+//   display: flex;
+//   width: 100%;
+//   .btn {
+//     width: 50%;
+//     height: 3.5rem;
+//     padding: 0.9rem 1.5rem;
+//     font-weight: 500;
+//     font-size: 1.4rem;
+//     line-height: 1.7rem;
+//   }
+//   .reset {
+//     background-color: white;
+//     color: $color-grey-600;
+//     font-weight: 500;
+//   }
+//   .submit {
+//     background-color: $color-main;
+//     color: white;
+//     font-weight: 500;
+//   }
+// }

@@ -42,34 +42,33 @@
   word-break: break-all;
 }
 
-.detail {
+.details {
   font-size: 1.4rem;
   color: $color-grey-600;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
-  & .emphasized {
-    color: $color-main;
-  }
 }
 
-.detail__row {
+.detail {
   display: flex;
 
-  & > .label {
+  & .label {
     width: 8rem;
     flex-shrink: 0;
   }
 
-  & > *:last-child {
+  & .data {
     font-weight: 700;
   }
-
-  & > ul {
+  & ul.data {
     display: flex;
     gap: 0 0.5rem;
     flex-wrap: wrap;
+  }
+
+  & .emphasized {
+    color: $color-main;
   }
 }
 
