@@ -17,8 +17,8 @@ export function stringifyDifficulty(
   }
 }
 
-export function stringifyRidingSkill(level: RidingSkill) {
-  switch (level) {
+export function stringifyRidingSkill(skill: RidingSkill) {
+  switch (skill) {
     case 1:
       return '초급';
     case 2:
@@ -30,16 +30,16 @@ export function stringifyRidingSkill(level: RidingSkill) {
   }
 }
 
-interface IncludedDateOptions {
+interface IncludeOption {
   year: boolean;
   month: boolean;
   day: boolean;
 }
-export function stringifyDate(date: Date, options?: IncludedDateOptions) {
+export function stringifyDate(date: Date, option?: IncludeOption) {
   const arr = [];
-  const year = options ? options.year : true;
-  const month = options ? options.month : true;
-  const day = options ? options.day : true;
+  const year = option ? option.year : true;
+  const month = option ? option.month : true;
+  const day = option ? option.day : true;
 
   if (year) {
     arr.push(`${date.getFullYear()}년`);
