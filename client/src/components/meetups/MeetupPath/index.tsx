@@ -11,18 +11,14 @@ interface MeetupPathProps {
 
 const MeetupPath = ({ courseName, ridingPath }: MeetupPathProps) => {
   const pathLength = ridingPath.length;
-  const from = ridingPath[0];
+  // const from = ridingPath[0];
   const to = ridingPath[pathLength - 1];
-  const restPathString = ridingPath.slice(1, pathLength - 1).join(' → ');
+  const restPathString = ridingPath.slice(0, pathLength - 1).join(' → ');
   return (
     <div className={cn('container')}>
       {courseName && <span className={cn('course')}>{courseName}</span>}
       {/* TODO: 코스명 너무 길 때 */}
       <div className={cn('path-wrapper')}>
-        <span className={cn('from')}>
-          {from}
-          {pathLength > 2 && ' → '}
-        </span>
         <p className={cn('rest-path')}>{restPathString}</p>
         <span className={cn('to')}> → {to}</span>
       </div>
