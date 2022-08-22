@@ -21,6 +21,8 @@ const Meetups = () => {
         </button>
       </header>
 
+      <div className={cn('filter-sort')}></div>
+
       <div className={cn('meetups-wrapper')}>
         <MeetupList meetups={meetups} />
       </div>
