@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { toastMessageState } from 'states/atoms';
+import { toastMessageState } from 'states/common';
 import { AnimatePresence, motion } from 'framer-motion';
 import styles from './Toast.module.scss';
 

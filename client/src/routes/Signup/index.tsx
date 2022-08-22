@@ -35,6 +35,7 @@ export const useSignupStepControls = () =>
 const TOTAL_STEPS = 3;
 
 const Signup = () => {
+  // TODO: recoil
   const [step, setStep] = useState<number>(1);
   const decreaseStep = () => setStep(step => step - 1);
   const increaseStep = () => setStep(step => step + 1);
