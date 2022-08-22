@@ -26,7 +26,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
     () => ({})
   ),
   maxNumOfParticipants: faker.datatype.number(30),
-  courseName: faker.datatype.number(1) ? faker.random.words() : null,
+  courseName: faker.datatype.number(1) ? faker.random.words(3) : null,
   ridingPath: faker.helpers.arrayElements([
     '서울',
     '인천',

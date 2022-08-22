@@ -17,6 +17,7 @@ const MeetupPath = ({ courseName, ridingPath }: MeetupPathProps) => {
   return (
     <div className={cn('container')}>
       {courseName && <span className={cn('course')}>{courseName}</span>}
+      {/* TODO: 코스명 너무 길 때 */}
       <div className={cn('path-wrapper')}>
         <span className={cn('from')}>
           {from}
