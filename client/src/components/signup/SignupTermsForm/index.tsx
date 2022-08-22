@@ -1,7 +1,7 @@
 import { FormEvent, useEffect } from 'react';
 import { useCheckBox } from 'hooks/useCheckBox';
 import { useSetRecoilState } from 'recoil';
-import { toastMessageState } from 'states/atoms';
+import { toastMessageState } from 'states/common';
 import { useSignupStepControls } from 'routes/Signup';
 import CheckBox from 'components/common/CheckBox';
 import TextArea from 'components/common/TextArea';

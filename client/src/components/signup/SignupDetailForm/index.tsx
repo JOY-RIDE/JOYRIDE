@@ -1,6 +1,6 @@
 import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toastMessageState } from 'states/atoms';
+import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
 import { authAPI } from 'apis/authAPI';

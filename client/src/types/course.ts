@@ -1,1 +1,2 @@
-export type CourseLevel = 1 | 2 | 3;
+export type CourseName = string;
+export type CourseDifficulty = 1 | 2 | 3;

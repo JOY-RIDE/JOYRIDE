@@ -1,7 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { toastMessageState, isLoggedInState } from 'states/atoms';
+import { isLoggedInState } from 'states/auth';
+import { toastMessageState } from 'states/common';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';

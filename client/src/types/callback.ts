@@ -5,4 +5,4 @@ export type ClickHandler = (
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 ) => void;
 
-export type GetComponent = (props?: any) => ReactElement;
+export type ComponentGetter = (props?: any) => ReactElement;
