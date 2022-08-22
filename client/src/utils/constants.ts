@@ -1,4 +1,4 @@
-import { BicycleType } from './../types/meetup';
+import { BicycleType } from 'types/common';
 
 export const MAIN_COLOR = '#22b573';
 

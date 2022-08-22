@@ -1,8 +1,11 @@
-import { CourseLevel } from 'types/course';
-import { RidingLevel } from 'types/meetup';
+import { CourseDifficulty } from 'types/course';
+import { MeetupPathDifficulty } from 'types/meetup';
+import { RidingSkill } from 'types/common';
 
-export function stringifyCourseLevel(level: CourseLevel) {
-  switch (level) {
+export function stringifyDifficulty(
+  difficulty: CourseDifficulty | MeetupPathDifficulty
+) {
+  switch (difficulty) {
     case 1:
       return '하';
     case 2:
@@ -14,7 +17,7 @@ export function stringifyCourseLevel(level: CourseLevel) {
   }
 }
 
-export function stringifyRidingLevel(level: RidingLevel) {
+export function stringifyRidingSkill(level: RidingSkill) {
   switch (level) {
     case 1:
       return '초급';

@@ -1,8 +1,8 @@
 import { Meetup } from 'types/meetup';
 import {
-  stringifyCourseLevel,
+  stringifyDifficulty,
   stringifyDate,
-  stringifyRidingLevel,
+  stringifyRidingSkill,
 } from 'utils/stringify';
 import { calculateRemainingDays } from 'utils/calculate';
 import styles from './MeetupInfo.module.scss';
@@ -33,7 +33,7 @@ const MeetupInfo = (props: Meetup) => (
         <div className={cn('detail__row')}>
           <label className={cn('label')}>코스 난이도</label>
           <span className={cn('emphasized')}>
-            {stringifyCourseLevel(props.courseLevel)}
+            {stringifyDifficulty(props.pathDifficulty)}
           </span>
         </div>
         <div className={cn('detail__row')}>
@@ -49,9 +49,9 @@ const MeetupInfo = (props: Meetup) => (
         <div className={cn('detail__row')}>
           <label className={cn('label')}>라이딩 실력</label>
           <ul>
-            {props.ridingLevels.map((level, index) => (
+            {props.ridingSkills.map((skill, index) => (
               <li key={index} className={cn('emphasized')}>
-                {stringifyRidingLevel(level)}
+                {stringifyRidingSkill(skill)}
               </li>
             ))}
           </ul>
@@ -60,7 +60,7 @@ const MeetupInfo = (props: Meetup) => (
           <label className={cn('label')}>인원</label>
           <div>
             <span className={cn('emphasized')}>
-              {props.currentParticipants.length}
+              {props.participants.length}
             </span>
             /{props.maxNumOfParticipants}명
           </div>
