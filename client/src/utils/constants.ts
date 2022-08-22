@@ -12,7 +12,5 @@ export const BICYCLE_TYPES: BicycleType[] = [
   '따릉이',
   'MTB',
   '로드바이크',
-  'E',
-  'T',
-  'C',
+  '하이브리드',
 ];

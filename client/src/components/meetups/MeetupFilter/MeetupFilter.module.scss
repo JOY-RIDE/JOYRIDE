@@ -60,10 +60,6 @@
   display: flex;
   align-items: center;
 }
-ul.choices {
-  gap: 1rem;
-  flex-wrap: wrap;
-}
 
 .participation-fee {
   & div {
@@ -76,31 +72,37 @@ ul.choices {
   }
 }
 
-// .tags {
-//   padding: 0.7rem 1.5rem;
-//   height: 3.4rem;
-//   background-color: $color-grey-100;
-// }
+.selection {
+  background: $color-grey-100;
+  padding: 0.7rem 1.5rem;
+}
 
-// .btns {
-//   display: flex;
-//   width: 100%;
-//   .btn {
-//     width: 50%;
-//     height: 3.5rem;
-//     padding: 0.9rem 1.5rem;
-//     font-weight: 500;
-//     font-size: 1.4rem;
-//     line-height: 1.7rem;
-//   }
-//   .reset {
-//     background-color: white;
-//     color: $color-grey-600;
-//     font-weight: 500;
-//   }
-//   .submit {
-//     background-color: $color-main;
-//     color: white;
-//     font-weight: 500;
-//   }
-// }
+.tags {
+  display: flex;
+  align-items: center;
+}
+
+ul {
+  &.choices,
+  .tags {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+}
+
+.btn {
+  width: 50%;
+  padding: 1.2rem 0;
+  text-align: center;
+}
+
+.reset-btn {
+  background: white;
+  color: $color-grey-600;
+}
+
+.submit-btn {
+  background: $color-main;
+  color: white;
+  font-weight: 700;
+}

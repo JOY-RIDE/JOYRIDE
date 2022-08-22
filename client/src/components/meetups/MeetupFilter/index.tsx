@@ -54,6 +54,17 @@ const MeetupFilter = () => {
             </div>
           </li>
         </ul>
+
+        <div className={cn('selection')}>
+          <ul className={cn('tags')}></ul>
+        </div>
+
+        <ul className={cn('btns')}>
+          <button type="button" className={cn('btn', 'reset-btn')}>
+            초기화
+          </button>
+          <button className={cn('btn', 'submit-btn')}>확인</button>
+        </ul>
       </form>
     </div>
   );
