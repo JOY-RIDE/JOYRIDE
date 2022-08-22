@@ -14,7 +14,6 @@ interface SignupCompletedProps {
 const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
   const navigate = useNavigate();
   const handleLoginClick = () => navigate('/login');
-
   return (
     <div className={cn('page')}>
       <img src={completed} alt="가입 완료" />

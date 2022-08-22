@@ -1,6 +1,6 @@
 @use '../../../styles/variables.scss' as *;
 
-.wrapper {
+.container {
   background: $color-grey-200;
   padding: 0.6rem 1.5rem;
   display: flex;
@@ -19,14 +19,15 @@
   display: flex;
 }
 
-.path {
+.from,
+.to {
+  flex-shrink: 0;
+  white-space: pre;
+}
+
+.rest-path {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   overflow: hidden;
-}
-
-.destination {
-  flex-shrink: 0;
-  white-space: pre;
 }

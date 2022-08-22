@@ -1,32 +1,24 @@
-import { ReactElement } from 'react';
+import { Meetup } from 'types/meetup';
 import { Link } from 'react-router-dom';
+import MeetupInfo from '../MeetupInfo';
+import MeetupPath from '../MeetupPath';
 import styles from './MeetupItem.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface MeetupItemProps {
-  MeetupInfo: ReactElement;
-  MeetupPath: ReactElement;
-  id: number;
-  title: string;
-  imgSRC: string;
+interface MeetupItemProp {
+  meetup: Meetup;
 }
 
-const MeetupItem = ({
-  id,
-  MeetupInfo,
-  MeetupPath,
-  title,
-  imgSRC,
-}: MeetupItemProps) => (
-  <Link to={`${id}`} className={cn('link')}>
-    <article className={cn('container')}>
-      <div className={cn('container__top')}>
-        {MeetupInfo}
-        <img className={cn('img')} src={imgSRC} alt={title} />
-      </div>
-      {MeetupPath}
+const MeetupItem = ({ meetup }: MeetupItemProp) => (
+  <Link to={`/meetups/${meetup.id}`} className={cn('link')}>
+    <article className={cn('meetup')}>
+      <MeetupInfo {...meetup} />
+      <MeetupPath
+        courseName={meetup.courseName}
+        ridingPath={meetup.ridingPath}
+      />
     </article>
   </Link>
 );

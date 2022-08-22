@@ -10,8 +10,8 @@ const Footer = () => {
   // TODO
   const isAtLogin = useMatch('/login');
   const isAtSignup = useMatch('/signup');
-  if (isAtLogin || isAtSignup) return null;
 
+  if (isAtLogin || isAtSignup) return null;
   return (
     <footer className={cn('footer')}>
       <Container>
