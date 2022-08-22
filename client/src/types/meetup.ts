@@ -38,3 +38,19 @@ export interface Meetup {
   ages: MeetupAge[];
   participationFee: MeetupParticipationFee;
 }
+
+export type MeetupFilterOptionName =
+  | 'location'
+  | 'gender'
+  | 'age'
+  | 'pathDifficulty'
+  | 'bicycleType'
+  | 'ridingSkill'
+  | 'minNumOfParticipants'
+  | 'maxNumOfParticipants'
+  | 'hasParticipationFee';
+export type MeetupFilterOption = {
+  name: MeetupFilterOptionName;
+  payload: any;
+};
+export type MeetupOrderOption = '-createdAt' | 'meetingDate';
