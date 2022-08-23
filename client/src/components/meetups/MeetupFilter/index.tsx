@@ -5,7 +5,7 @@ import styles from './MeetupFilter.module.scss';
 // import styles from '../../roads/Filter/Filter.module.scss';
 import classNames from 'classnames/bind';
 import { LOCATIONS } from 'utils/constants';
-import Chip from 'components/common/Chip';
+import OptionChip from 'components/common/OptionChip';
 import { MeetupFilterState } from 'types/meetup';
 import { omit } from 'lodash';
 import { useRecoilState } from 'recoil';
@@ -55,7 +55,7 @@ const MeetupFilter = () => {
             <label className={cn('label')}>지역</label>
             <ul className={cn('options')}>
               {LOCATIONS.map(location => (
-                <Chip
+                <OptionChip
                   name="location"
                   value={location}
                   text={location}
