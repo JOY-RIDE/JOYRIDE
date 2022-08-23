@@ -3,7 +3,11 @@ import { MeetupFilterState, MeetupOrderOptionName } from 'types/meetup';
 
 export const meetupFilterState = atom<MeetupFilterState>({
   key: 'meetupFilter',
-  default: { gender: { value: 'all', content: '전체' } },
+  default: {
+    gender: { value: 'all', content: '전체' },
+    minNumOfParticipants: { value: 0, content: '0' },
+    maxNumOfParticipants: { value: 0, content: '0' },
+  },
 });
 export const meetupOrderState = atom<MeetupOrderOptionName>({
   key: 'meetupOrder',
