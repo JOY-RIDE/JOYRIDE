@@ -92,10 +92,27 @@ function meetupFilterDispatch(
     case 'CLEAR':
       return omit(state, [name]);
 
+    case 'TOGGLE': {
+      switch (name) {
+        case 'participationFee': {
+          const oldData = state[name];
+          return oldData ? omit(state, [name]) : { ...state, [name]: data };
+        }
+        default:
+          throw new Error();
+      }
+    }
+
     default:
       throw new Error();
   }
 }
+
+const participationFeeOption = {
+  name: 'participationFee',
+  value: false,
+  content: '참가비 없는 모임만',
+};
 
 const MeetupFilter = () => {
   const { isOpen, toggle, ref } = useToggle();
@@ -109,6 +126,11 @@ const MeetupFilter = () => {
     setFilter(filter => meetupFilterDispatch(filter, 'REMOVE', payload));
   const clearOption = (payload: FilterDispatchPayload) =>
     setFilter(filter => meetupFilterDispatch(filter, 'CLEAR', payload));
+
+  const handleParticipationFeeChange = () =>
+    setFilter(filter =>
+      meetupFilterDispatch(filter, 'TOGGLE', participationFeeOption)
+    );
 
   return (
     <div className={cn('boundary')} ref={ref}>
@@ -279,9 +301,14 @@ const MeetupFilter = () => {
           <div className={cn('row', 'participation-fee-container')}>
             <label className={cn('label')}>참가비 여부</label>
             <div className={cn('option')}>
-              <CheckBox shape="square" id={cn('participation-fee')} />
+              <CheckBox
+                id={cn('participation-fee')}
+                shape="square"
+                isChecked={Boolean(filter.participationFee)}
+                onChange={handleParticipationFeeChange}
+              />
               <label htmlFor={cn('participation-fee')}>
-                참가비 없는 모임만 보기
+                {participationFeeOption.content} 보기
               </label>
             </div>
           </div>
@@ -295,22 +322,18 @@ const MeetupFilter = () => {
                 value={filter.location.value}
                 content={filter.location.content}
                 isChosen
-                onTextClick={chooseOption}
                 onXClick={removeOption}
               />
             )}
-
             {filter.pathDifficulty && (
               <OptionChip
                 name="pathDifficulty"
                 value={filter.pathDifficulty.value}
                 content={filter.pathDifficulty.content}
                 isChosen
-                onTextClick={chooseOption}
                 onXClick={removeOption}
               />
             )}
-
             {filter.bicycleType &&
               filter.bicycleType.map(({ value, content }: OptionData) => (
                 <OptionChip
@@ -318,33 +341,27 @@ const MeetupFilter = () => {
                   value={value}
                   content={content}
                   isChosen
-                  onTextClick={chooseOption}
                   onXClick={removeOption}
                 />
               ))}
-
             {filter.ridingSkill && (
               <OptionChip
                 name="ridingSkill"
                 value={filter.ridingSkill.value}
                 content={filter.ridingSkill.content}
                 isChosen
-                onTextClick={chooseOption}
                 onXClick={removeOption}
               />
             )}
-
             {filter.gender.value !== 'all' && (
               <OptionChip
                 name="gender"
                 value={filter.gender.value}
                 content={filter.gender.content}
                 isChosen
-                onTextClick={chooseOption}
                 onXClick={removeOption}
               />
             )}
-
             {filter.age &&
               filter.age.map(({ value, content }: OptionData) => (
                 <OptionChip
@@ -352,10 +369,18 @@ const MeetupFilter = () => {
                   value={value}
                   content={content}
                   isChosen
-                  onTextClick={chooseOption}
                   onXClick={removeOption}
                 />
               ))}
+            {filter.participationFee && (
+              <OptionChip
+                name="participationFee"
+                value={filter.participationFee.value}
+                content={filter.participationFee.content}
+                isChosen
+                onXClick={handleParticipationFeeChange}
+              />
+            )}
           </ul>
         </div>
 

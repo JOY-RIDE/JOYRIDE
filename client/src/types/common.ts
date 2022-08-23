@@ -20,10 +20,10 @@ export type BicycleType =
   | '기타';
 export type RidingSkill = 1 | 2 | 3;
 
-export type FilterDispatchAction = 'CHOOSE' | 'REMOVE' | 'CLEAR';
+export type FilterDispatchAction = 'CHOOSE' | 'REMOVE' | 'CLEAR' | 'TOGGLE';
 
 export interface FilterDispatchPayload {
   name: string;
-  value: number | string;
+  value: number | string | boolean;
   content?: string;
 }

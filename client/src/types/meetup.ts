@@ -48,7 +48,7 @@ export type MeetupFilterOptionName =
   | 'maxNumOfParticipants'
   | 'gender'
   | 'age'
-  | 'hasParticipationFee';
+  | 'participationFee';
 export interface MeetupFilterState {
   location?: any;
   pathDifficulty?: any;
@@ -58,7 +58,7 @@ export interface MeetupFilterState {
   maxNumOfParticipants?: any;
   gender?: any;
   age?: any;
-  hasParticipationFee?: any;
+  participationFee?: any;
 }
 // export interface MeetupFilterState {
 //   location?: string;

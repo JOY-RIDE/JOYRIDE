@@ -12,7 +12,7 @@ interface OptionChipProps {
   value: number | string;
   content: string;
   isChosen: boolean;
-  onTextClick: (payload: FilterDispatchPayload) => void;
+  onTextClick?: (payload: FilterDispatchPayload) => void;
   onXClick?: (payload: FilterDispatchPayload) => void;
 }
 
@@ -27,7 +27,9 @@ const OptionChip = memo(
   }: OptionChipProps) => {
     const handleTextClick = isChosen
       ? undefined
-      : () => onTextClick({ name, value, content });
+      : onTextClick
+      ? () => onTextClick({ name, value, content })
+      : undefined;
     const handleXClick = onXClick
       ? () => onXClick({ name, value, content })
       : undefined;
