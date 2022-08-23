@@ -21,7 +21,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   courseName: faker.datatype.number(1) ? faker.random.words(3) : null,
   path: faker.helpers.arrayElements(LOCATIONS),
   pathDifficulty: faker.helpers.arrayElement([1, 2, 3]),
-  ridingSkills: faker.helpers.arrayElements([1, 2, 3]),
+  minRidingSkill: faker.helpers.arrayElement([1, 2, 3]),
   bicycleTypes: faker.helpers.arrayElements(BICYCLE_TYPES, 3),
   minNumOfParticipants: faker.datatype.number(30),
   maxNumOfParticipants: faker.datatype.number(30),

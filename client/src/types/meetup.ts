@@ -10,7 +10,7 @@ export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
 export type MeetupBicycleType = BicycleType;
-export type MeetupRidingSkill = RidingSkill;
+export type MeetupMinRidingSkill = RidingSkill;
 export type MeetupMinNumOfParticipants = number;
 export type MeetupMaxNumOfParticipants = number;
 export type MeetupParticipants = {}[];
@@ -29,7 +29,7 @@ export interface Meetup {
   path: MeetupPath;
   pathDifficulty: MeetupPathDifficulty;
   bicycleTypes: MeetupBicycleType[];
-  ridingSkills: MeetupRidingSkill[];
+  minRidingSkill: MeetupMinRidingSkill;
   minNumOfParticipants: MeetupMinNumOfParticipants;
   maxNumOfParticipants: MeetupMaxNumOfParticipants;
   participants: MeetupParticipants;

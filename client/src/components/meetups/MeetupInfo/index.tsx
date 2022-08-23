@@ -48,13 +48,12 @@ const MeetupInfo = (props: Meetup) => (
         </li>
         <li className={cn('detail')}>
           <label className={cn('label')}>라이딩 실력</label>
-          <ul className={cn('data')}>
-            {props.ridingSkills.map((skill, index) => (
-              <li key={index} className={cn('emphasized')}>
-                {stringifyRidingSkill(skill)}
-              </li>
-            ))}
-          </ul>
+          <div className={cn('data')}>
+            <span className={cn('emphasized')}>
+              {stringifyRidingSkill(props.minRidingSkill)}
+            </span>{' '}
+            이상
+          </div>
         </li>
         <li className={cn('detail')}>
           <label className={cn('label')}>인원</label>
