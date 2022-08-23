@@ -11,12 +11,12 @@
   align-items: center;
   gap: 0.5rem;
 
-  &.selected {
+  &.active {
     border: 1px solid $color-main;
   }
 }
 
-.exclude-btn {
+.x-btn {
   font-size: 1.1rem;
 
   &.hidden {

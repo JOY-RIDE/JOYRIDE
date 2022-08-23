@@ -13,22 +13,38 @@ import { meetupFilterState } from 'states/meetup';
 
 const cn = classNames.bind(styles);
 
-export type FilterAction = 'SELECT' | 'EXCLUDE';
 export interface FilterPayload {
   name: string;
   value: number | string;
 }
+export type FilterAction = 'SELECT' | 'EXCLUDE' | 'CLEAR';
+export type OptionOperationHandler = (payload: FilterPayload) => void;
 
 function meetupFilterReducer(
   state: MeetupFilterState,
   action: FilterAction,
   { name, value }: FilterPayload
 ) {
-  switch (name) {
-    case 'location':
-      return action === 'SELECT'
-        ? { ...state, location: value }
-        : omit(state, ['location']);
+  switch (action) {
+    case 'SELECT':
+      switch (name) {
+        case 'location':
+          return { ...state, location: value };
+        default:
+          throw new Error();
+      }
+
+    case 'EXCLUDE':
+      switch (name) {
+        case 'location':
+          return omit(state, [name]);
+        default:
+          throw new Error();
+      }
+
+    case 'CLEAR':
+      return omit(state, [name]);
+
     default:
       throw new Error();
   }
@@ -39,8 +55,12 @@ const MeetupFilter = () => {
   const [filter, setFilter] = useRecoilState(meetupFilterState);
   console.log(filter);
 
-  const handleOptionClick = (action: FilterAction, payload: FilterPayload) =>
-    setFilter(filter => meetupFilterReducer(filter, action, payload));
+  const selectOption: OptionOperationHandler = payload =>
+    setFilter(filter => meetupFilterReducer(filter, 'SELECT', payload));
+  const excludeOption: OptionOperationHandler = payload =>
+    setFilter(filter => meetupFilterReducer(filter, 'EXCLUDE', payload));
+  const clearOption: OptionOperationHandler = payload =>
+    setFilter(filter => meetupFilterReducer(filter, 'CLEAR', payload));
 
   return (
     <div className={cn('boundary')} ref={ref}>
@@ -54,13 +74,22 @@ const MeetupFilter = () => {
           <li className={cn('row')}>
             <label className={cn('label')}>지역</label>
             <ul className={cn('options')}>
-              {LOCATIONS.map(location => (
+              <OptionChip
+                name="location"
+                value="전체"
+                text="전체"
+                isActive={!filter.location}
+                onTextClick={clearOption}
+              />
+              {LOCATIONS.map((location, index) => (
                 <OptionChip
+                  key={index}
                   name="location"
                   value={location}
                   text={location}
-                  isSelected={location === filter?.location}
-                  onClick={handleOptionClick}
+                  isActive={location === filter?.location}
+                  onTextClick={selectOption}
+                  onXClick={excludeOption}
                 />
               ))}
             </ul>
@@ -98,7 +127,7 @@ const MeetupFilter = () => {
           </li>
         </ul>
 
-        <div className={cn('selection')}>
+        <div className={cn('choices-container')}>
           <ul className={cn('choices')}></ul>
         </div>
 
