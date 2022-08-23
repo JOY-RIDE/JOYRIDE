@@ -3,7 +3,7 @@ import { VscChromeClose } from 'react-icons/vsc';
 import styles from './OptionChip.module.scss';
 import classNames from 'classnames/bind';
 import { MeetupFilterOption } from 'types/meetup';
-import { FilterPayload } from 'components/meetups/MeetupFilter';
+import { FilterDispatchPayload } from 'types/common';
 
 const cn = classNames.bind(styles);
 
@@ -12,8 +12,8 @@ interface OptionChipProps {
   value: number | string;
   text: string;
   isActive: boolean;
-  onTextClick: (payload: FilterPayload) => void;
-  onXClick?: (payload: FilterPayload) => void;
+  onTextClick: (payload: FilterDispatchPayload) => void;
+  onXClick?: (payload: FilterDispatchPayload) => void;
 }
 
 const OptionChip = memo(

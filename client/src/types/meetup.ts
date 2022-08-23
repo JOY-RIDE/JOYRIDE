@@ -60,8 +60,15 @@ export interface MeetupFilterState {
   age?: any;
   hasParticipationFee?: any;
 }
-// export type MeetupFilterOption = {
-//   name: MeetupFilterOptionName;
-//   selected: any;
-// };
+// export interface MeetupFilterState {
+//   location?: MeetupLocation;
+//   pathDifficulty?: MeetupPathDifficulty;
+//   bicycleType?: MeetupBicycleType[];
+//   ridingSkill?: MeetupMinRidingSkill;
+//   minNumOfParticipants?: MeetupMinNumOfParticipants;
+//   maxNumOfParticipants?: MeetupMaxNumOfParticipants;
+//   gender?: MeetupGender;
+//   age?: MeetupAge[];
+//   hasParticipationFee?: boolean;
+// }
 export type MeetupOrderOption = '-createdAt' | 'meetingDate';

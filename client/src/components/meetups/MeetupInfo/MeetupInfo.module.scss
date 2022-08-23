@@ -73,7 +73,7 @@
 }
 
 .img {
-  width: 35%;
-  aspect-ratio: 0.9;
+  width: min(40%, 15rem);
+  aspect-ratio: 0.85;
   object-fit: cover;
 }

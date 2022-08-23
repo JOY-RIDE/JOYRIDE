@@ -8,22 +8,16 @@ import { LOCATIONS } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
 import { MeetupFilterState } from 'types/meetup';
 import { omit } from 'lodash';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { meetupFilterState } from 'states/meetup';
+import { FilterDispatchAction, FilterDispatchPayload } from 'types/common';
 
 const cn = classNames.bind(styles);
 
-export interface FilterPayload {
-  name: string;
-  value: number | string;
-}
-export type FilterAction = 'SELECT' | 'EXCLUDE' | 'CLEAR';
-export type OptionOperationHandler = (payload: FilterPayload) => void;
-
-function meetupFilterReducer(
+function meetupFilterDispatch(
   state: MeetupFilterState,
-  action: FilterAction,
-  { name, value }: FilterPayload
+  action: FilterDispatchAction,
+  { name, value }: FilterDispatchPayload
 ) {
   switch (action) {
     case 'SELECT':
@@ -53,14 +47,15 @@ function meetupFilterReducer(
 const MeetupFilter = () => {
   const { isOpen, toggle, ref } = useToggle();
   const [filter, setFilter] = useRecoilState(meetupFilterState);
+  const resetFilter = useResetRecoilState(meetupFilterState);
   console.log(filter);
 
-  const selectOption: OptionOperationHandler = payload =>
-    setFilter(filter => meetupFilterReducer(filter, 'SELECT', payload));
-  const excludeOption: OptionOperationHandler = payload =>
-    setFilter(filter => meetupFilterReducer(filter, 'EXCLUDE', payload));
-  const clearOption: OptionOperationHandler = payload =>
-    setFilter(filter => meetupFilterReducer(filter, 'CLEAR', payload));
+  const selectOption = (payload: FilterDispatchPayload) =>
+    setFilter(filter => meetupFilterDispatch(filter, 'SELECT', payload));
+  const excludeOption = (payload: FilterDispatchPayload) =>
+    setFilter(filter => meetupFilterDispatch(filter, 'EXCLUDE', payload));
+  const clearOption = (payload: FilterDispatchPayload) =>
+    setFilter(filter => meetupFilterDispatch(filter, 'CLEAR', payload));
 
   return (
     <div className={cn('boundary')} ref={ref}>
@@ -132,7 +127,11 @@ const MeetupFilter = () => {
         </div>
 
         <div className={cn('btns')}>
-          <button type="button" className={cn('btn', 'reset-btn')}>
+          <button
+            type="button"
+            className={cn('btn', 'reset-btn')}
+            onClick={resetFilter}
+          >
             초기화
           </button>
           <button className={cn('btn', 'submit-btn')}>확인</button>
