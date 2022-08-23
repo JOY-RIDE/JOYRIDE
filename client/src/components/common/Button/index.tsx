@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface ButtonProps {
-  type?: 'button';
+  type?: 'submit' | 'button' | 'reset';
   color: 'main' | 'whiteGrey' | 'whiteMain';
   size: 'md' | 'lg';
   content: string;
@@ -14,7 +14,13 @@ interface ButtonProps {
 }
 
 const Button = memo(
-  ({ type, color = 'main', size = 'md', content, onClick }: ButtonProps) => (
+  ({
+    type = 'submit',
+    color = 'main',
+    size = 'md',
+    content,
+    onClick,
+  }: ButtonProps) => (
     <button type={type} className={cn('btn', color, size)} onClick={onClick}>
       {content}
     </button>

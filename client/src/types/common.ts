@@ -20,5 +20,5 @@ export type FilterDispatchAction = 'CHOOSE' | 'REMOVE' | 'CLEAR';
 export interface FilterDispatchPayload {
   name: string;
   value: number | string;
-  content: string;
+  content?: string;
 }

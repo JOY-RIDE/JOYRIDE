@@ -144,7 +144,7 @@ const SignupDetailForm = () => {
                 />
                 {errors.nickname && (
                   <ErrorMessage
-                    content={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'nickname',
                       errors.nickname.type
                     )}
@@ -253,7 +253,7 @@ const SignupDetailForm = () => {
                 />
                 {errors.message && (
                   <ErrorMessage
-                    content={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'message',
                       errors.message.type
                     )}

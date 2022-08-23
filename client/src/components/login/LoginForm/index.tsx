@@ -87,7 +87,7 @@ const LoginForm = () => {
                   hasError={errors.email}
                   {...field}
                 />
-                {errors.email && <ErrorMessage content="이메일을 입력하세요" />}
+                {errors.email && <ErrorMessage message="이메일을 입력하세요" />}
               </AuthFormInputWithErrorMessageWrapper>
             )}
           />
@@ -107,7 +107,7 @@ const LoginForm = () => {
                   {...field}
                 />
                 {errors.password && (
-                  <ErrorMessage content="비밀번호를 입력하세요" />
+                  <ErrorMessage message="비밀번호를 입력하세요" />
                 )}
               </AuthFormInputWithErrorMessageWrapper>
             )}

@@ -3,13 +3,13 @@ import { HiExclamationCircle } from 'react-icons/hi';
 import styles from './ErrorMessage.module.scss';
 
 interface ErrorMessageProp {
-  content: string;
+  message: string;
 }
 
-const ErrorMessage = memo(({ content }: ErrorMessageProp) => (
+const ErrorMessage = memo(({ message }: ErrorMessageProp) => (
   <div className={styles.wrapper} role="alert">
     <HiExclamationCircle />
-    <p>{content}</p>
+    <p>{message}</p>
   </div>
 ));
 

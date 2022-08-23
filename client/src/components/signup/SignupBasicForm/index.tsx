@@ -90,7 +90,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.email && (
                   <ErrorMessage
-                    content={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'email',
                       errors.email.type
                     )}
@@ -118,13 +118,13 @@ const SignupBasicForm = () => {
                 <AuthFormInput
                   type="password"
                   placeholder="비밀번호"
-                  helpcontent={!isSubmitted && '비밀번호 조건'}
+                  helpText={!isSubmitted && '비밀번호 조건'}
                   hasError={Boolean(errors.password)}
                   {...field}
                 />
                 {errors.password && (
                   <ErrorMessage
-                    content={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'password',
                       errors.password.type
                     )}
@@ -156,7 +156,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.passwordConfirm && (
                   <ErrorMessage
-                    content={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'passwordConfirm',
                       errors.passwordConfirm.type
                     )}
