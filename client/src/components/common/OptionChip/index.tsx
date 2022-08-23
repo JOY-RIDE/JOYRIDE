@@ -32,7 +32,7 @@ const OptionChip = memo(
       ? () => onXClick({ name, value, content })
       : undefined;
     return (
-      <div
+      <li
         className={cn('option', { active: isChosen })}
         onClick={handleTextClick}
       >
@@ -44,7 +44,7 @@ const OptionChip = memo(
         >
           <VscChromeClose />
         </button>
-      </div>
+      </li>
     );
   }
 );

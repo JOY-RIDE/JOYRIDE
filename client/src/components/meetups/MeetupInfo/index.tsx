@@ -29,14 +29,14 @@ const MeetupInfo = (props: Meetup) => (
         <h2 className={cn('title')}>{props.title}</h2>
       </header>
 
-      <ul className={cn('details')}>
-        <li className={cn('detail')}>
+      <div className={cn('details')}>
+        <div className={cn('detail')}>
           <label className={cn('label')}>코스 난이도</label>
           <span className={cn('data', 'emphasized')}>
             {stringifyDifficulty(props.pathDifficulty)}
           </span>
-        </li>
-        <li className={cn('detail')}>
+        </div>
+        <div className={cn('detail')}>
           <label className={cn('label')}>자전거 종류</label>
           <ul className={cn('data')}>
             {props.bicycleTypes.map((type, index) => (
@@ -45,8 +45,8 @@ const MeetupInfo = (props: Meetup) => (
               </li>
             ))}
           </ul>
-        </li>
-        <li className={cn('detail')}>
+        </div>
+        <div className={cn('detail')}>
           <label className={cn('label')}>라이딩 실력</label>
           <div className={cn('data')}>
             <span className={cn('emphasized')}>
@@ -54,8 +54,8 @@ const MeetupInfo = (props: Meetup) => (
             </span>{' '}
             이상
           </div>
-        </li>
-        <li className={cn('detail')}>
+        </div>
+        <div className={cn('detail')}>
           <label className={cn('label')}>인원</label>
           <div className={cn('data')}>
             <span className={cn('emphasized')}>
@@ -63,8 +63,8 @@ const MeetupInfo = (props: Meetup) => (
             </span>
             /{props.maxNumOfParticipants}명
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
 
     <img className={cn('img')} src={props.image} alt={props.title} />

@@ -1,5 +1,5 @@
-import { MeetupPathDifficulty } from 'types/meetup';
-import { BicycleType, Location } from 'types/common';
+import { MeetupBicycleType, MeetupPathDifficulty } from 'types/meetup';
+import { Gender, Location, RidingSkill } from 'types/common';
 
 export const MAIN_COLOR = '#22b573';
 export const REGEX = {
@@ -8,6 +8,7 @@ export const REGEX = {
   password: /[0-9]/,
 };
 
+export const GENDERS: Gender[] = ['m', 'f'];
 export const LOCATIONS: Location[] = [
   '서울',
   '인천',
@@ -21,11 +22,12 @@ export const LOCATIONS: Location[] = [
   '경남',
   '제주',
 ];
-
-export const MEETUP_PATH_DIFFICULTIES: MeetupPathDifficulty[] = [1, 2, 3];
-export const BICYCLE_TYPES: BicycleType[] = [
+export const BICYCLE_TYPES: MeetupBicycleType[] = [
   '따릉이',
   'MTB',
   '로드바이크',
   '하이브리드',
 ];
+export const RIDING_SKILLS: RidingSkill[] = [1, 2, 3];
+
+export const MEETUP_PATH_DIFFICULTIES: MeetupPathDifficulty[] = [1, 2, 3];

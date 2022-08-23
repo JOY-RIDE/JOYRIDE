@@ -1,6 +1,18 @@
+import { Gender } from './../types/common';
 import { CourseDifficulty } from 'types/course';
 import { MeetupPathDifficulty } from 'types/meetup';
 import { RidingSkill } from 'types/common';
+
+export function stringifyGender(gender: Gender) {
+  switch (gender) {
+    case 'm':
+      return '남성';
+    case 'f':
+      return '여성';
+    default:
+      throw new Error();
+  }
+}
 
 export function stringifyDifficulty(
   difficulty: CourseDifficulty | MeetupPathDifficulty
