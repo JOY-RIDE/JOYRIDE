@@ -8,12 +8,32 @@ client
 └── src
    ├── apis
    ├── assets
+   |  └── images
    ├── components
+   |  ├── common
+   |  ├── home
+   |  ├── layout
+   |  ├── login
+   |  ├── meetups
+   |  ├── road
+   |  ├── roads
+   |  └── signup
    ├── hooks
    ├── routes
+   |  ├── Error
+   |  ├── Home
+   |  ├── Layout
+   |  ├── Login
+   |  ├── Meetup
+   |  ├── Meetups
+   |  ├── Mypage
+   |  ├── Road
+   |  ├── Roads
+   |  ├── Search
+   |  └── Signup
    ├── states
    ├── styles
-   ├── typescript
+   ├── types
    └── utils
 ```
 
