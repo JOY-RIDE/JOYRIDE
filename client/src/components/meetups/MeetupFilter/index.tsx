@@ -4,6 +4,7 @@ import CheckBox from 'components/common/CheckBox';
 import styles from './MeetupFilter.module.scss';
 import classNames from 'classnames/bind';
 import {
+  AGES,
   BICYCLE_TYPES,
   GENDERS,
   LOCATIONS,
@@ -17,6 +18,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { meetupFilterState } from 'states/meetup';
 import { FilterDispatchAction, FilterDispatchPayload } from 'types/common';
 import {
+  stringifyAge,
   stringifyDifficulty,
   stringifyGender,
   stringifyRidingSkill,
@@ -49,7 +51,8 @@ function meetupFilterDispatch(
           return { ...state, [name]: data };
 
         // 다중 선택 옵션들
-        case 'bicycleType': {
+        case 'bicycleType':
+        case 'age': {
           const oldDataArray = state[name];
           return oldDataArray
             ? { ...state, [name]: oldDataArray.concat(data) }
@@ -66,12 +69,12 @@ function meetupFilterDispatch(
         case 'pathDifficulty':
         case 'ridingSkill':
           return omit(state, [name]);
-
         case 'gender':
           return { ...state, [name]: { value: 'all', content: '전체' } };
 
         // 다중 선택 옵션들
-        case 'bicycleType': {
+        case 'bicycleType':
+        case 'age': {
           const oldDataArray = state[name];
           return oldDataArray.length > 1
             ? {
@@ -243,7 +246,29 @@ const MeetupFilter = () => {
 
           <div className={cn('row')}>
             <label className={cn('label')}>연령대</label>
-            <ul className={cn('options')}>공간</ul>
+            <ul className={cn('options')}>
+              <OptionChip
+                name="age"
+                value="전체"
+                content="전체"
+                isChosen={!filter.age}
+                onTextClick={clearOption}
+              />
+              {AGES.map((age, index) => (
+                <OptionChip
+                  key={index}
+                  name="age"
+                  value={age}
+                  content={stringifyAge(age)}
+                  isChosen={
+                    filter.age &&
+                    filter.age.some((data: OptionData) => data.value === age)
+                  }
+                  onTextClick={chooseOption}
+                  onXClick={removeOption}
+                />
+              ))}
+            </ul>
           </div>
 
           <div className={cn('row')}>
@@ -319,6 +344,18 @@ const MeetupFilter = () => {
                 onXClick={removeOption}
               />
             )}
+
+            {filter.age &&
+              filter.age.map(({ value, content }: OptionData) => (
+                <OptionChip
+                  name="age"
+                  value={value}
+                  content={content}
+                  isChosen
+                  onTextClick={chooseOption}
+                  onXClick={removeOption}
+                />
+              ))}
           </ul>
         </div>
 
