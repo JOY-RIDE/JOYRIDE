@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
-import { MeetupFilterOption, MeetupOrderOption } from './../types/meetup';
+import { MeetupFilterState, MeetupOrderOption } from 'types/meetup';
 
-export const meetupFilterState = atom<null | MeetupFilterOption[]>({
+export const meetupFilterState = atom<MeetupFilterState>({
   key: 'meetupFilter',
-  default: null,
+  default: {},
 });
 export const meetupOrderState = atom<MeetupOrderOption>({
   key: 'meetupOrder',

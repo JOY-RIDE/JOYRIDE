@@ -1,60 +1,38 @@
 import { memo } from 'react';
-import { ChangeHandler, ClickHandler } from 'types/callback';
 import { VscChromeClose } from 'react-icons/vsc';
 import styles from './Chip.module.scss';
 import classNames from 'classnames/bind';
+import { MeetupFilterOption } from 'types/meetup';
+import { FilterAction, FilterPayload } from 'components/meetups/MeetupFilter';
 
 const cn = classNames.bind(styles);
 
 interface ChipProps {
-  name: string;
+  name: MeetupFilterOption;
   value: number | string;
   text: string;
-  isSelected?: boolean;
-  onSelect?: ClickHandler<HTMLDivElement>;
-  onDelete?: ClickHandler<HTMLButtonElement>;
-  onChange?: ChangeHandler;
+  isSelected: boolean;
+  onClick: (action: FilterAction, payload: FilterPayload) => void;
 }
 
-const Chip = memo(
-  ({
-    name,
-    value,
-    text,
-    isSelected,
-    onSelect,
-    onDelete,
-    onChange,
-  }: ChipProps) => {
-    return (
-      <>
-        <input
-          type="checkbox"
-          checked={isSelected}
-          name={name}
-          value={value}
-          className={cn('input')}
-          onChange={onChange}
-        />
-        <div
-          className={cn('chip')}
-          onClick={!isSelected ? onSelect : undefined}
-        >
-          <span>{text}</span>
-
-          {onDelete && (
-            <button
-              type="button"
-              className={cn('delete-btn')}
-              onClick={onDelete}
-            >
-              <VscChromeClose />
-            </button>
-          )}
-        </div>
-      </>
-    );
-  }
-);
+const Chip = memo(({ text, isSelected, onClick, ...payload }: ChipProps) => {
+  const handleOptionSelect = () => onClick('SELECT', payload);
+  const handleOptionExclude = () => onClick('EXCLUDE', payload);
+  return (
+    <div
+      className={cn('option', { selected: isSelected })}
+      onClick={!isSelected ? handleOptionSelect : undefined}
+    >
+      <span>{text}</span>
+      <button
+        type="button"
+        className={cn('exclude-btn', { hidden: !isSelected })}
+        onClick={handleOptionExclude}
+      >
+        <VscChromeClose />
+      </button>
+    </div>
+  );
+});
 
 export default Chip;

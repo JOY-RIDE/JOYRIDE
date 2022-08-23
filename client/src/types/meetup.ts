@@ -39,7 +39,7 @@ export interface Meetup {
   participationFee: MeetupParticipationFee;
 }
 
-export type MeetupFilterOptionName =
+export type MeetupFilterOption =
   | 'location'
   | 'pathDifficulty'
   | 'bicycleType'
@@ -49,8 +49,19 @@ export type MeetupFilterOptionName =
   | 'gender'
   | 'age'
   | 'hasParticipationFee';
-export type MeetupFilterOption = {
-  name: MeetupFilterOptionName;
-  selected: any;
-};
+export interface MeetupFilterState {
+  location?: any;
+  pathDifficulty?: any;
+  bicycleType?: any;
+  ridingSkill?: any;
+  minNumOfParticipants?: any;
+  maxNumOfParticipants?: any;
+  gender?: any;
+  age?: any;
+  hasParticipationFee?: any;
+}
+// export type MeetupFilterOption = {
+//   name: MeetupFilterOptionName;
+//   selected: any;
+// };
 export type MeetupOrderOption = '-createdAt' | 'meetingDate';

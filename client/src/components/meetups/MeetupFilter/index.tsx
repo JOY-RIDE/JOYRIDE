@@ -6,11 +6,41 @@ import styles from './MeetupFilter.module.scss';
 import classNames from 'classnames/bind';
 import { LOCATIONS } from 'utils/constants';
 import Chip from 'components/common/Chip';
+import { MeetupFilterState } from 'types/meetup';
+import { omit } from 'lodash';
+import { useRecoilState } from 'recoil';
+import { meetupFilterState } from 'states/meetup';
 
 const cn = classNames.bind(styles);
 
+export type FilterAction = 'SELECT' | 'EXCLUDE';
+export interface FilterPayload {
+  name: string;
+  value: number | string;
+}
+
+function meetupFilterReducer(
+  state: MeetupFilterState,
+  action: FilterAction,
+  { name, value }: FilterPayload
+) {
+  switch (name) {
+    case 'location':
+      return action === 'SELECT'
+        ? { ...state, location: value }
+        : omit(state, ['location']);
+    default:
+      throw new Error();
+  }
+}
+
 const MeetupFilter = () => {
   const { isOpen, toggle, ref } = useToggle();
+  const [filter, setFilter] = useRecoilState(meetupFilterState);
+  console.log(filter);
+
+  const handleOptionClick = (action: FilterAction, payload: FilterPayload) =>
+    setFilter(filter => meetupFilterReducer(filter, action, payload));
 
   return (
     <div className={cn('boundary')} ref={ref}>
@@ -24,8 +54,14 @@ const MeetupFilter = () => {
           <li className={cn('row')}>
             <label className={cn('label')}>지역</label>
             <ul className={cn('options')}>
-              {['전체', ...LOCATIONS].map(location => (
-                <Chip name="location" value={location} text={location} />
+              {LOCATIONS.map(location => (
+                <Chip
+                  name="location"
+                  value={location}
+                  text={location}
+                  isSelected={location === filter?.location}
+                  onClick={handleOptionClick}
+                />
               ))}
             </ul>
           </li>

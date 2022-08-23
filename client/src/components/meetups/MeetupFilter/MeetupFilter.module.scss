@@ -7,7 +7,7 @@
 
 .toggle-btn {
   display: flex;
-  gap: 0.4rem;
+  gap: 0.5rem;
   align-items: center;
   color: $color-grey-600;
 
@@ -52,7 +52,7 @@
 .row {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .label {
@@ -61,7 +61,8 @@
 }
 
 .options,
-.option {
+.option,
+.choices {
   display: flex;
   align-items: center;
 }
