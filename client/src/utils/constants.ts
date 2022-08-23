@@ -29,6 +29,7 @@ export const BICYCLE_TYPES: MeetupBicycleType[] = [
   'MTB',
   '로드바이크',
   '하이브리드',
+  '미니벨로',
   '기타',
 ];
 export const RIDING_SKILLS: RidingSkill[] = [1, 2, 3];

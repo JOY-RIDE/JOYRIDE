@@ -17,6 +17,7 @@ export type BicycleType =
   | 'MTB'
   | '로드바이크'
   | '하이브리드'
+  | '미니벨로'
   | '기타';
 export type RidingSkill = 1 | 2 | 3;
 
