@@ -90,7 +90,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.email && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    content={getSignupFormFieldErrorMessage(
                       'email',
                       errors.email.type
                     )}
@@ -118,13 +118,13 @@ const SignupBasicForm = () => {
                 <AuthFormInput
                   type="password"
                   placeholder="비밀번호"
-                  helpText={!isSubmitted && '비밀번호 조건'}
+                  helpcontent={!isSubmitted && '비밀번호 조건'}
                   hasError={Boolean(errors.password)}
                   {...field}
                 />
                 {errors.password && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    content={getSignupFormFieldErrorMessage(
                       'password',
                       errors.password.type
                     )}
@@ -156,7 +156,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.passwordConfirm && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    content={getSignupFormFieldErrorMessage(
                       'passwordConfirm',
                       errors.passwordConfirm.type
                     )}
@@ -173,10 +173,10 @@ const SignupBasicForm = () => {
           type="button"
           color="whiteGrey"
           size="md"
-          text="이전"
+          content="이전"
           onClick={decreaseStep}
         />
-        <Button color="main" size="md" text="계속" />
+        <Button color="main" size="md" content="계속" />
       </div>
     </form>
   );

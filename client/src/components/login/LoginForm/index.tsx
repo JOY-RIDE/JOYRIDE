@@ -87,7 +87,7 @@ const LoginForm = () => {
                   hasError={errors.email}
                   {...field}
                 />
-                {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
+                {errors.email && <ErrorMessage content="이메일을 입력하세요" />}
               </AuthFormInputWithErrorMessageWrapper>
             )}
           />
@@ -107,7 +107,7 @@ const LoginForm = () => {
                   {...field}
                 />
                 {errors.password && (
-                  <ErrorMessage text="비밀번호를 입력하세요" />
+                  <ErrorMessage content="비밀번호를 입력하세요" />
                 )}
               </AuthFormInputWithErrorMessageWrapper>
             )}
@@ -131,7 +131,7 @@ const LoginForm = () => {
         <label htmlFor={cn('auto-login')}>자동 로그인</label>
       </div>
 
-      <Button color="main" size="lg" text="로그인하기" />
+      <Button color="main" size="lg" content="로그인하기" />
     </form>
   );
 };

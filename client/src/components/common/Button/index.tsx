@@ -9,14 +9,14 @@ interface ButtonProps {
   type?: 'button';
   color: 'main' | 'whiteGrey' | 'whiteMain';
   size: 'md' | 'lg';
-  text: string;
+  content: string;
   onClick?: ClickHandler<HTMLButtonElement>;
 }
 
 const Button = memo(
-  ({ type, color = 'main', size = 'md', text, onClick }: ButtonProps) => (
+  ({ type, color = 'main', size = 'md', content, onClick }: ButtonProps) => (
     <button type={type} className={cn('btn', color, size)} onClick={onClick}>
-      {text}
+      {content}
     </button>
   )
 );

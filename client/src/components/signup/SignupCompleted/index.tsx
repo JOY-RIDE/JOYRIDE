@@ -30,7 +30,7 @@ const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
       <Button
         color="main"
         size="md"
-        text="로그인하기"
+        content="로그인하기"
         onClick={handleLoginClick}
       />
     </div>

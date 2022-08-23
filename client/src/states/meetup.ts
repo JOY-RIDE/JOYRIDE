@@ -1,15 +1,14 @@
 import { atom } from 'recoil';
-import { MeetupFilterState, MeetupOrderOption } from 'types/meetup';
+import { MeetupFilterState, MeetupOrderOptionName } from 'types/meetup';
 
 export const meetupFilterState = atom<MeetupFilterState>({
   key: 'meetupFilter',
   default: {},
 });
-export const meetupOrderState = atom<MeetupOrderOption>({
+export const meetupOrderState = atom<MeetupOrderOptionName>({
   key: 'meetupOrder',
   default: '-createdAt',
 });
-
 // const meetups = mockMeetupAPI.getAllMeetups();
 
 // export const meetupsState = selector<Meetup[]>({

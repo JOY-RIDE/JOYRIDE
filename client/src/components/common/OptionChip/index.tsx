@@ -2,33 +2,44 @@ import { memo } from 'react';
 import { VscChromeClose } from 'react-icons/vsc';
 import styles from './OptionChip.module.scss';
 import classNames from 'classnames/bind';
-import { MeetupFilterOption } from 'types/meetup';
+import { MeetupFilterOptionName } from 'types/meetup';
 import { FilterDispatchPayload } from 'types/common';
 
 const cn = classNames.bind(styles);
 
 interface OptionChipProps {
-  name: MeetupFilterOption;
+  name: MeetupFilterOptionName;
   value: number | string;
-  text: string;
-  isActive: boolean;
+  content: string;
+  isChosen: boolean;
   onTextClick: (payload: FilterDispatchPayload) => void;
   onXClick?: (payload: FilterDispatchPayload) => void;
 }
 
 const OptionChip = memo(
-  ({ text, isActive, onTextClick, onXClick, ...payload }: OptionChipProps) => {
-    const handleTextClick = isActive ? undefined : () => onTextClick(payload);
-    const handleXClick = onXClick ? () => onXClick(payload) : undefined;
+  ({
+    name,
+    value,
+    content,
+    isChosen,
+    onTextClick,
+    onXClick,
+  }: OptionChipProps) => {
+    const handleTextClick = isChosen
+      ? undefined
+      : () => onTextClick({ name, value, content });
+    const handleXClick = onXClick
+      ? () => onXClick({ name, value, content })
+      : undefined;
     return (
       <div
-        className={cn('option', { active: isActive })}
+        className={cn('option', { active: isChosen })}
         onClick={handleTextClick}
       >
-        <span>{text}</span>
+        <span>{content}</span>
         <button
           type="button"
-          className={cn('x-btn', { hidden: !isActive || !onXClick })}
+          className={cn('x-btn', { hidden: !isChosen || !onXClick })}
           onClick={handleXClick}
         >
           <VscChromeClose />

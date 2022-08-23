@@ -88,7 +88,7 @@ const SignupTermsForm = () => {
       </div>
 
       <div className={cn('btn')}>
-        <Button color="main" size="lg" text="확인" />
+        <Button color="main" size="lg" content="확인" />
       </div>
     </form>
   );

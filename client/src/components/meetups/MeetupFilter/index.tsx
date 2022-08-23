@@ -6,7 +6,7 @@ import styles from './MeetupFilter.module.scss';
 import classNames from 'classnames/bind';
 import { LOCATIONS } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
-import { MeetupFilterState } from 'types/meetup';
+import { MeetupFilterOptionName, MeetupFilterState } from 'types/meetup';
 import { omit } from 'lodash';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { meetupFilterState } from 'states/meetup';
@@ -17,18 +17,18 @@ const cn = classNames.bind(styles);
 function meetupFilterDispatch(
   state: MeetupFilterState,
   action: FilterDispatchAction,
-  { name, value }: FilterDispatchPayload
+  { name, value, content }: FilterDispatchPayload
 ) {
   switch (action) {
-    case 'SELECT':
+    case 'CHOOSE':
       switch (name) {
         case 'location':
-          return { ...state, location: value };
+          return { ...state, [name]: { value, content } };
         default:
           throw new Error();
       }
 
-    case 'EXCLUDE':
+    case 'REMOVE':
       switch (name) {
         case 'location':
           return omit(state, [name]);
@@ -50,10 +50,10 @@ const MeetupFilter = () => {
   const resetFilter = useResetRecoilState(meetupFilterState);
   console.log(filter);
 
-  const selectOption = (payload: FilterDispatchPayload) =>
-    setFilter(filter => meetupFilterDispatch(filter, 'SELECT', payload));
-  const excludeOption = (payload: FilterDispatchPayload) =>
-    setFilter(filter => meetupFilterDispatch(filter, 'EXCLUDE', payload));
+  const chooseOption = (payload: FilterDispatchPayload) =>
+    setFilter(filter => meetupFilterDispatch(filter, 'CHOOSE', payload));
+  const removeOption = (payload: FilterDispatchPayload) =>
+    setFilter(filter => meetupFilterDispatch(filter, 'REMOVE', payload));
   const clearOption = (payload: FilterDispatchPayload) =>
     setFilter(filter => meetupFilterDispatch(filter, 'CLEAR', payload));
 
@@ -72,8 +72,8 @@ const MeetupFilter = () => {
               <OptionChip
                 name="location"
                 value="전체"
-                text="전체"
-                isActive={!filter.location}
+                content="전체"
+                isChosen={!filter.location}
                 onTextClick={clearOption}
               />
               {LOCATIONS.map((location, index) => (
@@ -81,10 +81,10 @@ const MeetupFilter = () => {
                   key={index}
                   name="location"
                   value={location}
-                  text={location}
-                  isActive={location === filter?.location}
-                  onTextClick={selectOption}
-                  onXClick={excludeOption}
+                  content={location}
+                  isChosen={location === filter.location?.value}
+                  onTextClick={chooseOption}
+                  onXClick={removeOption}
                 />
               ))}
             </ul>
@@ -113,17 +113,30 @@ const MeetupFilter = () => {
             <label className={cn('label')}>인원</label>
             <div className={cn('option')}>공간</div>
           </li>
-          <li className={cn('row', 'participation-fee')}>
+          <li className={cn('row', 'participation-fee-container')}>
             <label className={cn('label')}>참가비 여부</label>
             <div className={cn('option')}>
-              <CheckBox shape="square" />
-              <p>참가비 없는 모임만 보기</p>
+              <CheckBox shape="square" id={cn('participation-fee')} />
+              <label htmlFor={cn('participation-fee')}>
+                참가비 없는 모임만 보기
+              </label>
             </div>
           </li>
         </ul>
 
         <div className={cn('choices-container')}>
-          <ul className={cn('choices')}></ul>
+          <ul className={cn('choices')}>
+            {filter.location && (
+              <OptionChip
+                name="location"
+                value={filter.location.value}
+                content={filter.location.content}
+                isChosen
+                onTextClick={chooseOption}
+                onXClick={removeOption}
+              />
+            )}
+          </ul>
         </div>
 
         <div className={cn('btns')}>
