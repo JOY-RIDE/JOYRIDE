@@ -11,7 +11,7 @@ import {
 } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
 import { omit } from 'lodash';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   stringifyAge,
   stringifyDifficulty,
@@ -25,10 +25,11 @@ import {
   meetupFiltersState,
   MEETUP_FILTERS_INITIAL_STATE,
 } from 'states/meetup';
-import { ChangeHandler, ClickHandler } from 'types/callback';
+import { ChangeHandler, ClickHandler, SubmitHandler } from 'types/callback';
 import PlusMinusButton from 'components/common/PlusMinusButton';
 import { MeetupFiltersState } from 'types/meetup';
 import useFilterBoard from 'hooks/useFilterBoard';
+import { toastMessageState } from 'states/common';
 
 const cn = classNames.bind(styles);
 
@@ -152,10 +153,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
     clear: filtersDispatchForClearing,
   });
 
-  useEffect(() => {
-    return resetFilterBoard;
-  }, []);
-
+  useEffect(() => resetFilterBoard, []);
   useEffect(() => {
     const min = boardFilters.minNumOfParticipants.value;
     if (boardFilters.maxNumOfParticipants.value < min) {
@@ -223,8 +221,23 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
     });
   };
 
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const setFilters = useSetRecoilState(meetupFiltersState);
+  const handleSubmit: SubmitHandler = e => {
+    e.preventDefault();
+    if (
+      boardFilters.minNumOfParticipants.value >
+      boardFilters.maxNumOfParticipants.value
+    ) {
+      showToastMessage('인원을 다시 확인해 주세요');
+      return;
+    }
+    setFilters(boardFilters);
+    closeBoard();
+  };
+
   return (
-    <form className={cn('board')}>
+    <form className={cn('board')} onSubmit={handleSubmit}>
       <div className={cn('filters')}>
         <div className={cn('filter')}>
           <label className={cn('label')}>지역</label>
