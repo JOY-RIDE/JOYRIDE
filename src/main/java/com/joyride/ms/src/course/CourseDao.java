@@ -2,6 +2,7 @@ package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.CourseInfo;
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.GetCourseReviewRes;
 import com.joyride.ms.src.course.model.PostCourseReviewReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -74,6 +75,41 @@ public class CourseDao {
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
+
+    // 코스 리뷰 조회
+    public List<GetCourseReviewRes> selectCourseReviewByCourseId(int course_id){
+        String selectCourseReviewQuery = "select CR.id, U.nickname, CR.user_id, course_id, total_rate, scene_rate, facilities_rate,safety_rate, accessibility_rate,\n" +
+                "       total_review, scene_review, facilities_review, safety_review,accessibility_review,\n" +
+                "       CR.created_at, CR.updated_at from coursereview CR\n" +
+                "                              INNER join user U\n" +
+                "                                    on CR.user_id = U.id\n" +
+                "    where course_id=?";
+
+
+        int selectCourseReviewParams = course_id;
+        //db정보 가져오기
+        return this.jdbcTemplate.query(selectCourseReviewQuery,
+                (rs,rowNum) -> new GetCourseReviewRes(
+                        rs.getInt("id"),
+                        rs.getString("nickname"),
+                        rs.getInt("user_id"),
+                        rs.getInt("course_id"),
+                        rs.getDouble("total_rate"),
+                        rs.getDouble("scene_rate"),
+                        rs.getDouble("facilities_rate"),
+                        rs.getDouble("safety_rate"),
+                        rs.getDouble("accessibility_rate"),
+                        rs.getString("total_review"),
+                        rs.getString("scene_review"),
+                        rs.getString("facilities_review"),
+                        rs.getString("safety_review"),
+                        rs.getString("accessibility_review"),
+                        rs.getString("created_at"),
+                        rs.getString("updated_at")),
+                selectCourseReviewParams);
+    }
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.GetCourseReviewRes;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,22 @@ public class CourseProvider {
             return getCourseListRes;
         }
         catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 리뷰 조회 provider
+    public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(int course_id) throws BaseException {
+        try{
+            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
+            return getCourseReviewRes;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
 }
