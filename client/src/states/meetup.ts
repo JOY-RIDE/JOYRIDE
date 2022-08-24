@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
-import { MeetupFiltersState, MeetupOrderName } from 'types/meetup';
+import { MeetupFilterState, MeetupOrderName } from 'types/meetup';
 
-export const meetupFiltersState = atom<MeetupFiltersState>({
-  key: 'meetupFilters',
+export const meetupFilterBoardState = atom<MeetupFilterState>({
+  key: 'meetupFilterBoard',
   default: {
     minNumOfParticipants: { value: 0, content: '0' },
     maxNumOfParticipants: { value: 0, content: '0' },

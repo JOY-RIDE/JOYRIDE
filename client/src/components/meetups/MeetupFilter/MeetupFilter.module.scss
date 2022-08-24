@@ -21,83 +21,8 @@
   }
 }
 
-.filters {
+.board-container {
   &.hidden {
     display: none;
   }
-
-  position: absolute;
-  top: 2.5rem;
-  z-index: 2;
-  width: min(calc(100vw - 2 * $side-padding), 40rem);
-  font-size: 1.4rem;
-  border: $border-grey;
-  border-radius: 0.3rem;
-  //   transition: all 0.2s ease-in-out
-}
-
-.options-container {
-  padding: 1.5rem;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.filter {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.label {
-  color: $color-grey-600;
-}
-
-.options,
-.option,
-.choices {
-  display: flex;
-  align-items: center;
-}
-
-.options,
-.choices {
-  gap: 0.8rem;
-  flex-wrap: wrap;
-}
-
-.participation-fee-container {
-  & .option {
-    gap: 0.5rem;
-
-    & label {
-      cursor: pointer;
-
-      color: $color-grey-800;
-    }
-  }
-}
-
-.choices-container {
-  background: $color-grey-100;
-  padding: 0.7rem 1.5rem;
-  min-height: 4.4rem;
-}
-
-.btn {
-  width: 50%;
-  padding: 1.2rem 0;
-  text-align: center;
-}
-
-.reset-btn {
-  background: white;
-  color: $color-grey-600;
-}
-
-.submit-btn {
-  background: $color-main;
-  color: white;
-  font-weight: 700;
 }

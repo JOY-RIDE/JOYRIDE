@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import styles from './SelectButton.module.scss';
 import classNames from 'classnames/bind';
 
@@ -13,8 +13,8 @@ interface SelectButtonProps {
   [key: string]: any;
 }
 
-const SelectButton = forwardRef<HTMLInputElement, SelectButtonProps>(
-  (props, ref) => {
+const SelectButton = memo(
+  forwardRef<HTMLInputElement, SelectButtonProps>((props, ref) => {
     const { isSelected, content, contentEng, ...others } = props;
     return (
       <>
@@ -31,7 +31,7 @@ const SelectButton = forwardRef<HTMLInputElement, SelectButtonProps>(
         </label>
       </>
     );
-  }
+  })
 );
 
 export default SelectButton;

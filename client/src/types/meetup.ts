@@ -49,7 +49,7 @@ export type MeetupFiltersKey =
   | 'gender'
   | 'age'
   | 'isParticipationFree';
-export interface MeetupFiltersState {
+export interface MeetupFilterState {
   location?: any;
   pathDifficulty?: any;
   bicycleTypes?: any;
@@ -60,7 +60,7 @@ export interface MeetupFiltersState {
   age?: any;
   isParticipationFree?: any;
 }
-// export interface MeetupFiltersState {
+// export interface MeetupFilterState {
 //   location?: string;
 //   pathDifficulty?: number;
 //   bicycleTypes?: string[];
