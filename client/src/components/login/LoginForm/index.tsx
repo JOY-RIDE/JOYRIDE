@@ -131,7 +131,7 @@ const LoginForm = () => {
         <label htmlFor={cn('auto-login')}>자동 로그인</label>
       </div>
 
-      <Button color="main" size="lg" content="로그인하기" />
+      <Button type="submit" color="main" size="lg" content="로그인하기" />
     </form>
   );
 };

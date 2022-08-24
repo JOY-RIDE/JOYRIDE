@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import styles from './AuthFormInput.module.scss';
 import classNames from 'classnames/bind';
 
@@ -11,9 +11,8 @@ interface AuthFormInputProps {
   [key: string]: any;
 }
 
-// TODO: memo
-const AuthFormInput = forwardRef<HTMLInputElement, AuthFormInputProps>(
-  (props, ref) => {
+const AuthFormInput = memo(
+  forwardRef<HTMLInputElement, AuthFormInputProps>((props, ref) => {
     const { helpText, hasError, ...others } = props;
     return (
       <>
@@ -25,7 +24,7 @@ const AuthFormInput = forwardRef<HTMLInputElement, AuthFormInputProps>(
         {helpText && <p className={cn('help')}>{helpText}</p>}
       </>
     );
-  }
+  })
 );
 
 export default AuthFormInput;

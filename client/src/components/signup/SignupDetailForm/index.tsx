@@ -273,7 +273,7 @@ const SignupDetailForm = () => {
           content="이전"
           onClick={decreaseStep}
         />
-        <Button color="main" size="md" content="회원가입하기" />
+        <Button type="submit" color="main" size="md" content="회원가입하기" />
       </div>
     </form>
   );

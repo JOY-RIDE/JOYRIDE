@@ -28,6 +28,7 @@ const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
         클릭하시면 계정이 활성화됩니다.
       </p>
       <Button
+        type="button"
         color="main"
         size="md"
         content="로그인하기"
