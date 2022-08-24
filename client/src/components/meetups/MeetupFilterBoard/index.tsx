@@ -176,6 +176,11 @@ const MeetupFilterBoard = () => {
     []
   );
 
+  const handleCheckBoxClick = useCallback(
+    (payload: FiltersDispatchPayload) => () => toggleOption(payload),
+    []
+  );
+
   const handleRegulatorBtnClick: ClickHandler<HTMLButtonElement> = e => {
     if (!(e.currentTarget instanceof HTMLButtonElement)) return;
     const { key, action } = e.currentTarget.dataset;
@@ -202,26 +207,20 @@ const MeetupFilterBoard = () => {
 
   // TODO: max 제출 시 에러 처리
   const handleNumOfParticipantsChange: ChangeHandler = e => {
-    const { name, value } = e.target;
+    const { name, value, max } = e.target;
     if (name !== 'minNumOfParticipants' && name !== 'maxNumOfParticipants') {
       return;
     }
-    const num = Number(value);
-    console.log(num);
-    if (99 < num) return;
+    const input = Number(value);
+    if (Number(max) < input) return;
 
     e.target.value = '';
     chooseOption({
       key: name,
-      value: num,
-      content: `${num}`,
+      value: input,
+      content: `${input}`,
     });
   };
-
-  const handleParticipationFeeToggle = useCallback(
-    () => toggleOption(IS_PARTICIPATION_FREE_PAYLOAD),
-    []
-  );
 
   return (
     <form className={cn('board')}>
@@ -484,7 +483,7 @@ const MeetupFilterBoard = () => {
               id={cn('participation-fee')}
               shape="square"
               isChecked={Boolean(filters.isParticipationFree)}
-              onChange={handleParticipationFeeToggle}
+              onChange={handleCheckBoxClick(IS_PARTICIPATION_FREE_PAYLOAD)}
             />
             <label htmlFor={cn('participation-fee')}>
               참가비 없는 모임만 보기
