@@ -18,10 +18,14 @@ import {
   stringifyGender,
   stringifyRidingSkill,
 } from 'utils/stringify';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { FilterClickHandler, FiltersDispatchPayload } from 'types/common';
-import { meetupFilterBoardState } from 'states/meetup';
+import {
+  meetupFilterBoardState,
+  MEETUP_FILTER_INITIAL_STATE,
+} from 'states/meetup';
 import { MeetupFilterState } from 'types/meetup';
+import { ChangeHandler } from 'types/callback';
 
 const cn = classNames.bind(styles);
 
@@ -47,8 +51,8 @@ function filtersDispatchForChoosing(
     case 'pathDifficulty':
     case 'minRidingSkill':
     case 'gender':
-      // case 'minNumOfParticipants':
-      // case 'maxNumOfParticipants':
+    case 'minNumOfParticipants':
+    case 'maxNumOfParticipants':
       return { ...state, [key]: data };
 
     // 다중 선택 옵션들
@@ -75,8 +79,6 @@ function filtersDispatchForRemoving(
     case 'pathDifficulty':
     case 'minRidingSkill':
     case 'gender':
-    // case 'minNumOfParticipants':
-    // case 'maxNumOfParticipants':
     case 'isParticipationFree':
       return omit(state, [key]);
 
@@ -118,7 +120,12 @@ function filtersDispatchForClearing(
   state: MeetupFilterState,
   { key }: FiltersDispatchPayload
 ) {
-  return omit(state, [key]);
+  switch (key) {
+    case 'maxNumOfParticipants':
+      return { ...state, ...MEETUP_FILTER_INITIAL_STATE };
+    default:
+      return omit(state, [key]);
+  }
 }
 
 const IS_PARTICIPATION_FREE_PAYLOAD: FiltersDispatchPayload = {
@@ -131,6 +138,21 @@ const MeetupFilterBoard = () => {
   const [filters, setFilters] = useRecoilState(meetupFilterBoardState);
   const resetFilters = useResetRecoilState(meetupFilterBoardState);
   console.log(filters);
+
+  useEffect(() => {
+    return resetFilters;
+  }, []);
+
+  useEffect(() => {
+    const min = filters.minNumOfParticipants.value;
+    if (filters.maxNumOfParticipants.value < min) {
+      chooseOption({
+        key: 'maxNumOfParticipants',
+        value: min,
+        content: `${min}`,
+      });
+    }
+  }, [filters.minNumOfParticipants]);
 
   const chooseOption: FilterClickHandler = useCallback(
     payload =>
@@ -150,23 +172,27 @@ const MeetupFilterBoard = () => {
     []
   );
 
-  // const handleMaxNumOfParticipantsChange = (e: any) => {
-  //   const value = Number(e.target.value);
-  //   if (!value) {
-  //     filter.minNumOfParticipants &&
-  //       clearOption({ name: 'minNumOfParticipants', value });
-  //     clearOption({ name: 'maxNumOfParticipants', value });
-  //     return;
-  //   }
-
-  //   if (filter.minNumOfParticipants?.value >= value) {
-  //     chooseOption({
-  //       name: 'maxNumOfParticipants',
-  //       value,
-  //       content: String(value),
-  //     });
-  //   }
-  // };
+  const handleMinNumOfParticipantsChange: ChangeHandler = e => {
+    const value = Number(e.target.value);
+    if (99 < value) return;
+    e.target.value = '';
+    chooseOption({
+      key: 'minNumOfParticipants',
+      value,
+      content: `${value}`,
+    });
+  };
+  // TODO: 제출 시 에러 처리
+  const handleMaxNumOfParticipantsChange: ChangeHandler = e => {
+    const value = Number(e.target.value);
+    if (99 < value) return;
+    e.target.value = '';
+    chooseOption({
+      key: 'maxNumOfParticipants',
+      value,
+      content: `${value}`,
+    });
+  };
 
   const handleParticipationFeeToggle = useCallback(
     () => toggleOption(IS_PARTICIPATION_FREE_PAYLOAD),
@@ -342,18 +368,49 @@ const MeetupFilterBoard = () => {
           </ul>
         </div>
 
-        <div className={cn('filter')}>
+        <div className={cn('filter', 'participants')}>
           <label className={cn('label')}>인원</label>
-          {/* <div className={cn('option')}>
-              <OptionChip
-                name="maxNumOfParticipants"
-                value={0}
-                content="전체"
-                isChosen={!filter.maxNumOfParticipants.value}
-                onTextClick={clearOption}
-              />
-              <div className={cn('regulator')}></div>
-            </div> */}
+          {/* // Range? */}
+          <div className={cn('option')}>
+            <OptionChip
+              type="all"
+              filtersKey="maxNumOfParticipants"
+              value={0}
+              content="전체"
+              isChosen={
+                !(
+                  filters.minNumOfParticipants.value ||
+                  filters.maxNumOfParticipants.value
+                )
+              }
+              onTextClick={clearOptions}
+            />
+            <div className={cn('regulators')}>
+              <div className={cn('regulator')}>
+                <input
+                  type="number"
+                  min={0}
+                  max={99}
+                  value={filters.minNumOfParticipants.value}
+                  onChange={handleMinNumOfParticipantsChange}
+                  className={cn('number')}
+                />
+                <span>명</span>
+              </div>
+              <span className={cn('tilde')}>~</span>
+              <div className={cn('regulator')}>
+                <input
+                  type="number"
+                  min={0}
+                  max={99}
+                  value={filters.maxNumOfParticipants.value}
+                  onChange={handleMaxNumOfParticipantsChange}
+                  className={cn('number')}
+                />
+                <span>명</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className={cn('filter', 'participation-fee-container')}>
@@ -397,7 +454,7 @@ const MeetupFilterBoard = () => {
           {filters.bicycleTypes &&
             filters.bicycleTypes.map(({ value, content }: FilterOptionData) => (
               <OptionChip
-                key={String(value)}
+                key={`${value}`}
                 type="removeOnly"
                 filtersKey="bicycleTypes"
                 value={value}
@@ -429,7 +486,7 @@ const MeetupFilterBoard = () => {
           {filters.age &&
             filters.age.map(({ value, content }: FilterOptionData) => (
               <OptionChip
-                key={String(value)}
+                key={`${value}`}
                 type="removeOnly"
                 filtersKey="age"
                 value={value}
@@ -438,15 +495,19 @@ const MeetupFilterBoard = () => {
                 onXClick={removeOption}
               />
             ))}
-          {/* {filters.maxNumOfParticipants.value > 0 && (
-              <OptionChip
-                name="maxNumOfParticipants"
-                value={filters.maxNumOfParticipants.value}
-                content={`${filters.minNumOfParticipants.content}~${filters.maxNumOfParticipants.content}명`}
-                isChosen
-                onXClick={removeOption}
-              />
-            )} */}
+          {Boolean(
+            filters.minNumOfParticipants.value ||
+              filters.maxNumOfParticipants.value
+          ) && (
+            <OptionChip
+              type="removeOnly"
+              filtersKey="maxNumOfParticipants"
+              value={filters.maxNumOfParticipants.value}
+              content="인원 설정"
+              isChosen
+              onXClick={clearOptions}
+            />
+          )}
           {filters.isParticipationFree && (
             <OptionChip
               type="removeOnly"
