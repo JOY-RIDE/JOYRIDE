@@ -17,7 +17,7 @@ interface SignupBasicFormData {
 interface SignupDetailFormData {
   nickname: string;
 }
-interface SignupFormData extends SignupBasicFormData, SignupDetailFormData {}
+type SignupFormData = SignupBasicFormData & SignupDetailFormData;
 
 // State/context
 export const signupFormDataState = atom<SignupFormData>({

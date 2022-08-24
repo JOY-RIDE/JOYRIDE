@@ -21,7 +21,7 @@
   }
 }
 
-.filter {
+.filters {
   &.hidden {
     display: none;
   }
@@ -44,7 +44,7 @@
   gap: 1.5rem;
 }
 
-.row {
+.filter {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;

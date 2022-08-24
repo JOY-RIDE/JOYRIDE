@@ -23,10 +23,9 @@ export type BicycleType =
   | '기타';
 export type RidingSkill = 1 | 2 | 3;
 
-export type FiltersDispatchAction = 'CHOOSE' | 'REMOVE' | 'TOGGLE' | 'CLEAR';
-
 export interface FiltersDispatchPayload {
   key: MeetupFiltersKey;
   value: number | string | boolean;
   content?: string;
 }
+export type FilterClickHandler = (payload: FiltersDispatchPayload) => void;

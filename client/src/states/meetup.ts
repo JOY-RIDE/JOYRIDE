@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { MeetupFiltersState, MeetupOrderName } from "types/meetup';
+import { MeetupFiltersState, MeetupOrderName } from 'types/meetup';
 
 export const meetupFiltersState = atom<MeetupFiltersState>({
   key: 'meetupFilters',

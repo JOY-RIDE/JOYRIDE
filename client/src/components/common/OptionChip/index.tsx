@@ -2,37 +2,57 @@ import { memo } from 'react';
 import { VscChromeClose } from 'react-icons/vsc';
 import styles from './OptionChip.module.scss';
 import classNames from 'classnames/bind';
-import { MeetupFilterOptionName } from 'types/meetup';
-import { FilterDispatchPayload } from 'types/common';
+import { MeetupFiltersKey } from 'types/meetup';
+import { FilterClickHandler } from 'types/common';
 
 const cn = classNames.bind(styles);
 
-interface OptionChipProps {
-  name: MeetupFilterOptionName;
-  value: number | string;
+interface CommonProps {
+  filtersKey: MeetupFiltersKey;
+  value: number | string | boolean; // TODO: refactor
   content: string;
   isChosen: boolean;
-  onTextClick?: (payload: FilterDispatchPayload) => void;
-  onXClick?: (payload: FilterDispatchPayload) => void;
 }
+
+type ConditionalProps = AllTypeProps | NormalTypeProps | RemoveOnlyTypeProps;
+interface AllTypeProps {
+  type: 'all';
+  onTextClick: FilterClickHandler;
+  onXClick?: never;
+}
+interface NormalTypeProps {
+  type: 'normal';
+  onTextClick: FilterClickHandler;
+  onXClick: FilterClickHandler;
+}
+interface RemoveOnlyTypeProps {
+  type: 'removeOnly';
+  onTextClick?: never;
+  onXClick: FilterClickHandler;
+}
+
+type OptionChipProps = CommonProps & ConditionalProps;
 
 const OptionChip = memo(
   ({
-    name,
+    type,
+    filtersKey,
     value,
     content,
     isChosen,
     onTextClick,
     onXClick,
   }: OptionChipProps) => {
-    const handleTextClick = isChosen
-      ? undefined
-      : onTextClick
-      ? () => onTextClick({ name, value, content })
-      : undefined;
-    const handleXClick = onXClick
-      ? () => onXClick({ name, value, content })
-      : undefined;
+    const handleTextClick =
+      type === 'removeOnly'
+        ? undefined
+        : isChosen
+        ? undefined
+        : () => onTextClick({ key: filtersKey, value, content });
+
+    const handleXClick =
+      type === 'all' ? undefined : () => onXClick({ key: filtersKey, value });
+
     return (
       <li
         className={cn('option', { active: isChosen })}
@@ -41,7 +61,7 @@ const OptionChip = memo(
         <span>{content}</span>
         <button
           type="button"
-          className={cn('x-btn', { hidden: !isChosen || !onXClick })}
+          className={cn('x-btn', { hidden: type === 'all' || !isChosen })}
           onClick={handleXClick}
         >
           <VscChromeClose />
