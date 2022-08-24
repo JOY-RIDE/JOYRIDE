@@ -24,8 +24,12 @@ export type BicycleType =
 export type RidingSkill = 1 | 2 | 3;
 
 export interface FiltersDispatchPayload {
-  key: MeetupFiltersKey;
+  key: MeetupFiltersKey; // TODO: 코스 key 추가
   value: number | string | boolean;
   content?: string;
 }
+export type FiltersDispatch<S> = (
+  state: S,
+  payload: FiltersDispatchPayload
+) => S;
 export type FilterClickHandler = (payload: FiltersDispatchPayload) => void;

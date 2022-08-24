@@ -7,8 +7,7 @@ import MeetupFilterBoard from '../MeetupFilterBoard';
 const cn = classNames.bind(styles);
 
 const MeetupFilter = () => {
-  const { isOpen, toggle, ref } = useToggle();
-
+  const { isOpen, toggle, close, ref } = useToggle();
   return (
     <div className={cn('boundary')} ref={ref}>
       <button className={cn('toggle-btn')} onClick={toggle}>
@@ -16,7 +15,7 @@ const MeetupFilter = () => {
         {isOpen ? <AiOutlineUp /> : <AiOutlineDown />}
       </button>
       <div className={cn('board-container', { hidden: !isOpen })}>
-        <MeetupFilterBoard />
+        <MeetupFilterBoard closeBoard={close} />
       </div>
     </div>
   );

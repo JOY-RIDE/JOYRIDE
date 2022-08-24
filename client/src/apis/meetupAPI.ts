@@ -27,7 +27,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   maxNumOfParticipants: faker.datatype.number(30),
   participants: Array.from({ length: faker.datatype.number(15) }, () => ({})),
   location: faker.helpers.arrayElement(LOCATIONS),
-  gender: faker.helpers.arrayElement(['all', 'm', 'f']),
+  gender: faker.helpers.arrayElement(['m', 'f']),
   ages: faker.helpers.arrayElements([1, 2, 3, 4, 5]),
   participationFee: faker.datatype.number(20000),
 }));
