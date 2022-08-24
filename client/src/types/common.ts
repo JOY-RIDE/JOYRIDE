@@ -1,3 +1,5 @@
+import { MeetupFiltersKey } from './meetup';
+
 export type Location =
   | '서울'
   | '인천'
@@ -21,10 +23,10 @@ export type BicycleType =
   | '기타';
 export type RidingSkill = 1 | 2 | 3;
 
-export type FilterDispatchAction = 'CHOOSE' | 'REMOVE' | 'CLEAR' | 'TOGGLE';
+export type FiltersDispatchAction = 'CHOOSE' | 'REMOVE' | 'TOGGLE' | 'CLEAR';
 
-export interface FilterDispatchPayload {
-  name: string;
+export interface FiltersDispatchPayload {
+  key: MeetupFiltersKey;
   value: number | string | boolean;
   content?: string;
 }

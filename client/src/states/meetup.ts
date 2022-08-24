@@ -1,31 +1,15 @@
 import { atom } from 'recoil';
-import { MeetupFilterState, MeetupOrderOptionName } from 'types/meetup';
+import { MeetupFiltersState, MeetupOrderName } from "types/meetup';
 
-export const meetupFilterState = atom<MeetupFilterState>({
-  key: 'meetupFilter',
+export const meetupFiltersState = atom<MeetupFiltersState>({
+  key: 'meetupFilters',
   default: {
-    gender: { value: 'all', content: '전체' },
     minNumOfParticipants: { value: 0, content: '0' },
     maxNumOfParticipants: { value: 0, content: '0' },
   },
 });
-export const meetupOrderState = atom<MeetupOrderOptionName>({
+
+export const meetupOrderState = atom<MeetupOrderName>({
   key: 'meetupOrder',
   default: '-createdAt',
 });
-// const meetups = mockMeetupAPI.getAllMeetups();
-
-// export const meetupsState = selector<Meetup[]>({
-//   key: 'meetups',
-//   get: async ({ get }) => {
-//     const selectedFilters = get(selectedMeetupFiltersState);
-//     if (!selectedFilters) return meetups; // 초기화
-//     const pathDifficultyFilter = selectedFilters.find(
-//       filter => filter.name === 'pathDifficulty'
-//     );
-//     if (!pathDifficultyFilter) return meetups; // 다른 필터 선택 시
-//     return meetups.filter(
-//       meetup => meetup.pathDifficulty === pathDifficultyFilter.payload
-//     );
-//   },
-// });

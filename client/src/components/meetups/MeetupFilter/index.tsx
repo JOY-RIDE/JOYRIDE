@@ -12,11 +12,8 @@ import {
   RIDING_SKILLS,
 } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
-import { MeetupFilterState } from 'types/meetup';
 import { omit } from 'lodash';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { meetupFilterState } from 'states/meetup';
-import { FilterDispatchAction, FilterDispatchPayload } from 'types/common';
 import {
   stringifyAge,
   stringifyDifficulty,
@@ -24,89 +21,43 @@ import {
   stringifyRidingSkill,
 } from 'utils/stringify';
 import { useCallback } from 'react';
+import { MeetupFiltersState } from 'types/meetup';
+import { FiltersDispatchPayload } from 'types/common';
 
 const cn = classNames.bind(styles);
 
-interface OptionData {
-  value: number | string;
-  content: string;
+interface FilterOptionData {
+  value: number | string | boolean;
+  content?: string;
 }
 
-/** - 단일 선택 옵션을 가진 filterState 형태: { 옵션명: {value: 값, content: 한글} }
- * - 다중 선택 옵션을 가진 filterState 형태: { 옵션명: [{value: 값, content: 한글}] }
+// Functions
+
+/** - 단일 선택 옵션을 가진 filtersState 형태: { key: {value: 값, content: 한글} }
+ * - 다중 선택 옵션을 가진 filtersState 형태: { key: [{value: 값, content: 한글}] }
  */
-function meetupFilterDispatch(
-  state: MeetupFilterState,
-  action: FilterDispatchAction,
-  { name, value, content }: FilterDispatchPayload
+
+function filtersDispatchForChoosing(
+  state: MeetupFiltersState,
+  { key, ...data }: FiltersDispatchPayload
 ) {
-  const data = { value, content };
-  switch (action) {
-    case 'CHOOSE':
-      switch (name) {
-        // 단일 선택 옵션들
-        case 'location':
-        case 'pathDifficulty':
-        case 'ridingSkill':
-        case 'gender':
-          // case 'minNumOfParticipants':
-          // case 'maxNumOfParticipants':
-          return { ...state, [name]: data };
+  switch (key) {
+    // 단일 선택 옵션들
+    case 'location':
+    case 'pathDifficulty':
+    case 'ridingSkill':
+    case 'gender':
+      // case 'minNumOfParticipants':
+      // case 'maxNumOfParticipants':
+      return { ...state, [key]: data };
 
-        // 다중 선택 옵션들
-        case 'bicycleType':
-        case 'age': {
-          const oldDataArray = state[name];
-          return oldDataArray
-            ? { ...state, [name]: oldDataArray.concat(data) }
-            : { ...state, [name]: [data] };
-        }
-        default:
-          throw new Error();
-      }
-
-    case 'REMOVE':
-      switch (name) {
-        // 단일 선택 옵션들
-        case 'location':
-        case 'pathDifficulty':
-        case 'ridingSkill':
-        // case 'minNumOfParticipants':
-        // case 'maxNumOfParticipants':
-        case 'participationFee':
-          return omit(state, [name]);
-        case 'gender':
-          return { ...state, [name]: { value: 'all', content: '전체' } };
-
-        // 다중 선택 옵션들
-        case 'bicycleType':
-        case 'age': {
-          const oldDataArray = state[name];
-          return oldDataArray.length > 1
-            ? {
-                ...state,
-                [name]: oldDataArray.filter(
-                  (data: OptionData) => data.value !== value
-                ),
-              }
-            : omit(state, [name]);
-        }
-        default:
-          throw new Error();
-      }
-
-    case 'CLEAR':
-      return omit(state, [name]);
-
-    case 'TOGGLE': {
-      switch (name) {
-        case 'participationFee': {
-          const oldData = state[name];
-          return oldData ? omit(state, [name]) : { ...state, [name]: data };
-        }
-        default:
-          throw new Error();
-      }
+    // 다중 선택 옵션들
+    case 'bicycleTypes':
+    case 'age': {
+      const oldDataArray = state[key];
+      return oldDataArray
+        ? { ...state, [key]: oldDataArray.concat(data) }
+        : { ...state, [key]: [data] };
     }
 
     default:
@@ -114,35 +65,94 @@ function meetupFilterDispatch(
   }
 }
 
-const PARTICIPATION_FEE_OPTION = {
-  name: 'participationFee',
+function filtersDispatchForRemoving(
+  state: MeetupFiltersState,
+  { key, value }: FiltersDispatchPayload
+) {
+  switch (key) {
+    // 단일 선택 옵션들
+    case 'location':
+    case 'pathDifficulty':
+    case 'ridingSkill':
+    case 'gender':
+    // case 'minNumOfParticipants':
+    // case 'maxNumOfParticipants':
+    case 'hasParticipationFee':
+      return omit(state, [key]);
+
+    // 다중 선택 옵션들
+    case 'bicycleTypes':
+    case 'age': {
+      const oldDataArray = state[key];
+      return oldDataArray.length > 1
+        ? {
+            ...state,
+            [key]: oldDataArray.filter(
+              (data: FilterOptionData) => data.value !== value
+            ),
+          }
+        : omit(state, [key]);
+    }
+
+    default:
+      throw new Error();
+  }
+}
+
+function filtersDispatchForToggling(
+  state: MeetupFiltersState,
+  { key, ...data }: FiltersDispatchPayload
+) {
+  switch (key) {
+    case 'hasParticipationFee': {
+      const oldData = state[key];
+      return oldData ? omit(state, [key]) : { ...state, [key]: data };
+    }
+
+    default:
+      throw new Error();
+  }
+}
+
+function filtersDispatchForClearing(
+  state: MeetupFiltersState,
+  { key }: FiltersDispatchPayload
+) {
+  return omit(state, [key]);
+}
+
+const HAS_PARTICIPATION_FEE_PAYLOAD: FiltersDispatchPayload = {
+  key: 'hasParticipationFee',
   value: false,
   content: '참가비 없는 모임만',
 };
 
 const MeetupFilter = () => {
   const { isOpen, toggle, ref } = useToggle();
-  const [filter, setFilter] = useRecoilState(meetupFilterState);
-  const resetFilter = useResetRecoilState(meetupFilterState);
-  console.log(filter);
+  const [filters, setFilters] = useRecoilState(meetupFiltersState);
+  const resetFilters = useResetRecoilState(meetupFiltersState);
+  console.log(filters);
 
   const chooseOption = useCallback(
-    (payload: FilterDispatchPayload) =>
-      setFilter(filter => meetupFilterDispatch(filter, 'CHOOSE', payload)),
+    (payload: FiltersDispatchPayload) =>
+      setFilters(filters => filtersDispatchForChoosing(filters, payload)),
     []
   );
   const removeOption = useCallback(
-    (payload: FilterDispatchPayload) =>
-      setFilter(filter => meetupFilterDispatch(filter, 'REMOVE', payload)),
+    (payload: FiltersDispatchPayload) =>
+      setFilters(filters => filtersDispatchForRemoving(filters, payload)),
     []
   );
-  const clearOption = useCallback(
-    (payload: FilterDispatchPayload) =>
-      setFilter(filter => meetupFilterDispatch(filter, 'CLEAR', payload)),
+  const toggleOption = useCallback(
+    (payload: FiltersDispatchPayload) =>
+      setFilters(filters => filtersDispatchForToggling(filters, payload)),
     []
   );
-  const toggleOption = (payload: FilterDispatchPayload) =>
-    setFilter(filter => meetupFilterDispatch(filter, 'TOGGLE', payload)); // For checkbox or radio component
+  const clearOptions = useCallback(
+    (payload: FiltersDispatchPayload) =>
+      setFilters(filters => filtersDispatchForClearing(filters, payload)),
+    []
+  );
 
   // const handleMaxNumOfParticipantsChange = (e: any) => {
   //   const value = Number(e.target.value);
@@ -163,7 +173,7 @@ const MeetupFilter = () => {
   // };
 
   const handleParticipationFeeToggle = () =>
-    toggleOption(PARTICIPATION_FEE_OPTION);
+    toggleOption(HAS_PARTICIPATION_FEE_PAYLOAD);
 
   return (
     <div className={cn('boundary')} ref={ref}>
@@ -241,7 +251,7 @@ const MeetupFilter = () => {
                   isChosen={
                     filter.bicycleType &&
                     filter.bicycleType.some(
-                      (data: OptionData) => data.value === type
+                      (data: FilterOptionData) => data.value === type
                     )
                   }
                   onTextClick={chooseOption}
@@ -317,7 +327,9 @@ const MeetupFilter = () => {
                   content={stringifyAge(age)}
                   isChosen={
                     filter.age &&
-                    filter.age.some((data: OptionData) => data.value === age)
+                    filter.age.some(
+                      (data: FilterOptionData) => data.value === age
+                    )
                   }
                   onTextClick={chooseOption}
                   onXClick={removeOption}
@@ -377,7 +389,7 @@ const MeetupFilter = () => {
               />
             )}
             {filter.bicycleType &&
-              filter.bicycleType.map(({ value, content }: OptionData) => (
+              filter.bicycleType.map(({ value, content }: FilterOptionData) => (
                 <OptionChip
                   name="bicycleType"
                   value={value}
@@ -405,7 +417,7 @@ const MeetupFilter = () => {
               />
             )}
             {filter.age &&
-              filter.age.map(({ value, content }: OptionData) => (
+              filter.age.map(({ value, content }: FilterOptionData) => (
                 <OptionChip
                   name="age"
                   value={value}
