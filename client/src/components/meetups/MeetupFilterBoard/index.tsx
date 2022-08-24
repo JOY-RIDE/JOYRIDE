@@ -25,7 +25,8 @@ import {
   MEETUP_FILTER_INITIAL_STATE,
 } from 'states/meetup';
 import { MeetupFilterState } from 'types/meetup';
-import { ChangeHandler } from 'types/callback';
+import { ChangeHandler, ClickHandler } from 'types/callback';
+import { HiOutlinePlus, HiOutlineMinus } from 'react-icons/hi';
 
 const cn = classNames.bind(styles);
 
@@ -33,6 +34,9 @@ interface FilterOptionData {
   value: number | string | boolean;
   content: string;
 }
+
+type KeyWithRegulatorBtn = 'minNumOfParticipants' | 'maxNumOfParticipants';
+type KeyWithCheckBox = 'isParticipationFree';
 
 // Functions
 
@@ -172,25 +176,45 @@ const MeetupFilterBoard = () => {
     []
   );
 
-  const handleMinNumOfParticipantsChange: ChangeHandler = e => {
-    const value = Number(e.target.value);
-    if (99 < value) return;
-    e.target.value = '';
-    chooseOption({
-      key: 'minNumOfParticipants',
-      value,
-      content: `${value}`,
-    });
+  const handleRegulatorBtnClick: ClickHandler<HTMLButtonElement> = e => {
+    if (!(e.currentTarget instanceof HTMLButtonElement)) return;
+    const { key, action } = e.currentTarget.dataset;
+    console.log(key, action);
+    if (key !== 'minNumOfParticipants' && key !== 'maxNumOfParticipants')
+      return;
+    const oldValue = filters[key].value;
+    if (action === 'decrease') {
+      if (!oldValue) return;
+      chooseOption({
+        key,
+        value: oldValue - 1,
+        content: `${oldValue - 1}`,
+      });
+    } else {
+      if (oldValue === 99) return;
+      chooseOption({
+        key,
+        value: oldValue + 1,
+        content: `${oldValue + 1}`,
+      });
+    }
   };
-  // TODO: 제출 시 에러 처리
-  const handleMaxNumOfParticipantsChange: ChangeHandler = e => {
-    const value = Number(e.target.value);
-    if (99 < value) return;
+
+  // TODO: max 제출 시 에러 처리
+  const handleNumOfParticipantsChange: ChangeHandler = e => {
+    const { name, value } = e.target;
+    if (name !== 'minNumOfParticipants' && name !== 'maxNumOfParticipants') {
+      return;
+    }
+    const num = Number(value);
+    console.log(num);
+    if (99 < num) return;
+
     e.target.value = '';
     chooseOption({
-      key: 'maxNumOfParticipants',
-      value,
-      content: `${value}`,
+      key: name,
+      value: num,
+      content: `${num}`,
     });
   };
 
@@ -387,26 +411,66 @@ const MeetupFilterBoard = () => {
             />
             <div className={cn('regulators')}>
               <div className={cn('regulator')}>
+                <button
+                  type="button"
+                  className={cn('regulator-btn')}
+                  data-key="minNumOfParticipants"
+                  data-action="decrease"
+                  onClick={handleRegulatorBtnClick}
+                >
+                  <HiOutlineMinus />
+                </button>
                 <input
                   type="number"
+                  name="minNumOfParticipants"
                   min={0}
                   max={99}
                   value={filters.minNumOfParticipants.value}
-                  onChange={handleMinNumOfParticipantsChange}
+                  onChange={handleNumOfParticipantsChange}
                   className={cn('number')}
                 />
+                <button
+                  type="button"
+                  className={cn('regulator-btn')}
+                  data-key="minNumOfParticipants"
+                  data-action="increase"
+                  onClick={handleRegulatorBtnClick}
+                >
+                  <HiOutlinePlus />
+                </button>
                 <span>명</span>
               </div>
+
               <span className={cn('tilde')}>~</span>
+
               <div className={cn('regulator')}>
+                <button
+                  type="button"
+                  className={cn('regulator-btn')}
+                  data-key="maxNumOfParticipants"
+                  data-action="decrease"
+                  onClick={handleRegulatorBtnClick}
+                >
+                  <HiOutlineMinus />
+                </button>
                 <input
                   type="number"
+                  name="maxNumOfParticipants"
                   min={0}
                   max={99}
                   value={filters.maxNumOfParticipants.value}
-                  onChange={handleMaxNumOfParticipantsChange}
+                  onChange={handleNumOfParticipantsChange}
                   className={cn('number')}
                 />
+                <button
+                  type="button"
+                  className={cn('regulator-btn')}
+                  data-key="maxNumOfParticipants"
+                  data-action="increase"
+                  onClick={handleRegulatorBtnClick}
+                >
+                  <HiOutlinePlus />
+                </button>
                 <span>명</span>
               </div>
             </div>

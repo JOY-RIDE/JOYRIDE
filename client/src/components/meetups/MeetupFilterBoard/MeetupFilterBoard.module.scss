@@ -56,6 +56,21 @@
     & .regulator {
       display: flex;
       align-items: center;
+
+      & .regulator-btn {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $color-grey-300;
+        border-radius: 50%;
+        font-size: 1.3rem;
+      }
+
+      & span {
+        margin-left: 1rem;
+      }
     }
   }
 
@@ -68,7 +83,7 @@
   border: none;
   padding: 0.5rem 0.7rem;
   text-align: center;
-  width: 4rem;
+  width: 3.5rem;
 }
 
 .number::-webkit-outer-spin-button,
