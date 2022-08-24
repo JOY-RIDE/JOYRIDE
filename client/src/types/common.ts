@@ -28,6 +28,10 @@ export interface FiltersDispatchPayload {
   value: number | string | boolean;
   content?: string;
 }
+export interface FilterOptionData {
+  value: number | string | boolean;
+  content: string;
+}
 export type FiltersDispatch<S> = (
   state: S,
   payload: FiltersDispatchPayload

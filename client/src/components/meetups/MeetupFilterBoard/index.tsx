@@ -19,7 +19,7 @@ import {
   stringifyRidingSkill,
 } from 'utils/stringify';
 import { useCallback, useEffect } from 'react';
-import { FiltersDispatchPayload } from 'types/common';
+import { FilterOptionData, FiltersDispatchPayload } from 'types/common';
 import {
   meetupBoardFiltersState,
   meetupFiltersState,
@@ -30,15 +30,12 @@ import PlusMinusButton from 'components/common/PlusMinusButton';
 import { MeetupFiltersState } from 'types/meetup';
 import useFilterBoard from 'hooks/useFilterBoard';
 import { toastMessageState } from 'states/common';
+import MeetupFilterChoices from '../MeetupFilterChoices';
 
 const cn = classNames.bind(styles);
 
 interface MeetupFilterBoardProp {
   closeBoard: () => void;
-}
-interface FilterOptionData {
-  value: number | string | boolean;
-  content: string;
 }
 
 // Functions
@@ -132,6 +129,13 @@ function filtersDispatchForClearing(
   }
 }
 
+export const MEETUP_FILTERS_DISPATCHES = {
+  choose: filtersDispatchForChoosing,
+  remove: filtersDispatchForRemoving,
+  toggle: filtersDispatchForToggling,
+  clear: filtersDispatchForClearing,
+};
+
 const IS_PARTICIPATION_FREE_PAYLOAD: FiltersDispatchPayload = {
   key: 'isParticipationFree',
   value: true,
@@ -146,12 +150,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
     toggleOption,
     clearOptions,
     resetFilterBoard,
-  } = useFilterBoard(meetupBoardFiltersState, {
-    choose: filtersDispatchForChoosing,
-    remove: filtersDispatchForRemoving,
-    toggle: filtersDispatchForToggling,
-    clear: filtersDispatchForClearing,
-  });
+  } = useFilterBoard(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
 
   useEffect(() => resetFilterBoard, []);
   useEffect(() => {
@@ -491,97 +490,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
       </div>
 
       <div className={cn('choices-container')}>
-        <ul className={cn('choices')}>
-          {boardFilters.location && (
-            <OptionChip
-              type="removeOnly"
-              filtersKey="location"
-              value={boardFilters.location.value}
-              content={boardFilters.location.content}
-              isChosen
-              onXClick={removeOption}
-            />
-          )}
-          {boardFilters.pathDifficulty && (
-            <OptionChip
-              type="removeOnly"
-              filtersKey="pathDifficulty"
-              value={boardFilters.pathDifficulty.value}
-              content={boardFilters.pathDifficulty.content}
-              isChosen
-              onXClick={removeOption}
-            />
-          )}
-          {boardFilters.bicycleTypes &&
-            boardFilters.bicycleTypes.map(
-              ({ value, content }: FilterOptionData) => (
-                <OptionChip
-                  key={`${value}`}
-                  type="removeOnly"
-                  filtersKey="bicycleTypes"
-                  value={value}
-                  content={content}
-                  isChosen
-                  onXClick={removeOption}
-                />
-              )
-            )}
-          {boardFilters.minRidingSkill && (
-            <OptionChip
-              type="removeOnly"
-              filtersKey="minRidingSkill"
-              value={boardFilters.minRidingSkill.value}
-              content={boardFilters.minRidingSkill.content}
-              isChosen
-              onXClick={removeOption}
-            />
-          )}
-          {boardFilters.gender && (
-            <OptionChip
-              type="removeOnly"
-              filtersKey="gender"
-              value={boardFilters.gender.value}
-              content={boardFilters.gender.content}
-              isChosen
-              onXClick={removeOption}
-            />
-          )}
-          {boardFilters.age &&
-            boardFilters.age.map(({ value, content }: FilterOptionData) => (
-              <OptionChip
-                key={`${value}`}
-                type="removeOnly"
-                filtersKey="age"
-                value={value}
-                content={content}
-                isChosen
-                onXClick={removeOption}
-              />
-            ))}
-          {Boolean(
-            boardFilters.minNumOfParticipants.value ||
-              boardFilters.maxNumOfParticipants.value
-          ) && (
-            <OptionChip
-              type="removeOnly"
-              filtersKey="maxNumOfParticipants"
-              value={boardFilters.maxNumOfParticipants.value}
-              content="인원 설정"
-              isChosen
-              onXClick={clearOptions}
-            />
-          )}
-          {boardFilters.isParticipationFree && (
-            <OptionChip
-              type="removeOnly"
-              filtersKey="isParticipationFree"
-              value={boardFilters.isParticipationFree.value}
-              content={boardFilters.isParticipationFree.content}
-              isChosen
-              onXClick={removeOption}
-            />
-          )}
-        </ul>
+        <MeetupFilterChoices onBoard />
       </div>
 
       <div className={cn('btns')}>

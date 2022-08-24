@@ -12,11 +12,11 @@ interface FiltersDispatches {
 }
 
 export const useFilterBoard = (
-  state: RecoilState<FiltersState>,
+  recoilState: RecoilState<FiltersState>,
   { choose, remove, toggle, clear }: FiltersDispatches
 ) => {
-  const setFilters = useSetRecoilState(state);
-  const resetFilterBoard = useResetRecoilState(state);
+  const setFilters = useSetRecoilState(recoilState);
+  const resetFilterBoard = useResetRecoilState(recoilState);
 
   const chooseOption: FilterClickHandler = useCallback(
     payload => setFilters(filters => choose(filters, payload)),

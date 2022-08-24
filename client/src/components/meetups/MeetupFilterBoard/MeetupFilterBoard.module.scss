@@ -30,14 +30,12 @@
 }
 
 .options,
-.option,
-.choices {
+.option {
   display: flex;
   align-items: center;
 }
 
-.options,
-.choices {
+.options {
   gap: 0.8rem;
   flex-wrap: wrap;
 }
