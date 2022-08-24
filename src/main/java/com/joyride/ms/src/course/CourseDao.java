@@ -83,7 +83,7 @@ public class CourseDao {
                 "       CR.created_at, CR.updated_at from coursereview CR\n" +
                 "                              INNER join user U\n" +
                 "                                    on CR.user_id = U.id\n" +
-                "    where course_id=?";
+                "    where course_id=? and status = 1";
 
 
         int selectCourseReviewParams = course_id;
