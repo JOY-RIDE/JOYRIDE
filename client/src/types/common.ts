@@ -23,7 +23,7 @@ export type RidingSkill = 1 | 2 | 3;
 
 export interface FiltersDispatchPayload {
   key: string;
-  value: number | string | boolean;
+  value?: number | string | boolean;
   content?: string;
 }
 export interface FilterOptionData {
