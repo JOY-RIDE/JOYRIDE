@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
-import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
+import { useSignupStepControls } from 'routes/Signup';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import { REGEX } from 'utils/constants';
@@ -11,6 +11,7 @@ import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
+import { signupFormDataState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 

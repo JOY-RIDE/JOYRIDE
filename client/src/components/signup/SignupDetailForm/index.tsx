@@ -2,7 +2,7 @@ import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
+import { useSignupStepControls } from 'routes/Signup';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
@@ -14,6 +14,7 @@ import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
+import { signupFormDataState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 

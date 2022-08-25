@@ -3,6 +3,9 @@ import completed from 'assets/images/completed.svg';
 import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';
+import { useResetRecoilState } from 'recoil';
+import { signupFormDataState } from 'states/auth';
+import { useEffect } from 'react';
 
 const cn = classNames.bind(styles);
 
@@ -12,6 +15,9 @@ interface SignupCompletedProps {
 }
 
 const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
+  const resetSignupFormData = useResetRecoilState(signupFormDataState);
+  useEffect(resetSignupFormData, []);
+
   const navigate = useNavigate();
   const handleLoginClick = () => navigate('/login');
   return (
