@@ -113,6 +113,7 @@ public class CourseService {
             String message = "리뷰 작성에 성공했습니다.";
             return new PostCourseReviewRes(id, message);
         } catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
@@ -126,6 +127,7 @@ public class CourseService {
 
             return totalRate;
         } catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
