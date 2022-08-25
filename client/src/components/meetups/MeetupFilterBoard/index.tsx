@@ -28,7 +28,7 @@ import {
 import { ChangeHandler, ClickHandler, SubmitHandler } from 'types/callback';
 import PlusMinusButton from 'components/common/PlusMinusButton';
 import { MeetupFiltersState } from 'types/meetup';
-import useFilterBoard from 'hooks/useFilterBoard';
+import useClientFilter from 'hooks/useClientFilter';
 import { toastMessageState } from 'states/common';
 import MeetupFilterChoices from '../MeetupFilterChoices';
 
@@ -150,7 +150,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
     toggleOption,
     clearOptions,
     resetFilterBoard,
-  } = useFilterBoard(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
+  } = useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
 
   useEffect(() => resetFilterBoard, []);
   useEffect(() => {

@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
-import useFilterBoard from 'hooks/useFilterBoard';
+import useClientFilter from 'hooks/useClientFilter';
 import { MEETUP_FILTERS_DISPATCHES } from '../MeetupFilterBoard';
 
 type MeetupFilterChoicesProp = {
@@ -13,7 +13,7 @@ type MeetupFilterChoicesProp = {
 const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
   const filters = useRecoilValue(state);
-  const { removeOption, clearOptions } = useFilterBoard(
+  const { removeOption, clearOptions } = useClientFilter(
     state,
     MEETUP_FILTERS_DISPATCHES
   );

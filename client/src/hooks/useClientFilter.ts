@@ -11,7 +11,7 @@ interface FiltersDispatches {
   clear: FiltersDispatch<FiltersState>;
 }
 
-export const useFilterBoard = (
+export const useClientFilter = (
   recoilState: RecoilState<FiltersState>,
   { choose, remove, toggle, clear }: FiltersDispatches
 ) => {
@@ -42,4 +42,4 @@ export const useFilterBoard = (
   };
 };
 
-export default useFilterBoard;
+export default useClientFilter;
