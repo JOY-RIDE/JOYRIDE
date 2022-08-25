@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { SignupFormData } from 'types/authentication';
+import { SignupFormData } from 'types/auth';
 
 export const isLoggedInState = atom<boolean>({
   key: 'isLoggedIn',
