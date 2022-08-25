@@ -8,6 +8,7 @@ import { toastMessageState } from 'states/common';
 import MeetupFilterChoices from '../MeetupFilterChoices';
 import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
 import MeetupFilterBoardOptions from '../MeetupFilterBoardOptions';
+import { ObjectFlags } from 'typescript';
 
 const cn = classNames.bind(styles);
 
@@ -22,7 +23,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
     MEETUP_FILTERS_DISPATCHES
   );
 
-  // useEffect(() => handleReset, []);
+  console.log(boardFilters);
 
   const showToastMessage = useSetRecoilState(toastMessageState);
   const setFilters = useSetRecoilState(meetupFiltersState);

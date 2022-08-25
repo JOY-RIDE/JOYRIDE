@@ -1,11 +1,12 @@
 import styles from './MeetupFilterChoices.module.scss';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
 import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
 import classNames from 'classnames/bind';
+import { useEffect } from 'react';
 
 const cn = classNames.bind(styles);
 
@@ -17,28 +18,16 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
   // TODO: remove
   const filters = useRecoilValue(state);
-
-  // const boardFilters = useRecoilValue(meetupBoardFiltersState);
-  // const filters = useRecoilValue(meetupFiltersState);
-  // const filters = onBoard ? boardFilters : filters;
-
-  // const { handleRemove: handleRemoveOnBoard, handleClear: handleClearOnBoard } =
-  //   useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
   const { handleRemove, handleClear } = useClientFilter(
     state,
     MEETUP_FILTERS_DISPATCHES
   );
-  // const handleRemoveOnBoth = (payload: FiltersDispatchPayload) => {
-  //   handleRemoveOnBoard(payload);
-  //   handleRemove(payload);
-  // };
-  // const handleClearOnBoth = (payload: FiltersDispatchPayload) => {
-  //   handleClearOnBoard(payload);
-  //   handleClear(payload);
-  // };
 
-  // const remove = onBoard ? handleRemoveOnBoard : handleRemoveOnBoth;
-  // const clear = onBoard ? handleClearOnBoard : handleClearOnBoth;
+  const setBoardFiltersState = useSetRecoilState(meetupBoardFiltersState);
+  useEffect(() => {
+    if (onBoard) return;
+    setBoardFiltersState(filters);
+  }, [filters]);
 
   return (
     <ul className={cn('choices', { wide: !onBoard })}>

@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useSetRecoilState, RecoilState, useResetRecoilState } from 'recoil';
 import { FilterClickHandler, FiltersDispatch } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
@@ -16,14 +17,26 @@ export const useClientFilter = (
 ) => {
   const setFilters = useSetRecoilState(recoilState);
 
-  const handleChoose: FilterClickHandler = payload =>
-    setFilters(filters => choose(filters, payload));
-  const handleRemove: FilterClickHandler = payload =>
-    setFilters(filters => remove(filters, payload));
+  // const handleChoose = useRecoilTransaction_UNSTABLE(
+  //   ({ get, set }) =>
+  //     (payload: FiltersDispatchPayload) => {
+  //       set(recoilState, result);
+  //     }
+  // );
+  const handleChoose: FilterClickHandler = useCallback(
+    payload => setFilters(filters => choose(filters, payload)),
+    []
+  );
+  const handleRemove: FilterClickHandler = useCallback(
+    payload => setFilters(filters => remove(filters, payload)),
+    []
+  );
   const handleToggle: FilterClickHandler = payload =>
     setFilters(filters => toggle(filters, payload));
-  const handleClear: FilterClickHandler = payload =>
-    setFilters(filters => clear(filters, payload));
+  const handleClear: FilterClickHandler = useCallback(
+    payload => setFilters(filters => clear(filters, payload)),
+    []
+  );
   const handleReset = useResetRecoilState(recoilState);
 
   return {
