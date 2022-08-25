@@ -16,7 +16,7 @@ export const useClientFilter = (
   { choose, remove, toggle, clear }: FiltersDispatches
 ) => {
   const setFilters = useSetRecoilState(recoilState);
-  const resetFilterBoard = useResetRecoilState(recoilState);
+  const resetFilters = useResetRecoilState(recoilState);
 
   const chooseOption: FilterClickHandler = useCallback(
     payload => setFilters(filters => choose(filters, payload)),
@@ -38,7 +38,7 @@ export const useClientFilter = (
     removeOption,
     toggleOption,
     clearOptions,
-    resetFilterBoard,
+    resetFilters,
   };
 };
 

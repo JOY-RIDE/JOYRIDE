@@ -4,11 +4,11 @@ import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
-import { MEETUP_FILTERS_DISPATCHES } from '../MeetupFilterBoard';
+import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
 
-type MeetupFilterChoicesProp = {
+interface MeetupFilterChoicesProp {
   onBoard: boolean;
-};
+}
 
 const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
