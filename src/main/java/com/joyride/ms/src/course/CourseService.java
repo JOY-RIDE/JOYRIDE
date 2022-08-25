@@ -1,9 +1,6 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.CourseInfo;
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.PostCourseReviewReq;
-import com.joyride.ms.src.course.model.PostCourseReviewRes;
+import com.joyride.ms.src.course.model.*;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -11,18 +8,19 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.joyride.ms.util.BaseResponseStatus.COURSE_REVIEW_NOT_EXISTS;
 import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 
 @Service
-@Transactional(rollbackOn = Exception.class)
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CourseService {
 
@@ -31,6 +29,7 @@ public class CourseService {
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
+    @Transactional
     public List<GetCourseListRes> createCourseList() throws BaseException {
         try {
             int check = courseDao.existsCourse("고락산 둘레길");
@@ -128,6 +127,24 @@ public class CourseService {
             return totalRate;
         } catch (Exception exception) {
             exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //리뷰 삭제 api
+    @Transactional
+    public PatchCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
+
+        // 유저확인 로직 필요
+        int existsCourseReview = courseDao.existsCourseReview(courseReview_id);
+        if (existsCourseReview == 0) {
+            throw new BaseException(COURSE_REVIEW_NOT_EXISTS);
+        }
+        try{
+           courseDao.deleteByCourseReviewId(courseReview_id);
+            String message = "리뷰 삭제에 성공했습니다.";
+            return new PatchCourseReviewRes(message);
+        } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
     }
