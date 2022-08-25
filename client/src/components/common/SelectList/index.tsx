@@ -3,7 +3,7 @@ import { Select, MenuItem } from '@mui/material';
 
 interface Option {
   value: string;
-  text: string;
+  content: string;
 }
 interface SelectListProps {
   options: Option[];
@@ -32,7 +32,7 @@ const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
         </MenuItem>
         {options.map(option => (
           <MenuItem key={option.value} value={option.value}>
-            {option.text}
+            {option.content}
           </MenuItem>
         ))}
       </Select>

@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
-import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
+import { useSignupStepControls } from 'routes/Signup';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import { REGEX } from 'utils/constants';
@@ -11,6 +11,7 @@ import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
+import { signupFormDataState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
@@ -90,7 +91,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.email && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'email',
                       errors.email.type
                     )}
@@ -124,7 +125,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.password && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'password',
                       errors.password.type
                     )}
@@ -156,7 +157,7 @@ const SignupBasicForm = () => {
                 />
                 {errors.passwordConfirm && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'passwordConfirm',
                       errors.passwordConfirm.type
                     )}
@@ -173,10 +174,10 @@ const SignupBasicForm = () => {
           type="button"
           color="whiteGrey"
           size="md"
-          text="이전"
+          content="이전"
           onClick={decreaseStep}
         />
-        <Button color="main" size="md" text="계속" />
+        <Button type="submit" color="main" size="md" content="계속" />
       </div>
     </form>
   );

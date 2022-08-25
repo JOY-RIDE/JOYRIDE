@@ -1,7 +1,7 @@
 @use './variables.scss' as *;
 
 @mixin auth-page {
-  width: $width-flexible-mobile;
+  width: $width-mobile-flexible;
   margin: 0 auto;
 }
 

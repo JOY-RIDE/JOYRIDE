@@ -16,3 +16,6 @@ export interface IRoad {
   updated_at: string;
   required_at: number;
 }
+
+export type CourseName = string;
+export type CourseDifficulty = 1 | 2 | 3;

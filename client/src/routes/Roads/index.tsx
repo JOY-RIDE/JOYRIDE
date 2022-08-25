@@ -11,8 +11,8 @@ import Loading from 'components/common/Loading';
 import Paging from 'components/common/Paging';
 import SortBox from 'components/roads/SortBox';
 import _ from 'lodash';
-import { CoursePageState } from 'states/atoms';
-import { stringifyCourseLevel } from 'utils/stringify';
+import { CoursePageState } from 'states/common';
+import { stringifyDifficulty } from 'utils/stringify';
 import { stringifyCourseHours } from 'utils/stringify';
 import { IRoad } from 'types/course';
 
@@ -75,7 +75,7 @@ const Roads = () => {
                       <span className={cn('level')}>
                         <span className={cn('type')}>난이도</span>{' '}
                         <span className={cn('value')}>
-                          {stringifyCourseLevel(road.crsLevel)}
+                          {stringifyDifficulty(road.crsLevel)}
                         </span>
                       </span>
                       ·

@@ -1,8 +1,40 @@
-import { CourseLevel } from 'types/course';
-import { RidingLevel } from 'types/meetup';
+import { Age, Gender } from './../types/common';
+import { CourseDifficulty } from 'types/course';
+import { MeetupPathDifficulty } from 'types/meetup';
+import { RidingSkill } from 'types/common';
 
-export function stringifyCourseLevel(level: CourseLevel) {
-  switch (level) {
+export function stringifyGender(gender: Gender) {
+  switch (gender) {
+    case 'm':
+      return '남성';
+    case 'f':
+      return '여성';
+    default:
+      throw new Error();
+  }
+}
+
+export function stringifyAge(age: Age) {
+  switch (age) {
+    case 1:
+      return '10대';
+    case 2:
+      return '20대';
+    case 3:
+      return '30대';
+    case 4:
+      return '40대';
+    case 5:
+      return '50대';
+    default:
+      throw new Error();
+  }
+}
+
+export function stringifyDifficulty(
+  difficulty: CourseDifficulty | MeetupPathDifficulty
+) {
+  switch (difficulty) {
     case 1:
       return '하';
     case 2:
@@ -24,8 +56,8 @@ export function stringifyCourseHours(minutes: number) {
   }
 }
 
-export function stringifyRidingLevel(level: RidingLevel) {
-  switch (level) {
+export function stringifyRidingSkill(skill: RidingSkill) {
+  switch (skill) {
     case 1:
       return '초급';
     case 2:
@@ -37,16 +69,16 @@ export function stringifyRidingLevel(level: RidingLevel) {
   }
 }
 
-interface IncludedDateOptions {
+interface IncludeOption {
   year: boolean;
   month: boolean;
   day: boolean;
 }
-export function stringifyDate(date: Date, options?: IncludedDateOptions) {
+export function stringifyDate(date: Date, option?: IncludeOption) {
   const arr = [];
-  const year = options ? options.year : true;
-  const month = options ? options.month : true;
-  const day = options ? options.day : true;
+  const year = option ? option.year : true;
+  const month = option ? option.month : true;
+  const day = option ? option.day : true;
 
   if (year) {
     arr.push(`${date.getFullYear()}년`);

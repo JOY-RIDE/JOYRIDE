@@ -1,7 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { toastMessageState, isLoggedInState } from 'states/atoms';
+import { isLoggedInState } from 'states/auth';
+import { toastMessageState } from 'states/common';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
@@ -86,7 +87,7 @@ const LoginForm = () => {
                   hasError={errors.email}
                   {...field}
                 />
-                {errors.email && <ErrorMessage text="이메일을 입력하세요" />}
+                {errors.email && <ErrorMessage message="이메일을 입력하세요" />}
               </AuthFormInputWithErrorMessageWrapper>
             )}
           />
@@ -106,7 +107,7 @@ const LoginForm = () => {
                   {...field}
                 />
                 {errors.password && (
-                  <ErrorMessage text="비밀번호를 입력하세요" />
+                  <ErrorMessage message="비밀번호를 입력하세요" />
                 )}
               </AuthFormInputWithErrorMessageWrapper>
             )}
@@ -130,7 +131,7 @@ const LoginForm = () => {
         <label htmlFor={cn('auto-login')}>자동 로그인</label>
       </div>
 
-      <Button color="main" size="lg" text="로그인하기" />
+      <Button type="submit" color="main" size="lg" content="로그인하기" />
     </form>
   );
 };

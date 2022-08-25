@@ -5,18 +5,27 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface ButtonProps {
-  type?: 'button';
+interface CommonProps {
   color: 'main' | 'whiteGrey' | 'whiteMain';
   size: 'md' | 'lg';
-  text: string;
-  onClick?: ClickHandler;
+  content: string;
 }
+type ConditionalProps =
+  | {
+      type: 'button';
+      onClick: ClickHandler<HTMLButtonElement>;
+    }
+  | {
+      type: 'submit';
+      onClick?: never;
+    };
+
+type ButtonProps = CommonProps & ConditionalProps;
 
 const Button = memo(
-  ({ type, color = 'main', size = 'md', text, onClick }: ButtonProps) => (
+  ({ type, color = 'main', size = 'md', content, onClick }: ButtonProps) => (
     <button type={type} className={cn('btn', color, size)} onClick={onClick}>
-      {text}
+      {content}
     </button>
   )
 );

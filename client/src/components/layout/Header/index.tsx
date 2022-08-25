@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
+import { isLoggedInState } from 'states/auth';
 import { useRecoilValue } from 'recoil';
-import { userDataState } from 'states/selectors';
 import Container from 'components/common/Container';
 import logo from 'assets/images/logo.svg';
 import { FiLogIn } from 'react-icons/fi';
@@ -22,7 +22,7 @@ interface Iform {
 
 const Header = () => {
   // TODO: react query?
-  const userData = useRecoilValue(userDataState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const { pathname } = useLocation();
   const isAtHome = useMatch('/');
   const isAtLogin = useMatch('/login');
@@ -69,7 +69,7 @@ const Header = () => {
             <img className={cn('logo')} src={logo} alt="로고" />
           </Link>
 
-          {userData ? (
+          {isLoggedIn ? (
             <Link
               to="/mypage"
               className={cn('mypage')}

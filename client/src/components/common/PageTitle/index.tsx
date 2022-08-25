@@ -8,7 +8,6 @@ interface SizeProp {
   size: 'sm' | 'md' | 'lg';
 }
 
-// TODO: memo
 const PageTitle = ({ size = 'md', children }: PropsWithChildren<SizeProp>) => (
   <h1 className={cn('title', size)}>{children}</h1>
 );

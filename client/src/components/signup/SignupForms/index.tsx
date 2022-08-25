@@ -1,4 +1,4 @@
-import SignupTerms from '../SignupTerms';
+import SignupTermsForm from '../SignupTermsForm';
 import SignupBasicForm from '../SignupBasicForm';
 import SocialLogin from 'components/login/SocialLogin';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ interface SignupFormsProps {
 const SignupForms = ({ step, totalSteps }: SignupFormsProps) => (
   <>
     <div className={cn('form-wrapper', { expand: step === 1 })}>
-      <SignupTerms />
+      <SignupTermsForm />
       <div className={cn('login-wrapper')}>
         <Link to="/login" className={cn('login')}>
           이미 계정이 있으신가요?

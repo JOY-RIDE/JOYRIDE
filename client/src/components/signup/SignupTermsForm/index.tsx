@@ -1,19 +1,18 @@
 import { FormEvent, useEffect } from 'react';
 import { useCheckBox } from 'hooks/useCheckBox';
 import { useSetRecoilState } from 'recoil';
-import { toastMessageState } from 'states/atoms';
+import { toastMessageState } from 'states/common';
 import { useSignupStepControls } from 'routes/Signup';
 import CheckBox from 'components/common/CheckBox';
 import TextArea from 'components/common/TextArea';
 import { privacyTerm, serviceTerm } from './terms';
 import Button from 'components/common/Button';
-import styles from './SignupTerms.module.scss';
+import styles from './SignupTermsForm.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-// TODO: rename SignupAgreementForm
-const SignupTerms = () => {
+const SignupTermsForm = () => {
   const [
     isServiceTermAgreed,
     setIsServiceTermAgreed,
@@ -89,10 +88,10 @@ const SignupTerms = () => {
       </div>
 
       <div className={cn('btn')}>
-        <Button color="main" size="lg" text="확인" />
+        <Button type="submit" color="main" size="lg" content="확인" />
       </div>
     </form>
   );
 };
 
-export default SignupTerms;
+export default SignupTermsForm;
