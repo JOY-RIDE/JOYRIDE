@@ -10,7 +10,6 @@ import PageTitle from 'components/common/PageTitle';
 import Loading from 'components/common/Loading';
 import Paging from 'components/common/Paging';
 import SortBox from 'components/roads/SortBox';
-import Filter from 'components/roads/Filter';
 import _ from 'lodash';
 import { CoursePageState } from 'states/atoms';
 import { stringifyCourseLevel } from 'utils/stringify';
@@ -42,7 +41,6 @@ const Roads = () => {
         <div className={cn('container')}>
           <PageTitle size="md">자전거 코스</PageTitle>
           <div className={cn('func')}>
-            <Filter />
             <SortBox />
             {/* <Sort
               sortOptionData={sortOptionData}
