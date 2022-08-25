@@ -31,19 +31,5 @@
     background-color: white;
     border: $border-grey;
     border-radius: 0.3rem;
-    transition: all 0.2s ease-in-out;
-    .option {
-      display: flex;
-      align-items: center;
-      height: 3rem;
-      padding: 0.5rem 1.2rem;
-      font-size: 1.2rem;
-      line-height: 1.4rem;
-      color: $color-grey-600;
-      font-weight: 500;
-      a {
-        width: 100%;
-      }
-    }
   }
 }
