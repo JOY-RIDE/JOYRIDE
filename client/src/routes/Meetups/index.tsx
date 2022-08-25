@@ -5,12 +5,19 @@ import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
 import MeetupFilterToggleButton from 'components/meetups/MeetupFilterToggleButton';
+import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
+import { useResetRecoilState } from 'recoil';
+import { meetupFiltersState } from 'states/meetup';
+import { useEffect } from 'react';
 
 const cn = classNames.bind(styles);
 
 // TODO: react query, pagination
 const Meetups = () => {
   const meetups = mockMeetupAPI.getAllMeetups();
+  const resetFilters = useResetRecoilState(meetupFiltersState);
+  useEffect(() => resetFilters, []);
+
   return (
     <div>
       <header className={cn('header')}>
@@ -24,7 +31,7 @@ const Meetups = () => {
       <div className={cn('filter-order')}>
         <MeetupFilterToggleButton />
       </div>
-      <ul className={cn('choices')}></ul>
+      <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
         <MeetupList meetups={meetups} />

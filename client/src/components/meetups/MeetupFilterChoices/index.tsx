@@ -5,20 +5,43 @@ import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
 import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
+import classNames from 'classnames/bind';
+
+const cn = classNames.bind(styles);
 
 interface MeetupFilterChoicesProp {
-  onBoard: boolean;
+  onBoard?: boolean;
 }
 
 const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
+  // TODO: remove
   const filters = useRecoilValue(state);
-  const { removeOption, clearOptions } = useClientFilter(
+
+  // const boardFilters = useRecoilValue(meetupBoardFiltersState);
+  // const filters = useRecoilValue(meetupFiltersState);
+  // const filters = onBoard ? boardFilters : filters;
+
+  // const { handleRemove: handleRemoveOnBoard, handleClear: handleClearOnBoard } =
+  //   useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
+  const { handleRemove, handleClear } = useClientFilter(
     state,
     MEETUP_FILTERS_DISPATCHES
   );
+  // const handleRemoveOnBoth = (payload: FiltersDispatchPayload) => {
+  //   handleRemoveOnBoard(payload);
+  //   handleRemove(payload);
+  // };
+  // const handleClearOnBoth = (payload: FiltersDispatchPayload) => {
+  //   handleClearOnBoard(payload);
+  //   handleClear(payload);
+  // };
+
+  // const remove = onBoard ? handleRemoveOnBoard : handleRemoveOnBoth;
+  // const clear = onBoard ? handleClearOnBoard : handleClearOnBoth;
+
   return (
-    <ul className={styles.choices}>
+    <ul className={cn('choices', { wide: !onBoard })}>
       {filters.location && (
         <OptionChip
           type="removeOnly"
@@ -26,7 +49,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           value={filters.location.value}
           content={filters.location.content}
           isChosen
-          onXClick={removeOption}
+          onXClick={handleRemove}
         />
       )}
       {filters.pathDifficulty && (
@@ -36,7 +59,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           value={filters.pathDifficulty.value}
           content={filters.pathDifficulty.content}
           isChosen
-          onXClick={removeOption}
+          onXClick={handleRemove}
         />
       )}
       {filters.bicycleTypes &&
@@ -48,7 +71,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             value={value}
             content={content}
             isChosen
-            onXClick={removeOption}
+            onXClick={handleRemove}
           />
         ))}
       {filters.minRidingSkill && (
@@ -58,7 +81,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           value={filters.minRidingSkill.value}
           content={filters.minRidingSkill.content}
           isChosen
-          onXClick={removeOption}
+          onXClick={handleRemove}
         />
       )}
       {filters.gender && (
@@ -68,7 +91,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           value={filters.gender.value}
           content={filters.gender.content}
           isChosen
-          onXClick={removeOption}
+          onXClick={handleRemove}
         />
       )}
       {filters.age &&
@@ -80,7 +103,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             value={value}
             content={content}
             isChosen
-            onXClick={removeOption}
+            onXClick={handleRemove}
           />
         ))}
       {Boolean(
@@ -92,7 +115,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           value={filters.maxNumOfParticipants.value}
           content="인원 설정"
           isChosen
-          onXClick={clearOptions}
+          onXClick={handleClear}
         />
       )}
       {filters.isParticipationFree && (
@@ -102,7 +125,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           value={filters.isParticipationFree.value}
           content={filters.isParticipationFree.content}
           isChosen
-          onXClick={removeOption}
+          onXClick={handleRemove}
         />
       )}
     </ul>

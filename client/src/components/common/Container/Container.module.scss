@@ -1,11 +1,7 @@
-@use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
 .container {
   width: calc(100% - 2 * $side-padding);
+  max-width: $max-width-page;
   margin: 0 auto;
-
-  @include for-desktop-up {
-    width: 120rem;
-  }
 }

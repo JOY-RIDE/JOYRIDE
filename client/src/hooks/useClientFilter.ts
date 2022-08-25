@@ -1,9 +1,8 @@
-import { useCallback } from 'react';
 import { useSetRecoilState, RecoilState, useResetRecoilState } from 'recoil';
 import { FilterClickHandler, FiltersDispatch } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
 
-type FiltersState = MeetupFiltersState; // TODO: 코스 state 추가
+type FiltersState = MeetupFiltersState; // TODO: 코스 필터 state type 추가
 interface FiltersDispatches {
   choose: FiltersDispatch<FiltersState>;
   remove: FiltersDispatch<FiltersState>;
@@ -16,29 +15,23 @@ export const useClientFilter = (
   { choose, remove, toggle, clear }: FiltersDispatches
 ) => {
   const setFilters = useSetRecoilState(recoilState);
-  const resetFilters = useResetRecoilState(recoilState);
 
-  const chooseOption: FilterClickHandler = useCallback(
-    payload => setFilters(filters => choose(filters, payload)),
-    []
-  );
-  const removeOption: FilterClickHandler = useCallback(
-    payload => setFilters(filters => remove(filters, payload)),
-    []
-  );
-  const toggleOption: FilterClickHandler = payload =>
+  const handleChoose: FilterClickHandler = payload =>
+    setFilters(filters => choose(filters, payload));
+  const handleRemove: FilterClickHandler = payload =>
+    setFilters(filters => remove(filters, payload));
+  const handleToggle: FilterClickHandler = payload =>
     setFilters(filters => toggle(filters, payload));
-  const clearOptions: FilterClickHandler = useCallback(
-    payload => setFilters(filters => clear(filters, payload)),
-    []
-  );
+  const handleClear: FilterClickHandler = payload =>
+    setFilters(filters => clear(filters, payload));
+  const handleReset = useResetRecoilState(recoilState);
 
   return {
-    chooseOption,
-    removeOption,
-    toggleOption,
-    clearOptions,
-    resetFilters,
+    handleChoose,
+    handleRemove,
+    handleToggle,
+    handleClear,
+    handleReset,
   };
 };
 

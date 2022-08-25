@@ -1,6 +1,12 @@
+@use '../../../styles/variables.scss' as *;
+
 .choices {
   display: flex;
   gap: 0.8rem;
   align-items: center;
   flex-wrap: wrap;
+
+  &.wide {
+    max-width: calc($max-width-page * 3 / 4);
+  }
 }

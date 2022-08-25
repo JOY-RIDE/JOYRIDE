@@ -6,8 +6,8 @@ import { SubmitHandler } from 'types/callback';
 import useClientFilter from 'hooks/useClientFilter';
 import { toastMessageState } from 'states/common';
 import MeetupFilterChoices from '../MeetupFilterChoices';
-import MeetupFilterOptions from '../MeetupFilterOptions';
 import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
+import MeetupFilterBoardOptions from '../MeetupFilterBoardOptions';
 
 const cn = classNames.bind(styles);
 
@@ -17,10 +17,12 @@ interface MeetupFilterBoardProp {
 
 const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
   const boardFilters = useRecoilValue(meetupBoardFiltersState);
-  const { resetFilters: resetBoardFilters } = useClientFilter(
+  const { handleReset } = useClientFilter(
     meetupBoardFiltersState,
     MEETUP_FILTERS_DISPATCHES
   );
+
+  // useEffect(() => handleReset, []);
 
   const showToastMessage = useSetRecoilState(toastMessageState);
   const setFilters = useSetRecoilState(meetupFiltersState);
@@ -39,7 +41,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
 
   return (
     <form className={cn('board')} onSubmit={handleSubmit}>
-      <MeetupFilterOptions />
+      <MeetupFilterBoardOptions />
       <div className={cn('choices-container')}>
         <MeetupFilterChoices onBoard />
       </div>
@@ -47,7 +49,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
         <button
           type="button"
           className={cn('btn', 'reset-btn')}
-          onClick={resetBoardFilters}
+          onClick={handleReset}
         >
           초기화
         </button>

@@ -24,7 +24,7 @@ export type BicycleType =
 export type RidingSkill = 1 | 2 | 3;
 
 export interface FiltersDispatchPayload {
-  key: MeetupFiltersKey; // TODO: 코스 key 추가
+  key: MeetupFiltersKey; // TODO: 코스 필터 key type 추가
   value: number | string | boolean;
   content?: string;
 }
