@@ -14,6 +14,16 @@ export function stringifyCourseLevel(level: CourseLevel) {
   }
 }
 
+export function stringifyCourseHours(minutes: number) {
+  if (minutes < 60) {
+    return `${minutes}분`;
+  } else if (minutes % 60 == 0) {
+    return `${Math.floor(minutes / 60)}시간`;
+  } else {
+    return `${Math.floor(minutes / 60)}시간 ${minutes % 60}분`;
+  }
+}
+
 export function stringifyRidingLevel(level: RidingLevel) {
   switch (level) {
     case 1:
