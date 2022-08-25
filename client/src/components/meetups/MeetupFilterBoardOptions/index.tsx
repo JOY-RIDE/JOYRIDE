@@ -34,9 +34,13 @@ const IS_PARTICIPATION_FREE_PAYLOAD: FiltersDispatchPayload = {
 };
 
 const MeetupFilterBoardOptions = () => {
-  const boardFilters = useRecoilValue(meetupBoardFiltersState);
-  const { handleChoose, handleRemove, handleToggle, handleClear } =
-    useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
+  const {
+    filters: boardFilters,
+    handleChoose,
+    handleRemove,
+    handleToggle,
+    handleClear,
+  } = useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
 
   useEffect(() => {
     const min = boardFilters.minNumOfParticipants.value;

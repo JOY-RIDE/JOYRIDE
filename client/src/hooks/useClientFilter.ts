@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useSetRecoilState, RecoilState, useResetRecoilState } from 'recoil';
+import { RecoilState, useResetRecoilState, useRecoilState } from 'recoil';
 import { FilterClickHandler, FiltersDispatch } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
 
@@ -15,7 +15,7 @@ export const useClientFilter = (
   recoilState: RecoilState<FiltersState>,
   { choose, remove, toggle, clear }: FiltersDispatches
 ) => {
-  const setFilters = useSetRecoilState(recoilState);
+  const [filters, setFilters] = useRecoilState(recoilState);
 
   // const handleChoose = useRecoilTransaction_UNSTABLE(
   //   ({ get, set }) =>
@@ -40,6 +40,7 @@ export const useClientFilter = (
   const handleReset = useResetRecoilState(recoilState);
 
   return {
+    filters,
     handleChoose,
     handleRemove,
     handleToggle,

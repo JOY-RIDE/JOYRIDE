@@ -17,8 +17,7 @@ interface MeetupFilterBoardProp {
 }
 
 const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
-  const boardFilters = useRecoilValue(meetupBoardFiltersState);
-  const { handleReset } = useClientFilter(
+  const { filters: boardFilters, handleReset } = useClientFilter(
     meetupBoardFiltersState,
     MEETUP_FILTERS_DISPATCHES
   );

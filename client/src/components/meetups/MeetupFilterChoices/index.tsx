@@ -16,9 +16,7 @@ interface MeetupFilterChoicesProp {
 
 const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
-  // TODO: remove
-  const filters = useRecoilValue(state);
-  const { handleRemove, handleClear } = useClientFilter(
+  const { filters, handleRemove, handleClear } = useClientFilter(
     state,
     MEETUP_FILTERS_DISPATCHES
   );
