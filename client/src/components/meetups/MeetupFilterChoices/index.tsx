@@ -1,5 +1,5 @@
 import styles from './MeetupFilterChoices.module.scss';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
@@ -16,7 +16,7 @@ interface MeetupFilterChoicesProp {
 
 const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
-  const { filters, handleRemove, handleClear } = useClientFilter(
+  const { filters, handleRemove, handleClear, handleReset } = useClientFilter(
     state,
     MEETUP_FILTERS_DISPATCHES
   );
@@ -81,12 +81,12 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.age &&
-        filters.age.map(({ value, content }: FilterOptionData) => (
+      {filters.ages &&
+        filters.ages.map(({ value, content }: FilterOptionData) => (
           <OptionChip
             key={`${value}`}
             type="removeOnly"
-            filtersKey="age"
+            filtersKey="ages"
             value={value}
             content={content}
             isChosen
@@ -115,6 +115,16 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
+      {/* {!onBoard && !Object.keys(filters).length && (
+        <OptionChip
+          type="all"
+          filtersKey={undefined}
+          value="clear"
+          content="초기화"
+          isChosen={false}
+          onTextClick={handleReset}
+        />
+      )} */}
     </ul>
   );
 };

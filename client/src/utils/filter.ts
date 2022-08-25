@@ -23,7 +23,7 @@ function meetupFiltersDispatchForChoosing(
 
     // 다중 선택 옵션들
     case 'bicycleTypes':
-    case 'age': {
+    case 'ages': {
       const oldDataArray = state[key];
       return oldDataArray
         ? { ...state, [key]: oldDataArray.concat(data) }
@@ -49,7 +49,7 @@ function meetupFiltersDispatchForRemoving(
 
     // 다중 선택 옵션들
     case 'bicycleTypes':
-    case 'age': {
+    case 'ages': {
       const oldDataArray = state[key];
       return oldDataArray.length > 1
         ? {

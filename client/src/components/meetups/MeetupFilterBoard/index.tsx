@@ -1,6 +1,6 @@
 import styles from './MeetupFilterBoard.module.scss';
 import classNames from 'classnames/bind';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import { SubmitHandler } from 'types/callback';
 import useClientFilter from 'hooks/useClientFilter';
@@ -8,7 +8,6 @@ import { toastMessageState } from 'states/common';
 import MeetupFilterChoices from '../MeetupFilterChoices';
 import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
 import MeetupFilterBoardOptions from '../MeetupFilterBoardOptions';
-import { ObjectFlags } from 'typescript';
 
 const cn = classNames.bind(styles);
 

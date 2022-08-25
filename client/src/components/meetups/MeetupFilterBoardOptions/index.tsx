@@ -249,22 +249,22 @@ const MeetupFilterBoardOptions = () => {
         <ul className={cn('options')}>
           <OptionChip
             type="all"
-            filtersKey="age"
+            filtersKey="ages"
             value="all"
             content="전체"
-            isChosen={!boardFilters.age}
+            isChosen={!boardFilters.ages}
             onTextClick={handleClear}
           />
           {AGES.map(age => (
             <OptionChip
               key={age}
               type="normal"
-              filtersKey="age"
+              filtersKey="ages"
               value={age}
               content={stringifyAge(age)}
               isChosen={
-                boardFilters.age &&
-                boardFilters.age.some(
+                boardFilters.ages &&
+                boardFilters.ages.some(
                   (data: FilterOptionData) => data.value === age
                 )
               }

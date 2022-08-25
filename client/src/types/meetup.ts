@@ -39,16 +39,16 @@ export interface Meetup {
   participationFee: MeetupParticipationFee;
 }
 
-export type MeetupFiltersKey =
-  | 'location'
-  | 'pathDifficulty'
-  | 'bicycleTypes'
-  | 'minRidingSkill'
-  | 'minNumOfParticipants'
-  | 'maxNumOfParticipants'
-  | 'gender'
-  | 'age'
-  | 'isParticipationFree';
+// export type MeetupFiltersKey =
+//   | 'location'
+//   | 'pathDifficulty'
+//   | 'bicycleTypes'
+//   | 'minRidingSkill'
+//   | 'minNumOfParticipants'
+//   | 'maxNumOfParticipants'
+//   | 'gender'
+//   | 'ages'
+//   | 'isParticipationFree';
 export interface MeetupFiltersState {
   location?: any;
   pathDifficulty?: any;
@@ -57,7 +57,7 @@ export interface MeetupFiltersState {
   minNumOfParticipants?: any;
   maxNumOfParticipants?: any;
   gender?: any;
-  age?: any;
+  ages?: any;
   isParticipationFree?: any;
 }
 // export interface MeetupFiltersState {
@@ -68,7 +68,7 @@ export interface MeetupFiltersState {
 //   minNumOfParticipants?: number;
 //   maxNumOfParticipants?: number;
 //   gender?: string;
-//   age?: number[];
+//   ages?: number[];
 //   isParticipationFree?: boolean;
 // }
 export type MeetupOrderName = '-createdAt' | 'meetingDate';
