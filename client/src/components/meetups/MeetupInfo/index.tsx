@@ -29,16 +29,16 @@ const MeetupInfo = (props: Meetup) => (
         <h2 className={cn('title')}>{props.title}</h2>
       </header>
 
-      <div className={cn('detail')}>
-        <div className={cn('detail__row')}>
+      <div className={cn('details')}>
+        <div className={cn('detail')}>
           <label className={cn('label')}>코스 난이도</label>
-          <span className={cn('emphasized')}>
+          <span className={cn('data', 'emphasized')}>
             {stringifyDifficulty(props.pathDifficulty)}
           </span>
         </div>
-        <div className={cn('detail__row')}>
+        <div className={cn('detail')}>
           <label className={cn('label')}>자전거 종류</label>
-          <ul>
+          <ul className={cn('data')}>
             {props.bicycleTypes.map((type, index) => (
               <li key={index} className={cn('emphasized')}>
                 {type}
@@ -46,19 +46,18 @@ const MeetupInfo = (props: Meetup) => (
             ))}
           </ul>
         </div>
-        <div className={cn('detail__row')}>
+        <div className={cn('detail')}>
           <label className={cn('label')}>라이딩 실력</label>
-          <ul>
-            {props.ridingSkills.map((skill, index) => (
-              <li key={index} className={cn('emphasized')}>
-                {stringifyRidingSkill(skill)}
-              </li>
-            ))}
-          </ul>
+          <div className={cn('data')}>
+            <span className={cn('emphasized')}>
+              {stringifyRidingSkill(props.minRidingSkill)}
+            </span>{' '}
+            이상
+          </div>
         </div>
-        <div className={cn('detail__row')}>
+        <div className={cn('detail')}>
           <label className={cn('label')}>인원</label>
-          <div>
+          <div className={cn('data')}>
             <span className={cn('emphasized')}>
               {props.participants.length}
             </span>

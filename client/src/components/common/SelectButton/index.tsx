@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, memo } from 'react';
 import styles from './SelectButton.module.scss';
 import classNames from 'classnames/bind';
 
@@ -8,30 +8,30 @@ interface SelectButtonProps {
   isSelected: boolean;
   name: string;
   value: string;
-  text: string;
-  textEng: string;
+  content: string;
+  contentEng: string;
   [key: string]: any;
 }
 
-const SelectButton = forwardRef<HTMLInputElement, SelectButtonProps>(
-  (props, ref) => {
-    const { isSelected, text, textEng, ...others } = props;
+const SelectButton = memo(
+  forwardRef<HTMLInputElement, SelectButtonProps>((props, ref) => {
+    const { isSelected, content, contentEng, ...others } = props;
     return (
       <>
         <input
           type="checkbox"
           checked={isSelected}
-          id={cn(textEng)}
+          id={cn(contentEng)}
           className={cn('input')}
           ref={ref}
           {...others}
         />
-        <label htmlFor={cn(textEng)} className={cn('btn')}>
-          {text}
+        <label htmlFor={cn(contentEng)} className={cn('btn')}>
+          {content}
         </label>
       </>
     );
-  }
+  })
 );
 
 export default SelectButton;

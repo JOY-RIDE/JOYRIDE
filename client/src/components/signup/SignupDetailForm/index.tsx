@@ -2,7 +2,7 @@ import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { signupFormDataState, useSignupStepControls } from 'routes/Signup';
+import { useSignupStepControls } from 'routes/Signup';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
@@ -14,6 +14,7 @@ import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
+import { signupFormDataState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
@@ -27,29 +28,29 @@ interface SignupDetailForm {
 }
 interface SelectButtonProps {
   value: string;
-  text: string;
-  textEng: string;
+  content: string;
+  contentEng: string;
 }
 interface SelectListOption {
   value: string;
-  text: string;
+  content: string;
 }
 
 // Variables
 const genderOptions: SelectButtonProps[] = [
-  { value: 'm', text: '남성', textEng: 'male' },
-  { value: 'f', text: '여성', textEng: 'female' },
+  { value: 'm', content: '남성', contentEng: 'male' },
+  { value: 'f', content: '여성', contentEng: 'female' },
 ];
 const ageOptions: SelectButtonProps[] = [
-  { value: '1', text: '10대', textEng: 'ten' },
-  { value: '2', text: '20대', textEng: 'twenty' },
-  { value: '3', text: '30대', textEng: 'thirty' },
-  { value: '4', text: '40대', textEng: 'forty' },
-  { value: '5', text: '50대 이상', textEng: 'fifty' },
+  { value: '1', content: '10대', contentEng: 'ten' },
+  { value: '2', content: '20대', contentEng: 'twenty' },
+  { value: '3', content: '30대', contentEng: 'thirty' },
+  { value: '4', content: '40대', contentEng: 'forty' },
+  { value: '5', content: '50대 이상', contentEng: 'fifty' },
 ];
 const bicycleTypeOptions: SelectListOption[] = BICYCLE_TYPES.map(type => ({
   value: type,
-  text: type,
+  content: type,
 }));
 
 const SignupDetailForm = () => {
@@ -144,7 +145,7 @@ const SignupDetailForm = () => {
                 />
                 {errors.nickname && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'nickname',
                       errors.nickname.type
                     )}
@@ -170,8 +171,8 @@ const SignupDetailForm = () => {
                       <SelectButton
                         isSelected={value === option.value}
                         value={option.value}
-                        text={option.text}
-                        textEng={option.textEng}
+                        content={option.content}
+                        contentEng={option.contentEng}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           onChange(e.target.checked ? option.value : '')
                         }
@@ -200,8 +201,8 @@ const SignupDetailForm = () => {
                       <SelectButton
                         isSelected={value === option.value}
                         value={option.value}
-                        text={option.text}
-                        textEng={option.textEng}
+                        content={option.content}
+                        contentEng={option.contentEng}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           onChange(e.target.checked ? option.value : '')
                         }
@@ -253,7 +254,7 @@ const SignupDetailForm = () => {
                 />
                 {errors.message && (
                   <ErrorMessage
-                    text={getSignupFormFieldErrorMessage(
+                    message={getSignupFormFieldErrorMessage(
                       'message',
                       errors.message.type
                     )}
@@ -270,10 +271,10 @@ const SignupDetailForm = () => {
           type="button"
           color="whiteGrey"
           size="md"
-          text="이전"
+          content="이전"
           onClick={decreaseStep}
         />
-        <Button color="main" size="md" text="회원가입하기" />
+        <Button type="submit" color="main" size="md" content="회원가입하기" />
       </div>
     </form>
   );

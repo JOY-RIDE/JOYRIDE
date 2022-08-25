@@ -1,29 +1,14 @@
 import { createContext, useContext, useState } from 'react';
-import { SignupStepControls } from 'types/authentication';
-import { atom, useRecoilValue } from 'recoil';
+import { SignupStepControls } from 'types/auth';
+import { useRecoilValue } from 'recoil';
 import PageTitle from 'components/common/PageTitle';
 import SignupForms from 'components/signup/SignupForms';
 import SignupCompleted from 'components/signup/SignupCompleted';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
+import { signupFormDataState } from 'states/auth';
 
 const cn = classNames.bind(styles);
-
-// Interfaces
-interface SignupBasicFormData {
-  email: string;
-  password: string;
-}
-interface SignupDetailFormData {
-  nickname: string;
-}
-interface SignupFormData extends SignupBasicFormData, SignupDetailFormData {}
-
-// State/context
-export const signupFormDataState = atom<SignupFormData>({
-  key: 'signupFormData',
-  default: { email: '', password: '', nickname: '' },
-});
 
 const SignupStepControlsContext = createContext<SignupStepControls>({
   decreaseStep: () => {},

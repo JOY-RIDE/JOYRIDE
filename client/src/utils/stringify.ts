@@ -1,6 +1,35 @@
+import { Age, Gender } from './../types/common';
 import { CourseDifficulty } from 'types/course';
 import { MeetupPathDifficulty } from 'types/meetup';
 import { RidingSkill } from 'types/common';
+
+export function stringifyGender(gender: Gender) {
+  switch (gender) {
+    case 'm':
+      return '남성';
+    case 'f':
+      return '여성';
+    default:
+      throw new Error();
+  }
+}
+
+export function stringifyAge(age: Age) {
+  switch (age) {
+    case 1:
+      return '10대';
+    case 2:
+      return '20대';
+    case 3:
+      return '30대';
+    case 4:
+      return '40대';
+    case 5:
+      return '50대';
+    default:
+      throw new Error();
+  }
+}
 
 export function stringifyDifficulty(
   difficulty: CourseDifficulty | MeetupPathDifficulty

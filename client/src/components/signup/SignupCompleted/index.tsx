@@ -3,6 +3,9 @@ import completed from 'assets/images/completed.svg';
 import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';
+import { useResetRecoilState } from 'recoil';
+import { signupFormDataState } from 'states/auth';
+import { useEffect } from 'react';
 
 const cn = classNames.bind(styles);
 
@@ -12,6 +15,9 @@ interface SignupCompletedProps {
 }
 
 const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
+  const resetSignupFormData = useResetRecoilState(signupFormDataState);
+  useEffect(resetSignupFormData, []);
+
   const navigate = useNavigate();
   const handleLoginClick = () => navigate('/login');
   return (
@@ -28,9 +34,10 @@ const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
         클릭하시면 계정이 활성화됩니다.
       </p>
       <Button
+        type="button"
         color="main"
         size="md"
-        text="로그인하기"
+        content="로그인하기"
         onClick={handleLoginClick}
       />
     </div>

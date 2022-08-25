@@ -1,8 +1,7 @@
 import { ReactElement } from 'react';
 
-export type ChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => void;
-export type ClickHandler = (
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-) => void;
+export type ChangeHandler = React.ChangeEventHandler<HTMLInputElement>;
+export type ClickHandler<E extends HTMLElement> = React.MouseEventHandler<E>;
+export type SubmitHandler = React.FormEventHandler<HTMLFormElement>;
 
 export type ComponentGetter = (props?: any) => ReactElement;
