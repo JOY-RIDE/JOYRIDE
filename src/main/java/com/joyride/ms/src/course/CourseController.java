@@ -1,8 +1,6 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.PostCourseReviewReq;
-import com.joyride.ms.src.course.model.PostCourseReviewRes;
+import com.joyride.ms.src.course.model.*;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +36,38 @@ public class CourseController {
             PostCourseReviewRes postCourseReviewRes = courseService.createCourseReview(postCourseReviewReq);
             return new BaseResponse<>(postCourseReviewRes);
         } catch(BaseException exception){
+            exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    // 리뷰 조회 api
+    @ResponseBody
+    @GetMapping("/review/{course_id}")
+    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("course_id") int course_id){
+        try{
+            List<GetCourseReviewRes> getCourseReviewRes = courseProvider.retrieveCourseReviewByCourseId(course_id);
+            return new BaseResponse<>(getCourseReviewRes);
+        } catch(BaseException exception){
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 리뷰 삭제 api
+    @ResponseBody
+    @PatchMapping("/review/{id}/staus")
+    public BaseResponse<PatchCourseReviewRes> PatchCourseReviewStatus(@PathVariable("id") int courseReview_id){
+        try{
+            // 유저 확인 로직 필요
+            PatchCourseReviewRes patchCourseReviewRes = courseService.removeCourseReview(courseReview_id);
+            return new BaseResponse<>(patchCourseReviewRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
 
 
 
