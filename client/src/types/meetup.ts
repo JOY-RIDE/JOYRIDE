@@ -72,4 +72,18 @@ export interface MeetupFiltersState {
 //   ages?: number[];
 //   isParticipationFree?: boolean;
 // }
-export type MeetupOrderName = '-createdAt' | 'meetingDate';
+
+export type MeetupOrderName =
+  | '-createdAt'
+  | 'meetingDate'
+  | 'pathDifficulty'
+  | '-pathDifficulty'
+  | 'minRidingSkill'
+  | '-minRidingSkill'
+  | 'maxNumOfParticipants'
+  | '-maxNumOfParticipants'
+  | 'participationFee';
+export interface MeetupOrderState {
+  name: MeetupOrderName;
+  content: string;
+}

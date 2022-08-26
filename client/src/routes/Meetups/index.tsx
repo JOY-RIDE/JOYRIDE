@@ -5,19 +5,26 @@ import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
-import { useResetRecoilState } from 'recoil';
-import { meetupFiltersState } from 'states/meetup';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { meetupFiltersState, meetupOrderState } from 'states/meetup';
 import { useEffect } from 'react';
 import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
 import ContentToggleButton from 'components/common/ContentToggleButton';
+import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
+import OrderList from 'components/meetups/OrderList';
 
 const cn = classNames.bind(styles);
 
 // TODO: react query, pagination
 const Meetups = () => {
   const meetups = mockMeetupAPI.getAllMeetups();
+  const order = useRecoilValue(meetupOrderState);
+  console.log(order);
+  
   const resetFilters = useResetRecoilState(meetupFiltersState);
+  const resetOrder = useResetRecoilState(meetupOrderState);
   useEffect(() => resetFilters, []);
+  useEffect(() => resetOrder, []);
 
   return (
     <div>
@@ -30,8 +37,19 @@ const Meetups = () => {
       </header>
 
       <div className={cn('filter-order')}>
-        <ContentToggleButton title="필터" Content={MeetupFilterBoard} />
-        <ContentToggleButton title="정렬" Content={() => <div>정렬</div>} />
+        {/* @ts-ignore */}
+        <ContentToggleButton title="필터" Content={<MeetupFilterBoard />} />
+        <ContentToggleButton
+          title={order.content}
+          Content={
+            <OrderList
+              options={MEETUP_ORDER_OPTIONS}
+              // TODO
+              // @ts-ignore
+              recoilState={meetupOrderState}
+            />
+          }
+        />
       </div>
       <MeetupFilterChoices />
 
