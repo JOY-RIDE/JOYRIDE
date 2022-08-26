@@ -8,8 +8,8 @@ import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
 import { useResetRecoilState } from 'recoil';
 import { meetupFiltersState } from 'states/meetup';
 import { useEffect } from 'react';
-import BoardToggleButton from 'components/common/BoardToggleButton';
 import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
+import ContentToggleButton from 'components/common/ContentToggleButton';
 
 const cn = classNames.bind(styles);
 
@@ -30,7 +30,8 @@ const Meetups = () => {
       </header>
 
       <div className={cn('filter-order')}>
-        <BoardToggleButton title="필터" Board={MeetupFilterBoard} />
+        <ContentToggleButton title="필터" Content={MeetupFilterBoard} />
+        <ContentToggleButton title="정렬" Content={() => <div>정렬</div>} />
       </div>
       <MeetupFilterChoices />
 

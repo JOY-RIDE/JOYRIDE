@@ -1,20 +1,20 @@
 import useToggle from 'hooks/useToggle';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
-import styles from './BoardToggleButton.module.scss';
+import styles from './ContentToggleButton.module.scss';
 import classNames from 'classnames/bind';
 import { ReactElement } from 'react';
 
 const cn = classNames.bind(styles);
 
-interface BoardProp {
-  closeBoard: () => void;
+interface ContentProp {
+  close: () => void;
 }
-interface BoardToggleButtonProps {
+interface ContentToggleButtonProps {
   title: string;
-  Board: ({ closeBoard }: BoardProp) => ReactElement;
+  Content: ({ close }: ContentProp) => ReactElement;
 }
 
-const BoardToggleButton = ({ title, Board }: BoardToggleButtonProps) => {
+const ContentToggleButton = ({ title, Content }: ContentToggleButtonProps) => {
   const { isOpen, toggle, close, ref } = useToggle();
   return (
     <div className={cn('boundary')} ref={ref}>
@@ -22,11 +22,11 @@ const BoardToggleButton = ({ title, Board }: BoardToggleButtonProps) => {
         <span>{title}</span>
         {isOpen ? <AiOutlineUp /> : <AiOutlineDown />}
       </button>
-      <div className={cn('board-container', { hidden: !isOpen })}>
-        <Board closeBoard={close} />
+      <div className={cn('content-container', { hidden: !isOpen })}>
+        <Content close={close} />
       </div>
     </div>
   );
 };
 
-export default BoardToggleButton;
+export default ContentToggleButton;

@@ -49,6 +49,7 @@ export interface Meetup {
 //   | 'gender'
 //   | 'ages'
 //   | 'isParticipationFree';
+// TODO: refactor
 export interface MeetupFiltersState {
   location?: any;
   pathDifficulty?: any;

@@ -4,7 +4,7 @@ import { FiltersDispatch, FiltersReducer } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
 
 type FiltersState = MeetupFiltersState; // TODO: 코스 필터 state type 추가
-interface FiltersReduceres {
+interface FiltersReducers {
   choose: FiltersReducer<FiltersState>;
   remove: FiltersReducer<FiltersState>;
   toggle: FiltersReducer<FiltersState>;
@@ -13,7 +13,7 @@ interface FiltersReduceres {
 
 export const useClientFilter = (
   recoilState: RecoilState<FiltersState>,
-  { choose, remove, toggle, clear }: FiltersReduceres
+  { choose, remove, toggle, clear }: FiltersReducers
 ) => {
   const [filters, setFilters] = useRecoilState(recoilState);
 
