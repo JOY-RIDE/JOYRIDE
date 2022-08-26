@@ -52,7 +52,7 @@ public class CourseController {
     }
 
     // 리뷰 삭제 api
-    @PatchMapping("/review/{id}/staus")
+    @DeleteMapping("/review/{id}")
     public BaseResponse<PatchCourseReviewRes> PatchCourseReviewStatus(@PathVariable("id") int courseReview_id){
         try{
             // 유저 확인 로직 필요

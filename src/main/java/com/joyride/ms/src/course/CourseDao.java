@@ -83,7 +83,7 @@ public class CourseDao {
                 "       CR.created_at, CR.updated_at from coursereview CR\n" +
                 "                              INNER join user U\n" +
                 "                                    on CR.user_id = U.id\n" +
-                "    where course_id=? and status = 1";
+                "    where course_id=?";
 
 
         int selectCourseReviewParams = course_id;
@@ -112,14 +112,14 @@ public class CourseDao {
     // 코스 리뷰 삭제
     public void deleteByCourseReviewId(int courseReview_id){
 
-        String deleteByCourseReviewIdQuery = "update coursereview set status = 0 where id = ?";
+        String deleteByCourseReviewIdQuery = "delete from coursereview where id = ?";
         int deleteByCourseReviewIdParams = courseReview_id;
 
         this.jdbcTemplate.update(deleteByCourseReviewIdQuery, deleteByCourseReviewIdParams);
     }
 
     public int existsCourseReview(int courseReview_id) {
-        String existsCourseReviewQuery = "select exists(select id from coursereview where id = ? and status = 1)";
+        String existsCourseReviewQuery = "select exists(select id from coursereview where id = ?)";
         int existsCourseReviewParams = courseReview_id;
         return this.jdbcTemplate.queryForObject(existsCourseReviewQuery,
                 int.class,
