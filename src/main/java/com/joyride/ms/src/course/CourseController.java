@@ -53,7 +53,7 @@ public class CourseController {
 
     // 리뷰 삭제 api
     @DeleteMapping("/review/{id}")
-    public BaseResponse<PatchCourseReviewRes> PatchCourseReviewStatus(@PathVariable("id") int courseReview_id){
+    public BaseResponse<PatchCourseReviewRes> PatchCourseReview(@PathVariable("id") int courseReview_id){
         try{
             // 유저 확인 로직 필요
             PatchCourseReviewRes patchCourseReviewRes = courseService.removeCourseReview(courseReview_id);
@@ -62,9 +62,4 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-
-
-
-
 }
