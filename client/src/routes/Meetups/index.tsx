@@ -7,20 +7,25 @@ import classNames from 'classnames/bind';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { meetupFiltersState, meetupOrderState } from 'states/meetup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
 import ContentToggleButton from 'components/common/ContentToggleButton';
 import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
 import OrderList from 'components/meetups/OrderList';
+import { getMeetupsOrderedBy } from 'utils/order';
 
 const cn = classNames.bind(styles);
 
 // TODO: react query, pagination
 const Meetups = () => {
-  const meetups = mockMeetupAPI.getAllMeetups();
+  // temp
+  const [meetups, setMeetups] = useState(mockMeetupAPI.getAllMeetups());
   const order = useRecoilValue(meetupOrderState);
-  console.log(order);
-  
+  useEffect(
+    () => setMeetups(getMeetupsOrderedBy(order.name, meetups)),
+    [order.name]
+  );
+
   const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
   useEffect(() => resetFilters, []);

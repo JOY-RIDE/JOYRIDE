@@ -189,7 +189,8 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>최소 라이딩 실력</label>
+        {/* TODO: fix */}
+        <label className={cn('label')}>라이딩 실력</label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
