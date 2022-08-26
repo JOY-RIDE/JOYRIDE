@@ -151,6 +151,8 @@ public class CourseService {
     /**
      * 코스 좋아요
      */
+
+    //코스 좋아요 생성
     @Transactional
     public PostCourseLikeRes createCourseLike(int user_id, int course_id) throws BaseException {
 
@@ -163,5 +165,24 @@ public class CourseService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    //코스 좋아요 삭제
+    @Transactional
+    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
+
+        // 유저확인 로직 필요
+        int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
+        if (existsCourseLike == 0) {
+            throw new BaseException(COURSE_LIKE_NOT_EXISTS);
+        }
+        try{
+            courseDao.deleteByCourseLikeId(courseLike_id);
+            String message = "좋아요 삭제에 성공했습니다.";
+            return new DeleteCourseLikeRes(message);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
 

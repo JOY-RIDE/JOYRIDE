@@ -139,4 +139,23 @@ public class CourseDao {
         String lastInsertIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
+
+    //좋아요 삭제
+
+    public void deleteByCourseLikeId(int courseLike_id){
+
+        String deleteByCourseLikeIdQuery = "delete from courselike where id = ?";
+        int deleteByCourseLikeIdParams = courseLike_id;
+
+        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
+    }
+
+    public int existsCourseLike(int courseLike_id) {
+        String existsCourseLikeQuery = "select exists(select id from courselike where id = ?)";
+        int existsCourseLikeParams = courseLike_id;
+        return this.jdbcTemplate.queryForObject(existsCourseLikeQuery,
+                int.class,
+                existsCourseLikeParams);
+    }
+
 }

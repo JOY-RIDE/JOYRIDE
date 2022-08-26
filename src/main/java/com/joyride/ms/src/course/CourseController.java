@@ -81,5 +81,19 @@ public class CourseController {
         }
     }
 
+    //리뷰 종아요 취소 api
+    @DeleteMapping("/like/{courseLike_id}")
+    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
+        try{
+            // 유저 확인 로직 필요
+            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
+            return new BaseResponse<>(deleteCourseReviewRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+
 
 }
