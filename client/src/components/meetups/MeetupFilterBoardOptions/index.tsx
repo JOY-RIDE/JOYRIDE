@@ -17,16 +17,16 @@ import {
   stringifyRidingSkill,
 } from 'utils/stringify';
 import { useCallback, useEffect } from 'react';
-import { FilterOptionData, FiltersDispatchPayload } from 'types/common';
+import { FilterOptionData, FiltersReducerPayload } from 'types/common';
 import { meetupBoardFiltersState } from 'states/meetup';
 import { ChangeHandler, ClickHandler } from 'types/callback';
 import PlusMinusButton from 'components/common/PlusMinusButton';
 import useClientFilter from 'hooks/useClientFilter';
-import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
+import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 
 const cn = classNames.bind(styles);
 
-const IS_PARTICIPATION_FREE_PAYLOAD: FiltersDispatchPayload = {
+const IS_PARTICIPATION_FREE_PAYLOAD: FiltersReducerPayload = {
   key: 'isParticipationFree',
   value: true,
   content: '참가비 없는 모임만',
@@ -39,7 +39,7 @@ const MeetupFilterBoardOptions = () => {
     handleRemove,
     handleToggle,
     handleClear,
-  } = useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
+  } = useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_REDUCERS);
 
   useEffect(() => {
     const min = boardFilters.minNumOfParticipants.value;
@@ -52,7 +52,7 @@ const MeetupFilterBoardOptions = () => {
   }, [boardFilters.minNumOfParticipants.value]);
 
   const toggleSpecificOption = useCallback(
-    (payload: FiltersDispatchPayload) => () => handleToggle(payload),
+    (payload: FiltersReducerPayload) => () => handleToggle(payload),
     []
   );
 

@@ -21,7 +21,7 @@ export type BicycleType =
   | '기타';
 export type RidingSkill = 1 | 2 | 3;
 
-export interface FiltersDispatchPayload {
+export interface FiltersReducerPayload {
   key: string;
   value?: number | string | boolean;
   content?: string;
@@ -30,8 +30,5 @@ export interface FilterOptionData {
   value: number | string | boolean;
   content: string;
 }
-export type FiltersDispatch<S> = (
-  state: S,
-  payload: FiltersDispatchPayload
-) => S;
-export type FilterClickHandler = (payload: FiltersDispatchPayload) => void;
+export type FiltersReducer<S> = (state: S, payload: FiltersReducerPayload) => S;
+export type FiltersDispatch = (payload: FiltersReducerPayload) => void;

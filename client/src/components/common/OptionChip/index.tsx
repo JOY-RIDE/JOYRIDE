@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { FilterClickHandler } from 'types/common';
+import { FiltersDispatch } from 'types/common';
 import { Resetter } from 'recoil';
 import { VscChromeClose } from 'react-icons/vsc';
 import styles from './OptionChip.module.scss';
@@ -22,21 +22,21 @@ interface AllTypeProps {
   type: 'all';
   value?: never;
   isChosen: boolean;
-  onClick: FilterClickHandler;
+  onClick: FiltersDispatch;
 }
 interface DefaultTypeProps {
   filtersKey: string;
   type: 'default';
   value: number | string | boolean;
   isChosen: boolean;
-  onClick: FilterClickHandler;
+  onClick: FiltersDispatch;
 }
 interface RemoveOnlyTypeProps {
   filtersKey: string;
   type: 'removeOnly';
   value: number | string | boolean;
   isChosen?: never;
-  onClick: FilterClickHandler;
+  onClick: FiltersDispatch;
 }
 interface ResetTypeProps {
   filtersKey?: never;

@@ -8,7 +8,7 @@ import {
 import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
-import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
+import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
 
@@ -22,7 +22,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
   const { filters, handleRemove, handleClear, handleReset } = useClientFilter(
     state,
-    MEETUP_FILTERS_DISPATCHES
+    MEETUP_FILTERS_REDUCERS
   );
 
   const setBoardFiltersState = useSetRecoilState(meetupBoardFiltersState);

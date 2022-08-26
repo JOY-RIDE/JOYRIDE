@@ -1,4 +1,4 @@
-import { FilterOptionData, FiltersDispatchPayload } from 'types/common';
+import { FilterOptionData, FiltersReducerPayload } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
 import { omit } from 'lodash';
 import { MEETUP_FILTERS_INITIAL_STATE } from 'states/meetup';
@@ -7,9 +7,9 @@ import { MEETUP_FILTERS_INITIAL_STATE } from 'states/meetup';
  * - 다중 선택 옵션을 가진 filtersState 형태: { key: [{value: 값, content: 한글}] }
  */
 // TODO: recoil
-function meetupFiltersDispatchForChoosing(
+function meetupFiltersReducerForChoosing(
   state: MeetupFiltersState,
-  { key, ...data }: FiltersDispatchPayload
+  { key, ...data }: FiltersReducerPayload
 ) {
   switch (key) {
     // 단일 선택 옵션들
@@ -34,9 +34,9 @@ function meetupFiltersDispatchForChoosing(
       throw new Error();
   }
 }
-function meetupFiltersDispatchForRemoving(
+function meetupFiltersReducerForRemoving(
   state: MeetupFiltersState,
-  { key, value }: FiltersDispatchPayload
+  { key, value }: FiltersReducerPayload
 ) {
   switch (key) {
     // 단일 선택 옵션들
@@ -65,9 +65,9 @@ function meetupFiltersDispatchForRemoving(
       throw new Error();
   }
 }
-function meetupFiltersDispatchForToggling(
+function meetupFiltersReducerForToggling(
   state: MeetupFiltersState,
-  { key, ...data }: FiltersDispatchPayload
+  { key, ...data }: FiltersReducerPayload
 ) {
   switch (key) {
     case 'isParticipationFree': {
@@ -79,9 +79,9 @@ function meetupFiltersDispatchForToggling(
       throw new Error();
   }
 }
-function meetupFiltersDispatchForClearing(
+function meetupFiltersReducerForClearing(
   state: MeetupFiltersState,
-  { key }: FiltersDispatchPayload
+  { key }: FiltersReducerPayload
 ) {
   switch (key) {
     case 'maxNumOfParticipants':
@@ -91,9 +91,9 @@ function meetupFiltersDispatchForClearing(
   }
 }
 
-export const MEETUP_FILTERS_DISPATCHES = {
-  choose: meetupFiltersDispatchForChoosing,
-  remove: meetupFiltersDispatchForRemoving,
-  toggle: meetupFiltersDispatchForToggling,
-  clear: meetupFiltersDispatchForClearing,
+export const MEETUP_FILTERS_REDUCERS = {
+  choose: meetupFiltersReducerForChoosing,
+  remove: meetupFiltersReducerForRemoving,
+  toggle: meetupFiltersReducerForToggling,
+  clear: meetupFiltersReducerForClearing,
 };
