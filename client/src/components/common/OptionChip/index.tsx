@@ -1,38 +1,54 @@
 import { memo } from 'react';
+import { FiltersDispatch } from 'types/common';
+import { Resetter } from 'recoil';
 import { VscChromeClose } from 'react-icons/vsc';
 import styles from './OptionChip.module.scss';
 import classNames from 'classnames/bind';
-import { MeetupFiltersKey } from 'types/meetup';
-import { FilterClickHandler } from 'types/common';
 
 const cn = classNames.bind(styles);
 
 interface CommonProps {
-  filtersKey: MeetupFiltersKey;
-  value: number | string | boolean; // TODO: refactor
   content: string;
-  isChosen: boolean;
 }
 
-type ConditionalProps = AllTypeProps | NormalTypeProps | RemoveOnlyTypeProps;
+type ConditionalProps =
+  | AllTypeProps
+  | DefaultTypeProps
+  | RemoveOnlyTypeProps
+  | ResetTypeProps;
+
 interface AllTypeProps {
+  filtersKey: string;
   type: 'all';
-  onTextClick: FilterClickHandler;
-  onXClick?: never;
+  value?: never;
+  isChosen: boolean;
+  onClick: FiltersDispatch;
 }
-interface NormalTypeProps {
-  type: 'normal';
-  onTextClick: FilterClickHandler;
-  onXClick: FilterClickHandler;
+interface DefaultTypeProps {
+  filtersKey: string;
+  type: 'default';
+  value: number | string | boolean;
+  isChosen: boolean;
+  onClick: FiltersDispatch;
 }
 interface RemoveOnlyTypeProps {
+  filtersKey: string;
   type: 'removeOnly';
-  onTextClick?: never;
-  onXClick: FilterClickHandler;
+  value: number | string | boolean;
+  isChosen?: never;
+  onClick: FiltersDispatch;
+}
+interface ResetTypeProps {
+  filtersKey?: never;
+  type: 'reset';
+  value?: never;
+  isChosen?: never;
+  onClick: Resetter;
 }
 
 type OptionChipProps = CommonProps & ConditionalProps;
 
+// TODO: refactor
 const OptionChip = memo(
   ({
     type,
@@ -40,29 +56,37 @@ const OptionChip = memo(
     value,
     content,
     isChosen,
-    onTextClick,
-    onXClick,
+    onClick,
   }: OptionChipProps) => {
-    const handleTextClick =
-      type === 'removeOnly'
-        ? undefined
-        : isChosen
-        ? undefined
-        : () => onTextClick({ key: filtersKey, value, content });
-
-    const handleXClick =
-      type === 'all' ? undefined : () => onXClick({ key: filtersKey, value });
+    const isActive =
+      (type === 'all' && isChosen) ||
+      (type === 'default' && isChosen) ||
+      type === 'removeOnly';
+    const isDeletable =
+      (type === 'default' && isChosen) || type === 'removeOnly';
+    const handleClick = () => {
+      switch (type) {
+        case 'all':
+          return onClick({ key: filtersKey });
+        case 'default':
+          return onClick({ key: filtersKey, value, content });
+        case 'removeOnly':
+          return onClick({ key: filtersKey, value });
+        case 'reset':
+          return onClick();
+      }
+    };
 
     return (
       <li
-        className={cn('option', { active: isChosen })}
-        onClick={handleTextClick}
+        className={cn('option', { active: isActive })}
+        onClick={!isDeletable ? handleClick : undefined}
       >
         <span>{content}</span>
         <button
           type="button"
-          className={cn('x-btn', { hidden: type === 'all' || !isChosen })}
-          onClick={handleXClick}
+          className={cn('x-btn', { hidden: !isDeletable })}
+          onClick={isDeletable ? handleClick : undefined}
         >
           <VscChromeClose />
         </button>
