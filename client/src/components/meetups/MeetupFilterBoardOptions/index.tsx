@@ -115,8 +115,8 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="location"
             content="전체"
-            isChosen={!boardFilters.location}
-            onClick={handleClear}
+            isActive={!boardFilters.location}
+            onTextClick={handleClear}
           />
           {LOCATIONS.map(location => (
             <OptionChip
@@ -125,12 +125,9 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="location"
               value={location}
               content={location}
-              isChosen={location === boardFilters.location?.value}
-              onClick={
-                location === boardFilters.location?.value
-                  ? handleRemove
-                  : handleChoose
-              }
+              isActive={location === boardFilters.location?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
             />
           ))}
         </ul>
@@ -143,8 +140,8 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="pathDifficulty"
             content="전체"
-            isChosen={!boardFilters.pathDifficulty}
-            onClick={handleClear}
+            isActive={!boardFilters.pathDifficulty}
+            onTextClick={handleClear}
           />
           {MEETUP_PATH_DIFFICULTIES.map(difficulty => (
             <OptionChip
@@ -153,12 +150,9 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="pathDifficulty"
               value={difficulty}
               content={stringifyDifficulty(difficulty)}
-              isChosen={difficulty === boardFilters.pathDifficulty?.value}
-              onClick={
-                difficulty === boardFilters.pathDifficulty?.value
-                  ? handleRemove
-                  : handleChoose
-              }
+              isActive={difficulty === boardFilters.pathDifficulty?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
             />
           ))}
         </ul>
@@ -171,8 +165,8 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="bicycleTypes"
             content="전체"
-            isChosen={!boardFilters.bicycleTypes}
-            onClick={handleClear}
+            isActive={!boardFilters.bicycleTypes}
+            onTextClick={handleClear}
           />
           {BICYCLE_TYPES.map(type => (
             <OptionChip
@@ -181,20 +175,14 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="bicycleTypes"
               value={type}
               content={type}
-              isChosen={
+              isActive={
                 boardFilters.bicycleTypes &&
                 boardFilters.bicycleTypes.some(
                   (data: FilterOptionData) => data.value === type
                 )
               }
-              onClick={
-                boardFilters.bicycleTypes &&
-                boardFilters.bicycleTypes.some(
-                  (data: FilterOptionData) => data.value === type
-                )
-                  ? handleRemove
-                  : handleChoose
-              }
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
             />
           ))}
         </ul>
@@ -207,8 +195,8 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="minRidingSkill"
             content="전체"
-            isChosen={!boardFilters.minRidingSkill}
-            onClick={handleClear}
+            isActive={!boardFilters.minRidingSkill}
+            onTextClick={handleClear}
           />
           {RIDING_SKILLS.map(skill => (
             <OptionChip
@@ -217,12 +205,9 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="minRidingSkill"
               value={skill}
               content={stringifyRidingSkill(skill)}
-              isChosen={skill === boardFilters.minRidingSkill?.value}
-              onClick={
-                skill === boardFilters.minRidingSkill?.value
-                  ? handleRemove
-                  : handleChoose
-              }
+              isActive={skill === boardFilters.minRidingSkill?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
             />
           ))}
         </ul>
@@ -235,8 +220,8 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="gender"
             content="전체"
-            isChosen={!boardFilters.gender}
-            onClick={handleClear}
+            isActive={!boardFilters.gender}
+            onTextClick={handleClear}
           />
           {GENDERS.map(gender => (
             <OptionChip
@@ -245,12 +230,9 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="gender"
               value={gender}
               content={stringifyGender(gender)}
-              isChosen={gender === boardFilters.gender?.value}
-              onClick={
-                gender === boardFilters.gender?.value
-                  ? handleRemove
-                  : handleChoose
-              }
+              isActive={gender === boardFilters.gender?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
             />
           ))}
         </ul>
@@ -263,8 +245,8 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="ages"
             content="전체"
-            isChosen={!boardFilters.ages}
-            onClick={handleClear}
+            isActive={!boardFilters.ages}
+            onTextClick={handleClear}
           />
           {AGES.map(age => (
             <OptionChip
@@ -273,20 +255,14 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="ages"
               value={age}
               content={stringifyAge(age)}
-              isChosen={
+              isActive={
                 boardFilters.ages &&
                 boardFilters.ages.some(
                   (data: FilterOptionData) => data.value === age
                 )
               }
-              onClick={
-                boardFilters.ages &&
-                boardFilters.ages.some(
-                  (data: FilterOptionData) => data.value === age
-                )
-                  ? handleRemove
-                  : handleChoose
-              }
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
             />
           ))}
         </ul>
@@ -300,13 +276,13 @@ const MeetupFilterBoardOptions = () => {
             type="all"
             filtersKey="maxNumOfParticipants"
             content="전체"
-            isChosen={
+            isActive={
               !(
                 boardFilters.minNumOfParticipants.value ||
                 boardFilters.maxNumOfParticipants.value
               )
             }
-            onClick={handleClear}
+            onTextClick={handleClear}
           />
           <div className={cn('regulators')}>
             <div className={cn('regulator')}>
