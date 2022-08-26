@@ -1,7 +1,11 @@
 import { memo } from 'react';
 import { FilterClickHandler } from 'types/common';
 import { Resetter } from 'recoil';
-import OptionChipBase from '../OptionChipBase';
+import { VscChromeClose } from 'react-icons/vsc';
+import styles from './OptionChip.module.scss';
+import classNames from 'classnames/bind';
+
+const cn = classNames.bind(styles);
 
 interface CommonProps {
   content: string;
@@ -72,13 +76,21 @@ const OptionChip = memo(
           return onClick();
       }
     };
+
     return (
-      <OptionChipBase
-        content={content}
-        isActive={isActive}
-        isDeletable={isDeletable}
-        onClick={handleClick}
-      />
+      <li
+        className={cn('option', { active: isActive })}
+        onClick={!isDeletable ? handleClick : undefined}
+      >
+        <span>{content}</span>
+        <button
+          type="button"
+          className={cn('x-btn', { hidden: !isDeletable })}
+          onClick={isDeletable ? handleClick : undefined}
+        >
+          <VscChromeClose />
+        </button>
+      </li>
     );
   }
 );
