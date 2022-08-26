@@ -4,11 +4,12 @@ import { mockMeetupAPI } from 'apis/meetupAPI';
 import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
-import MeetupFilterToggleButton from 'components/meetups/MeetupFilterToggleButton';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
 import { useResetRecoilState } from 'recoil';
 import { meetupFiltersState } from 'states/meetup';
 import { useEffect } from 'react';
+import BoardToggleButton from 'components/common/BoardToggleButton';
+import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
 
 const cn = classNames.bind(styles);
 
@@ -29,7 +30,7 @@ const Meetups = () => {
       </header>
 
       <div className={cn('filter-order')}>
-        <MeetupFilterToggleButton />
+        <BoardToggleButton title="필터" Board={MeetupFilterBoard} />
       </div>
       <MeetupFilterChoices />
 
