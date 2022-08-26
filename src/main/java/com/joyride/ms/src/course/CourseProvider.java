@@ -1,6 +1,7 @@
 package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.GetCourseRes;
 import com.joyride.ms.src.course.model.GetCourseReviewRes;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
 
 
 }

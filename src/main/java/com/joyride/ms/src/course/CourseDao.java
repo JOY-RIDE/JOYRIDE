@@ -1,9 +1,6 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.CourseInfo;
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.GetCourseReviewRes;
-import com.joyride.ms.src.course.model.PostCourseReviewReq;
+import com.joyride.ms.src.course.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
