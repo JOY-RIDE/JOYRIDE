@@ -16,7 +16,6 @@ public class CourseController {
     private final CourseService courseService;
 
     //일단은 이 URI를 거쳐서만 들어간다고 생각하고 코드 작성
-    @ResponseBody
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
@@ -28,7 +27,6 @@ public class CourseController {
     }
 
     // 리뷰작성 api
-    @ResponseBody
     @PostMapping("/review")
     public BaseResponse<PostCourseReviewRes> PostCourseReview(@RequestBody PostCourseReviewReq postCourseReviewReq){
 
@@ -42,7 +40,6 @@ public class CourseController {
     }
 
     // 리뷰 조회 api
-    @ResponseBody
     @GetMapping("/review/{course_id}")
     public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("course_id") int course_id){
         try{
@@ -55,7 +52,6 @@ public class CourseController {
     }
 
     // 리뷰 삭제 api
-    @ResponseBody
     @PatchMapping("/review/{id}/staus")
     public BaseResponse<PatchCourseReviewRes> PatchCourseReviewStatus(@PathVariable("id") int courseReview_id){
         try{
