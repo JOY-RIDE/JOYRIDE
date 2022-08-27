@@ -48,12 +48,11 @@ const MeetupInfo = (props: Meetup) => (
         </div>
         <div className={cn('detail')}>
           <label className={cn('label')}>라이딩 실력</label>
-          <div className={cn('data')}>
-            <span className={cn('emphasized')}>
+          <ul className={cn('data')}>
+            <li className={cn('emphasized')}>
               {stringifyRidingSkill(props.minRidingSkill)}
-            </span>{' '}
-            이상
-          </div>
+            </li>
+          </ul>
         </div>
         <div className={cn('detail')}>
           <label className={cn('label')}>인원</label>

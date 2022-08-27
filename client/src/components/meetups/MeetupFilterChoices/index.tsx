@@ -39,7 +39,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           filtersKey="location"
           value={filters.location.value}
           content={filters.location.content}
-          onClick={handleRemove}
+          isActive
+          onXClick={handleRemove}
         />
       )}
       {filters.pathDifficulty && (
@@ -48,7 +49,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           filtersKey="pathDifficulty"
           value={filters.pathDifficulty.value}
           content={filters.pathDifficulty.content}
-          onClick={handleRemove}
+          isActive
+          onXClick={handleRemove}
         />
       )}
       {filters.bicycleTypes &&
@@ -59,7 +61,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             filtersKey="bicycleTypes"
             value={value}
             content={content}
-            onClick={handleRemove}
+            isActive
+            onXClick={handleRemove}
           />
         ))}
       {filters.minRidingSkill && (
@@ -68,7 +71,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           filtersKey="minRidingSkill"
           value={filters.minRidingSkill.value}
           content={filters.minRidingSkill.content}
-          onClick={handleRemove}
+          isActive
+          onXClick={handleRemove}
         />
       )}
       {filters.gender && (
@@ -77,7 +81,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           filtersKey="gender"
           value={filters.gender.value}
           content={filters.gender.content}
-          onClick={handleRemove}
+          isActive
+          onXClick={handleRemove}
         />
       )}
       {filters.ages &&
@@ -88,7 +93,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             filtersKey="ages"
             value={value}
             content={content}
-            onClick={handleRemove}
+            isActive
+            onXClick={handleRemove}
           />
         ))}
       {Boolean(
@@ -99,7 +105,8 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           filtersKey="maxNumOfParticipants"
           value={filters.maxNumOfParticipants.value}
           content="인원 설정"
-          onClick={handleClear}
+          isActive
+          onXClick={handleClear}
         />
       )}
       {filters.isParticipationFree && (
@@ -108,13 +115,19 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           filtersKey="isParticipationFree"
           value={filters.isParticipationFree.value}
           content={filters.isParticipationFree.content}
-          onClick={handleRemove}
+          isActive
+          onXClick={handleRemove}
         />
       )}
       {!onBoard &&
         JSON.stringify(filters) !==
           JSON.stringify(MEETUP_FILTERS_INITIAL_STATE) && (
-          <OptionChip type="reset" content="초기화" onClick={handleReset} />
+          <OptionChip
+            type="reset"
+            content="초기화"
+            isActive={false}
+            onTextClick={handleReset}
+          />
         )}
     </ul>
   );

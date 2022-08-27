@@ -4,19 +4,32 @@ import { mockMeetupAPI } from 'apis/meetupAPI';
 import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
-import MeetupFilterToggleButton from 'components/meetups/MeetupFilterToggleButton';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
-import { useResetRecoilState } from 'recoil';
-import { meetupFiltersState } from 'states/meetup';
-import { useEffect } from 'react';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { meetupFiltersState, meetupOrderState } from 'states/meetup';
+import { useEffect, useState } from 'react';
+import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
+import ContentToggleButton from 'components/common/ContentToggleButton';
+import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
+import OrderList from 'components/meetups/OrderList';
+import { getMeetupsOrderedBy } from 'utils/order';
 
 const cn = classNames.bind(styles);
 
 // TODO: react query, pagination
 const Meetups = () => {
-  const meetups = mockMeetupAPI.getAllMeetups();
+  // temp
+  const [meetups, setMeetups] = useState(mockMeetupAPI.getAllMeetups());
+  const order = useRecoilValue(meetupOrderState);
+  useEffect(
+    () => setMeetups(getMeetupsOrderedBy(order.name, meetups)),
+    [order.name]
+  );
+
   const resetFilters = useResetRecoilState(meetupFiltersState);
+  const resetOrder = useResetRecoilState(meetupOrderState);
   useEffect(() => resetFilters, []);
+  useEffect(() => resetOrder, []);
 
   return (
     <div>
@@ -29,7 +42,19 @@ const Meetups = () => {
       </header>
 
       <div className={cn('filter-order')}>
-        <MeetupFilterToggleButton />
+        {/* @ts-ignore */}
+        <ContentToggleButton title="필터" Content={<MeetupFilterBoard />} />
+        <ContentToggleButton
+          title={order.content}
+          Content={
+            <OrderList
+              options={MEETUP_ORDER_OPTIONS}
+              // TODO
+              // @ts-ignore
+              recoilState={meetupOrderState}
+            />
+          }
+        />
       </div>
       <MeetupFilterChoices />
 

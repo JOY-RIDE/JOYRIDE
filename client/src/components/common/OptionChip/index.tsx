@@ -7,6 +7,8 @@ import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
+type ChipType = 'all' | 'default' | 'removeOnly' | 'reset';
+
 interface CommonProps {
   content: string;
 }
@@ -16,37 +18,52 @@ type ConditionalProps =
   | DefaultTypeProps
   | RemoveOnlyTypeProps
   | ResetTypeProps;
-
 interface AllTypeProps {
   filtersKey: string;
   type: 'all';
   value?: never;
-  isChosen: boolean;
-  onClick: FiltersDispatch;
+  isActive: boolean;
+  onTextClick: FiltersDispatch;
+  onXClick?: never;
 }
 interface DefaultTypeProps {
   filtersKey: string;
   type: 'default';
   value: number | string | boolean;
-  isChosen: boolean;
-  onClick: FiltersDispatch;
+  isActive: boolean;
+  onTextClick: FiltersDispatch;
+  onXClick?: FiltersDispatch;
 }
 interface RemoveOnlyTypeProps {
   filtersKey: string;
   type: 'removeOnly';
   value: number | string | boolean;
-  isChosen?: never;
-  onClick: FiltersDispatch;
+  isActive: true;
+  onTextClick?: never;
+  onXClick: FiltersDispatch;
 }
 interface ResetTypeProps {
   filtersKey?: never;
   type: 'reset';
   value?: never;
-  isChosen?: never;
-  onClick: Resetter;
+  isActive: false;
+  onTextClick: Resetter;
+  onXClick?: never;
 }
 
 type OptionChipProps = CommonProps & ConditionalProps;
+
+function checkIfActive(type: ChipType, isActive: boolean) {
+  if (type === 'all' && isActive) return true;
+  if (type === 'default' && isActive) return true;
+  if (type === 'removeOnly') return true;
+  if (type === 'reset') return false;
+}
+
+function checkIfDeletable(type: ChipType, isActive: boolean) {
+  if ((type === 'default' && isActive) || type === 'removeOnly') return true;
+  else return false;
+}
 
 // TODO: refactor
 const OptionChip = memo(
@@ -55,38 +72,29 @@ const OptionChip = memo(
     filtersKey,
     value,
     content,
-    isChosen,
-    onClick,
+    isActive,
+    onTextClick,
+    onXClick,
   }: OptionChipProps) => {
-    const isActive =
-      (type === 'all' && isChosen) ||
-      (type === 'default' && isChosen) ||
-      type === 'removeOnly';
-    const isDeletable =
-      (type === 'default' && isChosen) || type === 'removeOnly';
-    const handleClick = () => {
-      switch (type) {
-        case 'all':
-          return onClick({ key: filtersKey });
-        case 'default':
-          return onClick({ key: filtersKey, value, content });
-        case 'removeOnly':
-          return onClick({ key: filtersKey, value });
-        case 'reset':
-          return onClick();
-      }
-    };
+    const handleTextClick = !onTextClick
+      ? undefined
+      : type === 'reset'
+      ? onTextClick
+      : () => onTextClick({ key: filtersKey, value, content });
+    const handleXClick = !onXClick
+      ? undefined
+      : () => onXClick({ key: filtersKey, value });
 
     return (
       <li
-        className={cn('option', { active: isActive })}
-        onClick={!isDeletable ? handleClick : undefined}
+        className={cn('option', { active: checkIfActive(type, isActive) })}
+        onClick={!checkIfActive(type, isActive) ? handleTextClick : undefined}
       >
         <span>{content}</span>
         <button
           type="button"
-          className={cn('x-btn', { hidden: !isDeletable })}
-          onClick={isDeletable ? handleClick : undefined}
+          className={cn('x-btn', { hidden: !checkIfDeletable(type, isActive) })}
+          onClick={checkIfDeletable(type, isActive) ? handleXClick : undefined}
         >
           <VscChromeClose />
         </button>
