@@ -26,6 +26,17 @@ public class CourseController {
         }
     }
 
+    // 코스 디테일 조회 api
+    @GetMapping("/{course_id}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("course_id") int course_id){
+        try{
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(course_id);
+            return new BaseResponse<>(getCourseRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     // 리뷰작성 api
     @PostMapping("/review")
     public BaseResponse<PostCourseReviewRes> PostCourseReview(@RequestBody PostCourseReviewReq postCourseReviewReq){
@@ -53,13 +64,47 @@ public class CourseController {
 
     // 리뷰 삭제 api
     @DeleteMapping("/review/{id}")
-    public BaseResponse<PatchCourseReviewRes> PatchCourseReview(@PathVariable("id") int courseReview_id){
+    public BaseResponse<DeleteCourseReviewRes> PatchCourseReview(@PathVariable("id") int courseReview_id){
         try{
             // 유저 확인 로직 필요
-            PatchCourseReviewRes patchCourseReviewRes = courseService.removeCourseReview(courseReview_id);
-            return new BaseResponse<>(patchCourseReviewRes);
+            DeleteCourseReviewRes deleteCourseReviewRes = courseService.removeCourseReview(courseReview_id);
+            return new BaseResponse<>(deleteCourseReviewRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 좋아요 api
+     */
+    // 리뷰 종아요 api
+    // 요청: 좋아요할 코스의 아이디와 좋아요하는 유저 아이디 필요
+    // @PathVariable로 하는게 맞을까? RequestBody로 하는게 맞을까?
+    // 응답:
+    @PostMapping("/like/{user_id}/{course_id}")
+    public BaseResponse<PostCourseLikeRes> PostCourseLike(@PathVariable("user_id") int user_id, @PathVariable("course_id") int course_id){
+        try{
+            // 유저 확인 로직 필요
+            PostCourseLikeRes postCourseLikeRes = courseService.createCourseLike(user_id, course_id);
+            return new BaseResponse<>(postCourseLikeRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    //리뷰 종아요 취소 api
+    @DeleteMapping("/like/{courseLike_id}")
+    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
+        try{
+            // 유저 확인 로직 필요
+            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
+            return new BaseResponse<>(deleteCourseReviewRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+
+
 }

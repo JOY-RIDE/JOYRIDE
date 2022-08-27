@@ -1,9 +1,6 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.CourseInfo;
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.GetCourseReviewRes;
-import com.joyride.ms.src.course.model.PostCourseReviewReq;
+import com.joyride.ms.src.course.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -50,13 +47,49 @@ public class CourseDao {
         String createCourseListQuery = "insert into course (title, course_img_url, content, summary, tour_point, travelerinfo, distance, " +
                 "difficulty, sigun, required_at, brdDiv) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-        Object[] createUserParams = new Object[]{courseInfo.getCrsKorNm(), courseInfo.getImage(),
+        Object[] createCourseListParams = new Object[]{courseInfo.getCrsKorNm(), courseInfo.getImage(),
                 courseInfo.getCrsContents(), courseInfo.getCrsSummary(), courseInfo.getCrsTourInfo(), courseInfo.getTravelerinfo(),
                 courseInfo.getCrsDstnc(), courseInfo.getCrsLevel(), courseInfo.getSigun(),
                 courseInfo.getRequired_at(), courseInfo.getBrdDiv()};
-        this.jdbcTemplate.update(createCourseListQuery, createUserParams);
+        this.jdbcTemplate.update(createCourseListQuery, createCourseListParams);
     }
 
+    // 코스 디테일 정보
+    public GetCourseRes selectCourse(int course_id){
+        String getCourseQuery = "select id,title,course_img_url,content,summary," +
+                "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at " +
+                "from course where id = ?";
+
+        int getCourseParams = course_id;
+        //db정보 가져오기
+        return this.jdbcTemplate.queryForObject(getCourseQuery,
+                (rs,rowNum) -> GetCourseRes.createGetCourseRes(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("course_img_url"),
+                        rs.getString("content"),
+                        rs.getString("summary"),
+                        rs.getString("tour_point"),
+                        rs.getString("travelerinfo"),
+                        rs.getDouble("distance"),
+                        rs.getInt("difficulty"),
+                        rs.getString("sigun"),
+                        rs.getDouble("required_at"),
+                        rs.getString("created_at"),
+                        rs.getString("updated_at")
+                ), getCourseParams);
+    }
+    
+    //코스 좋아요 유저 아이디 조회
+    public List<Integer> selectUserIdByCourseId(int course_id) {
+        String selectUserIdByCourseIdQuery = "select user_id from courselike where course_id = ?";
+
+        int selectUserIdByCourseIdParams = course_id;
+        //db정보 가져오기
+        return this.jdbcTemplate.query(selectUserIdByCourseIdQuery,
+                (rs,rowNum) -> rs.getInt("user_id"),
+                selectUserIdByCourseIdParams);
+    }
     // 리뷰 생성 Dao
     public int insertCourseReview(PostCourseReviewReq postCourseReviewReq, double totalRate){
 
@@ -126,5 +159,36 @@ public class CourseDao {
                 existsCourseReviewParams);
     }
 
+    /**
+     * 코스 좋아요
+     */
+    public int insertCourseLike(int user_id, int course_id){
+
+        String createCourseLikeQuery = "insert into courselike (user_id, course_id) VALUES (?,?)";
+
+        Object[] createCourseLikeParams = new Object[]{user_id, course_id};
+        this.jdbcTemplate.update(createCourseLikeQuery, createCourseLikeParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+
+    //좋아요 삭제
+
+    public void deleteByCourseLikeId(int courseLike_id){
+
+        String deleteByCourseLikeIdQuery = "delete from courselike where id = ?";
+        int deleteByCourseLikeIdParams = courseLike_id;
+
+        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
+    }
+
+    public int existsCourseLike(int courseLike_id) {
+        String existsCourseLikeQuery = "select exists(select id from courselike where id = ?)";
+        int existsCourseLikeParams = courseLike_id;
+        return this.jdbcTemplate.queryForObject(existsCourseLikeQuery,
+                int.class,
+                existsCourseLikeParams);
+    }
 
 }
