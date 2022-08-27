@@ -3,9 +3,9 @@ import { Dialog, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { VscChromeClose } from 'react-icons/vsc';
 import { BiPlusCircle } from 'react-icons/bi';
+import PopupSlide from 'components/transitions/PopupSlide';
 import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
-import PopupSlide from 'components/transitions/PopupSlide';
 
 const cn = classNames.bind(styles);
 

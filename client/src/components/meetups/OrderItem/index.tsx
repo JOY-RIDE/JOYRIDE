@@ -13,7 +13,8 @@ const OrderItem = ({ name, content, sign, onClick }: OrderItemProps) => {
   const handleClick = () => onClick(name, content);
   return (
     <li className={cn('option')} onClick={handleClick}>
-      {content} <span className={cn('sign')}>{sign}</span>
+      {content}
+      <span className={cn('sign')}>{sign}</span>
     </li>
   );
 };

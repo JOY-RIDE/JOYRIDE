@@ -31,9 +31,9 @@ const SignupBasicForm = () => {
   } = useForm<SignupBasicForm>({
     // TODO: yup
     defaultValues: {
-      email: '',
-      password: '',
-      passwordConfirm: '',
+      // email: '',
+      // password: '',
+      // passwordConfirm: '',
     },
     // reValidateMode: 'onBlur',
   });

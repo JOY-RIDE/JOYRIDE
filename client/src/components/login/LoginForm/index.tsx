@@ -39,8 +39,8 @@ const LoginForm = () => {
     handleSubmit,
   } = useForm<LoginForm>({
     defaultValues: {
-      email: '',
-      password: '',
+      // email: '',
+      // password: '',
       isAuto: false,
     },
     reValidateMode: 'onBlur',

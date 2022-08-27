@@ -1,4 +1,3 @@
-import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -15,6 +14,7 @@ import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
 import { signupFormDataState } from 'states/auth';
+import { BICYCLE_TYPE_OPTIONS } from 'utils/constants';
 
 const cn = classNames.bind(styles);
 
@@ -48,10 +48,6 @@ const ageOptions: SelectButtonProps[] = [
   { value: '4', content: '40대', contentEng: 'forty' },
   { value: '5', content: '50대 이상', contentEng: 'fifty' },
 ];
-const bicycleTypeOptions: SelectListOption[] = BICYCLE_TYPES.map(type => ({
-  value: type,
-  content: type,
-}));
 
 const SignupDetailForm = () => {
   const {
@@ -61,11 +57,10 @@ const SignupDetailForm = () => {
     setError,
   } = useForm<SignupDetailForm>({
     defaultValues: {
-      nickname: '',
-      gender: '',
-      age: '',
-      bicycleType: '',
-      message: '',
+      // nickname: '',
+      // gender: '',
+      // age: '',
+      // bicycleType: '',
     },
     // reValidateMode: 'onBlur',
   });
@@ -225,7 +220,7 @@ const SignupDetailForm = () => {
             name="bicycleType"
             render={({ field }) => (
               <SelectList
-                options={bicycleTypeOptions}
+                options={BICYCLE_TYPE_OPTIONS}
                 label="자전거 종류"
                 {...field}
               />

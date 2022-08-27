@@ -3,11 +3,11 @@ import styles from './MeetupFilterBoardOptions.module.scss';
 import classNames from 'classnames/bind';
 import {
   AGES,
-  BICYCLE_TYPES,
+  BICYCLE_TYPE_OPTIONS,
   GENDERS,
   LOCATIONS,
   MEETUP_PATH_DIFFICULTIES,
-  RIDING_SKILLS,
+  RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
 import {
@@ -167,17 +167,17 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.bicycleTypes}
             onTextClick={handleClear}
           />
-          {BICYCLE_TYPES.map(type => (
+          {BICYCLE_TYPE_OPTIONS.map(type => (
             <OptionChip
-              key={type.toString()}
+              key={type.value}
               type="default"
               filtersKey="bicycleTypes"
-              value={type}
-              content={type}
+              value={type.value}
+              content={type.content}
               isActive={
                 boardFilters.bicycleTypes &&
                 boardFilters.bicycleTypes.some(
-                  (data: FilterOptionData) => data.value === type
+                  (data: FilterOptionData) => data.value === type.value
                 )
               }
               onTextClick={handleChoose}
@@ -197,7 +197,7 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.ridingSkill}
             onTextClick={handleClear}
           />
-          {RIDING_SKILLS.map(skill => (
+          {RIDING_SKILL_OPTIONS.map(skill => (
             <OptionChip
               key={skill.value}
               type="default"
