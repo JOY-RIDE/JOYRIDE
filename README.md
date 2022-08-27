@@ -52,6 +52,12 @@ JOYRIDE
        |   |   ├── auth
        |   |   |   ├── dto
        |   |   |   ├── model
+       |   |   ├── course
+       |   |   |   ├── dto
+       |   |   |   ├── model
+       |   |   ├── meet
+       |   |   |   ├── dto
+       |   |   |   ├── model
        |   |   ├── user
        |   |   |   ├── model
        |   |   ├── jwt
