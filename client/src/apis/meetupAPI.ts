@@ -1,12 +1,7 @@
 import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
-import {
-  AGES,
-  GENDERS,
-  LOCATIONS,
-  MEETUP_PATH_DIFFICULTIES,
-} from 'utils/constants';
+import { AGES, GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
   getAllMeetups: () => Meetup[];
@@ -25,7 +20,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   dueDate: faker.date.soon(10),
   courseName: faker.datatype.number(1) ? faker.random.words(3) : null,
   path: faker.helpers.arrayElements(LOCATIONS),
-  pathDifficulty: faker.helpers.arrayElement(MEETUP_PATH_DIFFICULTIES),
+  pathDifficulty: faker.helpers.arrayElement([1, 2, 3]),
   ridingSkill: faker.helpers.arrayElement([1, 2, 3]),
   bicycleTypes: faker.datatype.number(1)
     ? faker.helpers.arrayElements(

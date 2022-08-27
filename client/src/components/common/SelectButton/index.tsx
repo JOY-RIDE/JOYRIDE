@@ -23,12 +23,12 @@ const SelectButton = memo(
           checked={isSelected}
           name={name}
           value={value}
-          id={cn(value)}
+          id={cn(content)}
           className={cn('input')}
           ref={ref}
           {...others}
         />
-        <label htmlFor={cn(value)} className={cn('btn', size)}>
+        <label htmlFor={cn(content)} className={cn('btn', size)}>
           {content}
         </label>
       </>

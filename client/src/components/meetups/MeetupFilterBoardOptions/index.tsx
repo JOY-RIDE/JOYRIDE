@@ -6,7 +6,7 @@ import {
   BICYCLE_TYPE_OPTIONS,
   GENDERS,
   LOCATIONS,
-  MEETUP_PATH_DIFFICULTIES,
+  MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
@@ -142,14 +142,14 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.pathDifficulty}
             onTextClick={handleClear}
           />
-          {MEETUP_PATH_DIFFICULTIES.map(difficulty => (
+          {MEETUP_PATH_DIFFICULTY_OPTIONS.map(option => (
             <OptionChip
-              key={difficulty}
+              key={option.value}
               type="default"
               filtersKey="pathDifficulty"
-              value={difficulty}
-              content={stringifyDifficulty(difficulty)}
-              isActive={difficulty === boardFilters.pathDifficulty?.value}
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.pathDifficulty?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -167,17 +167,17 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.bicycleTypes}
             onTextClick={handleClear}
           />
-          {BICYCLE_TYPE_OPTIONS.map(type => (
+          {BICYCLE_TYPE_OPTIONS.map(option => (
             <OptionChip
-              key={type.value}
+              key={option.value}
               type="default"
               filtersKey="bicycleTypes"
-              value={type.value}
-              content={type.content}
+              value={option.value}
+              content={option.content}
               isActive={
                 boardFilters.bicycleTypes &&
                 boardFilters.bicycleTypes.some(
-                  (data: FilterOptionData) => data.value === type.value
+                  (data: FilterOptionData) => data.value === option.value
                 )
               }
               onTextClick={handleChoose}
@@ -197,14 +197,14 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.ridingSkill}
             onTextClick={handleClear}
           />
-          {RIDING_SKILL_OPTIONS.map(skill => (
+          {RIDING_SKILL_OPTIONS.map(option => (
             <OptionChip
-              key={skill.value}
+              key={option.value}
               type="default"
               filtersKey="ridingSkill"
-              value={skill.value}
-              content={skill.content}
-              isActive={skill.value === boardFilters.ridingSkill?.value}
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.ridingSkill?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />

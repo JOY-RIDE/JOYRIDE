@@ -1,3 +1,4 @@
+import { stringifyDifficulty } from 'utils/stringify';
 import { MeetupOrderState, MeetupPathDifficulty } from 'types/meetup';
 import {
   Age,
@@ -31,8 +32,12 @@ export const LOCATIONS: Location[] = [
   '경남',
   '제주',
 ];
-export const MEETUP_PATH_DIFFICULTIES: MeetupPathDifficulty[] = [1, 2, 3];
 
+export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<RidingSkill>[] = [
+  { value: 1, content: stringifyDifficulty(1) },
+  { value: 2, content: stringifyDifficulty(2) },
+  { value: 3, content: stringifyDifficulty(3) },
+];
 export const BICYCLE_TYPE_OPTIONS: Option<BicycleType>[] = [
   { value: '따릉이', content: '따릉이' },
   { value: 'MTB', content: 'MTB' },
