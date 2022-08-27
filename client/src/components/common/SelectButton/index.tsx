@@ -9,24 +9,26 @@ interface SelectButtonProps {
   value: number | string;
   content: string;
   isSelected: boolean;
+  // size:
   [key: string]: any;
 }
 
 const SelectButton = memo(
   forwardRef<HTMLInputElement, SelectButtonProps>((props, ref) => {
-    const { name, content, isSelected, ...others } = props;
+    const { name, value, content, isSelected, size = 'sm', ...others } = props;
     return (
       <>
         <input
-          type="checkbox"
+          type="radio"
           checked={isSelected}
           name={name}
-          id={cn(name)}
+          value={value}
+          id={cn(value)}
           className={cn('input')}
           ref={ref}
           {...others}
         />
-        <label htmlFor={cn(name)} className={cn('btn')}>
+        <label htmlFor={cn(value)} className={cn('btn', size)}>
           {content}
         </label>
       </>

@@ -17,7 +17,11 @@
   color: $color-grey-600;
   border: $border-grey;
   border-radius: 0.3rem;
-  padding: 1rem 1.6rem;
+  padding: 1rem 0;
   display: block;
   text-align: center;
+
+  &.sm {
+    font-size: 1.6rem;
+  }
 }

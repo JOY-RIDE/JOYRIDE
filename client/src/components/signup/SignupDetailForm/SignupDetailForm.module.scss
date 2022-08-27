@@ -1,7 +1,5 @@
 @use '../../../styles/variables.scss' as *;
 
-$gap-row: 1.2rem;
-
 .fields {
   display: flex;
   flex-direction: column;
@@ -21,6 +19,8 @@ $gap-row: 1.2rem;
 }
 
 .row {
+  $gap-row: 1rem;
+
   display: flex;
   gap: $gap-row;
   flex-wrap: wrap;

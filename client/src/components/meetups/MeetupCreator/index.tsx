@@ -6,6 +6,7 @@ import { BiPlusCircle } from 'react-icons/bi';
 import PopupSlide from 'components/transitions/PopupSlide';
 import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
+import MeetupCreationForm from '../MeetupCreationForm';
 
 const cn = classNames.bind(styles);
 
@@ -13,7 +14,7 @@ const MeetupCreator = () => {
   const [open, setOpen] = useState<boolean>(false);
   const handleDialogOpen = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
-  
+
   const theme = useTheme();
   const isFullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -26,7 +27,6 @@ const MeetupCreator = () => {
 
       <Dialog
         open={open}
-        onClose={handleDialogClose}
         fullScreen={isFullScreen}
         aria-labelledby="모임 만들기"
         BackdropProps={{ style: { backgroundColor: 'rgba(0, 0, 0, 0.2)' } }}
@@ -44,6 +44,8 @@ const MeetupCreator = () => {
             <VscChromeClose />
           </button>
         </header>
+
+        <MeetupCreationForm close={handleDialogClose} />
       </Dialog>
     </>
   );

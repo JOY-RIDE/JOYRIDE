@@ -31,10 +31,6 @@ interface SelectButtonProps {
   content: string;
   contentEng: string;
 }
-interface SelectListOption {
-  value: string;
-  content: string;
-}
 
 // Variables
 const genderOptions: SelectButtonProps[] = [
