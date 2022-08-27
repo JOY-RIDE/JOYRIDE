@@ -58,7 +58,7 @@ public class CourseDao {
     public GetCourseRes selectCourse(int course_id){
         String getCourseQuery = "select id,title,course_img_url,content,summary," +
                 "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at " +
-                "from course where id = course_id";
+                "from course where id = ?";
 
         int getCourseParams = course_id;
         //db정보 가져오기
@@ -77,13 +77,12 @@ public class CourseDao {
                         rs.getDouble("required_at"),
                         rs.getString("created_at"),
                         rs.getString("updated_at")
-                ),
-                getCourseParams);
+                ), getCourseParams);
     }
     
     //코스 좋아요 유저 아이디 조회
     public int selectUserIdByCourseId(int course_id) {
-        String selectUserIdByCourseIdQuery = "select user_id from courselike where course_id = course_id";
+        String selectUserIdByCourseIdQuery = "select user_id from courselike where course_id = ?";
 
         int selectUserIdByCourseIdParams = course_id;
         //db정보 가져오기
