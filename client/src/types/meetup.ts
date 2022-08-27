@@ -10,7 +10,7 @@ export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
 export type MeetupBicycleType = BicycleType;
-export type MeetupMinRidingSkill = RidingSkill;
+export type MeetupRidingSkill = RidingSkill;
 export type MeetupMinNumOfParticipants = number;
 export type MeetupMaxNumOfParticipants = number;
 export type MeetupParticipants = {}[];
@@ -29,7 +29,7 @@ export interface Meetup {
   path: MeetupPath;
   pathDifficulty: MeetupPathDifficulty;
   bicycleTypes: MeetupBicycleType[];
-  minRidingSkill: MeetupMinRidingSkill;
+  ridingSkill: MeetupRidingSkill;
   minNumOfParticipants: MeetupMinNumOfParticipants;
   maxNumOfParticipants: MeetupMaxNumOfParticipants;
   participants: MeetupParticipants;
@@ -43,7 +43,7 @@ export interface Meetup {
 //   | 'location'
 //   | 'pathDifficulty'
 //   | 'bicycleTypes'
-//   | 'minRidingSkill'
+//   | 'ridingSkill'
 //   | 'minNumOfParticipants'
 //   | 'maxNumOfParticipants'
 //   | 'gender'
@@ -54,7 +54,7 @@ export interface MeetupFiltersState {
   location?: any;
   pathDifficulty?: any;
   bicycleTypes?: any;
-  minRidingSkill?: any;
+  ridingSkill?: any;
   minNumOfParticipants?: any;
   maxNumOfParticipants?: any;
   gender?: any;
@@ -65,7 +65,7 @@ export interface MeetupFiltersState {
 //   location?: string;
 //   pathDifficulty?: number;
 //   bicycleTypes?: string[];
-//   minRidingSkill?: number; // ?
+//   ridingSkill?: number;
 //   minNumOfParticipants?: number;
 //   maxNumOfParticipants?: number;
 //   gender?: string;
@@ -78,8 +78,8 @@ export type MeetupOrderName =
   | 'meetingDate'
   | 'pathDifficulty'
   | '-pathDifficulty'
-  | 'minRidingSkill'
-  | '-minRidingSkill'
+  | 'ridingSkill'
+  | '-ridingSkill'
   | 'maxNumOfParticipants'
   | '-maxNumOfParticipants'
   | 'participationFee';

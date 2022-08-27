@@ -14,7 +14,6 @@ import {
   stringifyAge,
   stringifyDifficulty,
   stringifyGender,
-  stringifyRidingSkill,
 } from 'utils/stringify';
 import { useCallback, useEffect } from 'react';
 import { FilterOptionData, FiltersReducerPayload } from 'types/common';
@@ -189,24 +188,23 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        {/* TODO: fix */}
         <label className={cn('label')}>라이딩 실력</label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
-            filtersKey="minRidingSkill"
+            filtersKey="ridingSkill"
             content="전체"
-            isActive={!boardFilters.minRidingSkill}
+            isActive={!boardFilters.ridingSkill}
             onTextClick={handleClear}
           />
           {RIDING_SKILLS.map(skill => (
             <OptionChip
-              key={skill}
+              key={skill.value}
               type="default"
-              filtersKey="minRidingSkill"
-              value={skill}
-              content={stringifyRidingSkill(skill)}
-              isActive={skill === boardFilters.minRidingSkill?.value}
+              filtersKey="ridingSkill"
+              value={skill.value}
+              content={skill.content}
+              isActive={skill.value === boardFilters.ridingSkill?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />

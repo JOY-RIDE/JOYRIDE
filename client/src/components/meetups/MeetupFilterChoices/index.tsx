@@ -65,12 +65,12 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             onXClick={handleRemove}
           />
         ))}
-      {filters.minRidingSkill && (
+      {filters.ridingSkill && (
         <OptionChip
           type="removeOnly"
-          filtersKey="minRidingSkill"
-          value={filters.minRidingSkill.value}
-          content={filters.minRidingSkill.content}
+          filtersKey="ridingSkill"
+          value={filters.ridingSkill.value}
+          content={filters.ridingSkill.content}
           isActive
           onXClick={handleRemove}
         />

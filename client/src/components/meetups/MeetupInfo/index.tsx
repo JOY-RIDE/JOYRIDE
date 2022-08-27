@@ -50,7 +50,7 @@ const MeetupInfo = (props: Meetup) => (
           <label className={cn('label')}>라이딩 실력</label>
           <ul className={cn('data')}>
             <li className={cn('emphasized')}>
-              {stringifyRidingSkill(props.minRidingSkill)}
+              {stringifyRidingSkill(props.ridingSkill)}
             </li>
           </ul>
         </div>

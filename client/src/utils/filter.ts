@@ -15,7 +15,7 @@ function meetupFiltersReducerForChoosing(
     // 단일 선택 옵션들
     case 'location':
     case 'pathDifficulty':
-    case 'minRidingSkill':
+    case 'ridingSkill':
     case 'gender':
     case 'minNumOfParticipants':
     case 'maxNumOfParticipants':
@@ -42,7 +42,7 @@ function meetupFiltersReducerForRemoving(
     // 단일 선택 옵션들
     case 'location':
     case 'pathDifficulty':
-    case 'minRidingSkill':
+    case 'ridingSkill':
     case 'gender':
     case 'isParticipationFree':
       return omit(state, [key]);
