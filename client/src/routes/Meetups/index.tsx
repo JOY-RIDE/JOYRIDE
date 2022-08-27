@@ -1,5 +1,4 @@
 import PageTitle from 'components/common/PageTitle';
-import { BiPlusCircle } from 'react-icons/bi';
 import { mockMeetupAPI } from 'apis/meetupAPI';
 import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
@@ -13,6 +12,7 @@ import ContentToggleButton from 'components/common/ContentToggleButton';
 import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
 import OrderList from 'components/meetups/OrderList';
 import { getMeetupsOrderedBy } from 'utils/order';
+import MeetupCreator from 'components/meetups/MeetupCreator';
 
 const cn = classNames.bind(styles);
 
@@ -35,10 +35,7 @@ const Meetups = () => {
     <div>
       <header className={cn('header')}>
         <PageTitle size="md">자전거 모임</PageTitle>
-        <button className={cn('create-btn')}>
-          <BiPlusCircle />
-          <span>모임 만들기</span>
-        </button>
+        <MeetupCreator />
       </header>
 
       <div className={cn('filter-order')}>
