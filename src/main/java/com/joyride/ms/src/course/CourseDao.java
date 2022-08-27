@@ -81,12 +81,14 @@ public class CourseDao {
     }
     
     //코스 좋아요 유저 아이디 조회
-    public int selectUserIdByCourseId(int course_id) {
+    public List<Integer> selectUserIdByCourseId(int course_id) {
         String selectUserIdByCourseIdQuery = "select user_id from courselike where course_id = ?";
 
         int selectUserIdByCourseIdParams = course_id;
         //db정보 가져오기
-        return this.jdbcTemplate.queryForObject(selectUserIdByCourseIdQuery, Integer.class, selectUserIdByCourseIdParams);
+        return this.jdbcTemplate.query(selectUserIdByCourseIdQuery,
+                (rs,rowNum) -> rs.getInt("user_id"),
+                selectUserIdByCourseIdParams);
     }
     // 리뷰 생성 Dao
     public int insertCourseReview(PostCourseReviewReq postCourseReviewReq, double totalRate){

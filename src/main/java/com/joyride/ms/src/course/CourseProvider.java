@@ -47,8 +47,8 @@ public class CourseProvider {
             GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
 
             // 좋아요한 userId
-            int userId = courseDao.selectUserIdByCourseId(course_id);
-            getCourseRes.setUserId(userId);
+            List<Integer> userIdList = courseDao.selectUserIdByCourseId(course_id);
+            getCourseRes.setUserIdList(userIdList);
 
             // 코스 리뷰들
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
