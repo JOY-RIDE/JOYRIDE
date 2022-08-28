@@ -9,6 +9,8 @@ import {
 import { Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
 import { useEffect } from 'react';
+import Button from 'components/common/Button';
+import TextArea from 'components/common/TextArea';
 
 const cn = classNames.bind(styles);
 
@@ -100,6 +102,24 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             />
           </ul>
         </div>
+
+        <div className={cn('field', 'content')}>
+          <label className={cn('label')}>
+            <h4>모임 소개</h4>
+            <span className={cn('optional')}>(선택)</span>
+          </label>
+          <Controller
+            control={control}
+            name="content"
+            render={({ field }) => (
+              <TextArea placeholder="모임을 소개해 주세요." {...field} />
+            )}
+          />
+        </div>
+      </div>
+
+      <div className={cn('btn')}>
+        <Button type="submit" color="main" size="lg" content="모임 만들기" />
       </div>
     </form>
   );
