@@ -11,6 +11,8 @@ import SelectButton from 'components/common/SelectButton';
 import { useEffect } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
+import ErrorMessage from 'components/common/ErrorMessage';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 
 const cn = classNames.bind(styles);
 
@@ -20,6 +22,7 @@ interface MeetupCreationFormProp {
 
 const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const {
+    register,
     control,
     formState: { errors, isSubmitSuccessful },
     handleSubmit,
@@ -42,11 +45,22 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     return reset;
   }, [isSubmitSuccessful]);
 
+  const onSubmit = () => {};
+
   return (
-    <form className={cn('form')}>
+    <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('fields')}>
         <div className={cn('field')}>
-          <input className={cn('title')} placeholder="제목을 입력해 주세요" />
+          <FormInputWithErrorMessageWrapper>
+            <input
+              className={cn('title')}
+              placeholder="제목을 입력해 주세요"
+              {...register('title', {
+                required: true,
+              })}
+            />
+            {errors.title && <ErrorMessage message="제목을 입력하세요" />}
+          </FormInputWithErrorMessageWrapper>
         </div>
 
         <div className={cn('field')}>

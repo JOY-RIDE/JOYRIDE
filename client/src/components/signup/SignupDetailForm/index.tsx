@@ -4,7 +4,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/Signup';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
@@ -127,7 +127,7 @@ const SignupDetailForm = () => {
               maxLength: 10,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   placeholder="닉네임"
                   helpText={!isSubmitted && '닉네임 조건'}
@@ -142,7 +142,7 @@ const SignupDetailForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>
@@ -236,7 +236,7 @@ const SignupDetailForm = () => {
               maxLength: 30,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   placeholder="상태 메세지"
                   helpText={!isSubmitted && '상태 메세지 조건'}
@@ -251,7 +251,7 @@ const SignupDetailForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>
