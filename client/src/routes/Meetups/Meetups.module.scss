@@ -7,22 +7,6 @@
   align-items: center;
 }
 
-.create-btn {
-  color: $color-main;
-  font-weight: 700;
-  display: flex;
-  gap: 0.2rem;
-  align-items: center;
-
-  & svg {
-    font-size: 1.7rem;
-  }
-
-  & span {
-    text-decoration: underline;
-  }
-}
-
 .filter-order {
   display: flex;
   justify-content: space-between;

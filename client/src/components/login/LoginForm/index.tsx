@@ -5,7 +5,7 @@ import { isLoggedInState } from 'states/auth';
 import { toastMessageState } from 'states/common';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import CheckBox from 'components/common/CheckBox';
@@ -39,8 +39,8 @@ const LoginForm = () => {
     handleSubmit,
   } = useForm<LoginForm>({
     defaultValues: {
-      email: '',
-      password: '',
+      // email: '',
+      // password: '',
       isAuto: false,
     },
     reValidateMode: 'onBlur',
@@ -80,7 +80,7 @@ const LoginForm = () => {
             name="email"
             rules={{ required: true }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   type="email"
                   placeholder="이메일"
@@ -88,7 +88,7 @@ const LoginForm = () => {
                   {...field}
                 />
                 {errors.email && <ErrorMessage message="이메일을 입력하세요" />}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>
@@ -99,7 +99,7 @@ const LoginForm = () => {
             name="password"
             rules={{ required: true }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   type="password"
                   placeholder="비밀번호"
@@ -109,7 +109,7 @@ const LoginForm = () => {
                 {errors.password && (
                   <ErrorMessage message="비밀번호를 입력하세요" />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>

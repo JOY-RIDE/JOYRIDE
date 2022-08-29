@@ -3,18 +3,17 @@ import styles from './MeetupFilterBoardOptions.module.scss';
 import classNames from 'classnames/bind';
 import {
   AGES,
-  BICYCLE_TYPES,
+  BICYCLE_TYPE_OPTIONS,
   GENDERS,
   LOCATIONS,
-  MEETUP_PATH_DIFFICULTIES,
-  RIDING_SKILLS,
+  MEETUP_PATH_DIFFICULTY_OPTIONS,
+  RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
 import {
   stringifyAge,
   stringifyDifficulty,
   stringifyGender,
-  stringifyRidingSkill,
 } from 'utils/stringify';
 import { useCallback, useEffect } from 'react';
 import { FilterOptionData, FiltersReducerPayload } from 'types/common';
@@ -143,14 +142,14 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.pathDifficulty}
             onTextClick={handleClear}
           />
-          {MEETUP_PATH_DIFFICULTIES.map(difficulty => (
+          {MEETUP_PATH_DIFFICULTY_OPTIONS.map(option => (
             <OptionChip
-              key={difficulty}
+              key={option.value}
               type="default"
               filtersKey="pathDifficulty"
-              value={difficulty}
-              content={stringifyDifficulty(difficulty)}
-              isActive={difficulty === boardFilters.pathDifficulty?.value}
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.pathDifficulty?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -168,17 +167,17 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.bicycleTypes}
             onTextClick={handleClear}
           />
-          {BICYCLE_TYPES.map(type => (
+          {BICYCLE_TYPE_OPTIONS.map(option => (
             <OptionChip
-              key={type.toString()}
+              key={option.value}
               type="default"
               filtersKey="bicycleTypes"
-              value={type}
-              content={type}
+              value={option.value}
+              content={option.content}
               isActive={
                 boardFilters.bicycleTypes &&
                 boardFilters.bicycleTypes.some(
-                  (data: FilterOptionData) => data.value === type
+                  (data: FilterOptionData) => data.value === option.value
                 )
               }
               onTextClick={handleChoose}
@@ -189,24 +188,23 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        {/* TODO: fix */}
         <label className={cn('label')}>라이딩 실력</label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
-            filtersKey="minRidingSkill"
+            filtersKey="ridingSkill"
             content="전체"
-            isActive={!boardFilters.minRidingSkill}
+            isActive={!boardFilters.ridingSkill}
             onTextClick={handleClear}
           />
-          {RIDING_SKILLS.map(skill => (
+          {RIDING_SKILL_OPTIONS.map(option => (
             <OptionChip
-              key={skill}
+              key={option.value}
               type="default"
-              filtersKey="minRidingSkill"
-              value={skill}
-              content={stringifyRidingSkill(skill)}
-              isActive={skill === boardFilters.minRidingSkill?.value}
+              filtersKey="ridingSkill"
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.ridingSkill?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />

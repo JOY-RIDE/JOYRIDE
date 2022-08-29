@@ -39,18 +39,22 @@ const MeetupInfo = (props: Meetup) => (
         <div className={cn('detail')}>
           <label className={cn('label')}>자전거 종류</label>
           <ul className={cn('data')}>
-            {props.bicycleTypes.map((type, index) => (
-              <li key={index} className={cn('emphasized')}>
-                {type}
-              </li>
-            ))}
+            {props.bicycleTypes ? (
+              props.bicycleTypes.map((type, index) => (
+                <li key={index} className={cn('emphasized')}>
+                  {type}
+                </li>
+              ))
+            ) : (
+              <span className={cn('emphasized')}>전체</span>
+            )}
           </ul>
         </div>
         <div className={cn('detail')}>
           <label className={cn('label')}>라이딩 실력</label>
           <ul className={cn('data')}>
             <li className={cn('emphasized')}>
-              {stringifyRidingSkill(props.minRidingSkill)}
+              {stringifyRidingSkill(props.ridingSkill)}
             </li>
           </ul>
         </div>
@@ -58,7 +62,7 @@ const MeetupInfo = (props: Meetup) => (
           <label className={cn('label')}>인원</label>
           <div className={cn('data')}>
             <span className={cn('emphasized')}>
-              {props.participants.length}
+              {props.participants ? props.participants.length : 0}
             </span>
             /{props.maxNumOfParticipants}명
           </div>
@@ -66,7 +70,12 @@ const MeetupInfo = (props: Meetup) => (
       </div>
     </div>
 
-    <img className={cn('img')} src={props.image} alt={props.title} />
+    {/* TODO: 기본 이미지 */}
+    <img
+      className={cn('img')}
+      src={props.image ? props.image : undefined}
+      alt={props.title}
+    />
   </div>
 );
 

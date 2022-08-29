@@ -11,10 +11,10 @@ export function getMeetupsOrderedBy(name: MeetupOrderName, meetups: Meetup[]) {
       return newMeetups.sort((a, b) => a[name] - b[name]);
     case '-pathDifficulty':
       return newMeetups.sort((a, b) => b.pathDifficulty - a.pathDifficulty);
-    case 'minRidingSkill':
+    case 'ridingSkill':
       return newMeetups.sort((a, b) => a[name] - b[name]);
-    case '-minRidingSkill':
-      return newMeetups.sort((a, b) => b.minRidingSkill - a.minRidingSkill);
+    case '-ridingSkill':
+      return newMeetups.sort((a, b) => b.ridingSkill - a.ridingSkill);
     case 'maxNumOfParticipants':
       return newMeetups.sort((a, b) => a[name] - b[name]);
     case '-maxNumOfParticipants':

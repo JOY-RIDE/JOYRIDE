@@ -1,11 +1,10 @@
-import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/Signup';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
@@ -15,6 +14,7 @@ import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
 import { signupFormDataState } from 'states/auth';
+import { BICYCLE_TYPE_OPTIONS } from 'utils/constants';
 
 const cn = classNames.bind(styles);
 
@@ -31,10 +31,6 @@ interface SelectButtonProps {
   content: string;
   contentEng: string;
 }
-interface SelectListOption {
-  value: string;
-  content: string;
-}
 
 // Variables
 const genderOptions: SelectButtonProps[] = [
@@ -48,10 +44,6 @@ const ageOptions: SelectButtonProps[] = [
   { value: '4', content: '40대', contentEng: 'forty' },
   { value: '5', content: '50대 이상', contentEng: 'fifty' },
 ];
-const bicycleTypeOptions: SelectListOption[] = BICYCLE_TYPES.map(type => ({
-  value: type,
-  content: type,
-}));
 
 const SignupDetailForm = () => {
   const {
@@ -61,11 +53,10 @@ const SignupDetailForm = () => {
     setError,
   } = useForm<SignupDetailForm>({
     defaultValues: {
-      nickname: '',
-      gender: '',
-      age: '',
-      bicycleType: '',
-      message: '',
+      // nickname: '',
+      // gender: '',
+      // age: '',
+      // bicycleType: '',
     },
     // reValidateMode: 'onBlur',
   });
@@ -136,7 +127,7 @@ const SignupDetailForm = () => {
               maxLength: 10,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   placeholder="닉네임"
                   helpText={!isSubmitted && '닉네임 조건'}
@@ -151,7 +142,7 @@ const SignupDetailForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>
@@ -225,7 +216,7 @@ const SignupDetailForm = () => {
             name="bicycleType"
             render={({ field }) => (
               <SelectList
-                options={bicycleTypeOptions}
+                options={BICYCLE_TYPE_OPTIONS}
                 label="자전거 종류"
                 {...field}
               />
@@ -245,7 +236,7 @@ const SignupDetailForm = () => {
               maxLength: 30,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   placeholder="상태 메세지"
                   helpText={!isSubmitted && '상태 메세지 조건'}
@@ -260,7 +251,7 @@ const SignupDetailForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>

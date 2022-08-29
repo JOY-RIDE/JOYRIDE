@@ -3,7 +3,7 @@ import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/Signup';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
+import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import { REGEX } from 'utils/constants';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -31,9 +31,9 @@ const SignupBasicForm = () => {
   } = useForm<SignupBasicForm>({
     // TODO: yup
     defaultValues: {
-      email: '',
-      password: '',
-      passwordConfirm: '',
+      // email: '',
+      // password: '',
+      // passwordConfirm: '',
     },
     // reValidateMode: 'onBlur',
   });
@@ -83,7 +83,7 @@ const SignupBasicForm = () => {
               pattern: REGEX.email,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   placeholder="이메일"
                   hasError={Boolean(errors.email)}
@@ -97,7 +97,7 @@ const SignupBasicForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>
@@ -115,7 +115,7 @@ const SignupBasicForm = () => {
               pattern: REGEX.password,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   type="password"
                   placeholder="비밀번호"
@@ -131,7 +131,7 @@ const SignupBasicForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>
@@ -148,7 +148,7 @@ const SignupBasicForm = () => {
               validate: passwordConfirm => passwordConfirm === password,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
+              <FormInputWithErrorMessageWrapper>
                 <AuthFormInput
                   type="password"
                   placeholder="비밀번호 확인"
@@ -163,7 +163,7 @@ const SignupBasicForm = () => {
                     )}
                   />
                 )}
-              </AuthFormInputWithErrorMessageWrapper>
+              </FormInputWithErrorMessageWrapper>
             )}
           />
         </div>

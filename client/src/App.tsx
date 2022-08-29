@@ -17,11 +17,16 @@ import PublicRoute from 'components/common/PublicRoute';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { MAIN_COLOR } from 'utils/constants';
+import { Theme as MuiTheme } from '@mui/material/styles';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
+
+declare module '@emotion/react' {
+  export interface Theme extends MuiTheme {}
+}
 
 const theme = createTheme({
   typography: {

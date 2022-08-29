@@ -1,3 +1,8 @@
+export interface Option<V> {
+  value: V;
+  content: string;
+}
+
 export type Location =
   | '서울'
   | '인천'
