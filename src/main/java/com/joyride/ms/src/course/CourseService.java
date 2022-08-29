@@ -28,7 +28,7 @@ public class CourseService {
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
-    public List<GetCourseListRes> createCourseList() throws BaseException {
+    public List<GetCourseListRes> callCourseList() throws BaseException {
         try {
             int check = courseDao.existsCourse("고락산 둘레길");
 
