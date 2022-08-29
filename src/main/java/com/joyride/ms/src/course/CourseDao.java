@@ -1,9 +1,6 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.CourseInfo;
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.GetCourseReviewRes;
-import com.joyride.ms.src.course.model.PostCourseReviewReq;
+import com.joyride.ms.src.course.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,6 +20,7 @@ public class CourseDao {
                 checkTitleParams);
     }
 
+    // 코스 리스트 조회
     public List<GetCourseListRes> selectCourseList(){
         String getCourserListQuery = "select id,title,course_img_url,content,summary," +
                 "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at from course";
@@ -45,6 +43,12 @@ public class CourseDao {
                 ));
     }
 
+    public int countCourseLike(int courseId){
+        String countCourseLikeQuery = "select count(*) from courselike where id = ?";
+        int countCourseLikeParams = courseId;
+        return this.jdbcTemplate.queryForObject(countCourseLikeQuery, Integer.class, courseId);
+    }
+
     public void insertCourse(CourseInfo courseInfo){
 
         String createCourseListQuery = "insert into course (title, course_img_url, content, summary, tour_point, travelerinfo, distance, " +
@@ -57,6 +61,42 @@ public class CourseDao {
         this.jdbcTemplate.update(createCourseListQuery, createCourseListParams);
     }
 
+    // 코스 디테일 정보
+    public GetCourseRes selectCourse(int course_id){
+        String getCourseQuery = "select id,title,course_img_url,content,summary," +
+                "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at " +
+                "from course where id = ?";
+
+        int getCourseParams = course_id;
+        //db정보 가져오기
+        return this.jdbcTemplate.queryForObject(getCourseQuery,
+                (rs,rowNum) -> GetCourseRes.createGetCourseRes(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("course_img_url"),
+                        rs.getString("content"),
+                        rs.getString("summary"),
+                        rs.getString("tour_point"),
+                        rs.getString("travelerinfo"),
+                        rs.getDouble("distance"),
+                        rs.getInt("difficulty"),
+                        rs.getString("sigun"),
+                        rs.getDouble("required_at"),
+                        rs.getString("created_at"),
+                        rs.getString("updated_at")
+                ), getCourseParams);
+    }
+    
+    //코스 좋아요 유저 아이디 조회
+    public List<Integer> selectUserIdByCourseId(int course_id) {
+        String selectUserIdByCourseIdQuery = "select user_id from courselike where course_id = ?";
+
+        int selectUserIdByCourseIdParams = course_id;
+        //db정보 가져오기
+        return this.jdbcTemplate.query(selectUserIdByCourseIdQuery,
+                (rs,rowNum) -> rs.getInt("user_id"),
+                selectUserIdByCourseIdParams);
+    }
     // 리뷰 생성 Dao
     public int insertCourseReview(PostCourseReviewReq postCourseReviewReq, double totalRate){
 

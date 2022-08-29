@@ -48,6 +48,8 @@ public class GetCourseListRes {
 
     private String updated_at;
 
+    private int likeCount;
+
     //==생성 메서드==//
     public static GetCourseListRes  createGetCourseListRes(int id, String crsKorNm, String image, String crsContents, String crsSummary, String crsTourInfo,
                                                            String travelerinfo, double crsDstnc, int crsLevel, String sigun,

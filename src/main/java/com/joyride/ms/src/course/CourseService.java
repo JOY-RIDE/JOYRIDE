@@ -19,7 +19,7 @@ import java.util.List;
 import static com.joyride.ms.util.BaseResponseStatus.*;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class CourseService {
 
@@ -28,7 +28,6 @@ public class CourseService {
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
-    @Transactional
     public List<GetCourseListRes> createCourseList() throws BaseException {
         try {
             int check = courseDao.existsCourse("고락산 둘레길");
@@ -102,7 +101,6 @@ public class CourseService {
     }
 
     // 리뷰작성 service
-    @Transactional
     public PostCourseReviewRes createCourseReview(PostCourseReviewReq postCourseReviewReq) throws BaseException {
 
         try{
@@ -117,6 +115,7 @@ public class CourseService {
     }
 
     //totalRate 계산 메소드
+    @Transactional(readOnly = true)
     public Double calculateTotalRate(PostCourseReviewReq postCourseReviewReq) throws BaseException {
         try{
             double sum = postCourseReviewReq.getAccessibility_rate() + postCourseReviewReq.getFacilities_rate() +
@@ -131,7 +130,6 @@ public class CourseService {
     }
 
     //리뷰 삭제 api
-    @Transactional
     public DeleteCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
 
         // 유저확인 로직 필요
@@ -153,7 +151,6 @@ public class CourseService {
      */
 
     //코스 좋아요 생성
-    @Transactional
     public PostCourseLikeRes createCourseLike(int user_id, int course_id) throws BaseException {
 
         // 유저확인 로직 필요
@@ -167,7 +164,6 @@ public class CourseService {
     }
 
     //코스 좋아요 삭제
-    @Transactional
     public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
 
         // 유저확인 로직 필요
