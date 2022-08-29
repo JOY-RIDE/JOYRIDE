@@ -49,6 +49,7 @@ export interface Meetup {
 //   | 'gender'
 //   | 'ages'
 //   | 'isParticipationFree';
+// TODO: refactor
 export interface MeetupFiltersState {
   location?: any;
   pathDifficulty?: any;
@@ -71,4 +72,18 @@ export interface MeetupFiltersState {
 //   ages?: number[];
 //   isParticipationFree?: boolean;
 // }
-export type MeetupOrderName = '-createdAt' | 'meetingDate';
+
+export type MeetupOrderName =
+  | '-createdAt'
+  | 'meetingDate'
+  | 'pathDifficulty'
+  | '-pathDifficulty'
+  | 'minRidingSkill'
+  | '-minRidingSkill'
+  | 'maxNumOfParticipants'
+  | '-maxNumOfParticipants'
+  | 'participationFee';
+export interface MeetupOrderState {
+  name: MeetupOrderName;
+  content: string;
+}

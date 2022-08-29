@@ -92,8 +92,4 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-
-
-
 }

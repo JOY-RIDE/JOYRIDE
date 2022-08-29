@@ -12,15 +12,14 @@ import MeetupFilterBoardOptions from '../MeetupFilterBoardOptions';
 const cn = classNames.bind(styles);
 
 interface MeetupFilterBoardProp {
-  closeBoard: () => void;
+  close: () => void;
 }
 
-const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
+const MeetupFilterBoard = ({ close }: MeetupFilterBoardProp) => {
   const { filters: boardFilters, handleReset } = useClientFilter(
     meetupBoardFiltersState,
     MEETUP_FILTERS_REDUCERS
   );
-
   console.log(boardFilters);
 
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -35,7 +34,7 @@ const MeetupFilterBoard = ({ closeBoard }: MeetupFilterBoardProp) => {
       return;
     }
     setFilters(boardFilters);
-    closeBoard();
+    close();
   };
 
   return (

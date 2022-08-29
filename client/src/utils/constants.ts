@@ -1,4 +1,8 @@
-import { MeetupBicycleType, MeetupPathDifficulty } from 'types/meetup';
+import {
+  MeetupBicycleType,
+  MeetupOrderState,
+  MeetupPathDifficulty,
+} from 'types/meetup';
 import { Age, Gender, Location, RidingSkill } from 'types/common';
 
 export const MAIN_COLOR = '#22b573';
@@ -24,6 +28,7 @@ export const LOCATIONS: Location[] = [
   '경남',
   '제주',
 ];
+
 export const BICYCLE_TYPES: MeetupBicycleType[] = [
   '따릉이',
   'MTB',
@@ -35,3 +40,18 @@ export const BICYCLE_TYPES: MeetupBicycleType[] = [
 export const RIDING_SKILLS: RidingSkill[] = [1, 2, 3];
 
 export const MEETUP_PATH_DIFFICULTIES: MeetupPathDifficulty[] = [1, 2, 3];
+
+interface MeetupOrderOption extends MeetupOrderState {
+  sign?: string;
+}
+export const MEETUP_ORDER_OPTIONS: MeetupOrderOption[] = [
+  { name: '-createdAt', content: '최근 등록순' },
+  { name: 'meetingDate', content: '모임 빠른순' },
+  { name: 'pathDifficulty', content: '난이도 낮은순', sign: '△' },
+  { name: '-pathDifficulty', content: '난이도 높은순', sign: '▽' },
+  { name: 'minRidingSkill', content: '실력 낮은순', sign: '△' },
+  { name: '-minRidingSkill', content: '실력 높은순', sign: '▽' },
+  { name: 'maxNumOfParticipants', content: '인원 적은순', sign: '△' },
+  { name: '-maxNumOfParticipants', content: '인원 많은순', sign: '▽' },
+  { name: 'participationFee', content: '참가비 적은순' },
+];

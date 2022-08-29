@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { MeetupFiltersState, MeetupOrderName } from 'types/meetup';
+import { MeetupFiltersState, MeetupOrderState } from 'types/meetup';
 
 export const MEETUP_FILTERS_INITIAL_STATE = {
   minNumOfParticipants: { value: 0, content: '0' },
@@ -15,7 +15,7 @@ export const meetupBoardFiltersState = atom<MeetupFiltersState>({
   default: MEETUP_FILTERS_INITIAL_STATE,
 });
 
-export const meetupOrderState = atom<MeetupOrderName>({
+export const meetupOrderState = atom<MeetupOrderState>({
   key: 'meetupOrder',
-  default: '-createdAt',
+  default: { name: '-createdAt', content: '최근 등록순' },
 });
