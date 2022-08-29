@@ -22,6 +22,11 @@ public class CourseProvider {
     public List<GetCourseListRes> retrieveCourseList() throws BaseException {
         try{
             List<GetCourseListRes> getCourseListRes = courseDao.selectCourseList();
+            for (int i = 0; i < getCourseListRes.size(); i++) {
+                int courseId = getCourseListRes.get(i).getId();
+                int likeCount = courseDao.countCourseLike(courseId);
+                getCourseListRes.get(i).setLikeCount(likeCount);
+            }
             return getCourseListRes;
         }
         catch (Exception exception) {
