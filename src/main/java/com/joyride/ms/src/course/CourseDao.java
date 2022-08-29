@@ -50,11 +50,11 @@ public class CourseDao {
         String createCourseListQuery = "insert into course (title, course_img_url, content, summary, tour_point, travelerinfo, distance, " +
                 "difficulty, sigun, required_at, brdDiv) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-        Object[] createUserParams = new Object[]{courseInfo.getCrsKorNm(), courseInfo.getImage(),
+        Object[] createCourseListParams = new Object[]{courseInfo.getCrsKorNm(), courseInfo.getImage(),
                 courseInfo.getCrsContents(), courseInfo.getCrsSummary(), courseInfo.getCrsTourInfo(), courseInfo.getTravelerinfo(),
                 courseInfo.getCrsDstnc(), courseInfo.getCrsLevel(), courseInfo.getSigun(),
                 courseInfo.getRequired_at(), courseInfo.getBrdDiv()};
-        this.jdbcTemplate.update(createCourseListQuery, createUserParams);
+        this.jdbcTemplate.update(createCourseListQuery, createCourseListParams);
     }
 
     // 리뷰 생성 Dao
@@ -126,5 +126,36 @@ public class CourseDao {
                 existsCourseReviewParams);
     }
 
+    /**
+     * 코스 좋아요
+     */
+    public int insertCourseLike(int user_id, int course_id){
+
+        String createCourseLikeQuery = "insert into courselike (user_id, course_id) VALUES (?,?)";
+
+        Object[] createCourseLikeParams = new Object[]{user_id, course_id};
+        this.jdbcTemplate.update(createCourseLikeQuery, createCourseLikeParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
+    }
+
+    //좋아요 삭제
+
+    public void deleteByCourseLikeId(int courseLike_id){
+
+        String deleteByCourseLikeIdQuery = "delete from courselike where id = ?";
+        int deleteByCourseLikeIdParams = courseLike_id;
+
+        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
+    }
+
+    public int existsCourseLike(int courseLike_id) {
+        String existsCourseLikeQuery = "select exists(select id from courselike where id = ?)";
+        int existsCourseLikeParams = courseLike_id;
+        return this.jdbcTemplate.queryForObject(existsCourseLikeQuery,
+                int.class,
+                existsCourseLikeParams);
+    }
 
 }

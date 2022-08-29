@@ -60,6 +60,7 @@ public enum BaseResponseStatus {
 
     //500
    COURSE_REVIEW_NOT_EXISTS(false, 2500, "해당 코스리뷰가 없습니다."),
+    COURSE_LIKE_NOT_EXISTS(false, 2501, "코스 좋아요가 없습니다."),
 
     /**
      * 3000 : Response 오류

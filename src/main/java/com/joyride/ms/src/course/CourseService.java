@@ -16,8 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.joyride.ms.util.BaseResponseStatus.COURSE_REVIEW_NOT_EXISTS;
-import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
+import static com.joyride.ms.util.BaseResponseStatus.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -133,7 +132,7 @@ public class CourseService {
 
     //리뷰 삭제 api
     @Transactional
-    public PatchCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
+    public DeleteCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
 
         // 유저확인 로직 필요
         int existsCourseReview = courseDao.existsCourseReview(courseReview_id);
@@ -143,7 +142,43 @@ public class CourseService {
         try{
            courseDao.deleteByCourseReviewId(courseReview_id);
             String message = "리뷰 삭제에 성공했습니다.";
-            return new PatchCourseReviewRes(message);
+            return new DeleteCourseReviewRes(message);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /**
+     * 코스 좋아요
+     */
+
+    //코스 좋아요 생성
+    @Transactional
+    public PostCourseLikeRes createCourseLike(int user_id, int course_id) throws BaseException {
+
+        // 유저확인 로직 필요
+        try{
+            int likeId = courseDao.insertCourseLike(user_id, course_id);
+            return new PostCourseLikeRes(likeId);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //코스 좋아요 삭제
+    @Transactional
+    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
+
+        // 유저확인 로직 필요
+        int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
+        if (existsCourseLike == 0) {
+            throw new BaseException(COURSE_LIKE_NOT_EXISTS);
+        }
+        try{
+            courseDao.deleteByCourseLikeId(courseLike_id);
+            String message = "좋아요 삭제에 성공했습니다.";
+            return new DeleteCourseLikeRes(message);
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
         }
