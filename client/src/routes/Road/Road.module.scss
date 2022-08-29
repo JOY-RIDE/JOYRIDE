@@ -9,22 +9,7 @@
 
 .head {
   display: flex;
-  gap: 4rem;
-  .right {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    padding-top: 2.4rem;
-    text-align: center;
-    font-size: 2.7rem;
-    color: $color-red;
-    .likecnt {
-      font-size: 1rem;
-      line-height: 1.2rem;
-      color: $color-grey-800;
-      font-weight: 400;
-    }
-  }
+  gap: 2rem;
 }
 
 .title-sigun {

@@ -13,7 +13,7 @@ import OptionChip from 'components/common/OptionChip';
 import { useRecoilValue } from 'recoil';
 import {
   stringifyAge,
-  stringifyDifficulty,
+  stringifyMeetupDifficulty,
   stringifyGender,
   stringifyRidingSkill,
 } from 'utils/stringify';
@@ -152,7 +152,7 @@ const MeetupFilterBoardOptions = () => {
               type="normal"
               filtersKey="pathDifficulty"
               value={difficulty}
-              content={stringifyDifficulty(difficulty)}
+              content={stringifyMeetupDifficulty(difficulty)}
               isChosen={difficulty === boardFilters.pathDifficulty?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}

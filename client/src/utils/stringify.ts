@@ -31,9 +31,20 @@ export function stringifyAge(age: Age) {
   }
 }
 
-export function stringifyDifficulty(
-  difficulty: CourseDifficulty | MeetupPathDifficulty
-) {
+export function stringifyCourseDifficulty(difficulty: CourseDifficulty) {
+  switch (difficulty) {
+    case '1':
+      return '하';
+    case '2':
+      return '중';
+    case '3':
+      return '상';
+    default:
+      throw new Error();
+  }
+}
+
+export function stringifyMeetupDifficulty(difficulty: MeetupPathDifficulty) {
   switch (difficulty) {
     case 1:
       return '하';

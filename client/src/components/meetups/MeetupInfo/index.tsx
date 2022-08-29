@@ -1,6 +1,6 @@
 import { Meetup } from 'types/meetup';
 import {
-  stringifyDifficulty,
+  stringifyMeetupDifficulty,
   stringifyDate,
   stringifyRidingSkill,
 } from 'utils/stringify';
@@ -33,7 +33,7 @@ const MeetupInfo = (props: Meetup) => (
         <div className={cn('detail')}>
           <label className={cn('label')}>코스 난이도</label>
           <span className={cn('data', 'emphasized')}>
-            {stringifyDifficulty(props.pathDifficulty)}
+            {stringifyMeetupDifficulty(props.pathDifficulty)}
           </span>
         </div>
         <div className={cn('detail')}>

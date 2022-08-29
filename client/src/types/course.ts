@@ -1,21 +1,20 @@
 export type CourseLevel = 1 | 2 | 3;
 
 export interface IRoad {
-  id: number;
-  crsContents: string;
-  crsDstnc: number;
+  crsIdx: string;
   crsKorNm: string;
-  crsLevel: CourseLevel;
-  crsSummary: string;
+  crsDstnc: number;
   crsTotlRqrmHour: number;
+  crsLevel: CourseDifficulty;
+  crsContents: string;
+  crsSummary: string;
   crsTourInfo: string;
+  travelerinfo: string;
   sigun: string;
-  image: null;
-  travelerinfo: number;
-  created_at: string;
-  updated_at: string;
-  required_at: number;
+  brdDiv: string;
+  createdtime: number;
+  modifiedtime: number;
 }
 
 export type CourseName = string;
-export type CourseDifficulty = 1 | 2 | 3;
+export type CourseDifficulty = '1' | '2' | '3';

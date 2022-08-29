@@ -12,7 +12,7 @@ import Paging from 'components/common/Paging';
 import SortBox from 'components/roads/SortBox';
 import _ from 'lodash';
 import { CoursePageState } from 'states/common';
-import { stringifyDifficulty } from 'utils/stringify';
+import { stringifyCourseDifficulty } from 'utils/stringify';
 import { stringifyCourseHours } from 'utils/stringify';
 import { IRoad } from 'types/course';
 
@@ -20,7 +20,8 @@ const cn = classNames.bind(styles);
 
 const Roads = () => {
   const { isLoading, data } = useQuery<IRoad[]>('allCourses', fetchCourses);
-  const RoadsData = _.uniqBy(data, 'crsKorNm');
+  const filteredData = _.uniqBy(data, 'crsKorNm');
+  const RoadsData = _.filter(filteredData, { brdDiv: 'DNBW' });
 
   let RoadsData1 = [...RoadsData];
   RoadsData1.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
@@ -31,7 +32,6 @@ const Roads = () => {
   const LIMIT = 5;
   const [page, setPage] = useRecoilState(CoursePageState);
   const offset = (page - 1) * LIMIT;
-  console.log(page);
 
   return (
     <section className={styles.roads}>
@@ -50,8 +50,8 @@ const Roads = () => {
           </div>
           <ul className={cn('contents')}>
             {RoadsData1?.slice(offset, offset + LIMIT).map(road => (
-              <li className={cn('content')} key={road.id}>
-                <Link to={`${road.id}`} state={{ id: road.id }}>
+              <li className={cn('content')} key={road.crsIdx}>
+                <Link to={`${road.crsKorNm}`} state={{ name: road.crsKorNm }}>
                   {/* 사진 있을시
                   <div className={cn('top')}>
                     <img
@@ -68,14 +68,14 @@ const Roads = () => {
                     <p className={cn('info')}>
                       <span className={cn('dstnc')}>{road.crsDstnc}km </span>
                       <span className={cn('hour')}>
-                        {stringifyCourseHours(road.required_at)}
+                        {stringifyCourseHours(road.crsTotlRqrmHour)}
                       </span>
                     </p>
                     <p className={cn('info2')}>
                       <span className={cn('level')}>
                         <span className={cn('type')}>난이도</span>{' '}
                         <span className={cn('value')}>
-                          {stringifyDifficulty(road.crsLevel)}
+                          {stringifyCourseDifficulty(road.crsLevel)}
                         </span>
                       </span>
                       ·
