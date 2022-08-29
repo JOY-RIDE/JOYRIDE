@@ -1,10 +1,12 @@
 package com.joyride.ms.src.course;
 
 import com.joyride.ms.src.course.model.GetCourseListRes;
+import com.joyride.ms.src.course.model.GetCourseRes;
 import com.joyride.ms.src.course.model.GetCourseReviewRes;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CourseProvider {
 
     private final CourseDao courseDao;
@@ -39,5 +42,24 @@ public class CourseProvider {
         }
     }
 
+    public GetCourseRes retrieveCourse(int course_id) throws BaseException {
+        try{
+            GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
+
+            // 좋아요한 userId
+            List<Integer> userIdList = courseDao.selectUserIdByCourseId(course_id);
+            getCourseRes.setUserIdList(userIdList);
+
+            // 코스 리뷰들
+            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
+            getCourseRes.setGetCourseReviewRes(getCourseReviewRes);
+
+            return getCourseRes;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
 }

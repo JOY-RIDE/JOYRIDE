@@ -26,6 +26,17 @@ public class CourseController {
         }
     }
 
+    // 코스 디테일 조회 api
+    @GetMapping("/{course_id}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("course_id") int course_id){
+        try{
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(course_id);
+            return new BaseResponse<>(getCourseRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     // 리뷰작성 api
     @PostMapping("/review")
     public BaseResponse<PostCourseReviewRes> PostCourseReview(@RequestBody PostCourseReviewReq postCourseReviewReq){
