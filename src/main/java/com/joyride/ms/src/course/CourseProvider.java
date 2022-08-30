@@ -3,6 +3,7 @@ package com.joyride.ms.src.course;
 import com.joyride.ms.src.course.model.GetCourseListRes;
 import com.joyride.ms.src.course.model.GetCourseRes;
 import com.joyride.ms.src.course.model.GetCourseReviewRes;
+import com.joyride.ms.src.course.model.GetFilteringCourseReq;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -41,6 +42,7 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     // 코스 디테일 조회 api
     public GetCourseRes retrieveCourse(String title) throws BaseException {
         try{
