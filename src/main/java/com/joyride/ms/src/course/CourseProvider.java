@@ -19,33 +19,40 @@ import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 public class CourseProvider {
 
     private final CourseDao courseDao;
-    private final CourseService courseService;
+    private final CallApi callApi;
 
     // 코스 리스트 조회 api
     public List<GetCourseListRes> retrieveCourseList() throws BaseException {
         try {
 
-            JSONArray courseArr = courseService.callCourseAPI();
-            List<GetCourseListRes> courseList = courseService.createCourseList(courseArr);
+            JSONArray courseArr = callApi.callCourseAPI();
+            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+
+            // 좋아요 수 넣어주기
+            for (int i = 0; i < courseList.size(); i++) {
+                String courseId = courseList.get(i).getId();
+                int likeCount = retrieveCourseLikeCount(courseId);
+                courseList.get(i).setLikeCount(likeCount);
+            }
             return courseList;
         }
         catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
     // 코스 디테일 조회 api
-    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
+    public GetCourseRes retrieveCourse(String title) throws BaseException {
         try{
-            JSONArray courseArr = courseService.callCourseAPI(course_id);
-            //코스 디테일은 디테일 시에만 쓴느 거니까 따로 만들어야겠다.
-            GetCourseRes course = courseService.createCourse(courseArr);
+            JSONArray courseArr = callApi.callCourseAPI(title);
+            GetCourseRes course = GetCourseRes.createCourse(courseArr);
 
-            String courseId = course.getId();
             // 좋아요한 userId
+            String courseId = course.getId();
             List<Integer> userIdList = courseDao.selectUserIdByCourseId(courseId);
             course.setUserIdList(userIdList);
 
-            // 코스 리뷰들
+            // 코스 리뷰
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseId);
             course.setGetCourseReviewRes(getCourseReviewRes);
 
@@ -56,42 +63,6 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-//    // 코스 디테일 조회 api
-//    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
-//        try{
-//            GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
-//
-//            // 좋아요한 userId
-//            List<Integer> userIdList = courseDao.selectUserIdByCourseId(course_id);
-//            getCourseRes.setUserIdList(userIdList);
-//
-//            // 코스 리뷰들
-//            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
-//            getCourseRes.setGetCourseReviewRes(getCourseReviewRes);
-//
-//            return getCourseRes;
-//        }
-//        catch (Exception exception) {
-//            exception.printStackTrace();
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
-
-//    public List<GetCourseListRes> retrieveCourseList() throws BaseException {
-//        try{
-//            List<GetCourseListRes> getCourseListRes = courseDao.selectCourseList();
-//            for (int i = 0; i < getCourseListRes.size(); i++) {
-//                String courseId = getCourseListRes.get(i).getId();
-//                int likeCount = courseDao.countCourseLike(courseId);
-//                getCourseListRes.get(i).setLikeCount(likeCount);
-//            }
-//            return getCourseListRes;
-//        }
-//        catch (Exception exception) {
-//            exception.printStackTrace();
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
 
     // 코스 좋아요 수 조회
     public int retrieveCourseLikeCount(String courseId) throws BaseException {
@@ -105,7 +76,7 @@ public class CourseProvider {
         }
     }
 
-    // 리뷰 조회 provider
+    // 리뷰 조회
     public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(String course_id) throws BaseException {
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);

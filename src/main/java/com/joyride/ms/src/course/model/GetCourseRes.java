@@ -1,8 +1,13 @@
 package com.joyride.ms.src.course.model;
 
+import com.joyride.ms.util.BaseException;
 import lombok.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.List;
+
+import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 
 @Getter
 @Setter
@@ -83,6 +88,35 @@ public class GetCourseRes {
 
 
         return getCourseRes;
+    }
+
+    // 반환 디테일 코스를 만들어 주는 메소드
+    public static GetCourseRes createCourse(JSONArray courseArr) throws BaseException {
+        try {
+            JSONObject course = (JSONObject)courseArr.get(0);
+
+            String crsIdx = (String)course.get("crsIdx");
+            String crsKorNm = (String)course.get("crsKorNm");
+            String crsContents = (String)course.get("crsContents");
+            String crsSummary = (String)course.get("crsSummary");
+            String crsTourInfo = (String)course.get("crsTourInfo");
+            String travelerinfo = (String)course.get("travelerinfo");
+            String crsDstncStr = (String)course.get("crsDstnc");
+            double crsDstnc = Double.parseDouble(crsDstncStr);
+            String crsLevelStr = (String)course.get("crsLevel");
+            int crsLevel = Integer.parseInt(crsLevelStr);
+            String sigun = (String)course.get("sigun");
+            String crsTotlRqrmHourStr = (String)course.get("crsTotlRqrmHour");
+            double crsTotlRqrmHour = Double.parseDouble(crsTotlRqrmHourStr);
+
+            // 일단 이미지는 없다고 생각하고.
+            GetCourseRes getCourseRes = GetCourseRes.createGetCourseRes(crsIdx, crsKorNm, crsContents, crsSummary,
+                    crsTourInfo, travelerinfo, crsDstnc, crsLevel, sigun, crsTotlRqrmHour);
+            return getCourseRes;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 
 }
