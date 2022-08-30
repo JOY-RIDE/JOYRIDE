@@ -42,7 +42,28 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    // 코스 필터링 조회
+    public List<GetCourseListRes> retrieveCourseList(GetFilteringCourseReq getFilteringCourseReq) throws BaseException {
+        try {
+            String sigun = getFilteringCourseReq.getSigun();
+            String level = getFilteringCourseReq.getLevel();
 
+            JSONArray courseArr = callApi.callCourseAPI(sigun, level);
+            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+
+            // 좋아요 수 넣어주기
+            for (int i = 0; i < courseList.size(); i++) {
+                String courseId = courseList.get(i).getId();
+                int likeCount = retrieveCourseLikeCount(courseId);
+                courseList.get(i).setLikeCount(likeCount);
+            }
+            return courseList;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     // 코스 디테일 조회 api
     public GetCourseRes retrieveCourse(String title) throws BaseException {
         try{
