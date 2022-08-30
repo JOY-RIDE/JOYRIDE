@@ -20,6 +20,7 @@ public class CourseDao {
                 checkTitleParams);
     }
 
+    // 코스 리스트 조회
     public List<GetCourseListRes> selectCourseList(){
         String getCourserListQuery = "select id,title,course_img_url,content,summary," +
                 "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at from course";
@@ -40,6 +41,12 @@ public class CourseDao {
                         rs.getString("created_at"),
                         rs.getString("updated_at")
                 ));
+    }
+
+    public int countCourseLike(int courseId){
+        String countCourseLikeQuery = "select count(*) from courselike where id = ?";
+        int countCourseLikeParams = courseId;
+        return this.jdbcTemplate.queryForObject(countCourseLikeQuery, Integer.class, courseId);
     }
 
     public void insertCourse(CourseInfo courseInfo){
