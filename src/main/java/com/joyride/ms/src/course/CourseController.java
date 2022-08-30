@@ -19,7 +19,7 @@ public class CourseController {
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
-            List<GetCourseListRes> getCourseListRes = courseService.callCourseList();
+            List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
             return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -27,10 +27,10 @@ public class CourseController {
     }
 
     // 코스 디테일 조회 api
-    @GetMapping("/{course_id}")
-    public BaseResponse<GetCourseRes> getCourse(@PathVariable("course_id") String course_id){
+    @GetMapping("/{title}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title){
         try{
-            GetCourseRes getCourseRes = courseProvider.retrieveCourse(course_id);
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title);
             return new BaseResponse<>(getCourseRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
