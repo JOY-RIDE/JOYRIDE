@@ -33,6 +33,49 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+    // 코스 디테일 조회 api
+    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
+        try{
+            JSONArray courseArr = courseService.callCourseAPI(course_id);
+            //코스 디테일은 디테일 시에만 쓴느 거니까 따로 만들어야겠다.
+            GetCourseRes course = courseService.createCourse(courseArr);
+
+            String courseId = course.getId();
+            // 좋아요한 userId
+            List<Integer> userIdList = courseDao.selectUserIdByCourseId(courseId);
+            course.setUserIdList(userIdList);
+
+            // 코스 리뷰들
+            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseId);
+            course.setGetCourseReviewRes(getCourseReviewRes);
+
+            return course;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+//    // 코스 디테일 조회 api
+//    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
+//        try{
+//            GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
+//
+//            // 좋아요한 userId
+//            List<Integer> userIdList = courseDao.selectUserIdByCourseId(course_id);
+//            getCourseRes.setUserIdList(userIdList);
+//
+//            // 코스 리뷰들
+//            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
+//            getCourseRes.setGetCourseReviewRes(getCourseReviewRes);
+//
+//            return getCourseRes;
+//        }
+//        catch (Exception exception) {
+//            exception.printStackTrace();
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
 
 //    public List<GetCourseListRes> retrieveCourseList() throws BaseException {
 //        try{
@@ -74,25 +117,6 @@ public class CourseProvider {
         }
     }
 
-    // 코스 디테일 조회 api
-    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
-        try{
-            GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
 
-            // 좋아요한 userId
-            List<Integer> userIdList = courseDao.selectUserIdByCourseId(course_id);
-            getCourseRes.setUserIdList(userIdList);
-
-            // 코스 리뷰들
-            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
-            getCourseRes.setGetCourseReviewRes(getCourseReviewRes);
-
-            return getCourseRes;
-        }
-        catch (Exception exception) {
-            exception.printStackTrace();
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
 
 }

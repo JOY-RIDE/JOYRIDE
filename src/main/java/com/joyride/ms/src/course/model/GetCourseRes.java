@@ -11,7 +11,7 @@ import java.util.List;
 public class GetCourseRes {
 
     //응답 값
-    private int id;
+    private String id;
 
     //title
     private String crsKorNm;
@@ -60,13 +60,13 @@ public class GetCourseRes {
 
     //==생성 메서드==//
     //GetCourseListRes 생성 메서드 이용
-    public static GetCourseRes createGetCourseRes(int id, String crsKorNm, String image, String crsContents, String crsSummary, String crsTourInfo,
+    public static GetCourseRes createGetCourseRes(String id, String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,
                                                            String travelerinfo, double crsDstnc, int crsLevel, String sigun,
-                                                           double required_at, String created_at, String updated_at) {
+                                                           double required_at) {
         GetCourseRes getCourseRes = new GetCourseRes();
         getCourseRes.setId(id);
         getCourseRes.setCrsKorNm(crsKorNm);
-        getCourseRes.setImage(image);
+//        getCourseRes.setImage(image);
         //courseInfo.setTotal_rate(total_rate);
         getCourseRes.setCrsContents(crsContents);
         getCourseRes.setCrsSummary(crsSummary);
@@ -78,8 +78,8 @@ public class GetCourseRes {
         getCourseRes.setCrsLevel(crsLevel);
         getCourseRes.setSigun(sigun);
         getCourseRes.setRequired_at(required_at);
-        getCourseRes.setCreated_at(created_at);
-        getCourseRes.setUpdated_at(updated_at);
+//        getCourseRes.setCreated_at(created_at);
+//        getCourseRes.setUpdated_at(updated_at);
 
 
         return getCourseRes;
