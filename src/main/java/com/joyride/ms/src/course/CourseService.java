@@ -28,9 +28,9 @@ public class CourseService {
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
-    public List<GetCourseListRes> callCourseList() throws BaseException {
+    // courseArr를 리턴해주는 method
+    public JSONArray callCourseAPI() throws Exception {
         try {
-
             String result = "";
 
             URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
@@ -46,9 +46,43 @@ public class CourseService {
             JSONObject response = (JSONObject) jsonObject.get("response");
             JSONObject body = (JSONObject) response.get("body");
             JSONObject items = (JSONObject) body.get("items");
-
             JSONArray courseArr = (JSONArray) items.get("item");
+            return courseArr;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 
+    // 디테일 조회시 api 호출(String title을 파라미터로 받는)
+    public JSONArray callCourseAPI(String title) throws Exception {
+        try {
+            String result = "";
+
+            URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
+                    "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
+                    "&crsKorNm="+title+"&_type=json");
+
+            BufferedReader bf;
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject response = (JSONObject) jsonObject.get("response");
+            JSONObject body = (JSONObject) response.get("body");
+            JSONObject items = (JSONObject) body.get("items");
+            JSONArray courseArr = (JSONArray) items.get("item");
+            return courseArr;
+        }
+        catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 반환 리스트를 만들어주는 메소드
+    public List<GetCourseListRes> createCourseList(JSONArray courseArr) throws BaseException {
+        try {
             // 중복 확인용 리스트
             ArrayList<String> courseIdList = new ArrayList<>();
             // 반환할 리스트 객체 생성
