@@ -5,7 +5,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -21,12 +20,7 @@ public class CallApi {
     @Value("${durunubi.secret}")
     private String API_SECRET_KEY;
 
-    private String a = "";
-    private String b = null;
-    private String c = " ";
-
     // courseArr를 리턴해주는 method
-    // 이거 api키가 제대로 못받아오네
     public JSONArray callCourseAPI() throws Exception {
         try {
             String result = "";
@@ -66,6 +60,7 @@ public class CallApi {
             urlBuilder.append("&" + URLEncoder.encode("crsKorNm","UTF-8") + "=" + URLEncoder.encode(title, "UTF-8")); /*검색하고자 하는 코스명 (인코딩 필요)*/
             urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
             URL url = new URL(urlBuilder.toString());
+
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
