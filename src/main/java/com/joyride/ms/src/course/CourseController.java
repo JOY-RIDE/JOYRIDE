@@ -19,7 +19,7 @@ public class CourseController {
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
-            List<GetCourseListRes> getCourseListRes = courseService.createCourseList();
+            List<GetCourseListRes> getCourseListRes = courseService.callCourseList();
             return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -28,7 +28,7 @@ public class CourseController {
 
     // 코스 디테일 조회 api
     @GetMapping("/{course_id}")
-    public BaseResponse<GetCourseRes> getCourse(@PathVariable("course_id") int course_id){
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("course_id") String course_id){
         try{
             GetCourseRes getCourseRes = courseProvider.retrieveCourse(course_id);
             return new BaseResponse<>(getCourseRes);
@@ -52,7 +52,7 @@ public class CourseController {
 
     // 리뷰 조회 api
     @GetMapping("/review/{course_id}")
-    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("course_id") int course_id){
+    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("course_id") String course_id){
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseProvider.retrieveCourseReviewByCourseId(course_id);
             return new BaseResponse<>(getCourseReviewRes);
@@ -82,7 +82,7 @@ public class CourseController {
     // @PathVariable로 하는게 맞을까? RequestBody로 하는게 맞을까?
     // 응답:
     @PostMapping("/like/{user_id}/{course_id}")
-    public BaseResponse<PostCourseLikeRes> PostCourseLike(@PathVariable("user_id") int user_id, @PathVariable("course_id") int course_id){
+    public BaseResponse<PostCourseLikeRes> PostCourseLike(@PathVariable("user_id") int user_id, @PathVariable("course_id") String course_id){
         try{
             // 유저 확인 로직 필요
             PostCourseLikeRes postCourseLikeRes = courseService.createCourseLike(user_id, course_id);
@@ -103,8 +103,4 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-
-
-
 }

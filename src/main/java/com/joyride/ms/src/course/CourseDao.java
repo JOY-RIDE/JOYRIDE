@@ -12,24 +12,15 @@ public class CourseDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public int existsCourse(String title) {
-        String checkTitleQuery = "select exists(select title from course where title = ?)";
-        String checkTitleParams = title;
-        return this.jdbcTemplate.queryForObject(checkTitleQuery,
-                int.class,
-                checkTitleParams);
-    }
-
-    // 코스 리스트 조회
     public List<GetCourseListRes> selectCourseList(){
         String getCourserListQuery = "select id,title,course_img_url,content,summary," +
                 "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at from course";
         //db정보 가져오기
         return this.jdbcTemplate.query(getCourserListQuery,
                 (rs,rowNum) -> GetCourseListRes.createGetCourseListRes(
-                        rs.getInt("id"),
+                        rs.getString("id"),
                         rs.getString("title"),
-                        rs.getString("course_img_url"),
+//                        rs.getString("course_img_url"),
                         rs.getString("content"),
                         rs.getString("summary"),
                         rs.getString("tour_point"),
@@ -37,17 +28,19 @@ public class CourseDao {
                         rs.getDouble("distance"),
                         rs.getInt("difficulty"),
                         rs.getString("sigun"),
-                        rs.getDouble("required_at"),
-                        rs.getString("created_at"),
-                        rs.getString("updated_at")
+                        rs.getDouble("required_at")
+//                        ,
+//                        rs.getString("created_at"),
+//                        rs.getString("updated_at")
                 ));
     }
 
-    public int countCourseLike(int courseId){
-        String countCourseLikeQuery = "select count(*) from courselike where id = ?";
-        int countCourseLikeParams = courseId;
-        return this.jdbcTemplate.queryForObject(countCourseLikeQuery, Integer.class, courseId);
+    public int countCourseLike(String courseId){
+        String countCourseLikeQuery = "select count(*) from courselike where course_id = ?";
+        String countCourseLikeParams = courseId;
+        return this.jdbcTemplate.queryForObject(countCourseLikeQuery, Integer.class, countCourseLikeParams);
     }
+
 
     public void insertCourse(CourseInfo courseInfo){
 
@@ -62,12 +55,12 @@ public class CourseDao {
     }
 
     // 코스 디테일 정보
-    public GetCourseRes selectCourse(int course_id){
+    public GetCourseRes selectCourse(String course_id){
         String getCourseQuery = "select id,title,course_img_url,content,summary," +
                 "tour_point, travelerinfo, distance, difficulty, sigun, required_at, created_at, updated_at " +
                 "from course where id = ?";
 
-        int getCourseParams = course_id;
+        String getCourseParams = course_id;
         //db정보 가져오기
         return this.jdbcTemplate.queryForObject(getCourseQuery,
                 (rs,rowNum) -> GetCourseRes.createGetCourseRes(
@@ -86,17 +79,18 @@ public class CourseDao {
                         rs.getString("updated_at")
                 ), getCourseParams);
     }
-    
+
     //코스 좋아요 유저 아이디 조회
-    public List<Integer> selectUserIdByCourseId(int course_id) {
+    public List<Integer> selectUserIdByCourseId(String course_id) {
         String selectUserIdByCourseIdQuery = "select user_id from courselike where course_id = ?";
 
-        int selectUserIdByCourseIdParams = course_id;
+        String selectUserIdByCourseIdParams = course_id;
         //db정보 가져오기
         return this.jdbcTemplate.query(selectUserIdByCourseIdQuery,
                 (rs,rowNum) -> rs.getInt("user_id"),
                 selectUserIdByCourseIdParams);
     }
+
     // 리뷰 생성 Dao
     public int insertCourseReview(PostCourseReviewReq postCourseReviewReq, double totalRate){
 
@@ -117,7 +111,7 @@ public class CourseDao {
     }
 
     // 코스 리뷰 조회
-    public List<GetCourseReviewRes> selectCourseReviewByCourseId(int course_id){
+    public List<GetCourseReviewRes> selectCourseReviewByCourseId(String course_id){
         String selectCourseReviewQuery = "select CR.id, U.nickname, CR.user_id, course_id, total_rate, scene_rate, facilities_rate,safety_rate, accessibility_rate,\n" +
                 "       total_review, scene_review, facilities_review, safety_review,accessibility_review,\n" +
                 "       CR.created_at, CR.updated_at from coursereview CR\n" +
@@ -126,14 +120,14 @@ public class CourseDao {
                 "    where course_id=?";
 
 
-        int selectCourseReviewParams = course_id;
+        String selectCourseReviewParams = course_id;
         //db정보 가져오기
         return this.jdbcTemplate.query(selectCourseReviewQuery,
                 (rs,rowNum) -> new GetCourseReviewRes(
                         rs.getInt("id"),
                         rs.getString("nickname"),
                         rs.getInt("user_id"),
-                        rs.getInt("course_id"),
+                        rs.getString("course_id"),
                         rs.getDouble("total_rate"),
                         rs.getDouble("scene_rate"),
                         rs.getDouble("facilities_rate"),
@@ -169,7 +163,7 @@ public class CourseDao {
     /**
      * 코스 좋아요
      */
-    public int insertCourseLike(int user_id, int course_id){
+    public int insertCourseLike(int user_id, String course_id){
 
         String createCourseLikeQuery = "insert into courselike (user_id, course_id) VALUES (?,?)";
 
