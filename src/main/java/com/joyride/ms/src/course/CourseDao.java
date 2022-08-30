@@ -127,7 +127,7 @@ public class CourseDao {
                         rs.getInt("id"),
                         rs.getString("nickname"),
                         rs.getInt("user_id"),
-                        rs.getInt("course_id"),
+                        rs.getString("course_id"),
                         rs.getDouble("total_rate"),
                         rs.getDouble("scene_rate"),
                         rs.getDouble("facilities_rate"),

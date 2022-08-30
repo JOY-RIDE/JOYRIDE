@@ -11,7 +11,7 @@ public class GetCourseReviewRes {
     //유저 닉네임 뿐만 아니라 유저 사진도?
     private String nickName;
     private int user_id;
-    private int course_id;
+    private String course_id;
 
     private double total_rate;
     private double scene_rate;
