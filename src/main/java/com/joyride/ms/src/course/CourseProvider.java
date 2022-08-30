@@ -22,6 +22,11 @@ public class CourseProvider {
     public List<GetCourseListRes> retrieveCourseList() throws BaseException {
         try{
             List<GetCourseListRes> getCourseListRes = courseDao.selectCourseList();
+            for (int i = 0; i < getCourseListRes.size(); i++) {
+                String courseId = getCourseListRes.get(i).getId();
+                int likeCount = courseDao.countCourseLike(courseId);
+                getCourseListRes.get(i).setLikeCount(likeCount);
+            }
             return getCourseListRes;
         }
         catch (Exception exception) {
@@ -30,8 +35,20 @@ public class CourseProvider {
         }
     }
 
+    // 코스 좋아요 수 조회
+    public int retrieveCourseLikeCount(String courseId) throws BaseException {
+        try{
+            int likeCount = courseDao.countCourseLike(courseId);
+            return likeCount;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     // 리뷰 조회 provider
-    public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(int course_id) throws BaseException {
+    public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(String course_id) throws BaseException {
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
             return getCourseReviewRes;
@@ -42,7 +59,7 @@ public class CourseProvider {
         }
     }
 
-    public GetCourseRes retrieveCourse(int course_id) throws BaseException {
+    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
         try{
             GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
 

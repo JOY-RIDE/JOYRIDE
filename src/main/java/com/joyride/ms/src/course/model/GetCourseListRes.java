@@ -10,7 +10,7 @@ import javax.persistence.Lob;
 public class GetCourseListRes {
 
     //응답 값
-    private int id;
+    private String id;
 
     //title
     private String crsKorNm;
@@ -44,18 +44,20 @@ public class GetCourseListRes {
     private double required_at;
 
     //LocalDateTime?
-    private String created_at;
+//    private String created_at;
+//
+//    private String updated_at;
 
-    private String updated_at;
+    private int likeCount;
 
     //==생성 메서드==//
-    public static GetCourseListRes  createGetCourseListRes(int id, String crsKorNm, String image, String crsContents, String crsSummary, String crsTourInfo,
+    public static GetCourseListRes createGetCourseListRes(String id, String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,
                                                            String travelerinfo, double crsDstnc, int crsLevel, String sigun,
-                                                           double required_at, String created_at, String updated_at) {
+                                                           double required_at) {
         GetCourseListRes getCourseListRes = new GetCourseListRes();
         getCourseListRes.setId(id);
         getCourseListRes.setCrsKorNm(crsKorNm);
-        getCourseListRes.setImage(image);
+//        getCourseListRes.setImage(image);
         //courseInfo.setTotal_rate(total_rate);
         getCourseListRes.setCrsContents(crsContents);
         getCourseListRes.setCrsSummary(crsSummary);
@@ -67,8 +69,8 @@ public class GetCourseListRes {
         getCourseListRes.setCrsLevel(crsLevel);
         getCourseListRes.setSigun(sigun);
         getCourseListRes.setRequired_at(required_at);
-        getCourseListRes.setCreated_at(created_at);
-        getCourseListRes.setUpdated_at(updated_at);
+//        getCourseListRes.setCreated_at(created_at);
+//        getCourseListRes.setUpdated_at(updated_at);
 
 
         return getCourseListRes;

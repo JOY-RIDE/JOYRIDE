@@ -28,72 +28,71 @@ public class CourseService {
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
-    public List<GetCourseListRes> createCourseList() throws BaseException {
+    public List<GetCourseListRes> callCourseList() throws BaseException {
         try {
-            int check = courseDao.existsCourse("고락산 둘레길");
 
-            // 만약 db에 정보가 없다면
-            if (check == 0) {
-                String result = "";
+            String result = "";
 
-                URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
-                        "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
-                        "&brdDiv=DNBW&numOfRows=3004&pageNo=1&_type=json");
+            URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
+                    "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
+                    "&brdDiv=DNBW&numOfRows=3004&pageNo=1&_type=json");
 
-                BufferedReader bf;
-                bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-                result = bf.readLine();
+            BufferedReader bf;
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
 
-                JSONParser jsonParser = new JSONParser();
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
-                JSONObject response = (JSONObject) jsonObject.get("response");
-                JSONObject body = (JSONObject) response.get("body");
-                JSONObject items = (JSONObject) body.get("items");
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject response = (JSONObject) jsonObject.get("response");
+            JSONObject body = (JSONObject) response.get("body");
+            JSONObject items = (JSONObject) body.get("items");
 
-                JSONArray courseArr = (JSONArray) items.get("item");
+            JSONArray courseArr = (JSONArray) items.get("item");
 
-                for (int i = 0; i < courseArr.size(); i++) {
-                    JSONObject course = (JSONObject)courseArr.get(i);
-                    //중복 제거 및, 자전거 길만 저장
-                    ArrayList<String> courseIdList = new ArrayList<String>();
-                    if (courseIdList.contains((String)course.get("crsIdx"))) {
-                        continue;
-                    } else {
-                        courseIdList.add((String) course.get("crsIdx"));
-                    }
+            // 중복 확인용 리스트
+            ArrayList<String> courseIdList = new ArrayList<>();
+            // 반환할 리스트 객체 생성
+            ArrayList<GetCourseListRes> getCourseList = new ArrayList<>();
 
-                    String checkBrdDiv = (String)course.get("brdDiv");
-                    if (checkBrdDiv.equals("DNWW")) {
-                        continue;
-                    }
-
-                    String crsKorNm = (String)course.get("crsKorNm");
-                    String crsContents = (String)course.get("crsContents");
-                    String crsSummary = (String)course.get("crsSummary");
-                    String crsTourInfo = (String)course.get("crsTourInfo");
-                    String travelerinfo = (String)course.get("travelerinfo");
-                    String crsDstncStr = (String)course.get("crsDstnc");
-                    double crsDstnc = Double.parseDouble(crsDstncStr);
-                    String crsLevelStr = (String)course.get("crsLevel");
-                    int crsLevel = Integer.parseInt(crsLevelStr);
-                    String sigun = (String)course.get("sigun");
-                    String crsTotlRqrmHourStr = (String)course.get("crsTotlRqrmHour");
-                    double crsTotlRqrmHour = Double.parseDouble(crsTotlRqrmHourStr);
-                    String brdDiv = (String)course.get("brdDiv");
-
-                    CourseInfo courseInfo = CourseInfo.createCourseInfo(crsKorNm, crsContents, crsSummary, crsTourInfo,
-                            travelerinfo, crsDstnc, crsLevel, sigun, crsTotlRqrmHour, brdDiv);
-
-                    courseDao.insertCourse(courseInfo);
-
+            for (int i = 0; i < courseArr.size(); i++) {
+                JSONObject course = (JSONObject)courseArr.get(i);
+                //중복 제거 및, 자전거 길만
+                if (courseIdList.contains((String)course.get("crsIdx"))) {
+                    continue;
+                } else {
+                    courseIdList.add((String)course.get("crsIdx"));
                 }
-                List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
-                return getCourseListRes;
+
+                String checkBrdDiv = (String)course.get("brdDiv");
+                if (checkBrdDiv.equals("DNWW")) {
+                    continue;
+                }
+                String crsIdx = (String)course.get("crsIdx");
+                String crsKorNm = (String)course.get("crsKorNm");
+                String crsContents = (String)course.get("crsContents");
+                String crsSummary = (String)course.get("crsSummary");
+                String crsTourInfo = (String)course.get("crsTourInfo");
+                String travelerinfo = (String)course.get("travelerinfo");
+                String crsDstncStr = (String)course.get("crsDstnc");
+                double crsDstnc = Double.parseDouble(crsDstncStr);
+                String crsLevelStr = (String)course.get("crsLevel");
+                int crsLevel = Integer.parseInt(crsLevelStr);
+                String sigun = (String)course.get("sigun");
+                String crsTotlRqrmHourStr = (String)course.get("crsTotlRqrmHour");
+                double crsTotlRqrmHour = Double.parseDouble(crsTotlRqrmHourStr);
+
+                // 일단 이미지는 없다고 생각하고.
+                GetCourseListRes getCourseListRes = GetCourseListRes.createGetCourseListRes(crsIdx, crsKorNm, crsContents, crsSummary,
+                        crsTourInfo, travelerinfo, crsDstnc, crsLevel, sigun, crsTotlRqrmHour);
+
+                String courseId = getCourseListRes.getId();
+                int likeCount = courseProvider.retrieveCourseLikeCount(courseId);
+                getCourseListRes.setLikeCount(likeCount);
+
+                getCourseList.add(getCourseListRes);
+
             }
-            else {
-                List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
-                return getCourseListRes;
-            }
+            return getCourseList;
         }
         catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);
@@ -151,7 +150,7 @@ public class CourseService {
      */
 
     //코스 좋아요 생성
-    public PostCourseLikeRes createCourseLike(int user_id, int course_id) throws BaseException {
+    public PostCourseLikeRes createCourseLike(int user_id, String course_id) throws BaseException {
 
         // 유저확인 로직 필요
         try{
