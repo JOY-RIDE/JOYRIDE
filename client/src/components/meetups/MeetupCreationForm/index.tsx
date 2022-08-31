@@ -33,6 +33,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const {
     register,
     control,
+    setValue,
     formState: { errors, isSubmitSuccessful },
     handleSubmit,
     reset,
@@ -49,12 +50,22 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       participationFee: 0,
     },
   });
+  const maxNumOfParticipants = watch('maxNumOfParticipants');
 
   useEffect(() => {
     if (!isSubmitSuccessful) return;
     close();
     return reset;
   }, [isSubmitSuccessful]);
+
+  const handleMaxNumOfParticipantsDecrease = () =>
+    setValue('maxNumOfParticipants', Number(maxNumOfParticipants) - 1, {
+      shouldValidate: true,
+    });
+  const handleMaxNumOfParticipantsIncrease = () =>
+    setValue('maxNumOfParticipants', Number(maxNumOfParticipants) + 1, {
+      shouldValidate: true,
+    });
 
   const onSubmit: SubmitHandler<CreatedMeetup> = data => {
     console.log(data);
@@ -275,33 +286,34 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           {errors.ages && <ErrorMessage message="필수 항목입니다" />}
         </div> */}
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'maxNumOfParticipants')}>
           <label className={cn('label')}>
             <h4>모집 인원</h4>
           </label>
           <div className={cn('option')}>
-            {/* <PlusMinusButton
-              color="white"
-              size="md"
-              action="decrease"
-              onDecrease={}
-            /> */}
-            <input
-              type="number"
-              className={cn('number')}
-              {...register('maxNumOfParticipants', {
-                required: true,
-                pattern: REGEX.number,
-                min: 2,
-                max: 99,
-              })}
-            />
-            {/* <PlusMinusButton
-              color="white"
-              size="md"
-              action="increase"
-              onIncrease={}
-            /> */}
+            <div className={cn('regulator')}>
+              <PlusMinusButton
+                color="white"
+                size="md"
+                action="decrease"
+                onDecrease={handleMaxNumOfParticipantsDecrease}
+              />
+              <input
+                type="number"
+                className={cn('number')}
+                {...register('maxNumOfParticipants', {
+                  required: true,
+                  min: 2,
+                  max: 99,
+                })}
+              />
+              <PlusMinusButton
+                color="white"
+                size="md"
+                action="increase"
+                onIncrease={handleMaxNumOfParticipantsIncrease}
+              />
+            </div>
             <span>명</span>
           </div>
           {errors.maxNumOfParticipants && (

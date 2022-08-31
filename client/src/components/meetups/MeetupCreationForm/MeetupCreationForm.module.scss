@@ -45,6 +45,30 @@
   }
 }
 
+.maxNumOfParticipants {
+  & .option,
+  .regulator {
+    display: flex;
+    align-items: center;
+  }
+
+  & .option {
+    gap: 2.5rem;
+  }
+
+  & .regulator {
+    flex-grow: 1;
+    background: $color-grey-100;
+    padding: 1rem;
+    justify-content: space-between;
+  }
+}
+
+.number {
+  flex-grow: 1;
+  font-size: 1.8rem;
+  text-align: center;
+}
 .number::-webkit-outer-spin-button,
 .number::-webkit-inner-spin-button {
   -webkit-appearance: none;
