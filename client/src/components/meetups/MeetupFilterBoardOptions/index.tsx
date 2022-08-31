@@ -4,17 +4,13 @@ import classNames from 'classnames/bind';
 import {
   AGES,
   BICYCLE_TYPE_OPTIONS,
-  GENDERS,
   LOCATIONS,
+  MEETUP_GENDER_OPTIONS,
   MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
 import OptionChip from 'components/common/OptionChip';
-import {
-  stringifyAge,
-  stringifyDifficulty,
-  stringifyGender,
-} from 'utils/stringify';
+import { stringifyAge } from 'utils/stringify';
 import { useCallback, useEffect } from 'react';
 import { FilterOptionData, FiltersReducerPayload } from 'types/common';
 import { meetupBoardFiltersState } from 'states/meetup';
@@ -222,14 +218,14 @@ const MeetupFilterBoardOptions = () => {
             isActive={!boardFilters.gender}
             onTextClick={handleClear}
           />
-          {GENDERS.map(gender => (
+          {MEETUP_GENDER_OPTIONS.map(gender => (
             <OptionChip
-              key={gender}
+              key={gender.value}
               type="default"
               filtersKey="gender"
-              value={gender}
-              content={stringifyGender(gender)}
-              isActive={gender === boardFilters.gender?.value}
+              value={gender.value}
+              content={gender.content}
+              isActive={gender.value === boardFilters.gender?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />

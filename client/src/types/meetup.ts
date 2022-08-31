@@ -9,13 +9,13 @@ export type MeetupDueDate = Date;
 export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
-export type MeetupBicycleTypes = null | BicycleType[];
+export type MeetupBicycleTypes = BicycleType[];
 export type MeetupRidingSkill = RidingSkill; // TODO
 export type MeetupMaxNumOfParticipants = number;
 export type MeetupParticipants = null | {}[]; // TODO
 export type MeetupLocation = Location;
-export type MeetupGender = null | Gender;
-export type MeetupAges = null | Age[];
+export type MeetupGender = 'mixed' | Gender;
+export type MeetupAges = Age[];
 export type MeetupParticipationFee = number;
 export type MeetupContent = null | string;
 

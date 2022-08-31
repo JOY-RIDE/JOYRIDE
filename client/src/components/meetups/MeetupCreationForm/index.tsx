@@ -32,9 +32,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     defaultValues: {
       pathDifficulty: 1,
       ridingSkill: 1,
-      gender: null,
-      ages: null,
-      maxNumOfParticipants: 0,
+      gender: 'mixed',
+      ages: [1],
+      maxNumOfParticipants: 2,
       participationFee: 0,
     },
   });

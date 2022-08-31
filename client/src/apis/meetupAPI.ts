@@ -22,17 +22,15 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   path: faker.helpers.arrayElements(LOCATIONS),
   pathDifficulty: faker.helpers.arrayElement([1, 2, 3]),
   ridingSkill: faker.helpers.arrayElement([1, 2, 3]),
-  bicycleTypes: faker.datatype.number(1)
-    ? faker.helpers.arrayElements(
-        ['따릉이', 'MTB', '로드바이크', '하이브리드', '미니벨로', '기타'],
-        3
-      )
-    : null,
+  bicycleTypes: faker.helpers.arrayElements(
+    ['따릉이', 'MTB', '로드바이크', '하이브리드', '미니벨로', '기타'],
+    3
+  ),
   maxNumOfParticipants: faker.datatype.number(30),
   participants: Array.from({ length: faker.datatype.number(15) }, () => ({})),
   location: faker.helpers.arrayElement(LOCATIONS),
-  gender: faker.datatype.number(1) ? faker.helpers.arrayElement(GENDERS) : null,
-  ages: faker.datatype.number(1) ? faker.helpers.arrayElements(AGES) : null,
+  gender: faker.helpers.arrayElement(['mixed', ...GENDERS]),
+  ages: faker.helpers.arrayElements(AGES),
   participationFee: faker.datatype.number(20000),
   content: null,
 }));

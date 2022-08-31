@@ -1,5 +1,5 @@
-import { stringifyDifficulty } from 'utils/stringify';
-import { MeetupOrderState, MeetupPathDifficulty } from 'types/meetup';
+import { stringifyDifficulty, stringifyGender } from 'utils/stringify';
+import { MeetupGender, MeetupOrderState } from 'types/meetup';
 import {
   Age,
   BicycleType,
@@ -18,6 +18,11 @@ export const REGEX = {
 };
 
 export const GENDERS: Gender[] = ['m', 'f'];
+export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
+  { value: 'mixed', content: '혼성' },
+  { value: 'm', content: stringifyGender('m') },
+  { value: 'f', content: stringifyGender('f') },
+];
 export const AGES: Age[] = [1, 2, 3, 4, 5];
 export const LOCATIONS: Location[] = [
   '서울',
