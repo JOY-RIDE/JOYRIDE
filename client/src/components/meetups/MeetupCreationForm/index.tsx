@@ -50,26 +50,48 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       participationFee: 0,
     },
   });
-  const maxNumOfParticipants = watch('maxNumOfParticipants');
-
-  useEffect(() => {
-    if (!isSubmitSuccessful) return;
-    close();
-    return reset;
-  }, [isSubmitSuccessful]);
+  const maxNumOfParticipants = Number(watch('maxNumOfParticipants'));
+  const participationFee = Number(watch('participationFee'));
 
   const handleMaxNumOfParticipantsDecrease = () =>
-    setValue('maxNumOfParticipants', Number(maxNumOfParticipants) - 1, {
-      shouldValidate: true,
-    });
+    setValue(
+      'maxNumOfParticipants',
+      maxNumOfParticipants <= 2 ? 2 : maxNumOfParticipants - 1,
+      {
+        shouldValidate: true,
+      }
+    );
   const handleMaxNumOfParticipantsIncrease = () =>
-    setValue('maxNumOfParticipants', Number(maxNumOfParticipants) + 1, {
+    setValue(
+      'maxNumOfParticipants',
+      99 <= maxNumOfParticipants ? 99 : maxNumOfParticipants + 1,
+      {
+        shouldValidate: true,
+      }
+    );
+
+  const handleParticipationFeeDecrease = () =>
+    setValue(
+      'participationFee',
+      participationFee < 5000 ? 0 : participationFee - 5000,
+      {
+        shouldValidate: true,
+      }
+    );
+  const handleParticipationFeeIncrease = () =>
+    setValue('participationFee', participationFee + 5000, {
       shouldValidate: true,
     });
 
   const onSubmit: SubmitHandler<CreatedMeetup> = data => {
     console.log(data);
   };
+
+  useEffect(() => {
+    if (!isSubmitSuccessful) return;
+    close();
+    return reset;
+  }, [isSubmitSuccessful]);
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
@@ -288,7 +310,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
         <div className={cn('field', 'maxNumOfParticipants')}>
           <label className={cn('label')}>
-            <h4>모집 인원</h4>
+            <h4>인원</h4>
           </label>
           <div className={cn('option')}>
             <div className={cn('regulator')}>
@@ -321,6 +343,45 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               message={getMeetupCreationFormFieldErrorMessage(
                 'maxNumOfParticipants',
                 errors.maxNumOfParticipants.type
+              )}
+            />
+          )}
+        </div>
+
+        <div className={cn('field', 'participationFee')}>
+          <label className={cn('label')}>
+            <h4>참가비</h4>
+          </label>
+          <div className={cn('option')}>
+            <div className={cn('regulator')}>
+              <PlusMinusButton
+                color="white"
+                size="md"
+                action="decrease"
+                onDecrease={handleParticipationFeeDecrease}
+              />
+              <input
+                type="number"
+                className={cn('number')}
+                {...register('participationFee', {
+                  required: true,
+                  min: 0,
+                })}
+              />
+              <PlusMinusButton
+                color="white"
+                size="md"
+                action="increase"
+                onIncrease={handleParticipationFeeIncrease}
+              />
+            </div>
+            <span>원</span>
+          </div>
+          {errors.participationFee && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'participationFee',
+                errors.participationFee.type
               )}
             />
           )}

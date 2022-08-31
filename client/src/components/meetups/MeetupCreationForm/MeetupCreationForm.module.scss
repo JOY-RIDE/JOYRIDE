@@ -45,7 +45,8 @@
   }
 }
 
-.maxNumOfParticipants {
+.maxNumOfParticipants,
+.participationFee {
   & .option,
   .regulator {
     display: flex;
