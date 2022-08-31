@@ -12,7 +12,7 @@ export function getSignupFormFieldErrorMessage(
     case 'email': {
       switch (errorType) {
         case 'required':
-          return '이메일을 입력하세요';
+          return '필수 항목입니다';
         case 'pattern':
           return '이메일 형식이 올바르지 않습니다';
         case 'duplicated':
@@ -27,7 +27,7 @@ export function getSignupFormFieldErrorMessage(
     case 'password': {
       switch (errorType) {
         case 'required':
-          return '비밀번호를 입력하세요';
+          return '필수 항목입니다';
         case 'minLength':
           return '8자 이상이어야 합니다';
         case 'pattern':
@@ -40,7 +40,7 @@ export function getSignupFormFieldErrorMessage(
     case 'passwordConfirm': {
       switch (errorType) {
         case 'required':
-          return '비밀번호를 확인해 주세요';
+          return '필수 항목입니다';
         case 'validate':
           return '동일한 비밀번호를 입력해 주세요';
         default:
@@ -51,7 +51,7 @@ export function getSignupFormFieldErrorMessage(
     case 'nickname': {
       switch (errorType) {
         case 'required':
-          return '닉네임을 입력하세요';
+          return '필수 항목입니다';
         case 'maxLength':
           return '10자를 초과하였습니다';
         case 'duplicated':

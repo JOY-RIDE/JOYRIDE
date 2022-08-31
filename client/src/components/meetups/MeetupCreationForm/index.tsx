@@ -1,19 +1,26 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { CreatedMeetup, MeetupPathDifficulty } from 'types/meetup';
+import {
+  CreatedMeetup,
+  MeetupGender,
+  MeetupPathDifficulty,
+} from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
+  AGES,
   LOCATIONS,
+  MEETUP_GENDER_OPTIONS,
   MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
-import { Location, Option, RidingSkill } from 'types/common';
+import { Age, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
 import { useEffect } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
 import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
+import { stringifyAge } from 'utils/stringify';
 
 const cn = classNames.bind(styles);
 
@@ -55,16 +62,14 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
       <div className={cn('fields')}>
         <div className={cn('field')}>
-          <FormInputWithErrorMessageWrapper>
-            <input
-              className={cn('title')}
-              placeholder="제목을 입력해 주세요"
-              {...register('title', {
-                required: true,
-              })}
-            />
-            {errors.title && <ErrorMessage message="제목을 입력하세요" />}
-          </FormInputWithErrorMessageWrapper>
+          <input
+            className={cn('title')}
+            placeholder="제목을 입력해 주세요"
+            {...register('title', {
+              required: true,
+            })}
+          />
+          {errors.title && <ErrorMessage message="필수 항목입니다" />}
         </div>
 
         <div className={cn('field')}>
@@ -78,13 +83,13 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
-                  {LOCATIONS.map((option: Location) => (
-                    <li key={option} className={cn('col')}>
+                  {LOCATIONS.map((location: Location) => (
+                    <li key={location} className={cn('col')}>
                       <SelectButton
                         type="radio"
-                        value={option}
-                        content={option}
-                        isSelected={value === option}
+                        value={location}
+                        content={location}
+                        isSelected={value === location}
                         {...others}
                       />
                     </li>
@@ -151,6 +156,70 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               )}
             />
           </ul>
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>성별</h4>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="gender"
+              rules={{ required: true }}
+              render={({ field: { value, ...others } }) => (
+                <>
+                  {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        type="radio"
+                        value={option.value}
+                        content={option.content}
+                        isSelected={value === option.value}
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>연령대</h4>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="ages"
+              rules={{ required: true, validate: ages => ages.length > 0 }}
+              render={({ field: { value: values, onChange, ...others } }) => (
+                <>
+                  {AGES.map((age: Age) => (
+                    <li key={age} className={cn('col')}>
+                      <SelectButton
+                        type="checkbox"
+                        value={age}
+                        content={stringifyAge(age)}
+                        isSelected={values.indexOf(age) !== -1}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          onChange(
+                            e.target.checked
+                              ? [...values, age]
+                              : values.filter(value => value !== age)
+                          )
+                        }
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+          {errors.ages && <ErrorMessage message="필수 항목입니다" />}
         </div>
 
         <div className={cn('field', 'content')}>
