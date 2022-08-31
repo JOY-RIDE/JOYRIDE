@@ -76,7 +76,6 @@ public class CourseProvider {
         }
     }
 
-    // 리뷰 조회
     public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(String course_id) throws BaseException {
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);

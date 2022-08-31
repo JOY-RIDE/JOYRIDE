@@ -20,6 +20,7 @@ public class CourseController {
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
             List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
+            
             return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
