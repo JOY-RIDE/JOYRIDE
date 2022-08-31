@@ -15,6 +15,7 @@ public class CourseController {
     private final CourseProvider courseProvider;
     private final CourseService courseService;
 
+    //그냥 테스트
     //일단은 이 URI를 거쳐서만 들어간다고 생각하고 코드 작성
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
