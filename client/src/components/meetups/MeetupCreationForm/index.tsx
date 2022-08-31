@@ -1,4 +1,4 @@
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { CreatedMeetup, MeetupPathDifficulty } from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
@@ -45,7 +45,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     return reset;
   }, [isSubmitSuccessful]);
 
-  const onSubmit = () => {};
+  const onSubmit: SubmitHandler<CreatedMeetup> = data => {
+    console.log(data);
+  };
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
@@ -77,6 +79,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                     (option: Option<MeetupPathDifficulty>) => (
                       <li key={option.value} className={cn('col')}>
                         <SelectButton
+                          type="radio"
                           value={option.value}
                           content={option.content}
                           isSelected={Number(value) === option.value}
@@ -104,6 +107,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                   {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
                     <li key={option.value} className={cn('col')}>
                       <SelectButton
+                        type="radio"
                         value={option.value}
                         content={option.content}
                         isSelected={Number(value) === option.value}

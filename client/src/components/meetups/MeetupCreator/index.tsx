@@ -1,32 +1,26 @@
-import { useTheme } from '@emotion/react';
-import { Dialog, useMediaQuery } from '@mui/material';
-import { useState } from 'react';
+import { Dialog } from '@mui/material';
 import { VscChromeClose } from 'react-icons/vsc';
 import { BiPlusCircle } from 'react-icons/bi';
 import PopupSlide from 'components/transitions/PopupSlide';
 import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
 import MeetupCreationForm from '../MeetupCreationForm';
+import useResponsivePopup from 'hooks/useResponsivePopup';
 
 const cn = classNames.bind(styles);
 
 const MeetupCreator = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const handleDialogOpen = () => setOpen(true);
-  const handleDialogClose = () => setOpen(false);
-
-  const theme = useTheme();
-  const isFullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const { isOpen, handlePopupOpen, handlePopupClose, isFullScreen } =
+    useResponsivePopup();
   return (
     <>
-      <button className={cn('open-btn')} onClick={handleDialogOpen}>
+      <button className={cn('open-btn')} onClick={handlePopupOpen}>
         <BiPlusCircle />
         <span>모임 만들기</span>
       </button>
 
       <Dialog
-        open={open}
+        open={isOpen}
         fullScreen={isFullScreen}
         aria-labelledby="모임 만들기"
         BackdropProps={{ style: { backgroundColor: 'rgba(0, 0, 0, 0.2)' } }}
@@ -40,12 +34,11 @@ const MeetupCreator = () => {
       >
         <header className={cn('header')}>
           <h2 className={cn('title')}>모임 만들기</h2>
-          <button className={cn('close-btn')} onClick={handleDialogClose}>
+          <button className={cn('close-btn')} onClick={handlePopupClose}>
             <VscChromeClose />
           </button>
         </header>
-
-        <MeetupCreationForm close={handleDialogClose} />
+        <MeetupCreationForm close={handlePopupClose} />
       </Dialog>
     </>
   );
