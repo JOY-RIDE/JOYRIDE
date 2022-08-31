@@ -8,18 +8,18 @@ import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
   AGES,
+  BICYCLE_TYPE_OPTIONS,
   LOCATIONS,
   MEETUP_GENDER_OPTIONS,
   MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
-import { Age, Location, Option, RidingSkill } from 'types/common';
+import { Age, BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
 import { useEffect } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
-import FormInputWithErrorMessageWrapper from 'components/common/FormInputWithErrorMessageWrapper';
 import { stringifyAge } from 'utils/stringify';
 
 const cn = classNames.bind(styles);
@@ -40,6 +40,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     defaultValues: {
       location: '서울',
       pathDifficulty: 1,
+      bicycleTypes: ['따릉이'],
       ridingSkill: 1,
       gender: 'mixed',
       ages: [1],
@@ -132,6 +133,44 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
         <div className={cn('field')}>
           <label className={cn('label')}>
+            <h4>자전거 종류</h4>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="bicycleTypes"
+              rules={{
+                validate: bicycleTypes => bicycleTypes.length > 0,
+              }}
+              render={({ field: { value: values, onChange, ...others } }) => (
+                <>
+                  {BICYCLE_TYPE_OPTIONS.map((option: Option<BicycleType>) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        type="checkbox"
+                        value={option.value}
+                        content={option.content}
+                        isSelected={values.indexOf(option.value) !== -1}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          onChange(
+                            e.target.checked
+                              ? [...values, option.value]
+                              : values.filter(value => value !== option.value)
+                          )
+                        }
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+          {errors.bicycleTypes && <ErrorMessage message="필수 항목입니다" />}
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
             <h4>라이딩 실력</h4>
           </label>
           <ul className={cn('row')}>
@@ -194,7 +233,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="ages"
-              rules={{ required: true, validate: ages => ages.length > 0 }}
+              rules={{ validate: ages => ages.length > 0 }}
               render={({ field: { value: values, onChange, ...others } }) => (
                 <>
                   {AGES.map((age: Age) => (
