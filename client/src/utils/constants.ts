@@ -20,10 +20,14 @@ export const REGEX = {
 
 export const GENDERS: Gender[] = ['m', 'f'];
 export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
-  { value: 'mixed', content: '모두' },
+  { value: 'mixed', content: '전체' },
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
 ];
+export const BIRTH_YEAR_OPTIONS: Option<number>[] = [];
+for (let year = new Date().getFullYear(); 1940 <= year; year--) {
+  BIRTH_YEAR_OPTIONS.push({ value: year, content: `${year}` });
+}
 export const AGES: Age[] = [1, 2, 3, 4, 5];
 export const LOCATIONS: Location[] = [
   '서울',

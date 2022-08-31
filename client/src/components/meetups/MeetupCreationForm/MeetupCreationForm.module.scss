@@ -1,13 +1,6 @@
 @use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
-@mixin setButtonWidth($size) {
-  gap: $size;
-  & .col {
-    flex-basis: calc((100% - 2 * $size) / 3);
-  }
-}
-
 .form {
   padding: 0 2.5rem 3rem 2.5rem;
   // overflow-y: scroll;
@@ -42,6 +35,24 @@
 
   & .col {
     flex-basis: calc((100% - 2 * $options-gap) / 3);
+  }
+}
+
+.age {
+  & .option {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  & .birth-year {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  & .tilde {
+    font-size: 2rem;
   }
 }
 

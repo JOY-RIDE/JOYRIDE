@@ -12,6 +12,7 @@ interface MeetupAPI {
 // };
 
 // Mock
+// @ts-ignore
 const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   id: index,
   title: faker.lorem.sentence(),

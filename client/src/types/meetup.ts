@@ -1,4 +1,4 @@
-import { Age, BicycleType, Gender, Location, RidingSkill } from './common';
+import { BicycleType, Gender, Location, RidingSkill } from './common';
 import { CourseName } from './course';
 
 export type MeetupID = number;
@@ -15,7 +15,8 @@ export type MeetupMaxNumOfParticipants = number;
 export type MeetupParticipants = {}[]; // TODO
 export type MeetupLocation = Location;
 export type MeetupGender = 'mixed' | Gender;
-export type MeetupAges = Age[];
+export type MeetupMinBirthYear = number;
+export type MeetupMaxBirthYear = number;
 export type MeetupParticipationFee = number;
 export type MeetupContent = string;
 
@@ -32,7 +33,8 @@ export interface CreatedMeetup {
   maxNumOfParticipants: MeetupMaxNumOfParticipants;
   location: MeetupLocation;
   gender: MeetupGender;
-  ages: MeetupAges;
+  minBirthYear: MeetupMinBirthYear;
+  maxBirthYear: MeetupMaxBirthYear;
   participationFee: MeetupParticipationFee;
   content: MeetupContent;
 }

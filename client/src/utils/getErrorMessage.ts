@@ -80,6 +80,7 @@ export function getSignupFormFieldErrorMessage(
 type MeetupCreationFormField =
   | 'title'
   | 'bicycleTypes'
+  | 'birthYear'
   | 'maxNumOfParticipants'
   | 'participationFee'
   | 'content';
@@ -105,6 +106,17 @@ export function getMeetupCreationFormFieldErrorMessage(
         default:
           throw new Error();
       }
+
+    case 'birthYear': {
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        case 'min':
+          return '년도를 다시 확인해 주세요';
+        default:
+          throw new Error();
+      }
+    }
 
     case 'maxNumOfParticipants': {
       switch (errorType) {

@@ -8,10 +8,10 @@ import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
   BICYCLE_TYPE_OPTIONS,
+  BIRTH_YEAR_OPTIONS,
   LOCATIONS,
   MEETUP_GENDER_OPTIONS,
   MEETUP_PATH_DIFFICULTY_OPTIONS,
-  REGEX,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
 import { BicycleType, Location, Option, RidingSkill } from 'types/common';
@@ -22,6 +22,7 @@ import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
 import PlusMinusButton from 'components/common/PlusMinusButton';
 import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
+import SelectList from 'components/common/SelectList';
 
 const cn = classNames.bind(styles);
 
@@ -45,11 +46,13 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       bicycleTypes: ['따릉이'],
       ridingSkill: 1,
       gender: 'mixed',
-      ages: [1],
+      minBirthYear: 1940,
+      maxBirthYear: new Date().getFullYear(),
       maxNumOfParticipants: 2,
       participationFee: 0,
     },
   });
+  const minBirthYear = Number(watch('minBirthYear'));
   const maxNumOfParticipants = Number(watch('maxNumOfParticipants'));
   const participationFee = Number(watch('participationFee'));
 
@@ -209,8 +212,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <ErrorMessage
               message={getMeetupCreationFormFieldErrorMessage(
                 'bicycleTypes',
-                // @ts-ignore
-                errors.bicycleTypes.type
+                'required'
               )}
             />
           )}
@@ -272,41 +274,70 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
-        {/* <div className={cn('field')}>
+        <div className={cn('field', 'age')}>
           <label className={cn('label')}>
             <h4>연령대</h4>
           </label>
-          <ul className={cn('options')}>
-            <Controller
-              control={control}
-              name="ages"
-              rules={{ validate: ages => ages.length > 0 }}
-              render={({ field: { value: values, onChange, ...others } }) => (
-                <>
-                  {AGES.map((age: Age) => (
-                    <li key={age} className={cn('col')}>
-                      <SelectButton
-                        type="checkbox"
-                        value={age}
-                        content={stringifyAge(age)}
-                        isSelected={values.indexOf(age) !== -1}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          onChange(
-                            e.target.checked
-                              ? [...values, age]
-                              : values.filter(value => value !== age)
-                          )
-                        }
-                        {...others}
-                      />
-                    </li>
-                  ))}
-                </>
+          <div className={cn('option')}>
+            <div className={cn('birth-year')}>
+              <Controller
+                control={control}
+                name="minBirthYear"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <SelectList
+                    options={BIRTH_YEAR_OPTIONS}
+                    label="최소 출생년도"
+                    defaultText="최소 출생년도"
+                    size="sm"
+                    {...field}
+                  />
+                )}
+              />
+              <span>년생</span>
+            </div>
+
+            <span className={cn('tilde')}>~</span>
+
+            <div className={cn('birth-year')}>
+              <Controller
+                control={control}
+                name="maxBirthYear"
+                rules={{
+                  required: true,
+                  min: minBirthYear,
+                }}
+                render={({ field }) => (
+                  <SelectList
+                    options={BIRTH_YEAR_OPTIONS}
+                    label="최대 출생년도"
+                    defaultText="최대 출생년도"
+                    size="sm"
+                    {...field}
+                  />
+                )}
+              />
+              <span>년생</span>
+            </div>
+          </div>
+          {(errors.minBirthYear?.type === 'required' ||
+            errors.maxBirthYear?.type === 'required') && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'birthYear',
+                'required'
               )}
             />
-          </ul>
-          {errors.ages && <ErrorMessage message="필수 항목입니다" />}
-        </div> */}
+          )}
+          {errors.maxBirthYear?.type === 'min' && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'birthYear',
+                'min'
+              )}
+            />
+          )}
+        </div>
 
         <div className={cn('field', 'maxNumOfParticipants')}>
           <label className={cn('label')}>
