@@ -33,26 +33,24 @@
   gap: 1rem;
 }
 
-.label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  & .optional {
-    color: $color-grey-600;
-  }
-}
-
-.row {
-  $row-gap: 1.2rem;
+.options {
+  $options-gap: 1.2rem;
 
   display: flex;
-  gap: $row-gap;
+  gap: $options-gap;
   flex-wrap: wrap;
 
   & .col {
-    flex-basis: calc((100% - 2 * $row-gap) / 3);
+    flex-basis: calc((100% - 2 * $options-gap) / 3);
   }
+}
+
+.number::-webkit-outer-spin-button,
+.number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.number[type='number'] {
+  -moz-appearance: textfield;
 }
 
 .content {

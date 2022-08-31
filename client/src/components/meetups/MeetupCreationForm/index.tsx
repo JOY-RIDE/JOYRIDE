@@ -7,20 +7,21 @@ import {
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
-  AGES,
   BICYCLE_TYPE_OPTIONS,
   LOCATIONS,
   MEETUP_GENDER_OPTIONS,
   MEETUP_PATH_DIFFICULTY_OPTIONS,
+  REGEX,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
-import { Age, BicycleType, Location, Option, RidingSkill } from 'types/common';
+import { BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
 import { useEffect } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
-import { stringifyAge } from 'utils/stringify';
+import PlusMinusButton from 'components/common/PlusMinusButton';
+import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
 
 const cn = classNames.bind(styles);
 
@@ -66,18 +67,23 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <input
             className={cn('title')}
             placeholder="제목을 입력해 주세요"
-            {...register('title', {
-              required: true,
-            })}
+            {...register('title', { required: true })}
           />
-          {errors.title && <ErrorMessage message="필수 항목입니다" />}
+          {errors.title && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'title',
+                errors.title.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4>지역</h4>
           </label>
-          <ul className={cn('row')}>
+          <ul className={cn('options')}>
             <Controller
               control={control}
               name="location"
@@ -105,7 +111,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>코스 난이도</h4>
           </label>
-          <ul className={cn('row')}>
+          <ul className={cn('options')}>
             <Controller
               control={control}
               name="pathDifficulty"
@@ -135,7 +141,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>자전거 종류</h4>
           </label>
-          <ul className={cn('row')}>
+          <ul className={cn('options')}>
             <Controller
               control={control}
               name="bicycleTypes"
@@ -166,14 +172,22 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               )}
             />
           </ul>
-          {errors.bicycleTypes && <ErrorMessage message="필수 항목입니다" />}
+          {errors.bicycleTypes && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'bicycleTypes',
+                // @ts-ignore
+                errors.bicycleTypes.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4>라이딩 실력</h4>
           </label>
-          <ul className={cn('row')}>
+          <ul className={cn('options')}>
             <Controller
               control={control}
               name="ridingSkill"
@@ -201,7 +215,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>성별</h4>
           </label>
-          <ul className={cn('row')}>
+          <ul className={cn('options')}>
             <Controller
               control={control}
               name="gender"
@@ -225,11 +239,11 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
-        <div className={cn('field')}>
+        {/* <div className={cn('field')}>
           <label className={cn('label')}>
             <h4>연령대</h4>
           </label>
-          <ul className={cn('row')}>
+          <ul className={cn('options')}>
             <Controller
               control={control}
               name="ages"
@@ -259,20 +273,67 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             />
           </ul>
           {errors.ages && <ErrorMessage message="필수 항목입니다" />}
+        </div> */}
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>모집 인원</h4>
+          </label>
+          <div className={cn('option')}>
+            {/* <PlusMinusButton
+              color="white"
+              size="md"
+              action="decrease"
+              onDecrease={}
+            /> */}
+            <input
+              type="number"
+              className={cn('number')}
+              {...register('maxNumOfParticipants', {
+                required: true,
+                pattern: REGEX.number,
+                min: 2,
+                max: 99,
+              })}
+            />
+            {/* <PlusMinusButton
+              color="white"
+              size="md"
+              action="increase"
+              onIncrease={}
+            /> */}
+            <span>명</span>
+          </div>
+          {errors.maxNumOfParticipants && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'maxNumOfParticipants',
+                errors.maxNumOfParticipants.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field', 'content')}>
           <label className={cn('label')}>
             <h4>모임 소개</h4>
-            <span className={cn('optional')}>(선택)</span>
           </label>
           <Controller
             control={control}
             name="content"
+            rules={{ required: true }}
             render={({ field }) => (
               <TextArea placeholder="모임을 소개해 주세요." {...field} />
             )}
           />
+          {errors.content && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'content',
+                errors.content.type
+              )}
+            />
+          )}
         </div>
       </div>
 

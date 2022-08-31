@@ -32,7 +32,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   gender: faker.helpers.arrayElement(['mixed', ...GENDERS]),
   ages: faker.helpers.arrayElements(AGES),
   participationFee: faker.datatype.number(20000),
-  content: null,
+  content: '',
 }));
 
 export const mockMeetupAPI: MeetupAPI = {

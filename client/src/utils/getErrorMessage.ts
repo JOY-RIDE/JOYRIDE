@@ -76,3 +76,51 @@ export function getSignupFormFieldErrorMessage(
       throw new Error();
   }
 }
+
+type MeetupCreationFormField =
+  | 'title'
+  | 'bicycleTypes'
+  | 'maxNumOfParticipants'
+  | 'content';
+export function getMeetupCreationFormFieldErrorMessage(
+  field: MeetupCreationFormField,
+  errorType: string
+) {
+  switch (field) {
+    case 'title':
+    case 'content': {
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    case 'bicycleTypes':
+      switch (errorType) {
+        case 'validate':
+          return '필수 항목입니다';
+        default:
+          throw new Error();
+      }
+
+    case 'maxNumOfParticipants': {
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        case 'pattern':
+          return '숫자만 입력 가능합니다';
+        case 'min':
+          return '최소 2명 이상이어야 합니다';
+        case 'max':
+          return '최대 99명 이하여야 합니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    default:
+      throw new Error();
+  }
+}

@@ -282,20 +282,24 @@ const MeetupFilterBoardOptions = () => {
           <div className={cn('regulators')}>
             <div className={cn('regulator')}>
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="minNumOfParticipants"
                 action="decrease"
                 onDecrease={handleNumOfParticipantsDecrease}
               />
               <input
                 type="number"
+                className={cn('number')}
                 name="minNumOfParticipants"
                 min={0}
                 max={99}
                 value={boardFilters.minNumOfParticipants.value}
                 onChange={handleNumOfParticipantsChange}
-                className={cn('number')}
               />
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="minNumOfParticipants"
                 action="increase"
                 onIncrease={handleNumOfParticipantsIncrease}
@@ -307,6 +311,8 @@ const MeetupFilterBoardOptions = () => {
 
             <div className={cn('regulator')}>
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="maxNumOfParticipants"
                 action="decrease"
                 onDecrease={handleNumOfParticipantsDecrease}
@@ -321,6 +327,8 @@ const MeetupFilterBoardOptions = () => {
                 className={cn('number')}
               />
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="maxNumOfParticipants"
                 action="increase"
                 onIncrease={handleNumOfParticipantsIncrease}

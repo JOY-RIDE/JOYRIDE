@@ -17,7 +17,7 @@ export type MeetupLocation = Location;
 export type MeetupGender = 'mixed' | Gender;
 export type MeetupAges = Age[];
 export type MeetupParticipationFee = number;
-export type MeetupContent = null | string;
+export type MeetupContent = string;
 
 export interface CreatedMeetup {
   title: MeetupTitle;

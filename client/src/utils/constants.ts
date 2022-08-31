@@ -12,6 +12,7 @@ import { stringifyRidingSkill } from './stringify';
 
 export const MAIN_COLOR = '#22b573';
 export const REGEX = {
+  number: /[0-9]+/,
   email:
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   password: /[0-9]/,
@@ -19,7 +20,7 @@ export const REGEX = {
 
 export const GENDERS: Gender[] = ['m', 'f'];
 export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
-  { value: 'mixed', content: '혼성' },
+  { value: 'mixed', content: '모두' },
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
 ];
