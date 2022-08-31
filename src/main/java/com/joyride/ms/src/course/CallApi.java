@@ -79,5 +79,45 @@ public class CallApi {
         }
     }
 
+    // 필터링용
+    public JSONArray callCourseAPI(String sigun ,String level) throws Exception {
+        try {
+            String result = "";
+
+            if (level == null){
+                level = "";
+            }
+
+            StringBuilder urlBuilder = new StringBuilder("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/courseList"); /*URL*/
+            urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + API_SECRET_KEY); /*Service Key*/
+            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*현재 페이지 번호*/
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("3004", "UTF-8")); /*한 페이지 결과 수*/
+            urlBuilder.append("&" + URLEncoder.encode("MobileOS","UTF-8") + "=" + URLEncoder.encode("ETC", "UTF-8")); /*IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC*/
+            urlBuilder.append("&" + URLEncoder.encode("MobileApp","UTF-8") + "=" + URLEncoder.encode("joyride", "UTF-8")); /*서비스명=어플명*/
+            urlBuilder.append("&" + URLEncoder.encode("crsLevel","UTF-8") + "=" + URLEncoder.encode(level, "UTF-8")); /*코스 난이도(1:하/2:중/3:상)*/
+            urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+
+            URL url = new URL(urlBuilder.toString());
+            System.out.println("url = " + url);
+
+            BufferedReader bf;
+            bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
+
+            JSONParser jsonParser = new JSONParser();
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
+            JSONObject response = (JSONObject) jsonObject.get("response");
+            JSONObject body = (JSONObject) response.get("body");
+            JSONObject items = (JSONObject) body.get("items");
+            JSONArray courseArr = (JSONArray) items.get("item");
+            return courseArr;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
 
 }

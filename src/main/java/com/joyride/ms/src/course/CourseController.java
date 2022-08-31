@@ -42,7 +42,8 @@ public class CourseController {
     }
 
     // 코스 필터링 api
-    @GetMapping("/filter")
+    // Post로 할지 아니면 Pathvariable로 받을지
+    @PostMapping("/filter")
     public BaseResponse<List<GetCourseListRes>> GetFilteringCourse(@RequestBody GetFilteringCourseReq getFilteringCourseReq){
         try{
             List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList(getFilteringCourseReq);

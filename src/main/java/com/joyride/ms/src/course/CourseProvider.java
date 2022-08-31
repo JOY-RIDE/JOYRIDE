@@ -49,7 +49,7 @@ public class CourseProvider {
             String level = getFilteringCourseReq.getLevel();
 
             JSONArray courseArr = callApi.callCourseAPI(sigun, level);
-            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr, sigun);
 
             // 좋아요 수 넣어주기
             for (int i = 0; i < courseList.size(); i++) {
