@@ -4,7 +4,7 @@
 @mixin setButtonWidth($size) {
   gap: $size;
   & .col {
-    flex: 1 0 calc((100% - 2 * $size) / 3);
+    flex-basis: calc((100% - 2 * $size) / 3);
   }
 }
 
@@ -39,12 +39,14 @@
 }
 
 .row {
-  display: flex;
-  flex-wrap: wrap;
-  @include setButtonWidth(1.2rem);
+  $row-gap: 1.2rem;
 
-  @include for-tablet-portrait-up {
-    @include setButtonWidth(2rem);
+  display: flex;
+  gap: $row-gap;
+  flex-wrap: wrap;
+
+  & .col {
+    flex-basis: calc((100% - 2 * $row-gap) / 3);
   }
 }
 

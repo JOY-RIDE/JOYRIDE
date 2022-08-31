@@ -3,10 +3,11 @@ import { CreatedMeetup, MeetupPathDifficulty } from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
+  LOCATIONS,
   MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
-import { Option, RidingSkill } from 'types/common';
+import { Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
 import { useEffect } from 'react';
 import Button from 'components/common/Button';
@@ -30,6 +31,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     watch,
   } = useForm<CreatedMeetup>({
     defaultValues: {
+      location: '서울',
       pathDifficulty: 1,
       ridingSkill: 1,
       gender: 'mixed',
@@ -67,12 +69,41 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
         <div className={cn('field')}>
           <label className={cn('label')}>
+            <h4>지역</h4>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="location"
+              rules={{ required: true }}
+              render={({ field: { value, ...others } }) => (
+                <>
+                  {LOCATIONS.map((option: Location) => (
+                    <li key={option} className={cn('col')}>
+                      <SelectButton
+                        type="radio"
+                        value={option}
+                        content={option}
+                        isSelected={value === option}
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
             <h4>코스 난이도</h4>
           </label>
           <ul className={cn('row')}>
             <Controller
               control={control}
               name="pathDifficulty"
+              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_PATH_DIFFICULTY_OPTIONS.map(
@@ -102,6 +133,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="ridingSkill"
+              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
