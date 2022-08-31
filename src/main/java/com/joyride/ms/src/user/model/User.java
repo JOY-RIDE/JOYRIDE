@@ -26,6 +26,12 @@ public class User {
     private String provider_id;
 
 
+    private User(Integer id,String nickname,Double manner){
+        this.id = id;
+        this.nickname = nickname;
+        this.manner = manner;
+    }
+
     public User(String nickname, String email, String password, String gender,Integer old, String bicycleType,Integer bicycleCareer, String role, String provider, String provider_id){
         this.nickname = nickname;
         this.email = email;
