@@ -98,11 +98,11 @@ public class CourseController {
     // 요청: 좋아요할 코스의 아이디와 좋아요하는 유저 아이디 필요
     // @PathVariable로 하는게 맞을까? RequestBody로 하는게 맞을까?
     // 응답:
-    @PostMapping("/like/{user_id}/{course_id}")
-    public BaseResponse<PostCourseLikeRes> PostCourseLike(@PathVariable("user_id") int user_id, @PathVariable("course_id") String course_id){
+    @PostMapping("/like")
+    public BaseResponse<PostCourseLikeRes> PostCourseLike(@RequestBody PostCourseLikeReq postCourseLikeReq) {
         try{
             // 유저 확인 로직 필요
-            PostCourseLikeRes postCourseLikeRes = courseService.createCourseLike(user_id, course_id);
+            PostCourseLikeRes postCourseLikeRes = courseService.createCourseLike(postCourseLikeReq);
             return new BaseResponse<>(postCourseLikeRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

@@ -163,30 +163,35 @@ public class CourseDao {
     /**
      * 코스 좋아요
      */
-    public int insertCourseLike(int user_id, String course_id){
+    public void insertCourseLike(int user_id, String course_id){
 
         String createCourseLikeQuery = "insert into courselike (user_id, course_id) VALUES (?,?)";
 
         Object[] createCourseLikeParams = new Object[]{user_id, course_id};
         this.jdbcTemplate.update(createCourseLikeQuery, createCourseLikeParams);
-
-        String lastInsertIdQuery = "select last_insert_id()";
-        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
-
     //좋아요 삭제
+    public void updateCourseLike(int user_id){
 
-    public void deleteByCourseLikeId(int courseLike_id){
-
-        String deleteByCourseLikeIdQuery = "delete from courselike where id = ?";
-        int deleteByCourseLikeIdParams = courseLike_id;
+        // 이 부분 체크
+        String deleteByCourseLikeIdQuery = "update courselike set status = 0 where user_id = ?";
+        int deleteByCourseLikeIdParams = user_id;
 
         this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
     }
 
-    public int existsCourseLike(int courseLike_id) {
-        String existsCourseLikeQuery = "select exists(select id from courselike where id = ?)";
-        int existsCourseLikeParams = courseLike_id;
+//    public int existsCourseLike(int courseLike_id) {
+//        String existsCourseLikeQuery = "select exists(select id from courselike where id = ?)";
+//        int existsCourseLikeParams = courseLike_id;
+//        return this.jdbcTemplate.queryForObject(existsCourseLikeQuery,
+//                int.class,
+//                existsCourseLikeParams);
+//    }
+
+    // 유저 아이디로 좋아요가 있는지 조회
+    public int existsCourseLikeByUserId(int user_id) {
+        String existsCourseLikeQuery = "select exists(select id from courselike where user_id = ?)";
+        int existsCourseLikeParams = user_id;
         return this.jdbcTemplate.queryForObject(existsCourseLikeQuery,
                 int.class,
                 existsCourseLikeParams);
