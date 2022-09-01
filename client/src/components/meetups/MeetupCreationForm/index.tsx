@@ -1,7 +1,9 @@
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, Merge, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CreatedMeetup,
+  MeetupDueDate,
   MeetupGender,
+  MeetupMeetingDate,
   MeetupPathDifficulty,
 } from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
@@ -16,7 +18,7 @@ import {
 } from 'utils/constants';
 import { BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
-import { useEffect } from 'react';
+import { forwardRef, ReactNode, useEffect } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -24,9 +26,29 @@ import PlusMinusButton from 'components/common/PlusMinusButton';
 import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
 import SelectList from 'components/common/SelectList';
 import DateTimePicker from 'components/common/DateTimePicker';
+import { AiOutlineCalendar } from 'react-icons/ai';
 
 const cn = classNames.bind(styles);
 
+interface DateInputProps {
+  icon: ReactNode;
+  [key: string]: any;
+}
+
+const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
+  ({ className, placeholder, onClick, icon, ...others }) => (
+    <div className={cn('date-input')} onClick={onClick}>
+      <input placeholder={placeholder} {...others} />
+      <button type="button">{icon}</button>
+    </div>
+  )
+);
+
+interface MeetupCreationForm
+  extends Omit<CreatedMeetup, 'meetingDate' | 'dueDate'> {
+  meetingDate: null | MeetupMeetingDate;
+  dueDate: null | MeetupDueDate;
+}
 interface MeetupCreationFormProp {
   close: () => void;
 }
@@ -40,7 +62,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     handleSubmit,
     reset,
     watch,
-  } = useForm<CreatedMeetup>({
+  } = useForm<MeetupCreationForm>({
     defaultValues: {
       location: '서울',
       pathDifficulty: 1,
@@ -50,6 +72,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       minBirthYear: 1940,
       maxBirthYear: new Date().getFullYear(),
       maxNumOfParticipants: 2,
+      meetingDate: null,
+      dueDate: null,
       participationFee: 0,
     },
   });
@@ -91,7 +115,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       shouldValidate: true,
     });
 
-  const onSubmit: SubmitHandler<CreatedMeetup> = data => {
+  const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     console.log(data);
   };
 
@@ -388,8 +412,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           )}
         </div>
 
-        <DateTimePicker placeholder="모임 날짜와 시간을 선택하세요" />
-
         <div className={cn('field', 'participationFee')}>
           <label className={cn('label')}>
             <h4>참가비</h4>
@@ -438,6 +460,26 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               )}
             />
           )}
+        </div>
+
+        <div className={cn('field', 'date')}>
+          <label className={cn('label')}>
+            <h4>모임 일시</h4>
+          </label>
+          <DateTimePicker
+            placeholder="모임 일시를 선택하세요."
+            CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+          />
+        </div>
+
+        <div className={cn('field', 'date')}>
+          <label className={cn('label')}>
+            <h4>모집 마감일</h4>
+          </label>
+          <DateTimePicker
+            placeholder="모집 마감일을 선택하세요."
+            CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+          />
         </div>
 
         <div className={cn('field', 'content')}>

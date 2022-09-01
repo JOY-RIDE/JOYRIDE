@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
-import TextInput from '../TextInput';
 import styles from './DateTimePicker.module.scss';
 import classNames from 'classnames/bind';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -12,6 +11,7 @@ const cn = classNames.bind(styles);
 
 interface DateTimePickerProps {
   placeholder?: string;
+  CustomInput: ReactElement;
 }
 
 function compareTwoDates(first: Date, second: Date) {
@@ -37,7 +37,7 @@ const MONTHS = [
   '12월',
 ];
 
-const DateTimePicker = ({ placeholder }: DateTimePickerProps) => {
+const DateTimePicker = ({ placeholder, CustomInput }: DateTimePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   return (
     <DatePicker
@@ -49,7 +49,7 @@ const DateTimePicker = ({ placeholder }: DateTimePickerProps) => {
       minDate={new Date()}
       timeCaption="시간"
       timeIntervals={15}
-      customInput={<TextInput />}
+      customInput={CustomInput}
       calendarClassName={cn('calendar')}
       dayClassName={date => {
         if (!selectedDate) return cn('normal-day');
@@ -68,6 +68,7 @@ const DateTimePicker = ({ placeholder }: DateTimePickerProps) => {
       }) => (
         <header className={cn('header')}>
           <button
+            type="button"
             className={cn('month-btn')}
             disabled={prevMonthButtonDisabled}
             onClick={decreaseMonth}
@@ -97,6 +98,7 @@ const DateTimePicker = ({ placeholder }: DateTimePickerProps) => {
             ))}
           </select>
           <button
+            type="button"
             className={cn('month-btn')}
             disabled={nextMonthButtonDisabled}
             onClick={increaseMonth}

@@ -19,7 +19,7 @@ $sell-gap: 1rem;
 
   :global {
     & .react-datepicker__header {
-      background: $color-main;
+      background: white;
       padding: 1.2rem 2rem;
       border-color: $color-grey-300;
 
@@ -34,7 +34,7 @@ $sell-gap: 1rem;
           & .react-datepicker__day-name {
             margin: 0;
             width: 100%;
-            color: white;
+            color: $color-grey-600;
             font-weight: 700;
           }
         }
@@ -42,7 +42,7 @@ $sell-gap: 1rem;
 
       & .react-datepicker-time__header {
         font-size: 1.6rem;
-        color: white;
+        color: $color-grey-600;
       }
     }
 
@@ -67,8 +67,11 @@ $sell-gap: 1rem;
         & li {
           height: auto !important;
           padding: $sell-gap !important;
+          &:hover {
+            background: rgb(230, 255, 225) !important;
+          }
           &.react-datepicker__time-list-item--selected {
-            background: #008b88 !important;
+            background: $color-main !important;
           }
         }
       }
@@ -88,7 +91,7 @@ $sell-gap: 1rem;
   & .month-btn {
     margin: 0 1.5rem;
     & svg {
-      color: white;
+      color: $color-main;
       font-size: 1.8rem;
     }
   }
@@ -102,8 +105,8 @@ $sell-gap: 1rem;
   align-items: center;
   margin: 0;
 
-  &:hover {
-    background: $color-main-light;
+  &:hover:not([aria-disabled='true']) {
+    background: rgb(230, 255, 225);
     border-radius: 50%;
   }
 
