@@ -56,6 +56,12 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const maxNumOfParticipants = Number(watch('maxNumOfParticipants'));
   const participationFee = Number(watch('participationFee'));
 
+  useEffect(() => {
+    if (!isSubmitSuccessful) return;
+    close();
+    return reset;
+  }, [isSubmitSuccessful]);
+
   const handleMaxNumOfParticipantsDecrease = () =>
     setValue(
       'maxNumOfParticipants',
@@ -64,14 +70,12 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
         shouldValidate: true,
       }
     );
-  const handleMaxNumOfParticipantsIncrease = () =>
-    setValue(
-      'maxNumOfParticipants',
-      99 <= maxNumOfParticipants ? 99 : maxNumOfParticipants + 1,
-      {
-        shouldValidate: true,
-      }
-    );
+  const handleMaxNumOfParticipantsIncrease = () => {
+    if (99 <= maxNumOfParticipants) return;
+    setValue('maxNumOfParticipants', maxNumOfParticipants + 1, {
+      shouldValidate: true,
+    });
+  };
 
   const handleParticipationFeeDecrease = () =>
     setValue(
@@ -89,12 +93,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const onSubmit: SubmitHandler<CreatedMeetup> = data => {
     console.log(data);
   };
-
-  useEffect(() => {
-    if (!isSubmitSuccessful) return;
-    close();
-    return reset;
-  }, [isSubmitSuccessful]);
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
@@ -123,7 +121,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="location"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {LOCATIONS.map((location: Location) => (
@@ -151,7 +148,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="pathDifficulty"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_PATH_DIFFICULTY_OPTIONS.map(
@@ -212,7 +208,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <ErrorMessage
               message={getMeetupCreationFormFieldErrorMessage(
                 'bicycleTypes',
-                'required'
+                'validate'
               )}
             />
           )}
@@ -226,7 +222,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="ridingSkill"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
@@ -254,7 +249,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="gender"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
@@ -274,12 +268,12 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
-        <div className={cn('field', 'age')}>
+        <div className={cn('field', 'birthYear')}>
           <label className={cn('label')}>
             <h4>연령대</h4>
           </label>
           <div className={cn('option')}>
-            <div className={cn('birth-year')}>
+            <div className={cn('select')}>
               <Controller
                 control={control}
                 name="minBirthYear"
@@ -299,7 +293,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
             <span className={cn('tilde')}>~</span>
 
-            <div className={cn('birth-year')}>
+            <div className={cn('select')}>
               <Controller
                 control={control}
                 name="maxBirthYear"
@@ -351,14 +345,23 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                 action="decrease"
                 onDecrease={handleMaxNumOfParticipantsDecrease}
               />
-              <input
-                type="number"
-                className={cn('number')}
-                {...register('maxNumOfParticipants', {
-                  required: true,
-                  min: 2,
-                  max: 99,
-                })}
+              <Controller
+                control={control}
+                name="maxNumOfParticipants"
+                rules={{ min: 2 }}
+                render={({ field: { onChange, ...others } }) => (
+                  <input
+                    type="number"
+                    className={cn('number')}
+                    onChange={e => {
+                      const input = Number(e.target.value);
+                      if (input <= 0) return onChange(0);
+                      e.target.value = '';
+                      return onChange(input > 99 ? 99 : input);
+                    }}
+                    {...others}
+                  />
+                )}
               />
               <PlusMinusButton
                 color="white"

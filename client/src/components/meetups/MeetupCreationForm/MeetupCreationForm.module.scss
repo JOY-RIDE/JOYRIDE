@@ -38,14 +38,14 @@
   }
 }
 
-.age {
+.birthYear {
   & .option {
     display: flex;
     gap: 1.5rem;
     align-items: center;
   }
 
-  & .birth-year {
+  & .select {
     display: flex;
     gap: 1rem;
     align-items: center;

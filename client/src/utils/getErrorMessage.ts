@@ -120,12 +120,8 @@ export function getMeetupCreationFormFieldErrorMessage(
 
     case 'maxNumOfParticipants': {
       switch (errorType) {
-        case 'required':
-          return '필수 항목입니다';
         case 'min':
           return '최소 2명 이상이어야 합니다';
-        case 'max':
-          return '최대 99명 이하여야 합니다';
         default:
           throw new Error();
       }
