@@ -172,6 +172,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4>자전거 종류</h4>
+            <span className={cn('multiple')}>(다중 선택)</span>
           </label>
           <ul className={cn('options')}>
             <Controller
@@ -394,13 +395,23 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                 action="decrease"
                 onDecrease={handleParticipationFeeDecrease}
               />
-              <input
-                type="number"
-                className={cn('number')}
-                {...register('participationFee', {
-                  required: true,
-                  min: 0,
-                })}
+              <Controller
+                control={control}
+                name="participationFee"
+                render={({ field: { onChange, ...others } }) => (
+                  <input
+                    type="number"
+                    className={cn('number')}
+                    step={5000}
+                    onChange={e => {
+                      const input = Number(e.target.value);
+                      if (input <= 0) return onChange(0);
+                      e.target.value = '';
+                      return onChange(input);
+                    }}
+                    {...others}
+                  />
+                )}
               />
               <PlusMinusButton
                 color="white"
@@ -411,14 +422,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             </div>
             <span>원</span>
           </div>
-          {errors.participationFee && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'participationFee',
-                errors.participationFee.type
-              )}
-            />
-          )}
         </div>
 
         <div className={cn('field', 'content')}>

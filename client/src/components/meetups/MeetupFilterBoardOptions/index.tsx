@@ -104,7 +104,9 @@ const MeetupFilterBoardOptions = () => {
   return (
     <div className={cn('filters')}>
       <div className={cn('filter')}>
-        <label className={cn('label')}>지역</label>
+        <label className={cn('label')}>
+          <h4>지역</h4>
+        </label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
@@ -129,7 +131,9 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>코스 난이도</label>
+        <label className={cn('label')}>
+          <h4>코스 난이도</h4>
+        </label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
@@ -154,7 +158,10 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>자전거 종류</label>
+        <label className={cn('label')}>
+          <h4>자전거 종류</h4>
+          <span className={cn('multiple')}>(다중 선택)</span>
+        </label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
@@ -184,7 +191,9 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>라이딩 실력</label>
+        <label className={cn('label')}>
+          <h4>라이딩 실력</h4>
+        </label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
@@ -209,7 +218,9 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>성별</label>
+        <label className={cn('label')}>
+          <h4>성별</h4>
+        </label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
@@ -234,7 +245,10 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>연령대</label>
+        <label className={cn('label')}>
+          <h4>연령대</h4>
+          <span className={cn('multiple')}>(다중 선택)</span>
+        </label>
         <ul className={cn('options')}>
           <OptionChip
             type="all"
@@ -264,7 +278,9 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter', 'participants')}>
-        <label className={cn('label')}>인원</label>
+        <label className={cn('label')}>
+          <h4>인원</h4>
+        </label>
         {/* // Range? */}
         <div className={cn('option')}>
           <OptionChip
@@ -340,7 +356,9 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter', 'participation-fee-container')}>
-        <label className={cn('label')}>참가비 여부</label>
+        <label className={cn('label')}>
+          <h4>참가비 여부</h4>
+        </label>
         <div className={cn('option')}>
           <CheckBox
             id={cn('participation-fee')}
