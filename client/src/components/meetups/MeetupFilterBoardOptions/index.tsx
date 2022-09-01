@@ -160,7 +160,7 @@ const MeetupFilterBoardOptions = () => {
       <div className={cn('filter')}>
         <label className={cn('label')}>
           <h4>자전거 종류</h4>
-          <span className={cn('multiple')}>(다중 선택)</span>
+          {/* <span className={cn('multiple')}>(다중 선택)</span> */}
         </label>
         <ul className={cn('options')}>
           <OptionChip
@@ -177,6 +177,18 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="bicycleTypes"
               value={option.value}
               content={option.content}
+              isActive={option.value === boardFilters.bicycleTypes?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
+            />
+          ))}
+          {/* {BICYCLE_TYPE_OPTIONS.map(option => (
+            <OptionChip
+              key={option.value}
+              type="default"
+              filtersKey="bicycleTypes"
+              value={option.value}
+              content={option.content}
               isActive={
                 boardFilters.bicycleTypes &&
                 boardFilters.bicycleTypes.some(
@@ -186,7 +198,7 @@ const MeetupFilterBoardOptions = () => {
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
-          ))}
+          ))} */}
         </ul>
       </div>
 
@@ -246,8 +258,8 @@ const MeetupFilterBoardOptions = () => {
 
       <div className={cn('filter')}>
         <label className={cn('label')}>
-          <h4>연령대</h4>
-          <span className={cn('multiple')}>(다중 선택)</span>
+          <h4>나이</h4>
+          {/* <span className={cn('multiple')}>(다중 선택)</span> */}
         </label>
         <ul className={cn('options')}>
           <OptionChip
@@ -264,6 +276,18 @@ const MeetupFilterBoardOptions = () => {
               filtersKey="ages"
               value={age}
               content={stringifyAge(age)}
+              isActive={age === boardFilters.ages?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
+            />
+          ))}
+          {/* {AGES.map(age => (
+            <OptionChip
+              key={age}
+              type="default"
+              filtersKey="ages"
+              value={age}
+              content={stringifyAge(age)}
               isActive={
                 boardFilters.ages &&
                 boardFilters.ages.some(
@@ -273,7 +297,7 @@ const MeetupFilterBoardOptions = () => {
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
-          ))}
+          ))} */}
         </ul>
       </div>
 
@@ -335,12 +359,12 @@ const MeetupFilterBoardOptions = () => {
               />
               <input
                 type="number"
+                className={cn('number')}
                 name="maxNumOfParticipants"
                 min={0}
                 max={99}
                 value={boardFilters.maxNumOfParticipants.value}
                 onChange={handleNumOfParticipantsChange}
-                className={cn('number')}
               />
               <PlusMinusButton
                 color="grey"

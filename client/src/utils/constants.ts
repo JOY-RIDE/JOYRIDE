@@ -20,7 +20,7 @@ export const REGEX = {
 
 export const GENDERS: Gender[] = ['m', 'f'];
 export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
-  { value: 'mixed', content: '전체' },
+  { value: 'mixed', content: '무관' },
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
 ];
@@ -70,8 +70,8 @@ export const MEETUP_ORDER_OPTIONS: MeetupOrderOption[] = [
   { name: 'meetingDate', content: '모임 빠른순' },
   { name: 'pathDifficulty', content: '코스 난이도 낮은순', sign: '△' },
   { name: '-pathDifficulty', content: '코스 난이도 높은순', sign: '▽' },
-  { name: 'ridingSkill', content: '실력 낮은순', sign: '△' },
-  { name: '-ridingSkill', content: '실력 높은순', sign: '▽' },
+  { name: 'ridingSkill', content: '라이딩 실력 낮은순', sign: '△' },
+  { name: '-ridingSkill', content: '라이딩 실력 높은순', sign: '▽' },
   { name: 'maxNumOfParticipants', content: '모집 인원 적은순', sign: '△' },
   { name: '-maxNumOfParticipants', content: '모집 인원 많은순', sign: '▽' },
   { name: 'participationFee', content: '참가비 적은순' },

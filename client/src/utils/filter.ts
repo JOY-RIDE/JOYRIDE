@@ -1,4 +1,4 @@
-import { FilterOptionData, FiltersReducerPayload } from 'types/common';
+import { FiltersReducerPayload } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
 import { omit } from 'lodash';
 import { MEETUP_FILTERS_INITIAL_STATE } from 'states/meetup';
@@ -19,16 +19,18 @@ function meetupFiltersReducerForChoosing(
     case 'gender':
     case 'minNumOfParticipants':
     case 'maxNumOfParticipants':
+    case 'bicycleTypes':
+    case 'ages':
       return { ...state, [key]: data };
 
     // 다중 선택 옵션들
-    case 'bicycleTypes':
-    case 'ages': {
-      const oldDataArray = state[key];
-      return oldDataArray
-        ? { ...state, [key]: oldDataArray.concat(data) }
-        : { ...state, [key]: [data] };
-    }
+    // case 'bicycleTypes':
+    // case 'ages': {
+    //   const oldDataArray = state[key];
+    //   return oldDataArray
+    //     ? { ...state, [key]: oldDataArray.concat(data) }
+    //     : { ...state, [key]: [data] };
+    // }
 
     default:
       throw new Error();
@@ -45,21 +47,23 @@ function meetupFiltersReducerForRemoving(
     case 'ridingSkill':
     case 'gender':
     case 'isParticipationFree':
+    case 'bicycleTypes':
+    case 'ages':
       return omit(state, [key]);
 
     // 다중 선택 옵션들
-    case 'bicycleTypes':
-    case 'ages': {
-      const oldDataArray = state[key];
-      return oldDataArray.length > 1
-        ? {
-            ...state,
-            [key]: oldDataArray.filter(
-              (data: FilterOptionData) => data.value !== value
-            ),
-          }
-        : omit(state, [key]);
-    }
+    // case 'bicycleTypes':
+    // case 'ages': {
+    //   const oldDataArray = state[key];
+    //   return oldDataArray.length > 1
+    //     ? {
+    //         ...state,
+    //         [key]: oldDataArray.filter(
+    //           (data: FilterOptionData) => data.value !== value
+    //         ),
+    //       }
+    //     : omit(state, [key]);
+    // }
 
     default:
       throw new Error();

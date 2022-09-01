@@ -271,7 +271,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
         <div className={cn('field', 'birthYear')}>
           <label className={cn('label')}>
-            <h4>연령대</h4>
+            <h4>나이</h4>
           </label>
           <div className={cn('option')}>
             <div className={cn('select')}>

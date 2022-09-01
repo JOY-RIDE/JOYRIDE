@@ -53,7 +53,17 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.bicycleTypes &&
+      {filters.bicycleTypes && (
+        <OptionChip
+          type="removeOnly"
+          filtersKey="bicycleTypes"
+          value={filters.bicycleTypes.value}
+          content={filters.bicycleTypes.content}
+          isActive
+          onXClick={handleRemove}
+        />
+      )}
+      {/* {filters.bicycleTypes &&
         filters.bicycleTypes.map(({ value, content }: FilterOptionData) => (
           <OptionChip
             key={`${value}`}
@@ -64,7 +74,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             isActive
             onXClick={handleRemove}
           />
-        ))}
+        ))} */}
       {filters.ridingSkill && (
         <OptionChip
           type="removeOnly"
@@ -85,7 +95,17 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.ages &&
+      {filters.ages && (
+        <OptionChip
+          type="removeOnly"
+          filtersKey="ages"
+          value={filters.ages.value}
+          content={filters.ages.content}
+          isActive
+          onXClick={handleRemove}
+        />
+      )}
+      {/* {filters.ages &&
         filters.ages.map(({ value, content }: FilterOptionData) => (
           <OptionChip
             key={`${value}`}
@@ -96,7 +116,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             isActive
             onXClick={handleRemove}
           />
-        ))}
+        ))} */}
       {Boolean(
         filters.minNumOfParticipants.value || filters.maxNumOfParticipants.value
       ) && (
