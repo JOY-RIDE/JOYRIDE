@@ -83,12 +83,14 @@
     background: $color-grey-100;
     padding: 1rem;
     justify-content: space-between;
+    border-radius: 0.3rem;
   }
 }
 
 .number {
   flex-grow: 1;
   font-size: 1.8rem;
+  padding: 0.5rem 0;
   text-align: center;
 }
 .number::-webkit-outer-spin-button,

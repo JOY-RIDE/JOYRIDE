@@ -9,6 +9,7 @@ import {
   RidingSkill,
 } from 'types/common';
 import { stringifyRidingSkill } from './stringify';
+import { range } from 'lodash';
 
 export const MAIN_COLOR = '#22b573';
 export const REGEX = {
@@ -24,10 +25,11 @@ export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
 ];
-export const BIRTH_YEAR_OPTIONS: Option<number>[] = [];
-for (let year = new Date().getFullYear(); 1940 <= year; year--) {
-  BIRTH_YEAR_OPTIONS.push({ value: year, content: `${year}` });
-}
+export const BIRTH_YEAR_OPTIONS: Option<number>[] = range(
+  new Date().getFullYear(),
+  1939,
+  -1
+).map(year => ({ value: year, content: `${year}` }));
 export const AGES: Age[] = [1, 2, 3, 4, 5];
 export const LOCATIONS: Location[] = [
   '서울',

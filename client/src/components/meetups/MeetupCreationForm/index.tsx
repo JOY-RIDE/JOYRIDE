@@ -23,6 +23,7 @@ import ErrorMessage from 'components/common/ErrorMessage';
 import PlusMinusButton from 'components/common/PlusMinusButton';
 import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
 import SelectList from 'components/common/SelectList';
+import DateTimePicker from 'components/common/DateTimePicker';
 
 const cn = classNames.bind(styles);
 
@@ -121,6 +122,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="location"
+              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {LOCATIONS.map((location: Location) => (
@@ -148,6 +150,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="pathDifficulty"
+              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_PATH_DIFFICULTY_OPTIONS.map(
@@ -223,6 +226,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="ridingSkill"
+              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
@@ -250,6 +254,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="gender"
+              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
@@ -349,7 +354,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="maxNumOfParticipants"
-                rules={{ min: 2 }}
+                rules={{ required: true, min: 2, max: 99 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"
@@ -383,6 +388,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           )}
         </div>
 
+        <DateTimePicker placeholder="모임 날짜와 시간을 선택하세요" />
+
         <div className={cn('field', 'participationFee')}>
           <label className={cn('label')}>
             <h4>참가비</h4>
@@ -398,6 +405,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="participationFee"
+                rules={{ required: true, min: 0 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"
@@ -422,6 +430,14 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             </div>
             <span>원</span>
           </div>
+          {errors.participationFee && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'participationFee',
+                errors.participationFee.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field', 'content')}>
