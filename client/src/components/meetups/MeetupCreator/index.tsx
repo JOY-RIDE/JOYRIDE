@@ -28,6 +28,7 @@ const MeetupCreator = () => {
           style: {
             boxShadow: 'none',
             width: 'min(100%, 60rem)',
+            overflowY: 'hidden',
           },
         }}
         TransitionComponent={isFullScreen ? PopupSlide : undefined}

@@ -81,7 +81,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const maxNumOfParticipants = watch('maxNumOfParticipants');
   const participationFee = watch('participationFee');
   const dueDate = watch('dueDate');
-  const meetingDate = watch('meetingDate');
 
   useEffect(() => {
     if (!isSubmitSuccessful) return;
