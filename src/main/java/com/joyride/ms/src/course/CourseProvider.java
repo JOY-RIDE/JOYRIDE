@@ -70,10 +70,7 @@ public class CourseProvider {
             JSONArray courseArr = callApi.callCourseAPI(title);
             GetCourseRes course = GetCourseRes.createCourse(courseArr);
 
-            // 좋아요한 userId
-            // 그냥 다 title로 통일?
-            //List<Integer> userIdList = courseDao.selectUserIdByCourseId(courseId);
-            // Dao 문 필요함
+            // 좋아요
             int checkLike = courseDao.selectStatusByUserId(userId);
             if (checkLike == 0) {
                 course.setIsLike(0);
