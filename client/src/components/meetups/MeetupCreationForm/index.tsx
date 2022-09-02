@@ -28,6 +28,7 @@ import SelectList from 'components/common/SelectList';
 import DateTimePicker from 'components/common/DateTimePicker';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import TextInput from 'components/common/TextInput';
+import Chip from 'components/common/Chip';
 
 const cn = classNames.bind(styles);
 
@@ -92,15 +93,22 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     return reset;
   }, [isSubmitSuccessful]);
 
-  const handlePathKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handlePathAdd = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== ',') return;
     if (!(e.target instanceof HTMLInputElement)) return;
     e.preventDefault();
-    setValue('path', [...path, e.target.value], {
+    const input = e.target.value.trim();
+    if (!input) return;
+    setValue('path', [...path, input], {
       shouldValidate: true,
     });
     e.target.value = '';
   };
+  const handlePathDelete = (stopIndex: number) => () =>
+    setValue(
+      'path',
+      path.filter((_, valueIndex) => valueIndex !== stopIndex)
+    );
 
   const handleMaxNumOfParticipantsDecrease = () =>
     setValue(
@@ -186,14 +194,19 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <h4>코스</h4>
           </label>
           <ul className={cn('stops')}>
-            {/* {path.map(stop => (
-              <FilterOptionChip type="removeOnly" content={stop} isActive />
-            ))} */}
+            {path.map((stop, index) => (
+              <Chip
+                key={`${stop}${index}`}
+                content={stop}
+                isActive
+                isDeletable
+                onXClick={handlePathDelete(index)}
+              />
+            ))}
           </ul>
-
           <TextInput
             placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
-            onKeyDown={handlePathKeyDown}
+            onKeyDown={handlePathAdd}
           />
         </div>
 
