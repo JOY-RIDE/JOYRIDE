@@ -9,5 +9,5 @@ import lombok.*;
 public class PostCourseLikeReq {
 
     private int user_id;
-    private String course_id;
+    private String title;
 }

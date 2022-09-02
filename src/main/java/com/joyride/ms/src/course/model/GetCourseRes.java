@@ -96,6 +96,16 @@ public class GetCourseRes {
         return getCourseRes;
     }
 
+    //==생성 메서드==//
+    // course 테이블에 있는 정보만
+    public static GetCourseRes createGetCourseRes(String image, String latitude, String longitude) {
+        GetCourseRes getCourseRes = new GetCourseRes();
+        getCourseRes.setImage(image);
+        getCourseRes.setLatitude(latitude);
+        getCourseRes.setLongitude(longitude);
+        return getCourseRes;
+    }
+
     // 반환 디테일 코스를 만들어 주는 메소드
     public static GetCourseRes createCourse(JSONArray courseArr) throws BaseException {
         try {

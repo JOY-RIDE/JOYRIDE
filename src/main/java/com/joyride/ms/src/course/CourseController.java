@@ -32,10 +32,10 @@ public class CourseController {
     }
 
     // 코스 디테일 조회 api
-    @GetMapping("/{title}")
-    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title){
+    @GetMapping("/{title}/{user_id}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title, @PathVariable("user_id") int user_id){
         try{
-            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title);
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title, user_id);
             return new BaseResponse<>(getCourseRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -68,10 +68,10 @@ public class CourseController {
     }
 
     // 리뷰 조회 api
-    @GetMapping("/review/{course_id}")
-    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("course_id") String course_id){
+    @GetMapping("/review/{title}")
+    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("title") String title){
         try{
-            List<GetCourseReviewRes> getCourseReviewRes = courseProvider.retrieveCourseReviewByCourseId(course_id);
+            List<GetCourseReviewRes> getCourseReviewRes = courseProvider.retrieveCourseReviewByCourseTitle(title);
             return new BaseResponse<>(getCourseReviewRes);
         } catch(BaseException exception){
             exception.printStackTrace();
@@ -109,15 +109,15 @@ public class CourseController {
         }
     }
 
-    //리뷰 종아요 취소 api
-    @DeleteMapping("/like/{courseLike_id}")
-    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
-        try{
-            // 유저 확인 로직 필요
-            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
-            return new BaseResponse<>(deleteCourseReviewRes);
-        } catch(BaseException exception){
-            return new BaseResponse<>((exception.getStatus()));
-        }
-    }
+//    //리뷰 종아요 취소 api
+//    @DeleteMapping("/like/{courseLike_id}")
+//    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
+//        try{
+//            // 유저 확인 로직 필요
+//            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
+//            return new BaseResponse<>(deleteCourseReviewRes);
+//        } catch(BaseException exception){
+//            return new BaseResponse<>((exception.getStatus()));
+//        }
+//    }
 }

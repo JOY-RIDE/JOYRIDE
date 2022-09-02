@@ -83,12 +83,12 @@ public class CourseService {
 
             // 데이터 베이스 status값 설정해주기
             int user_id = postCourseLikeReq.getUser_id();
-            String course_id = postCourseLikeReq.getCourse_id();
+            String title = postCourseLikeReq.getTitle();
 
             int existId = courseDao.existsCourseLikeByUserId(user_id);
             // 없으면
             if (existId == 0) {
-                courseDao.insertCourseLike(user_id, course_id);
+                courseDao.insertCourseLike(user_id, title);
                 String message = "좋아요 등록 성공했습니다.";
                 return new PostCourseLikeRes(message);
             }
