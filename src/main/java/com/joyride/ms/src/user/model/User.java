@@ -25,7 +25,6 @@ public class User {
     private String provider;
     private String provider_id;
 
-
     public User(String nickname, String email, String password, String gender,Integer old, String bicycleType,Integer bicycleCareer, String role, String provider, String provider_id){
         this.nickname = nickname;
         this.email = email;
