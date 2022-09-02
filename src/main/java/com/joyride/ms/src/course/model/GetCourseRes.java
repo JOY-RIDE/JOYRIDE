@@ -61,6 +61,10 @@ public class GetCourseRes {
 
     private int isLike;
 
+    private String latitude;
+
+    private String longitude;
+
     // 리뷰
 
     private List<GetCourseReviewRes> getCourseReviewRes;
