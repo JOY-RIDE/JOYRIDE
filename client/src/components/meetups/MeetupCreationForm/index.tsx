@@ -190,6 +190,65 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
+        <div className={cn('field', 'date')}>
+          <label className={cn('label')}>
+            <h4>모집 마감 일시</h4>
+          </label>
+          <Controller
+            control={control}
+            name="dueDate"
+            rules={{ required: true }}
+            render={({ field: { value: selectedDate, ...others } }) => (
+              <DateTimePicker
+                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+                placeholder="모집 마감 일시를 선택하세요."
+                {...others}
+              />
+            )}
+          />
+          {errors.dueDate && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'dueDate',
+                errors.dueDate.type
+              )}
+            />
+          )}
+        </div>
+
+        <div className={cn('field', 'date')}>
+          <label className={cn('label')}>
+            <h4>모임 일시</h4>
+          </label>
+          <Controller
+            control={control}
+            name="meetingDate"
+            rules={{
+              required: true,
+              validate: meetingDate =>
+                (dueDate as Date).getTime() <= (meetingDate as Date).getTime(),
+            }}
+            render={({ field: { value: selectedDate, ...others } }) => (
+              <DateTimePicker
+                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+                minDate={dueDate ? dueDate : undefined}
+                placeholder="모임 일시를 선택하세요."
+                {...others}
+              />
+            )}
+          />
+          {errors.meetingDate && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'meetingDate',
+                errors.meetingDate.type
+              )}
+            />
+          )}
+        </div>
+
         <div className={cn('field', 'path')}>
           <label className={cn('label')}>
             <h4>코스</h4>
@@ -298,127 +357,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           )}
         </div>
 
-        <div className={cn('field')}>
-          <label className={cn('label')}>
-            <h4>라이딩 실력</h4>
-          </label>
-          <ul className={cn('options')}>
-            <Controller
-              control={control}
-              name="ridingSkill"
-              rules={{ required: true }}
-              render={({ field: { value, ...others } }) => (
-                <>
-                  {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
-                    <li key={option.value} className={cn('col')}>
-                      <SelectButton
-                        type="radio"
-                        value={option.value}
-                        content={option.content}
-                        isSelected={Number(value) === option.value}
-                        {...others}
-                      />
-                    </li>
-                  ))}
-                </>
-              )}
-            />
-          </ul>
-        </div>
-
-        <div className={cn('field')}>
-          <label className={cn('label')}>
-            <h4>성별</h4>
-          </label>
-          <ul className={cn('options')}>
-            <Controller
-              control={control}
-              name="gender"
-              rules={{ required: true }}
-              render={({ field: { value, ...others } }) => (
-                <>
-                  {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
-                    <li key={option.value} className={cn('col')}>
-                      <SelectButton
-                        type="radio"
-                        value={option.value}
-                        content={option.content}
-                        isSelected={value === option.value}
-                        {...others}
-                      />
-                    </li>
-                  ))}
-                </>
-              )}
-            />
-          </ul>
-        </div>
-
-        <div className={cn('field', 'birthYear')}>
-          <label className={cn('label')}>
-            <h4>나이</h4>
-          </label>
-          <div className={cn('option')}>
-            <div className={cn('select')}>
-              <Controller
-                control={control}
-                name="minBirthYear"
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <SelectList
-                    options={BIRTH_YEAR_OPTIONS}
-                    label="최소 출생년도"
-                    defaultText="최소 출생년도"
-                    size="sm"
-                    {...field}
-                  />
-                )}
-              />
-              <span>년생</span>
-            </div>
-
-            <span className={cn('tilde')}>~</span>
-
-            <div className={cn('select')}>
-              <Controller
-                control={control}
-                name="maxBirthYear"
-                rules={{
-                  required: true,
-                  min: minBirthYear,
-                }}
-                render={({ field }) => (
-                  <SelectList
-                    options={BIRTH_YEAR_OPTIONS}
-                    label="최대 출생년도"
-                    defaultText="최대 출생년도"
-                    size="sm"
-                    {...field}
-                  />
-                )}
-              />
-              <span>년생</span>
-            </div>
-          </div>
-          {(errors.minBirthYear?.type === 'required' ||
-            errors.maxBirthYear?.type === 'required') && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'birthYear',
-                'required'
-              )}
-            />
-          )}
-          {errors.maxBirthYear?.type === 'min' && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'birthYear',
-                'min'
-              )}
-            />
-          )}
-        </div>
-
         <div className={cn('field', 'maxNumOfParticipants')}>
           <label className={cn('label')}>
             <h4>인원</h4>
@@ -468,6 +406,125 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           )}
         </div>
 
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>성별</h4>
+          </label>
+          <ul className={cn('options')}>
+            <Controller
+              control={control}
+              name="gender"
+              rules={{ required: true }}
+              render={({ field: { value, ...others } }) => (
+                <>
+                  {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        type="radio"
+                        value={option.value}
+                        content={option.content}
+                        isSelected={value === option.value}
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+        </div>
+
+        <div className={cn('field', 'birthYear')}>
+          <label className={cn('label')}>
+            <h4>나이</h4>
+          </label>
+          <div className={cn('option')}>
+            <div className={cn('select')}>
+              <Controller
+                control={control}
+                name="minBirthYear"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <SelectList
+                    options={BIRTH_YEAR_OPTIONS}
+                    label="최소 출생년도"
+                    defaultText="최소 출생년도"
+                    {...field}
+                  />
+                )}
+              />
+              <span>년생</span>
+            </div>
+
+            <span className={cn('tilde')}>~</span>
+
+            <div className={cn('select')}>
+              <Controller
+                control={control}
+                name="maxBirthYear"
+                rules={{
+                  required: true,
+                  min: minBirthYear,
+                }}
+                render={({ field }) => (
+                  <SelectList
+                    options={BIRTH_YEAR_OPTIONS}
+                    label="최대 출생년도"
+                    defaultText="최대 출생년도"
+                    {...field}
+                  />
+                )}
+              />
+              <span>년생</span>
+            </div>
+          </div>
+          {(errors.minBirthYear?.type === 'required' ||
+            errors.maxBirthYear?.type === 'required') && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'birthYear',
+                'required'
+              )}
+            />
+          )}
+          {errors.maxBirthYear?.type === 'min' && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'birthYear',
+                'min'
+              )}
+            />
+          )}
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>라이딩 실력</h4>
+          </label>
+          <ul className={cn('options')}>
+            <Controller
+              control={control}
+              name="ridingSkill"
+              rules={{ required: true }}
+              render={({ field: { value, ...others } }) => (
+                <>
+                  {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        type="radio"
+                        value={option.value}
+                        content={option.content}
+                        isSelected={Number(value) === option.value}
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
+        </div>
+
         <div className={cn('field', 'participationFee')}>
           <label className={cn('label')}>
             <h4>참가비</h4>
@@ -513,65 +570,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               message={getMeetupCreationFormFieldErrorMessage(
                 'participationFee',
                 errors.participationFee.type
-              )}
-            />
-          )}
-        </div>
-
-        <div className={cn('field', 'date')}>
-          <label className={cn('label')}>
-            <h4>모집 마감 일시</h4>
-          </label>
-          <Controller
-            control={control}
-            name="dueDate"
-            rules={{ required: true }}
-            render={({ field: { value: selectedDate, ...others } }) => (
-              <DateTimePicker
-                selectedDate={selectedDate ? new Date(selectedDate) : null}
-                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
-                placeholder="모집 마감 일시를 선택하세요."
-                {...others}
-              />
-            )}
-          />
-          {errors.dueDate && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'dueDate',
-                errors.dueDate.type
-              )}
-            />
-          )}
-        </div>
-
-        <div className={cn('field', 'date')}>
-          <label className={cn('label')}>
-            <h4>모임 일시</h4>
-          </label>
-          <Controller
-            control={control}
-            name="meetingDate"
-            rules={{
-              required: true,
-              validate: meetingDate =>
-                (dueDate as Date).getTime() <= (meetingDate as Date).getTime(),
-            }}
-            render={({ field: { value: selectedDate, ...others } }) => (
-              <DateTimePicker
-                selectedDate={selectedDate ? new Date(selectedDate) : null}
-                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
-                minDate={dueDate ? dueDate : undefined}
-                placeholder="모임 일시를 선택하세요."
-                {...others}
-              />
-            )}
-          />
-          {errors.meetingDate && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'meetingDate',
-                errors.meetingDate.type
               )}
             />
           )}

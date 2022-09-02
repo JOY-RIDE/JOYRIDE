@@ -79,12 +79,13 @@ export function getSignupFormFieldErrorMessage(
 
 type MeetupCreationFormField =
   | 'title'
-  | 'bicycleTypes'
-  | 'birthYear'
-  | 'maxNumOfParticipants'
-  | 'participationFee'
   | 'meetingDate'
   | 'dueDate'
+  | 'path'
+  | 'maxNumOfParticipants'
+  | 'birthYear'
+  | 'bicycleTypes'
+  | 'participationFee'
   | 'content';
 export function getMeetupCreationFormFieldErrorMessage(
   field: MeetupCreationFormField,
@@ -97,6 +98,15 @@ export function getMeetupCreationFormFieldErrorMessage(
       switch (errorType) {
         case 'required':
           return '필수 항목입니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    case 'path': {
+      switch (errorType) {
+        case 'validate':
+          return '최소 출발지와 도착지를 등록해야 합니다';
         default:
           throw new Error();
       }

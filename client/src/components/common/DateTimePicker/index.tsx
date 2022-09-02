@@ -126,7 +126,7 @@ const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
           </header>
         )}
         placeholderText={placeholder}
-        popperPlacement="bottom"
+        popperPlacement="auto"
         fixedHeight
         closeOnScroll
         showPopperArrow={false}

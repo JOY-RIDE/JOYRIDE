@@ -160,6 +160,7 @@ const SignupDetailForm = () => {
                   {genderOptions.map((option: SelectButtonProps) => (
                     <li key={option.value} className={cn('col')}>
                       <SelectButton
+                        size="lg"
                         isSelected={value === option.value}
                         value={option.value}
                         content={option.content}

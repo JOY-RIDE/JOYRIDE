@@ -12,7 +12,6 @@ interface TextAreaProps {
   [key: string]: any;
 }
 
-// TODO: props
 const TextArea = memo(
   forwardRef<HTMLTextAreaElement, TextAreaProps>(
     ({ defaultText, placeholder, readOnly, rows = 6, ...others }, ref) => (
