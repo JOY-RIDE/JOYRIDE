@@ -14,18 +14,14 @@ interface DateTimePickerProps {
   onChange: any;
   CustomInput: ReactElement;
   minDate?: Date;
-  maxDate?: Date;
   placeholder?: string;
   [key: string]: any;
 }
 
-function filterTimes(date: Date, minDate: Date, maxDate?: Date) {
-  const minMilliSeconds = minDate.getTime();
+function filterPassedTimes(date: Date) {
+  const currentMilliSeconds = new Date().getTime();
   const targetMilliSeconds = new Date(date).getTime();
-  return maxDate
-    ? minMilliSeconds < targetMilliSeconds &&
-        targetMilliSeconds < maxDate.getTime()
-    : minMilliSeconds < targetMilliSeconds;
+  return currentMilliSeconds < targetMilliSeconds;
 }
 
 function checkIfTwoDatesAreSame(firstDate: Date, secondDate: Date) {
@@ -58,7 +54,6 @@ const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
       onChange,
       CustomInput,
       minDate = new Date(),
-      maxDate,
       placeholder,
       ...others
     } = props;
@@ -70,8 +65,7 @@ const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
         locale={ko}
         dateFormat="yyyy년 MM월 dd일 aa h:mm"
         minDate={minDate}
-        maxDate={maxDate}
-        filterTime={date => filterTimes(date, minDate, maxDate)}
+        filterTime={date => filterPassedTimes(date)}
         timeCaption="시간"
         timeIntervals={15}
         customInput={CustomInput}

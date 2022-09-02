@@ -93,7 +93,6 @@ export function getMeetupCreationFormFieldErrorMessage(
   switch (field) {
     case 'title':
     case 'content':
-    case 'meetingDate':
     case 'dueDate': {
       switch (errorType) {
         case 'required':
@@ -127,7 +126,7 @@ export function getMeetupCreationFormFieldErrorMessage(
         case 'min':
           return '최소 2명 이상이어야 합니다';
         case 'max':
-          return '최소 99명 이하여야 합니다';
+          return '최대 99명까지 가능합니다';
         default:
           throw new Error();
       }
@@ -141,6 +140,16 @@ export function getMeetupCreationFormFieldErrorMessage(
           throw new Error();
       }
     }
+
+    case 'meetingDate':
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        case 'validate':
+          return '모임 일시가 모집 마감 일시 이후인지 다시 확인해 주세요';
+        default:
+          throw new Error();
+      }
 
     default:
       throw new Error();

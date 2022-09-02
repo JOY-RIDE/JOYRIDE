@@ -476,7 +476,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <DateTimePicker
                 selectedDate={selectedDate ? new Date(selectedDate) : null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
-                maxDate={meetingDate ? meetingDate : undefined}
                 placeholder="모집 마감 일시를 선택하세요."
                 {...others}
               />
@@ -499,7 +498,11 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <Controller
             control={control}
             name="meetingDate"
-            rules={{ required: true }}
+            rules={{
+              required: true,
+              validate: meetingDate =>
+                (dueDate as Date).getTime() <= (meetingDate as Date).getTime(),
+            }}
             render={({ field: { value: selectedDate, ...others } }) => (
               <DateTimePicker
                 selectedDate={selectedDate ? new Date(selectedDate) : null}
