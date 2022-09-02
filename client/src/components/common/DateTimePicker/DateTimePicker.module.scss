@@ -1,3 +1,4 @@
+@use '../../../styles/mixins.scss' as *;
 @use '../../../styles/typography.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
@@ -8,9 +9,11 @@ $sell-gap: 1rem;
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
     sans-serif;
   font-size: 1.6rem;
-  display: flex;
   border: 1px solid $color-grey-300;
   border-radius: 0.5rem;
+  @include for-tablet-portrait-up {
+    display: flex;
+  }
 
   & > div {
     float: none;
@@ -62,19 +65,26 @@ $sell-gap: 1rem;
     & .react-datepicker__time-container {
       width: auto;
       border: none;
-      border-left: 1px solid $color-grey-300;
+      border-top: 1px solid $color-grey-300;
+      @include for-tablet-portrait-up {
+        border-top: none;
+        border-left: 1px solid $color-grey-300;
+      }
 
-      & .react-datepicker__time-list {
-        box-sizing: border-box !important;
-        height: calc(32.98rem - 4.34rem) !important;
-        & li {
-          height: auto !important;
-          padding: $sell-gap !important;
-          &.react-datepicker__time-list-item--selected {
-            background: $color-main !important;
-          }
-          &:hover:not(.react-datepicker__time-list-item--disabled, .react-datepicker__time-list-item--selected) {
-            background: rgb(230, 255, 225) !important;
+      & .react-datepicker__time-box {
+        width: auto;
+        & .react-datepicker__time-list {
+          box-sizing: border-box !important;
+          height: calc(32.98rem - 4.34rem) !important;
+          & li {
+            height: auto !important;
+            padding: $sell-gap !important;
+            &.react-datepicker__time-list-item--selected {
+              background: $color-main !important;
+            }
+            &:hover:not(.react-datepicker__time-list-item--disabled, .react-datepicker__time-list-item--selected) {
+              background: rgb(230, 255, 225) !important;
+            }
           }
         }
       }
@@ -87,8 +97,11 @@ $sell-gap: 1rem;
   justify-content: center;
   align-items: center;
 
-  & select:first-of-type {
-    margin-right: 0.5rem;
+  & select {
+    text-align: center;
+    &:first-of-type {
+      margin-right: 1.5rem;
+    }
   }
 
   & .month-btn {

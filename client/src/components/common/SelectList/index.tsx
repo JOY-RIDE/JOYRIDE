@@ -33,7 +33,13 @@ const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
           <em>{defaultText || '선택'}</em>
         </MenuItem>
         {options.map(option => (
-          <MenuItem key={option.value} value={option.value}>
+          <MenuItem
+            key={option.value}
+            value={option.value}
+            sx={{
+              justifyContent: 'center',
+            }}
+          >
             {option.content}
           </MenuItem>
         ))}
