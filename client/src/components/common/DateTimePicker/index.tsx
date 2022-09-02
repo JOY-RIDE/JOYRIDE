@@ -23,7 +23,6 @@ function filterPassedTimes(date: Date) {
   const targetMilliSeconds = new Date(date).getTime();
   return currentMilliSeconds < targetMilliSeconds;
 }
-
 function checkIfTwoDatesAreSame(firstDate: Date, secondDate: Date) {
   const isYearSame = firstDate.getFullYear() === secondDate.getFullYear();
   const isMonthSame = firstDate.getMonth() === secondDate.getMonth();

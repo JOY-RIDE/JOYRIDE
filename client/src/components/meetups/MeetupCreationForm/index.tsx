@@ -27,7 +27,7 @@ import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
 import SelectList from 'components/common/SelectList';
 import DateTimePicker from 'components/common/DateTimePicker';
 import { AiOutlineCalendar } from 'react-icons/ai';
-import TextInput from 'components/common/TextInput';
+import FilterOptionChip from 'components/common/Chip';
 
 const cn = classNames.bind(styles);
 
@@ -185,6 +185,12 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>코스</h4>
           </label>
+          <ul className={cn('stops')}>
+            {/* {path.map(stop => (
+              <FilterOptionChip type="removeOnly" content={stop} isActive />
+            ))} */}
+          </ul>
+
           <TextArea
             rows={2}
             placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요.&#13;(ex: 잠수교,)"
