@@ -29,6 +29,7 @@ import DateTimePicker from 'components/common/DateTimePicker';
 import { AiOutlineCalendar } from 'react-icons/ai';
 import TextInput from 'components/common/TextInput';
 import Chip from 'components/common/Chip';
+import { BsArrowRight } from 'react-icons/bs';
 
 const cn = classNames.bind(styles);
 
@@ -195,13 +196,17 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </label>
           <ul className={cn('stops')}>
             {path.map((stop, index) => (
-              <Chip
-                key={`${stop}${index}`}
-                content={stop}
-                isActive
-                isDeletable
-                onXClick={handlePathDelete(index)}
-              />
+              <>
+                {index > 0 && <BsArrowRight />}
+                <Chip
+                  key={`${stop}${index}`}
+                  size="sm"
+                  content={stop}
+                  isActive
+                  isDeletable
+                  onXClick={handlePathDelete(index)}
+                />
+              </>
             ))}
           </ul>
           <TextInput

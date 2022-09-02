@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface ChipProps {
+  size?: 'sm' | 'md';
   content: string;
   isActive: boolean;
   isDeletable: boolean;
@@ -13,6 +14,7 @@ interface ChipProps {
 }
 
 const Chip = ({
+  size = 'md',
   content,
   isActive,
   isDeletable,
@@ -20,7 +22,7 @@ const Chip = ({
   onXClick,
 }: ChipProps) => (
   <li
-    className={cn('option', { active: isActive })}
+    className={cn('option', size, { active: isActive })}
     onClick={!isActive ? onTextClick : undefined}
   >
     <span>{content}</span>
