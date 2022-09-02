@@ -128,6 +128,8 @@ const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
         )}
         placeholderText={placeholder}
         popperPlacement="auto"
+        fixedHeight
+        closeOnScroll
         showPopperArrow={false}
         disabledKeyboardNavigation
         {...others}

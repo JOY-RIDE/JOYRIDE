@@ -26,6 +26,7 @@ const MeetupCreator = () => {
         BackdropProps={{ style: { backgroundColor: 'rgba(0, 0, 0, 0.2)' } }}
         PaperProps={{
           style: {
+            borderRadius: 0,
             boxShadow: 'none',
             width: 'min(100%, 60rem)',
             overflowY: 'hidden',

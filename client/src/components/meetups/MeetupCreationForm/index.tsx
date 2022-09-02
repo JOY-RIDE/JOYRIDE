@@ -18,7 +18,7 @@ import {
 } from 'utils/constants';
 import { BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
-import { forwardRef, ReactNode, useEffect } from 'react';
+import { forwardRef, KeyboardEvent, ReactNode, useEffect } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -27,6 +27,7 @@ import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
 import SelectList from 'components/common/SelectList';
 import DateTimePicker from 'components/common/DateTimePicker';
 import { AiOutlineCalendar } from 'react-icons/ai';
+import TextInput from 'components/common/TextInput';
 
 const cn = classNames.bind(styles);
 
@@ -65,6 +66,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   } = useForm<MeetupCreationForm>({
     defaultValues: {
       location: '서울',
+      path: [],
       pathDifficulty: 1,
       bicycleTypes: ['따릉이'],
       ridingSkill: 1,
@@ -77,6 +79,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       participationFee: 0,
     },
   });
+  const path = watch('path');
+  console.log(path);
   const minBirthYear = watch('minBirthYear');
   const maxNumOfParticipants = watch('maxNumOfParticipants');
   const participationFee = watch('participationFee');
@@ -87,6 +91,16 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     close();
     return reset;
   }, [isSubmitSuccessful]);
+
+  const handlePathKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== ',') return;
+    if (!(e.target instanceof HTMLInputElement)) return;
+    e.preventDefault();
+    setValue('path', [...path, e.target.value], {
+      shouldValidate: true,
+    });
+    e.target.value = '';
+  };
 
   const handleMaxNumOfParticipantsDecrease = () =>
     setValue(
@@ -169,6 +183,23 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
         <div className={cn('field')}>
           <label className={cn('label')}>
+            <h4>코스</h4>
+          </label>
+          <TextInput
+            placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
+            onKeyDown={handlePathKeyDown}
+          />
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>관련 자전거길</h4>
+            <span className={cn('guide')}>(선택 사항)</span>
+          </label>
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
             <h4>코스 난이도</h4>
           </label>
           <ul className={cn('options')}>
@@ -200,7 +231,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4>자전거 종류</h4>
-            <span className={cn('multiple')}>(다중 선택)</span>
+            <span className={cn('guide')}>(다중 선택 가능)</span>
           </label>
           <ul className={cn('options')}>
             <Controller

@@ -1,7 +1,6 @@
 @use '../../../styles/typography.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
-$border-radius: 0.5rem;
 $sell-size: 3rem;
 $sell-gap: 1rem;
 
@@ -10,8 +9,8 @@ $sell-gap: 1rem;
     sans-serif;
   font-size: 1.6rem;
   display: flex;
-  border-color: $color-grey-300;
-  border-radius: $border-radius;
+  border: 1px solid $color-grey-300;
+  border-radius: 0.5rem;
 
   & > div {
     float: none;
@@ -61,10 +60,13 @@ $sell-gap: 1rem;
     }
 
     & .react-datepicker__time-container {
-      border-color: $color-grey-300;
+      width: auto;
+      border: none;
+      border-left: 1px solid $color-grey-300;
+
       & .react-datepicker__time-list {
         box-sizing: border-box !important;
-        height: calc(28.6rem - 3.95rem) !important;
+        height: calc(32.98rem - 4.34rem) !important;
         & li {
           height: auto !important;
           padding: $sell-gap !important;

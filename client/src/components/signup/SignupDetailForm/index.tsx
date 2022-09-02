@@ -227,7 +227,7 @@ const SignupDetailForm = () => {
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>상태 메세지</h4>
-            <span className={cn('optional')}>(선택)</span>
+            <span className={cn('guide')}>(선택)</span>
           </label>
           <Controller
             control={control}
