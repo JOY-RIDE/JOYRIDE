@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { forwardRef, ReactElement } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
@@ -10,8 +10,11 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 const cn = classNames.bind(styles);
 
 interface DateTimePickerProps {
-  placeholder?: string;
+  selectedDate: null | Date;
+  onChange: any;
   CustomInput: ReactElement;
+  placeholder?: string;
+  [key: string]: any;
 }
 
 function compareTwoDates(first: Date, second: Date) {
@@ -37,13 +40,12 @@ const MONTHS = [
   '12월',
 ];
 
-const DateTimePicker = ({ placeholder, CustomInput }: DateTimePickerProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  return (
+const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
+  ({ selectedDate, onChange, CustomInput, placeholder, ...others }, ref) => (
     <DatePicker
       showTimeSelect
       selected={selectedDate}
-      onChange={(date: Date) => setSelectedDate(date)}
+      onChange={onChange}
       locale={ko}
       dateFormat="yyyy년 MM월 dd일 aa h:mm"
       minDate={new Date()}
@@ -111,8 +113,9 @@ const DateTimePicker = ({ placeholder, CustomInput }: DateTimePickerProps) => {
       popperPlacement="auto"
       showPopperArrow={false}
       disabledKeyboardNavigation
+      {...others}
     />
-  );
-};
+  )
+);
 
 export default DateTimePicker;

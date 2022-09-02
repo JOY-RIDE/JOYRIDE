@@ -8,8 +8,13 @@ interface TextInputProps {
 
 const TextInput = memo(
   forwardRef<HTMLInputElement, TextInputProps>(
-    ({ className, placeholder, ...others }) => (
-      <input className={styles.input} placeholder={placeholder} {...others} />
+    ({ className, placeholder, ...others }, ref) => (
+      <input
+        className={styles.input}
+        placeholder={placeholder}
+        ref={ref}
+        {...others}
+      />
     )
   )
 );

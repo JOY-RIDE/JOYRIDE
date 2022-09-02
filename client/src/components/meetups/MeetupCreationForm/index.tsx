@@ -1,4 +1,4 @@
-import { Controller, Merge, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   CreatedMeetup,
   MeetupDueDate,
@@ -36,9 +36,9 @@ interface DateInputProps {
 }
 
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
-  ({ className, placeholder, onClick, icon, ...others }) => (
+  ({ className, icon, onClick, ...others }, ref) => (
     <div className={cn('date-input')} onClick={onClick}>
-      <input placeholder={placeholder} {...others} />
+      <input ref={ref} {...others} />
       <button type="button">{icon}</button>
     </div>
   )
@@ -466,20 +466,54 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>모임 일시</h4>
           </label>
-          <DateTimePicker
-            placeholder="모임 일시를 선택하세요."
-            CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+          <Controller
+            control={control}
+            name="meetingDate"
+            rules={{ required: true }}
+            render={({ field: { value: selectedDate, ...others } }) => (
+              <DateTimePicker
+                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+                placeholder="모임 일시를 선택하세요."
+                {...others}
+              />
+            )}
           />
+          {errors.meetingDate && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'meetingDate',
+                errors.meetingDate.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field', 'date')}>
           <label className={cn('label')}>
-            <h4>모집 마감일</h4>
+            <h4>모집 마감 일시</h4>
           </label>
-          <DateTimePicker
-            placeholder="모집 마감일을 선택하세요."
-            CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+          <Controller
+            control={control}
+            name="dueDate"
+            rules={{ required: true }}
+            render={({ field: { value: selectedDate, ...others } }) => (
+              <DateTimePicker
+                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+                placeholder="모집 마감 일시를 선택하세요."
+                {...others}
+              />
+            )}
           />
+          {errors.dueDate && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'dueDate',
+                errors.dueDate.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field', 'content')}>

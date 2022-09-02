@@ -83,6 +83,8 @@ type MeetupCreationFormField =
   | 'birthYear'
   | 'maxNumOfParticipants'
   | 'participationFee'
+  | 'meetingDate'
+  | 'dueDate'
   | 'content';
 export function getMeetupCreationFormFieldErrorMessage(
   field: MeetupCreationFormField,
@@ -90,7 +92,9 @@ export function getMeetupCreationFormFieldErrorMessage(
 ) {
   switch (field) {
     case 'title':
-    case 'content': {
+    case 'content':
+    case 'meetingDate':
+    case 'dueDate': {
       switch (errorType) {
         case 'required':
           return '필수 항목입니다';

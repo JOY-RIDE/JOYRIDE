@@ -14,13 +14,14 @@ interface TextAreaProps {
 // TODO: props
 const TextArea = memo(
   forwardRef<HTMLTextAreaElement, TextAreaProps>(
-    ({ defaultText, placeholder, readOnly, ...others }) => (
+    ({ defaultText, placeholder, readOnly, ...others }, ref) => (
       <textarea
         className={cn('textarea', { readOnly })}
         defaultValue={defaultText}
         placeholder={placeholder}
         readOnly={readOnly}
         rows={6}
+        ref={ref}
         {...others}
       />
     )
