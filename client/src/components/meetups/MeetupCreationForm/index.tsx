@@ -60,6 +60,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const {
     register,
     control,
+    getValues,
     setValue,
     formState: { errors, isSubmitSuccessful },
     handleSubmit,
@@ -81,12 +82,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       participationFee: 0,
     },
   });
-  const path = watch('path');
-  console.log(path);
-  const minBirthYear = watch('minBirthYear');
-  const maxNumOfParticipants = watch('maxNumOfParticipants');
-  const participationFee = watch('participationFee');
   const dueDate = watch('dueDate');
+  const path = watch('path');
 
   useEffect(() => {
     if (!isSubmitSuccessful) return;
@@ -100,44 +97,47 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     e.preventDefault();
     const input = e.target.value.trim();
     if (!input) return;
+
     setValue('path', [...path, input], {
       shouldValidate: true,
     });
     e.target.value = '';
   };
-  const handlePathDelete = (stopIndex: number) => () =>
+  const handlePathDelete = (stopIndex: number) => () => {
     setValue(
       'path',
-      path.filter((_, valueIndex) => valueIndex !== stopIndex)
-    );
-
-  const handleMaxNumOfParticipantsDecrease = () =>
-    setValue(
-      'maxNumOfParticipants',
-      maxNumOfParticipants <= 2 ? 2 : maxNumOfParticipants - 1,
-      {
+      path.filter((_, valueIndex) => valueIndex !== stopIndex, {
         shouldValidate: true,
-      }
+      })
     );
+  };
+
+  const handleMaxNumOfParticipantsDecrease = () => {
+    const oldValue = getValues('maxNumOfParticipants');
+    setValue('maxNumOfParticipants', oldValue <= 2 ? 2 : oldValue - 1, {
+      shouldValidate: true,
+    });
+  };
   const handleMaxNumOfParticipantsIncrease = () => {
-    if (99 <= maxNumOfParticipants) return;
-    setValue('maxNumOfParticipants', maxNumOfParticipants + 1, {
+    const oldValue = getValues('maxNumOfParticipants');
+    if (99 <= oldValue) return;
+    setValue('maxNumOfParticipants', oldValue + 1, {
       shouldValidate: true,
     });
   };
 
-  const handleParticipationFeeDecrease = () =>
-    setValue(
-      'participationFee',
-      participationFee < 5000 ? 0 : participationFee - 5000,
-      {
-        shouldValidate: true,
-      }
-    );
-  const handleParticipationFeeIncrease = () =>
-    setValue('participationFee', participationFee + 5000, {
+  const handleParticipationFeeDecrease = () => {
+    const oldValue = getValues('participationFee');
+    setValue('participationFee', oldValue < 5000 ? 0 : oldValue - 5000, {
       shouldValidate: true,
     });
+  };
+  const handleParticipationFeeIncrease = () => {
+    const oldValue = getValues('participationFee');
+    setValue('participationFee', oldValue + 5000, {
+      shouldValidate: true,
+    });
+  };
 
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     console.log(data);
@@ -268,10 +268,26 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               </>
             ))}
           </ul>
-          <TextInput
-            placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
-            onKeyDown={handlePathAdd}
+          <Controller
+            control={control}
+            name="path"
+            rules={{ validate: path => path.length >= 2 }}
+            render={({ field: { value, onChange, ...others } }) => (
+              <TextInput
+                placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
+                onKeyDown={handlePathAdd}
+                {...others}
+              />
+            )}
           />
+          {errors.path && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'path',
+                'validate'
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>
@@ -464,7 +480,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                 name="maxBirthYear"
                 rules={{
                   required: true,
-                  min: minBirthYear,
+                  min: getValues('minBirthYear'),
                 }}
                 render={({ field }) => (
                   <SelectList
