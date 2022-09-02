@@ -40,7 +40,7 @@ const MapDetail = () => {
       ></div>
       <button onClick={handleMapClose}>close</button>
       <Script
-        url="//dapi.kakao.com/v2/maps/sdk.js?appkey=d4bb1cbb5048e7b75366024fddd56555&libraries=services,clusterer,drawing&autoload=false"
+        url="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_MAP_API_KEY%&libraries=services,clusterer,drawing&autoload=false"
         onLoad={handleScriptLoad}
       />
     </div>
