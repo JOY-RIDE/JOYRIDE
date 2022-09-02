@@ -13,14 +13,25 @@ interface DateTimePickerProps {
   selectedDate: null | Date;
   onChange: any;
   CustomInput: ReactElement;
+  minDate?: Date;
+  maxDate?: Date;
   placeholder?: string;
   [key: string]: any;
 }
 
-function compareTwoDates(first: Date, second: Date) {
-  const isYearSame = first.getFullYear() === second.getFullYear();
-  const isMonthSame = first.getMonth() === second.getMonth();
-  const isDaySame = first.getDate() === second.getDate();
+function filterTimes(date: Date, minDate: Date, maxDate?: Date) {
+  const minMilliSeconds = minDate.getTime();
+  const targetMilliSeconds = new Date(date).getTime();
+  return maxDate
+    ? minMilliSeconds < targetMilliSeconds &&
+        targetMilliSeconds < maxDate.getTime()
+    : minMilliSeconds < targetMilliSeconds;
+}
+
+function checkIfTwoDatesAreSame(firstDate: Date, secondDate: Date) {
+  const isYearSame = firstDate.getFullYear() === secondDate.getFullYear();
+  const isMonthSame = firstDate.getMonth() === secondDate.getMonth();
+  const isDaySame = firstDate.getDate() === secondDate.getDate();
   return isYearSame && isMonthSame && isDaySame;
 }
 
@@ -41,81 +52,94 @@ const MONTHS = [
 ];
 
 const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
-  ({ selectedDate, onChange, CustomInput, placeholder, ...others }, ref) => (
-    <DatePicker
-      showTimeSelect
-      selected={selectedDate}
-      onChange={onChange}
-      locale={ko}
-      dateFormat="yyyy년 MM월 dd일 aa h:mm"
-      minDate={new Date()}
-      timeCaption="시간"
-      timeIntervals={15}
-      customInput={CustomInput}
-      calendarClassName={cn('calendar')}
-      dayClassName={date => {
-        if (!selectedDate) return cn('normal-day');
-        return compareTwoDates(date, selectedDate)
-          ? cn('normal-day', 'selected-day')
-          : cn('normal-day');
-      }}
-      renderCustomHeader={({
-        date,
-        changeYear,
-        changeMonth,
-        decreaseMonth,
-        increaseMonth,
-        prevMonthButtonDisabled,
-        nextMonthButtonDisabled,
-      }) => (
-        <header className={cn('header')}>
-          <button
-            type="button"
-            className={cn('month-btn')}
-            disabled={prevMonthButtonDisabled}
-            onClick={decreaseMonth}
-          >
-            <ArrowBackIosNewIcon />
-          </button>
-          <select
-            value={date.getFullYear()}
-            onChange={({ target: { value } }) => changeYear(Number(value))}
-          >
-            {YEARS.map(year => (
-              <option key={year} value={year}>
-                {year}년
-              </option>
-            ))}
-          </select>
-          <select
-            value={MONTHS[date.getMonth()]}
-            onChange={({ target: { value } }) =>
-              changeMonth(MONTHS.indexOf(value))
-            }
-          >
-            {MONTHS.map(month => (
-              <option key={month} value={month}>
-                {month}
-              </option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className={cn('month-btn')}
-            disabled={nextMonthButtonDisabled}
-            onClick={increaseMonth}
-          >
-            <ArrowForwardIosIcon />
-          </button>
-        </header>
-      )}
-      placeholderText={placeholder}
-      popperPlacement="auto"
-      showPopperArrow={false}
-      disabledKeyboardNavigation
-      {...others}
-    />
-  )
+  (props, ref) => {
+    const {
+      selectedDate,
+      onChange,
+      CustomInput,
+      minDate = new Date(),
+      maxDate,
+      placeholder,
+      ...others
+    } = props;
+    return (
+      <DatePicker
+        showTimeSelect
+        selected={selectedDate}
+        onChange={onChange}
+        locale={ko}
+        dateFormat="yyyy년 MM월 dd일 aa h:mm"
+        minDate={minDate}
+        maxDate={maxDate}
+        filterTime={date => filterTimes(date, minDate, maxDate)}
+        timeCaption="시간"
+        timeIntervals={15}
+        customInput={CustomInput}
+        calendarClassName={cn('calendar')}
+        dayClassName={date => {
+          if (!selectedDate) return cn('day');
+          return checkIfTwoDatesAreSame(date, selectedDate)
+            ? cn('day', 'selected-day')
+            : cn('day');
+        }}
+        renderCustomHeader={({
+          date,
+          changeYear,
+          changeMonth,
+          decreaseMonth,
+          increaseMonth,
+          prevMonthButtonDisabled,
+          nextMonthButtonDisabled,
+        }) => (
+          <header className={cn('header')}>
+            <button
+              type="button"
+              className={cn('month-btn')}
+              disabled={prevMonthButtonDisabled}
+              onClick={decreaseMonth}
+            >
+              <ArrowBackIosNewIcon />
+            </button>
+            <select
+              value={date.getFullYear()}
+              onChange={({ target: { value } }) => changeYear(Number(value))}
+            >
+              {YEARS.map(year => (
+                <option key={year} value={year}>
+                  {year}년
+                </option>
+              ))}
+            </select>
+            <select
+              value={MONTHS[date.getMonth()]}
+              onChange={({ target: { value } }) =>
+                changeMonth(MONTHS.indexOf(value))
+              }
+            >
+              {MONTHS.map(month => (
+                <option key={month} value={month}>
+                  {month}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className={cn('month-btn')}
+              disabled={nextMonthButtonDisabled}
+              onClick={increaseMonth}
+            >
+              <ArrowForwardIosIcon />
+            </button>
+          </header>
+        )}
+        placeholderText={placeholder}
+        popperPlacement="auto"
+        showPopperArrow={false}
+        disabledKeyboardNavigation
+        {...others}
+      />
+    );
+  }
 );
 
 export default DateTimePicker;

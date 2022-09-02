@@ -28,6 +28,7 @@ $sell-gap: 1rem;
         flex-direction: column;
         gap: 1.5rem;
         border-top-right-radius: 0;
+
         & .react-datepicker__day-names {
           margin: 0;
           display: flex;
@@ -67,11 +68,11 @@ $sell-gap: 1rem;
         & li {
           height: auto !important;
           padding: $sell-gap !important;
-          &:hover {
-            background: rgb(230, 255, 225) !important;
-          }
           &.react-datepicker__time-list-item--selected {
             background: $color-main !important;
+          }
+          &:hover:not(.react-datepicker__time-list-item--disabled, .react-datepicker__time-list-item--selected) {
+            background: rgb(230, 255, 225) !important;
           }
         }
       }
@@ -97,7 +98,7 @@ $sell-gap: 1rem;
   }
 }
 
-.normal-day {
+.day {
   width: $sell-size;
   height: $sell-size;
   display: flex;
@@ -105,7 +106,7 @@ $sell-gap: 1rem;
   align-items: center;
   margin: 0;
 
-  &:hover:not([aria-disabled='true']) {
+  &:hover:not([aria-disabled='true'], .selected-day) {
     background: rgb(230, 255, 225);
     border-radius: 50%;
   }

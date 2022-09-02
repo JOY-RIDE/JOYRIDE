@@ -46,8 +46,8 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
 interface MeetupCreationForm
   extends Omit<CreatedMeetup, 'meetingDate' | 'dueDate'> {
-  meetingDate: null | MeetupMeetingDate;
   dueDate: null | MeetupDueDate;
+  meetingDate: null | MeetupMeetingDate;
 }
 interface MeetupCreationFormProp {
   close: () => void;
@@ -72,14 +72,16 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       minBirthYear: 1940,
       maxBirthYear: new Date().getFullYear(),
       maxNumOfParticipants: 2,
-      meetingDate: null,
       dueDate: null,
+      meetingDate: null,
       participationFee: 0,
     },
   });
-  const minBirthYear = Number(watch('minBirthYear'));
-  const maxNumOfParticipants = Number(watch('maxNumOfParticipants'));
-  const participationFee = Number(watch('participationFee'));
+  const minBirthYear = watch('minBirthYear');
+  const maxNumOfParticipants = watch('maxNumOfParticipants');
+  const participationFee = watch('participationFee');
+  const dueDate = watch('dueDate');
+  const meetingDate = watch('meetingDate');
 
   useEffect(() => {
     if (!isSubmitSuccessful) return;
@@ -464,33 +466,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
 
         <div className={cn('field', 'date')}>
           <label className={cn('label')}>
-            <h4>모임 일시</h4>
-          </label>
-          <Controller
-            control={control}
-            name="meetingDate"
-            rules={{ required: true }}
-            render={({ field: { value: selectedDate, ...others } }) => (
-              <DateTimePicker
-                selectedDate={selectedDate ? new Date(selectedDate) : null}
-                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
-                placeholder="모임 일시를 선택하세요."
-                {...others}
-              />
-            )}
-          />
-          {errors.meetingDate && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'meetingDate',
-                errors.meetingDate.type
-              )}
-            />
-          )}
-        </div>
-
-        <div className={cn('field', 'date')}>
-          <label className={cn('label')}>
             <h4>모집 마감 일시</h4>
           </label>
           <Controller
@@ -501,6 +476,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <DateTimePicker
                 selectedDate={selectedDate ? new Date(selectedDate) : null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+                maxDate={meetingDate ? meetingDate : undefined}
                 placeholder="모집 마감 일시를 선택하세요."
                 {...others}
               />
@@ -511,6 +487,34 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               message={getMeetupCreationFormFieldErrorMessage(
                 'dueDate',
                 errors.dueDate.type
+              )}
+            />
+          )}
+        </div>
+
+        <div className={cn('field', 'date')}>
+          <label className={cn('label')}>
+            <h4>모임 일시</h4>
+          </label>
+          <Controller
+            control={control}
+            name="meetingDate"
+            rules={{ required: true }}
+            render={({ field: { value: selectedDate, ...others } }) => (
+              <DateTimePicker
+                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
+                minDate={dueDate ? dueDate : undefined}
+                placeholder="모임 일시를 선택하세요."
+                {...others}
+              />
+            )}
+          />
+          {errors.meetingDate && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'meetingDate',
+                errors.meetingDate.type
               )}
             />
           )}
