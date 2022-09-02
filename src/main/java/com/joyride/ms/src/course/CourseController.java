@@ -15,11 +15,16 @@ public class CourseController {
     private final CourseProvider courseProvider;
     private final CourseService courseService;
 
+    /**
+     * 코스 api
+     */
+
     //일단은 이 URI를 거쳐서만 들어간다고 생각하고 코드 작성
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
-            List<GetCourseListRes> getCourseListRes = courseService.callCourseList();
+            List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
+            
             return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -27,11 +32,23 @@ public class CourseController {
     }
 
     // 코스 디테일 조회 api
-    @GetMapping("/{course_id}")
-    public BaseResponse<GetCourseRes> getCourse(@PathVariable("course_id") String course_id){
+    @GetMapping("/{title}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title){
         try{
-            GetCourseRes getCourseRes = courseProvider.retrieveCourse(course_id);
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title);
             return new BaseResponse<>(getCourseRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 코스 필터링 api
+    // Post로 할지 아니면 Pathvariable로 받을지
+    @PostMapping("/filter")
+    public BaseResponse<List<GetCourseListRes>> GetFilteringCourse(@RequestBody GetFilteringCourseReq getFilteringCourseReq){
+        try{
+            List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList(getFilteringCourseReq);
+            return new BaseResponse<>(getCourseListRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
         }

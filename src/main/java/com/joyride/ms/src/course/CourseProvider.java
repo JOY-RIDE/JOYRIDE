@@ -3,8 +3,10 @@ package com.joyride.ms.src.course;
 import com.joyride.ms.src.course.model.GetCourseListRes;
 import com.joyride.ms.src.course.model.GetCourseRes;
 import com.joyride.ms.src.course.model.GetCourseReviewRes;
+import com.joyride.ms.src.course.model.GetFilteringCourseReq;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +20,66 @@ import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 public class CourseProvider {
 
     private final CourseDao courseDao;
+    private final CallApi callApi;
 
+    // 코스 리스트 조회 api
     public List<GetCourseListRes> retrieveCourseList() throws BaseException {
-        try{
-            List<GetCourseListRes> getCourseListRes = courseDao.selectCourseList();
-            for (int i = 0; i < getCourseListRes.size(); i++) {
-                String courseId = getCourseListRes.get(i).getId();
-                int likeCount = courseDao.countCourseLike(courseId);
-                getCourseListRes.get(i).setLikeCount(likeCount);
+        try {
+
+            JSONArray courseArr = callApi.callCourseAPI();
+            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+
+            // 좋아요 수 넣어주기
+            for (int i = 0; i < courseList.size(); i++) {
+                String courseId = courseList.get(i).getId();
+                int likeCount = retrieveCourseLikeCount(courseId);
+                courseList.get(i).setLikeCount(likeCount);
             }
-            return getCourseListRes;
+            return courseList;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 코스 필터링 조회
+    public List<GetCourseListRes> retrieveCourseList(GetFilteringCourseReq getFilteringCourseReq) throws BaseException {
+        try {
+            String sigun = getFilteringCourseReq.getSigun();
+            String level = getFilteringCourseReq.getLevel();
+
+            JSONArray courseArr = callApi.callCourseAPI(sigun, level);
+            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr, sigun);
+
+            // 좋아요 수 넣어주기
+            for (int i = 0; i < courseList.size(); i++) {
+                String courseId = courseList.get(i).getId();
+                int likeCount = retrieveCourseLikeCount(courseId);
+                courseList.get(i).setLikeCount(likeCount);
+            }
+            return courseList;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    // 코스 디테일 조회 api
+    public GetCourseRes retrieveCourse(String title) throws BaseException {
+        try{
+            JSONArray courseArr = callApi.callCourseAPI(title);
+            GetCourseRes course = GetCourseRes.createCourse(courseArr);
+
+            // 좋아요한 userId
+            String courseId = course.getId();
+            List<Integer> userIdList = courseDao.selectUserIdByCourseId(courseId);
+            course.setUserIdList(userIdList);
+
+            // 코스 리뷰
+            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseId);
+            course.setGetCourseReviewRes(getCourseReviewRes);
+
+            return course;
         }
         catch (Exception exception) {
             exception.printStackTrace();
@@ -47,7 +99,6 @@ public class CourseProvider {
         }
     }
 
-    // 리뷰 조회 provider
     public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(String course_id) throws BaseException {
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
@@ -59,24 +110,6 @@ public class CourseProvider {
         }
     }
 
-    public GetCourseRes retrieveCourse(String course_id) throws BaseException {
-        try{
-            GetCourseRes getCourseRes = courseDao.selectCourse(course_id);
 
-            // 좋아요한 userId
-            List<Integer> userIdList = courseDao.selectUserIdByCourseId(course_id);
-            getCourseRes.setUserIdList(userIdList);
-
-            // 코스 리뷰들
-            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
-            getCourseRes.setGetCourseReviewRes(getCourseReviewRes);
-
-            return getCourseRes;
-        }
-        catch (Exception exception) {
-            exception.printStackTrace();
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
 
 }
