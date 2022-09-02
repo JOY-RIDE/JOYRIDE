@@ -1,4 +1,5 @@
 import { MeetupBicycleType, MeetupPathDifficulty } from 'types/meetup';
+import { CourseDifficulty } from 'types/course';
 import { Age, Gender, Location, RidingSkill } from 'types/common';
 
 export const MAIN_COLOR = '#22b573';
@@ -35,3 +36,5 @@ export const BICYCLE_TYPES: MeetupBicycleType[] = [
 export const RIDING_SKILLS: RidingSkill[] = [1, 2, 3];
 
 export const MEETUP_PATH_DIFFICULTIES: MeetupPathDifficulty[] = [1, 2, 3];
+
+export const COURSE_DIFFICULTY: CourseDifficulty[] = ['1', '2', '3'];

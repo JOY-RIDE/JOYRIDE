@@ -1,5 +1,3 @@
-import { stringify } from 'querystring';
-
 // const BASE_URL = 'http://localhost:3000';
 const BASE_URL = `https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=${process.env.REACT_APP_TOUR_API_KEY}`;
 

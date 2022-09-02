@@ -7,6 +7,7 @@ import Layout from 'routes/Layout';
 import Home from 'routes/Home';
 import Roads from 'routes/Roads';
 import Road from 'routes/Road';
+import MapDetail from 'components/road/MapDetail';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/Login';
@@ -17,11 +18,16 @@ import PublicRoute from 'components/common/PublicRoute';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { MAIN_COLOR } from 'utils/constants';
+import { Theme as MuiTheme } from '@mui/material/styles';
 
 const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
+
+declare module '@emotion/react' {
+  export interface Theme extends MuiTheme {}
+}
 
 const theme = createTheme({
   typography: {
@@ -53,7 +59,7 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="roads" element={<Roads />} />
-            <Route path="roads/:roadId" element={<Road />} />
+            <Route path="roads/:roadId" element={<Road />}></Route>
             <Route path="meetups" element={<Meetups />} />
             <Route path="meetups/:meetupId" element={<Meetup />} />
             <Route path="search" element={<Search />} />

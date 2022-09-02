@@ -3,12 +3,13 @@ import { VscChromeClose } from 'react-icons/vsc';
 import styles from './OptionChip.module.scss';
 import classNames from 'classnames/bind';
 import { MeetupFiltersKey } from 'types/meetup';
+import { CourseFiltersKey } from 'types/course';
 import { FilterClickHandler } from 'types/common';
 
 const cn = classNames.bind(styles);
 
 interface CommonProps {
-  filtersKey: MeetupFiltersKey;
+  filtersKey: MeetupFiltersKey | CourseFiltersKey;
   value: number | string | boolean; // TODO: refactor
   content: string;
   isChosen: boolean;

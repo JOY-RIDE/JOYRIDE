@@ -2,8 +2,9 @@ import { useCallback } from 'react';
 import { RecoilState, useResetRecoilState, useRecoilState } from 'recoil';
 import { FilterClickHandler, FiltersDispatch } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
+import { CourseFiltersState } from 'types/course';
 
-type FiltersState = MeetupFiltersState; // TODO: 코스 필터 state type 추가
+type FiltersState = MeetupFiltersState & CourseFiltersState; // TODO: 코스 필터 state type 추가
 interface FiltersDispatches {
   choose: FiltersDispatch<FiltersState>;
   remove: FiltersDispatch<FiltersState>;

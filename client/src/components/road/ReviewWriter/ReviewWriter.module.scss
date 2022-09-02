@@ -1,0 +1,24 @@
+@use '../../../styles/variables.scss' as *;
+
+.review {
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    height: 7rem;
+    padding: 0 2.4rem;
+    align-items: center;
+    border-bottom: 1px solid $color-grey-300;
+    button {
+      padding-top: 0.5rem;
+      font-size: 3rem;
+      color: $color-grey-600;
+    }
+  }
+  .review-main {
+    padding: 0 2.4rem;
+    .stars {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

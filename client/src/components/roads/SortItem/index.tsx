@@ -2,7 +2,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styles from './SortItem.module.scss';
 import classNames from 'classnames/bind';
-import { isCourseSortActiveState } from 'states/common';
+import { isCourseSortActiveState } from 'states/course';
 
 const cn = classNames.bind(styles);
 

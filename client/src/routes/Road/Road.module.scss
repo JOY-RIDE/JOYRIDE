@@ -5,11 +5,16 @@
   flex-direction: column;
   max-width: 34.5rem;
   margin: 0 auto;
+  padding-top: 0.6rem;
+  position: relative;
 }
 
 .head {
   display: flex;
   gap: 2rem;
+  .left {
+    width: 88%;
+  }
 }
 
 .title-sigun {

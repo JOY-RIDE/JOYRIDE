@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { Link, useMatch } from 'react-router-dom';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { fetchCourses } from '../../apis/CrsAPI';
 import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
 import Loading from 'components/common/Loading';
-import Paging from 'components/common/Paging';
+import CourseFilterToggleButton from 'components/roads/CourseFilterToggleButton';
+import CourseFilterChoices from 'components/roads/CourseFilterChoices';
 import SortBox from 'components/roads/SortBox';
+import Paging from 'components/common/Paging';
 import _ from 'lodash';
-import { CoursePageState } from 'states/common';
+import { CoursePageState, courseFiltersState } from 'states/course';
 import { stringifyCourseDifficulty } from 'utils/stringify';
 import { stringifyCourseHours } from 'utils/stringify';
 import { IRoad } from 'types/course';
@@ -26,8 +28,14 @@ const Roads = () => {
   let RoadsData1 = [...RoadsData];
   RoadsData1.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
+  const resetFilters = useResetRecoilState(courseFiltersState);
+  useEffect(() => resetFilters, []);
+
   const url = window.location.search;
   const query = queryString.parse(url);
+  console.log(query.page);
+
+  const reviewMatch = useMatch('roads/:roadId/review');
 
   const LIMIT = 5;
   const [page, setPage] = useRecoilState(CoursePageState);
@@ -41,6 +49,12 @@ const Roads = () => {
         <div className={cn('container')}>
           <PageTitle size="md">자전거 코스</PageTitle>
           <div className={cn('func')}>
+            <div className={cn('filter-container')}>
+              <div className={cn('filter')}>
+                <CourseFilterToggleButton />
+              </div>
+              <CourseFilterChoices />
+            </div>
             <SortBox />
             {/* <Sort
               sortOptionData={sortOptionData}

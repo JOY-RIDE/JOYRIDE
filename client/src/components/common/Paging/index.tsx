@@ -33,6 +33,7 @@ const Paging = ({ total, limit, page, setPage }: PaginationProps) => {
   const [pageGroup, setPageGroup] = useState(
     pageArr[Math.floor((page - 1) / 5)]
   );
+  console.log(index);
 
   return (
     <nav className={styles.paging}>

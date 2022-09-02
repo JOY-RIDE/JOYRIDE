@@ -1,4 +1,5 @@
 import { MeetupFiltersKey } from './meetup';
+import { CourseFiltersKey } from './course';
 
 export type Location =
   | '서울'
@@ -24,7 +25,7 @@ export type BicycleType =
 export type RidingSkill = 1 | 2 | 3;
 
 export interface FiltersDispatchPayload {
-  key: MeetupFiltersKey; // TODO: 코스 필터 key type 추가
+  key: MeetupFiltersKey | CourseFiltersKey; // TODO: 코스 필터 key type 추가
   value: number | string | boolean;
   content?: string;
 }

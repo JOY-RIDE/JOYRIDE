@@ -10,7 +10,16 @@
 .func {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2.1rem;
+  margin-bottom: 1.1rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    .filter {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 .content {

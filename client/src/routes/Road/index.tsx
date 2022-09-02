@@ -1,23 +1,25 @@
-import {
-  useLocation,
-  useParams,
-  useMatch,
-  Outlet,
-  Link,
-} from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import { fetchCourseInfo } from '../../apis/CrsAPI';
+import { isMapOpenedState } from 'states/course';
 import styles from './Road.module.scss';
 import classNames from 'classnames/bind';
 import Loading from 'components/common/Loading';
 import Button from 'components/common/Button';
 import PageTitle from 'components/common/PageTitle';
 import Like from 'components/common/Like';
+import MapOverview from 'components/road/MapOverview';
+import MapDetail from 'components/road/MapDetail';
 import CrsDesc from 'components/road/CrsDesc';
 import CrsInfo from 'components/road/CrsInfo';
-import { stringifyCourseDifficulty } from 'utils/stringify';
-import { stringifyCourseHours } from 'utils/stringify';
+import ReviewWriter from 'components/road/ReviewWriter';
+import ReviewTitle from 'components/road/ReviewTitle';
+import ReviewStar from 'components/road/ReviewStar';
+import ReviewForm from 'components/road/ReviewForm';
 import { IRoad } from 'types/course';
+import { HiX } from 'react-icons/hi';
 // import _ from 'lodash';
 
 const cn = classNames.bind(styles);
@@ -32,17 +34,12 @@ interface RouteState {
 const Road = () => {
   const { state } = useLocation() as RouteState;
   const crsNm = state.name;
-  console.log(crsNm);
 
   const { isLoading, data } = useQuery<IRoad>(['info', crsNm], () =>
     fetchCourseInfo(crsNm)
   );
 
-  console.log(data);
-
-  const handleClick = () => {
-    console.log('review');
-  };
+  const [isMapOpened, setIsMapOpened] = useRecoilState(isMapOpenedState);
 
   return (
     <section className={styles.road}>
@@ -94,7 +91,7 @@ const Road = () => {
               <Like />
             </div>
           </div>
-
+          {isMapOpened ? <MapDetail /> : <MapOverview />}
           <PageTitle size="sm">코스 소개</PageTitle>
           <div className={cn('desc')}>
             <CrsDesc
@@ -115,13 +112,7 @@ const Road = () => {
           </div>
           {/* <PageTitle size="sm">코스 사진</PageTitle> */}
           <PageTitle size="sm">코스 후기</PageTitle>
-          <Button
-            type="button"
-            color="whiteMain"
-            size="lg"
-            content="후기 쓰기"
-            onClick={handleClick}
-          ></Button>
+          <ReviewWriter />
           <PageTitle size="sm">관련 모임</PageTitle>
         </div>
       )}
