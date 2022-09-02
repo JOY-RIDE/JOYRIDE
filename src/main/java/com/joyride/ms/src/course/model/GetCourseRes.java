@@ -57,7 +57,9 @@ public class GetCourseRes {
     // 이 클래스를 확장해서 디테일에서 보여줄 부분들 추가
 
     // 좋아요 누른 유저들
-    private List<Integer> userIdList;
+//    private List<Integer> userIdList;
+
+    private int isLike;
 
     // 리뷰
 
