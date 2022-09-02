@@ -22,7 +22,8 @@
 
 .form {
   padding: 0 2.5rem 5rem 2.5rem;
-  margin-top: 8rem;
+  padding-top: 0.1rem;
+  margin-top: 7.4rem;
   overflow-y: scroll;
   position: relative;
 }
@@ -71,6 +72,12 @@
 
   & .col {
     flex-basis: calc((100% - 2 * $options-gap) / 3);
+  }
+}
+
+.path {
+  & textarea {
+    text-align: center;
   }
 }
 

@@ -92,9 +92,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     return reset;
   }, [isSubmitSuccessful]);
 
-  const handlePathKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handlePathKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key !== ',') return;
-    if (!(e.target instanceof HTMLInputElement)) return;
+    if (!(e.target instanceof HTMLTextAreaElement)) return;
     e.preventDefault();
     setValue('path', [...path, e.target.value], {
       shouldValidate: true,
@@ -181,12 +181,13 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'path')}>
           <label className={cn('label')}>
             <h4>코스</h4>
           </label>
-          <TextInput
-            placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
+          <TextArea
+            rows={2}
+            placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요.&#13;(ex: 잠수교,)"
             onKeyDown={handlePathKeyDown}
           />
         </div>
