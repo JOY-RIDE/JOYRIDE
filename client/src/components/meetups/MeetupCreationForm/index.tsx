@@ -27,7 +27,7 @@ import { getMeetupCreationFormFieldErrorMessage } from 'utils/getErrorMessage';
 import SelectList from 'components/common/SelectList';
 import DateTimePicker from 'components/common/DateTimePicker';
 import { AiOutlineCalendar } from 'react-icons/ai';
-import FilterOptionChip from 'components/common/Chip';
+import TextInput from 'components/common/TextInput';
 
 const cn = classNames.bind(styles);
 
@@ -92,9 +92,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     return reset;
   }, [isSubmitSuccessful]);
 
-  const handlePathKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+  const handlePathKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== ',') return;
-    if (!(e.target instanceof HTMLTextAreaElement)) return;
+    if (!(e.target instanceof HTMLInputElement)) return;
     e.preventDefault();
     setValue('path', [...path, e.target.value], {
       shouldValidate: true,
@@ -191,9 +191,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             ))} */}
           </ul>
 
-          <TextArea
-            rows={2}
-            placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요.&#13;(ex: 잠수교,)"
+          <TextInput
+            placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
             onKeyDown={handlePathKeyDown}
           />
         </div>

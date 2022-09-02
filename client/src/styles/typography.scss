@@ -1,12 +1,10 @@
+@use './mixins.scss' as *;
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.5/dist/web/static/pretendard.css');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap');
 
 html {
   font-size: 62.5%;
-}
-
-@media (max-width: 374px) {
-  html {
+  @include for-commonMobile-down {
     font-size: 52.5%;
   }
 }
