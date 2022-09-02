@@ -20,9 +20,9 @@ public class MeetService {
     }
 
     @Transactional
-    public Integer createMeet(Integer userId, MeetCreateReq meetCreateReq) throws BaseException {
+    public Integer createMeet(Integer userId, MeetCreateReq meetCreateReq, String meeting_img_url) throws BaseException {
         try {
-            Integer meetId = meetDao.insertMeet(userId,meetCreateReq);
+            Integer meetId = meetDao.insertMeet(userId,meetCreateReq, meeting_img_url);
             return meetId;
         } catch (Exception e) {
             e.printStackTrace();

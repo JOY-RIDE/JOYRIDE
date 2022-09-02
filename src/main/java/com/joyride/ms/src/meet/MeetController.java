@@ -3,10 +3,13 @@ package com.joyride.ms.src.meet;
 import com.joyride.ms.src.meet.dto.MeetCreateReq;
 import com.joyride.ms.src.meet.dto.MeetDetailRes;
 import com.joyride.ms.src.meet.dto.MeetListRes;
+import com.joyride.ms.src.s3.AwsS3Service;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,10 +21,12 @@ import java.util.List;
 public class MeetController {
     private final MeetProvider meetProvider;
     private final MeetService meetService;
+    private final AwsS3Service awsS3Service;
 
-    public MeetController(MeetProvider meetProvider, MeetService meetService) {
+    public MeetController(MeetProvider meetProvider, MeetService meetService, AwsS3Service awsS3Service) {
         this.meetProvider = meetProvider;
         this.meetService = meetService;
+        this.awsS3Service = awsS3Service;
     }
 
 
@@ -33,10 +38,16 @@ public class MeetController {
      * @return
      */
     @PostMapping("")
-    public BaseResponse<Integer> postMeet(HttpServletRequest request, @RequestBody MeetCreateReq meetCreateReq) {
+    public BaseResponse<Integer> postMeet(HttpServletRequest request, @RequestPart MeetCreateReq meetCreateReq, @RequestPart(value = "meeting-img", required = false) MultipartFile multipartFile) {
         try {
             Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
-            Integer meetId = meetService.createMeet(userId, meetCreateReq);
+            String meeting_img_url = "";
+            if (multipartFile != null) {
+                String dirName = "meet/info/" + userId + "/meeting-img";
+                meeting_img_url = awsS3Service.upload(multipartFile, dirName);
+            }
+            Integer meetId = meetService.createMeet(userId, meetCreateReq,meeting_img_url);
+
             return new BaseResponse<>(meetId);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
