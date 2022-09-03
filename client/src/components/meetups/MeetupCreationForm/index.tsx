@@ -71,9 +71,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     control,
     getValues,
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
-    reset,
     watch,
   } = useForm<MeetupCreationForm>({
     defaultValues: {

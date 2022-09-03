@@ -3,7 +3,7 @@ type SignupFormField =
   | 'password'
   | 'passwordConfirm'
   | 'nickname'
-  | 'age'
+  | 'birthYear'
   | 'bicycleType'
   | 'introduce';
 export function getSignupFormFieldErrorMessage(
@@ -63,7 +63,7 @@ export function getSignupFormFieldErrorMessage(
       }
     }
 
-    case 'age': {
+    case 'birthYear': {
       switch (errorType) {
         case 'required':
           return '필수 항목입니다';

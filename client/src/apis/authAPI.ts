@@ -3,14 +3,14 @@ import { SetterOrUpdater } from 'recoil';
 
 type SetIsLoggedIn = SetterOrUpdater<boolean>;
 interface NewUser {
-  isTermsEnable: boolean;
   email: string;
   password: string;
   nickname: string;
-  gender: string | null;
-  old: number | null;
-  bicycleType: string | null;
+  gender: string;
+  birthYear: number;
+  bicycleType: string;
   introduce: string | null;
+  isTermsEnable: boolean;
 }
 
 // TODO: 클로저 공부

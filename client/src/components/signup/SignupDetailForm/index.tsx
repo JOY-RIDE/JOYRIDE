@@ -22,7 +22,7 @@ const cn = classNames.bind(styles);
 interface SignupDetailForm {
   nickname: string;
   gender: Gender;
-  age: string;
+  birthYear: string;
   bicycleType: BicycleType;
   introduce: string;
 }
@@ -37,7 +37,7 @@ const SignupDetailForm = () => {
     defaultValues: {
       nickname: '',
       gender: 'm',
-      age: '',
+      birthYear: '',
       bicycleType: '따릉이',
       introduce: '',
     },
@@ -67,7 +67,7 @@ const SignupDetailForm = () => {
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
     nickname,
     gender,
-    age,
+    birthYear,
     bicycleType,
     introduce,
   }) => {
@@ -79,16 +79,17 @@ const SignupDetailForm = () => {
       password,
       nickname,
       gender,
-      old: Number(age),
+      birthYear: Number(birthYear),
       bicycleType,
       introduce: introduce || null,
       isTermsEnable: true,
     };
+    console.log(newUser);
 
     try {
-      await authAPI.signup(newUser);
-      setSignupFormData(data => ({ ...data, nickname }));
-      increaseStep();
+      // await authAPI.signup(newUser);
+      // setSignupFormData(data => ({ ...data, nickname }));
+      // increaseStep();
     } catch (e) {
       showToastMessage('회원가입 중 문제가 발생했습니다');
     }
@@ -161,7 +162,7 @@ const SignupDetailForm = () => {
           </label>
           <Controller
             control={control}
-            name="age"
+            name="birthYear"
             rules={{
               required: true,
               min: 1920,
@@ -172,7 +173,7 @@ const SignupDetailForm = () => {
                 type="number"
                 placeholder="출생년도"
                 helpText={!isSubmitted && '출생년도 네자리'}
-                hasError={Boolean(errors.age)}
+                hasError={Boolean(errors.birthYear)}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const input = e.target.value;
                   if (Number(input) < 0) {
@@ -184,9 +185,12 @@ const SignupDetailForm = () => {
               />
             )}
           />
-          {errors.age && (
+          {errors.birthYear && (
             <ErrorMessage
-              message={getSignupFormFieldErrorMessage('age', errors.age.type)}
+              message={getSignupFormFieldErrorMessage(
+                'birthYear',
+                errors.birthYear.type
+              )}
             />
           )}
         </div>
