@@ -69,12 +69,12 @@ public class CourseController {
 
     // 리뷰 조회 api
     @GetMapping("/review/{title}/{filter}")
-    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
+    public BaseResponse<List<GetCourseReviewRes>> GetFilteringReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
         try{
             List<GetCourseReviewRes> courseReviewList = courseProvider.retrieveCourseReviewByCourseTitle(title);
             // 새로운 리스트
-            List<GetCourseReviewRes> getCourseReviewRes = courseService.reviewFilter(courseReviewList, filter);
-            return new BaseResponse<>(getCourseReviewRes);
+            List<GetFilteringReviewRes> getFilteringReviewList = courseService.reviewFilter(courseReviewList, filter);
+            return new BaseResponse<>(getFilteringReviewList);
         } catch(BaseException exception){
             exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
