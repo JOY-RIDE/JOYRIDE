@@ -22,8 +22,8 @@ public class UserDao {
 
 
     public User insertUser(User user, boolean isTermsEnable) {
-        String insertUserQuery = "insert into user (nickname,email,password,gender,old,bicycle_type,bicycle_career,role,provider,provider_id, terms) values (?,?,?,?,?,?,?,?,?,?,?)";
-        Object[] insertUserParams = new Object[]{user.getNickname(), user.getEmail(), user.getPassword(), user.getGender(), user.getOld(),
+        String insertUserQuery = "insert into user (nickname,email,password,gender,birth_year,bicycle_type,bicycle_career,role,provider,provider_id, terms) values (?,?,?,?,?,?,?,?,?,?,?)";
+        Object[] insertUserParams = new Object[]{user.getNickname(), user.getEmail(), user.getPassword(), user.getGender(), user.getBirthYear(),
                 user.getBicycleType(),user.getBicycleCareer(),user.getRole(), user.getProvider(), user.getProvider_id(), isTermsEnable};
 
         this.jdbcTemplate.update(insertUserQuery, insertUserParams);
@@ -36,7 +36,7 @@ public class UserDao {
     }
 
     public User selectByEmail(String email, String provider) {
-        String selectByEmailQuery = "select id, nickname,email, password,gender,manner, old ,profile_img_url, introduce,bicycle_type,bicycle_career, role, provider, provider_id from user where email = ? and provider = ? and status = 1";
+        String selectByEmailQuery = "select id, nickname,email, password,gender,manner, birth_year ,profile_img_url, introduce,bicycle_type,bicycle_career, role, provider, provider_id from user where email = ? and provider = ? and status = 1";
         Object[] selectByEmailParams = new Object[]{email, provider};
         try {
             return this.jdbcTemplate.queryForObject(selectByEmailQuery,
@@ -47,7 +47,7 @@ public class UserDao {
                             rs.getString("password"),
                             rs.getString("gender"),
                             rs.getDouble("manner"),
-                            rs.getInt("old"),
+                            rs.getInt("birth_year"),
                             rs.getString("profile_img_url"),
                             rs.getString("introduce"),
                             rs.getString("bicycle_type"),
@@ -62,7 +62,7 @@ public class UserDao {
     }
 
     public User selectById(Integer user_id) {
-        String selectByIdQuery = "select id, nickname,email, password,gender,manner, old ,profile_img_url, introduce,bicycle_type,bicycle_career, role, provider, provider_id from user where id = ? and status = 1";
+        String selectByIdQuery = "select id, nickname,email, password,gender,manner, birth_year ,profile_img_url, introduce,bicycle_type,bicycle_career, role, provider, provider_id from user where id = ? and status = 1";
         return this.jdbcTemplate.queryForObject(selectByIdQuery,
                 (rs, rowNum) -> new User(
                         rs.getInt("id"),
@@ -71,7 +71,7 @@ public class UserDao {
                         rs.getString("password"),
                         rs.getString("gender"),
                         rs.getDouble("manner"),
-                        rs.getInt("old"),
+                        rs.getInt("birth_year"),
                         rs.getString("profile_img_url"),
                         rs.getString("introduce"),
                         rs.getString("bicycle_type"),
@@ -125,8 +125,8 @@ public class UserDao {
     }
 
     public void updateProfile(Integer userId, PatchUserReq patchUserReq) {
-        String updateProfileQuery = "update user set nickname = ? , gender =?, old = ?, introduce = ?, bicycle_type = ?, bicycle_career = ? where id = ? and status = 1";
-        Object[] updateProfileParams = new Object[]{patchUserReq.getNickname(),patchUserReq.getGender(),patchUserReq.getOld(), patchUserReq.getIntroduce(), patchUserReq.getBicycleType(),patchUserReq.getBicycleCareer(), userId};
+        String updateProfileQuery = "update user set nickname = ? , gender =?, birth_year = ?, introduce = ?, bicycle_type = ?, bicycle_career = ? where id = ? and status = 1";
+        Object[] updateProfileParams = new Object[]{patchUserReq.getNickname(),patchUserReq.getGender(),patchUserReq.getBirthYear(), patchUserReq.getIntroduce(), patchUserReq.getBicycleType(),patchUserReq.getBicycleCareer(), userId};
 
         this.jdbcTemplate.update(updateProfileQuery, updateProfileParams);
 

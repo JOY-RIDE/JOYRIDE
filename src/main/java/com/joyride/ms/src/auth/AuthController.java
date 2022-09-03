@@ -70,7 +70,7 @@ public class AuthController {
         }
         try {
             String encodedPassword = passwordEncoder.encode(postSignupReq.getPassword());
-            User user = new User(postSignupReq.getNickname(), postSignupReq.getEmail(), encodedPassword, postSignupReq.getGender(), postSignupReq.getOld(), postSignupReq.getBicycleType(),postSignupReq.getBicycleCareer(), "ROLE_USER", "none", "none");
+            User user = new User(postSignupReq.getNickname(), postSignupReq.getEmail(), encodedPassword, postSignupReq.getGender(), postSignupReq.getBirthYear(), postSignupReq.getBicycleType(),postSignupReq.getBicycleCareer(), "ROLE_USER", "none", "none");
             userService.createUser(user, postSignupReq.isTermsEnable());
             return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {

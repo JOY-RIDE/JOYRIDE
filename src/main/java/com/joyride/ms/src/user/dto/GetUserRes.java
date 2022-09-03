@@ -12,7 +12,7 @@ public class GetUserRes {
     private String nickname;
     private String gender;
     private Double manner;
-    private Integer old;
+    private Integer birthYear;
     private String introduce;
     private String bicycleType;
     private Integer bicycleCareer;
