@@ -10,7 +10,7 @@ public class PostCourseReviewReq {
 
     private int user_id;
 
-    private String course_id;
+    private String title;
 
     private double scene_rate;
     private double facilities_rate;

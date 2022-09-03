@@ -96,9 +96,9 @@ public class CourseProvider {
     }
 
     // 코스 좋아요 수 조회
-    public int retrieveCourseLikeCount(String courseId) throws BaseException {
+    public int retrieveCourseLikeCount(String title) throws BaseException {
         try{
-            int likeCount = courseDao.countCourseLike(courseId);
+            int likeCount = courseDao.countCourseLike(title);
             return likeCount;
         }
         catch (Exception exception) {
