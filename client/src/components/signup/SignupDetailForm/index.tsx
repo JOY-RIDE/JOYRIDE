@@ -87,9 +87,9 @@ const SignupDetailForm = () => {
     console.log(newUser);
 
     try {
-      // await authAPI.signup(newUser);
-      // setSignupFormData(data => ({ ...data, nickname }));
-      // increaseStep();
+      await authAPI.signup(newUser);
+      setSignupFormData(data => ({ ...data, nickname }));
+      increaseStep();
     } catch (e) {
       showToastMessage('회원가입 중 문제가 발생했습니다');
     }
