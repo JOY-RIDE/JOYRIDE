@@ -38,7 +38,6 @@ export interface FilterOptionData {
 export type FiltersReducer<S> = (state: S, payload: FiltersReducerPayload) => S;
 export type FiltersDispatch = (payload: FiltersReducerPayload) => void;
 
-// TODO: refactor
 export interface OrderState {
   name: string;
   content: string;

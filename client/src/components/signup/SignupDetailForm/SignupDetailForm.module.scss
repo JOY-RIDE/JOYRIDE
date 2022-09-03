@@ -13,20 +13,20 @@
   font-size: 2rem;
   margin-bottom: 1.5rem;
 
-  & .optional {
+  & .guide {
     color: $color-grey-600;
   }
 }
 
 .row {
-  $gap-row: 1.2rem;
+  $row-gap: 1.2rem;
 
   display: flex;
-  gap: $gap-row;
+  gap: $row-gap;
   flex-wrap: wrap;
 
   & .col {
-    flex: 1 0 calc((100% - 2 * $gap-row) / 3);
+    flex: 1 0 calc((100% - 2 * $row-gap) / 3);
   }
 }
 

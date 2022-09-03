@@ -1,8 +1,13 @@
-import styles from './PlusMinusButton.module.scss';
 import { ClickHandler } from 'types/callback';
 import { HiOutlinePlus, HiOutlineMinus } from 'react-icons/hi';
+import styles from './PlusMinusButton.module.scss';
+import classNames from 'classnames/bind';
+
+const cn = classNames.bind(styles);
 
 interface CommonProps {
+  color: 'white' | 'grey';
+  size: 'sm' | 'md';
   name?: string;
 }
 
@@ -21,6 +26,8 @@ type ConditionalProps =
 type PlusMinusButtonProps = CommonProps & ConditionalProps;
 
 const PlusMinusButton = ({
+  color,
+  size,
   name,
   action,
   onDecrease,
@@ -29,7 +36,7 @@ const PlusMinusButton = ({
   <button
     type="button"
     name={name}
-    className={styles.btn}
+    className={cn('btn', color, size)}
     onClick={action === 'decrease' ? onDecrease : onIncrease}
   >
     {action === 'decrease' ? <HiOutlineMinus /> : <HiOutlinePlus />}

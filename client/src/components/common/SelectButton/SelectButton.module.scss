@@ -12,7 +12,6 @@
 
 .btn {
   cursor: pointer;
-  font-size: 2rem;
   background: white;
   color: $color-grey-600;
   border: $border-grey;
@@ -21,7 +20,7 @@
   display: block;
   text-align: center;
 
-  &.sm {
-    font-size: 1.6rem;
+  &.lg {
+    font-size: 2rem;
   }
 }

@@ -5,12 +5,12 @@ import {
   meetupFiltersState,
   MEETUP_FILTERS_INITIAL_STATE,
 } from 'states/meetup';
-import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
+import FilterOptionChip from 'components/common/FilterOptionChip';
 
 const cn = classNames.bind(styles);
 
@@ -34,7 +34,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   return (
     <ul className={cn('choices', { wide: !onBoard })}>
       {filters.location && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="location"
           value={filters.location.value}
@@ -44,7 +44,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
         />
       )}
       {filters.pathDifficulty && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="pathDifficulty"
           value={filters.pathDifficulty.value}
@@ -53,9 +53,19 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.bicycleTypes &&
+      {filters.bicycleTypes && (
+        <FilterOptionChip
+          type="removeOnly"
+          filtersKey="bicycleTypes"
+          value={filters.bicycleTypes.value}
+          content={filters.bicycleTypes.content}
+          isActive
+          onXClick={handleRemove}
+        />
+      )}
+      {/* {filters.bicycleTypes &&
         filters.bicycleTypes.map(({ value, content }: FilterOptionData) => (
-          <OptionChip
+          <FilterOptionChip
             key={`${value}`}
             type="removeOnly"
             filtersKey="bicycleTypes"
@@ -64,9 +74,9 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             isActive
             onXClick={handleRemove}
           />
-        ))}
+        ))} */}
       {filters.ridingSkill && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="ridingSkill"
           value={filters.ridingSkill.value}
@@ -76,7 +86,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
         />
       )}
       {filters.gender && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="gender"
           value={filters.gender.value}
@@ -85,9 +95,19 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.ages &&
+      {filters.ages && (
+        <FilterOptionChip
+          type="removeOnly"
+          filtersKey="ages"
+          value={filters.ages.value}
+          content={filters.ages.content}
+          isActive
+          onXClick={handleRemove}
+        />
+      )}
+      {/* {filters.ages &&
         filters.ages.map(({ value, content }: FilterOptionData) => (
-          <OptionChip
+          <FilterOptionChip
             key={`${value}`}
             type="removeOnly"
             filtersKey="ages"
@@ -96,11 +116,11 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
             isActive
             onXClick={handleRemove}
           />
-        ))}
+        ))} */}
       {Boolean(
         filters.minNumOfParticipants.value || filters.maxNumOfParticipants.value
       ) && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="maxNumOfParticipants"
           value={filters.maxNumOfParticipants.value}
@@ -110,7 +130,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
         />
       )}
       {filters.isParticipationFree && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="isParticipationFree"
           value={filters.isParticipationFree.value}
@@ -122,7 +142,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       {!onBoard &&
         JSON.stringify(filters) !==
           JSON.stringify(MEETUP_FILTERS_INITIAL_STATE) && (
-          <OptionChip
+          <FilterOptionChip
             type="reset"
             content="초기화"
             isActive={false}

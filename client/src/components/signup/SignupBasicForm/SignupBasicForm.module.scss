@@ -1,5 +1,3 @@
-@use '../../../styles/variables.scss' as *;
-
 .fields {
   display: flex;
   flex-direction: column;
@@ -12,10 +10,6 @@
   align-items: center;
   font-size: 2rem;
   margin-bottom: 1rem;
-
-  & .optional {
-    color: $color-grey-600;
-  }
 }
 
 .btns {

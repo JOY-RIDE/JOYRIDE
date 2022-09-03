@@ -39,15 +39,11 @@ const MeetupInfo = (props: Meetup) => (
         <div className={cn('detail')}>
           <label className={cn('label')}>자전거 종류</label>
           <ul className={cn('data')}>
-            {props.bicycleTypes ? (
-              props.bicycleTypes.map((type, index) => (
-                <li key={index} className={cn('emphasized')}>
-                  {type}
-                </li>
-              ))
-            ) : (
-              <span className={cn('emphasized')}>전체</span>
-            )}
+            {props.bicycleTypes.map((type, index) => (
+              <li key={index} className={cn('emphasized')}>
+                {type}
+              </li>
+            ))}
           </ul>
         </div>
         <div className={cn('detail')}>

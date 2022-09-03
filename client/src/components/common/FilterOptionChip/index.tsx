@@ -1,13 +1,9 @@
-import { memo } from 'react';
 import { FiltersDispatch } from 'types/common';
 import { Resetter } from 'recoil';
-import { VscChromeClose } from 'react-icons/vsc';
-import styles from './OptionChip.module.scss';
-import classNames from 'classnames/bind';
+import Chip from '../Chip';
+import { memo } from 'react';
 
-const cn = classNames.bind(styles);
-
-type ChipType = 'all' | 'default' | 'removeOnly' | 'reset';
+type FilterOptionChipType = 'all' | 'default' | 'removeOnly' | 'reset';
 
 interface CommonProps {
   content: string;
@@ -51,22 +47,22 @@ interface ResetTypeProps {
   onXClick?: never;
 }
 
-type OptionChipProps = CommonProps & ConditionalProps;
+type FilterOptionChipProps = CommonProps & ConditionalProps;
 
-function checkIfActive(type: ChipType, isActive: boolean) {
+function checkIfActive(type: FilterOptionChipType, isActive: boolean) {
   if (type === 'all' && isActive) return true;
   if (type === 'default' && isActive) return true;
   if (type === 'removeOnly') return true;
   if (type === 'reset') return false;
+  return false;
 }
-
-function checkIfDeletable(type: ChipType, isActive: boolean) {
+function checkIfDeletable(type: FilterOptionChipType, isActive: boolean) {
   if ((type === 'default' && isActive) || type === 'removeOnly') return true;
   else return false;
 }
 
 // TODO: refactor
-const OptionChip = memo(
+const FilterOptionChip = memo(
   ({
     type,
     filtersKey,
@@ -75,7 +71,7 @@ const OptionChip = memo(
     isActive,
     onTextClick,
     onXClick,
-  }: OptionChipProps) => {
+  }: FilterOptionChipProps) => {
     const handleTextClick = !onTextClick
       ? undefined
       : type === 'reset'
@@ -84,23 +80,16 @@ const OptionChip = memo(
     const handleXClick = !onXClick
       ? undefined
       : () => onXClick({ key: filtersKey, value });
-
     return (
-      <li
-        className={cn('option', { active: checkIfActive(type, isActive) })}
-        onClick={!checkIfActive(type, isActive) ? handleTextClick : undefined}
-      >
-        <span>{content}</span>
-        <button
-          type="button"
-          className={cn('x-btn', { hidden: !checkIfDeletable(type, isActive) })}
-          onClick={checkIfDeletable(type, isActive) ? handleXClick : undefined}
-        >
-          <VscChromeClose />
-        </button>
-      </li>
+      <Chip
+        content={content}
+        isActive={checkIfActive(type, isActive)}
+        isDeletable={checkIfDeletable(type, isActive)}
+        onTextClick={handleTextClick}
+        onXClick={handleXClick}
+      />
     );
   }
 );
 
-export default OptionChip;
+export default FilterOptionChip;

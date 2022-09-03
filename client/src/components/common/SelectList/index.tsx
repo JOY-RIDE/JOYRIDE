@@ -6,19 +6,21 @@ interface Option {
   content: string;
 }
 interface SelectListProps {
+  size?: 'md' | 'lg';
   options: Option[];
   label: string;
+  defaultText?: string;
   [key: string]: any;
 }
 
 const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
   (props, ref) => {
-    const { options, label, ...others } = props;
+    const { size = 'md', options, label, defaultText, ...others } = props;
     return (
       <Select
         inputProps={{ 'aria-label': label }}
         sx={{
-          fontSize: '2rem',
+          fontSize: size === 'md' ? '1.6rem' : '2rem',
           '& .MuiSelect-select': {
             padding: '1rem 1.6rem',
           },
@@ -28,10 +30,16 @@ const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
         {...others}
       >
         <MenuItem value="">
-          <em>선택</em>
+          <em>{defaultText || '선택'}</em>
         </MenuItem>
         {options.map(option => (
-          <MenuItem key={option.value} value={option.value}>
+          <MenuItem
+            key={option.value}
+            value={option.value}
+            sx={{
+              justifyContent: 'center',
+            }}
+          >
             {option.content}
           </MenuItem>
         ))}

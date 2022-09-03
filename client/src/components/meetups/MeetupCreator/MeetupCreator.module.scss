@@ -17,6 +17,10 @@
 }
 
 .header {
+  position: fixed;
+  width: min(100%, 60rem);
+  z-index: 2;
+  background: white;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -10,15 +10,16 @@
 .filter-order {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  @include for-tablet-landscape-up {
+    margin-bottom: 1rem;
+  }
 }
 
 .meetups-wrapper {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
-
-  // TODO
   @include for-tablet-landscape-up {
     justify-content: center;
   }

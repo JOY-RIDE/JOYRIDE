@@ -1,16 +1,32 @@
 @use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
-@mixin setButtonWidth($size) {
-  gap: $size;
-  & .col {
-    flex: 1 0 calc((100% - 2 * $size) / 3);
+.date-input {
+  cursor: pointer;
+  background: $color-grey-100;
+  padding: 1.4rem 1.5rem;
+  border-radius: 0.3rem;
+  display: flex;
+  align-items: center;
+
+  & input {
+    cursor: inherit;
+    flex-grow: 1;
+    outline: none;
+  }
+
+  & svg {
+    font-size: 2rem;
+    color: $color-grey-700;
   }
 }
 
 .form {
-  padding: 0 2.5rem 3rem 2.5rem;
-  // overflow-y: scroll;
+  padding: 0 2.5rem 5rem 2.5rem;
+  padding-top: 0.1rem;
+  margin-top: 7.4rem; // TODO
+  overflow-y: scroll;
+  position: relative;
 }
 
 .title {
@@ -27,31 +43,109 @@
   gap: 2.5rem;
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  :global .react-datepicker__tab-loop {
+    position: absolute;
+  }
+}
+
 .label {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  align-items: center;
 
-  & .optional {
-    color: $color-grey-600;
+  & .guide {
+    font-size: 1.4rem;
+    color: $color-grey-500;
   }
 }
 
-.row {
+.options {
+  $options-gap: 1.2rem;
+
   display: flex;
+  gap: $options-gap;
   flex-wrap: wrap;
-  @include setButtonWidth(1.2rem);
 
-  @include for-tablet-portrait-up {
-    @include setButtonWidth(2rem);
+  & .col {
+    flex-basis: calc((100% - 2 * $options-gap) / 3);
   }
 }
 
-.content {
-  & textarea {
-    width: 100%;
+.path {
+  & input {
+    font-size: 1.2rem;
+    @include for-tablet-portrait-up {
+      font-size: 1.6rem;
+    }
   }
+
+  & .stops {
+    display: flex;
+    gap: 0.5rem 0.4rem;
+    flex-wrap: wrap;
+    align-items: center;
+
+    & > svg {
+      font-size: 1rem;
+    }
+  }
+}
+
+.birthYear {
+  & .option {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  & .select {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  & .tilde {
+    font-size: 2rem;
+  }
+}
+
+.maxNumOfParticipants,
+.participationFee {
+  & .option,
+  .regulator {
+    display: flex;
+    align-items: center;
+  }
+
+  & .option {
+    gap: 2.5rem;
+  }
+
+  & .regulator {
+    flex-grow: 1;
+    background: $color-grey-100;
+    padding: 1rem;
+    justify-content: space-between;
+    border-radius: 0.3rem;
+  }
+}
+
+.number {
+  flex-grow: 1;
+  font-size: 1.8rem;
+  text-align: center;
+}
+.number::-webkit-outer-spin-button,
+.number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.number[type='number'] {
+  -moz-appearance: textfield;
 }
 
 .btn {

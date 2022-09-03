@@ -16,6 +16,14 @@
 
 .label {
   color: $color-grey-600;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  & .multiple {
+    font-size: 1.2rem;
+    color: $color-grey-500;
+  }
 }
 
 .options,
@@ -56,7 +64,6 @@
 }
 
 .number {
-  border: none;
   padding: 0.5rem 0.7rem;
   text-align: center;
   width: 3.5rem;
