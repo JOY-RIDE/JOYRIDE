@@ -66,10 +66,11 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+    // 리뷰 전체는 그대로 하나
 
-    // 리뷰 조회 api
+    // 리뷰 필터링 조회 api
     @GetMapping("/review/{title}/{filter}")
-    public BaseResponse<List<GetCourseReviewRes>> GetFilteringReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
+    public BaseResponse<List<GetFilteringReviewRes>> GetFilteringReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
         try{
             List<GetCourseReviewRes> courseReviewList = courseProvider.retrieveCourseReviewByCourseTitle(title);
             // 새로운 리스트

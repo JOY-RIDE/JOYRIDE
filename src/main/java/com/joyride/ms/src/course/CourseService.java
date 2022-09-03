@@ -55,20 +55,43 @@ public class CourseService {
     }
 
     // 리뷰 필터
-    // 리스트 반환
     @Transactional(readOnly = true)
-    public Double reviewFilter(List<GetCourseReviewRes> courseReviewList, String filter) throws BaseException {
+    public List<GetFilteringReviewRes> reviewFilter(List<GetCourseReviewRes> courseReviewList, String filter) throws BaseException {
         try{
+            ArrayList<GetFilteringReviewRes> getFilteringReviewList = new ArrayList<>();
             for (int i = 0; i < courseReviewList.size(); i++) {
+                GetFilteringReviewRes getFilteringReviewRes = new GetFilteringReviewRes();
+                getFilteringReviewRes.setTitle(courseReviewList.get(i).getTitle());
+                getFilteringReviewRes.setId(courseReviewList.get(i).getId());
+                getFilteringReviewRes.setNickName(courseReviewList.get(i).getNickName());
+                getFilteringReviewRes.setUser_id(courseReviewList.get(i).getUser_id());
+                getFilteringReviewRes.setCreated_at(courseReviewList.get(i).getCreated_at());
+                getFilteringReviewRes.setUpdated_at(courseReviewList.get(i).getUpdated_at());
+
                 if (filter.equals("안전")) {
-                    courseReviewList.get(i).getCourse_id();
-                    courseReviewList.get(i).getId();
-                    courseReviewList.get(i).getNickName();
-                    courseReviewList.get(i).getUser_id();
-                    courseReviewList.get(i).getCreated_at();
-                    courseReviewList.get(i).getUpdated_at();
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getSafety_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getSafety_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+
+                }
+                else if (filter.equals("접근성")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getAccessibility_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getAccessibility_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+                else if (filter.equals("편의시설")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getFacilities_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getFacilities_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+
+                else {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getScene_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getScene_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
                 }
             }
+            return getFilteringReviewList;
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
