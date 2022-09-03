@@ -18,13 +18,7 @@ import {
 } from 'utils/constants';
 import { BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
-import {
-  ChangeEvent,
-  forwardRef,
-  KeyboardEvent,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { ChangeEvent, forwardRef, KeyboardEvent, ReactNode } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -36,6 +30,8 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import TextInput from 'components/common/TextInput';
 import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
+import { toastMessageState } from 'states/common';
+import { useSetRecoilState } from 'recoil';
 
 const cn = classNames.bind(styles);
 
@@ -47,7 +43,7 @@ interface DateInputProps {
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   ({ className, icon, onClick, ...others }, ref) => (
     <div className={cn('date-input')} onClick={onClick}>
-      <input ref={ref} {...others} />
+      <input {...others} />
       <button type="button">{icon}</button>
     </div>
   )
@@ -65,6 +61,7 @@ interface MeetupCreationFormProp {
 const SET_VALUE_OPTION = {
   shouldValidate: true,
   shouldDirty: true,
+  shouldTouch: true,
 };
 
 // TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
@@ -97,12 +94,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const dueDate = watch('dueDate');
   const path = watch('path');
   const minBirthYear = watch('minBirthYear');
-
-  useEffect(() => {
-    if (!isSubmitSuccessful) return;
-    close();
-    return reset;
-  }, [isSubmitSuccessful]);
 
   // Callbacks
 
@@ -152,9 +143,12 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       SET_VALUE_OPTION
     );
 
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     // radio 숫자들 string으로 들어옴
     console.log(data);
+    close();
+    showToastMessage('모임이 등록되었습니다');
   };
 
   return (
