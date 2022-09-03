@@ -264,19 +264,19 @@ const MeetupFilterBoardOptions = () => {
         <ul className={cn('options')}>
           <FilterOptionChip
             type="all"
-            filtersKey="ages"
+            filtersKey="age"
             content="전체"
-            isActive={!boardFilters.ages}
+            isActive={!boardFilters.age}
             onTextClick={handleClear}
           />
           {AGES.map(age => (
             <FilterOptionChip
               key={age}
               type="default"
-              filtersKey="ages"
+              filtersKey="age"
               value={age}
               content={stringifyAge(age)}
-              isActive={age === boardFilters.ages?.value}
+              isActive={age === boardFilters.age?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -285,12 +285,12 @@ const MeetupFilterBoardOptions = () => {
             <FilterOptionChip
               key={age}
               type="default"
-              filtersKey="ages"
+              filtersKey="age"
               value={age}
               content={stringifyAge(age)}
               isActive={
-                boardFilters.ages &&
-                boardFilters.ages.some(
+                boardFilters.age &&
+                boardFilters.age.some(
                   (data: FilterOptionData) => data.value === age
                 )
               }

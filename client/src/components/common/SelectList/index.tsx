@@ -1,21 +1,17 @@
 import { forwardRef } from 'react';
 import { Select, MenuItem } from '@mui/material';
+import { Option } from 'types/common';
 
-interface Option {
-  value: string;
-  content: string;
-}
 interface SelectListProps {
   size?: 'md' | 'lg';
-  options: Option[];
+  options: Option<number | string>[];
   label: string;
-  defaultText?: string;
   [key: string]: any;
 }
 
 const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
   (props, ref) => {
-    const { size = 'md', options, label, defaultText, ...others } = props;
+    const { size = 'md', options, label, ...others } = props;
     return (
       <Select
         inputProps={{ 'aria-label': label }}
@@ -29,8 +25,13 @@ const SelectList = forwardRef<HTMLSelectElement, SelectListProps>(
         inputRef={ref}
         {...others}
       >
-        <MenuItem value="">
-          <em>{defaultText || '선택'}</em>
+        <MenuItem
+          value=""
+          sx={{
+            justifyContent: 'center',
+          }}
+        >
+          <em>{label}</em>
         </MenuItem>
         {options.map(option => (
           <MenuItem

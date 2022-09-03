@@ -12,7 +12,6 @@ const SocialLogin = () => (
     <div className={cn('divider')}>
       <span>또는</span>
     </div>
-
     <ul className={cn('providers')}>
       {/* TODO */}
       <li>

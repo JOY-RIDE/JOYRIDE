@@ -44,7 +44,6 @@ const SignupTermsForm = () => {
       showToastMessage('약관 동의가 필요합니다');
       return;
     }
-
     increaseStep();
   };
 

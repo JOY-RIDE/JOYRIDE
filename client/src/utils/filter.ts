@@ -20,12 +20,12 @@ function meetupFiltersReducerForChoosing(
     case 'minNumOfParticipants':
     case 'maxNumOfParticipants':
     case 'bicycleTypes':
-    case 'ages':
+    case 'age':
       return { ...state, [key]: data };
 
     // 다중 선택 옵션들
     // case 'bicycleTypes':
-    // case 'ages': {
+    // case 'age': {
     //   const oldDataArray = state[key];
     //   return oldDataArray
     //     ? { ...state, [key]: oldDataArray.concat(data) }
@@ -48,12 +48,12 @@ function meetupFiltersReducerForRemoving(
     case 'gender':
     case 'isParticipationFree':
     case 'bicycleTypes':
-    case 'ages':
+    case 'age':
       return omit(state, [key]);
 
     // 다중 선택 옵션들
     // case 'bicycleTypes':
-    // case 'ages': {
+    // case 'age': {
     //   const oldDataArray = state[key];
     //   return oldDataArray.length > 1
     //     ? {

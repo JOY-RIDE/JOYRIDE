@@ -51,8 +51,8 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
 interface MeetupCreationForm
   extends Omit<CreatedMeetup, 'meetingDate' | 'dueDate'> {
-  dueDate: null | MeetupDueDate;
-  meetingDate: null | MeetupMeetingDate;
+  dueDate: MeetupDueDate | null;
+  meetingDate: MeetupMeetingDate | null;
 }
 interface MeetupCreationFormProp {
   close: () => void;
@@ -83,7 +83,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       bicycleTypes: ['따릉이'],
       ridingSkill: 1,
       gender: 'mixed',
-      minBirthYear: 1940,
+      minBirthYear: 1920,
       maxBirthYear: new Date().getFullYear(),
       maxNumOfParticipants: 2,
       dueDate: null,
@@ -178,7 +178,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="location"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {LOCATIONS.map((location: Location) => (
@@ -313,7 +312,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="pathDifficulty"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_PATH_DIFFICULTY_OPTIONS.map(
@@ -396,7 +394,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="maxNumOfParticipants"
-                rules={{ required: true, min: 2, max: 99 }}
+                rules={{ min: 2, max: 99 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"
@@ -438,7 +436,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="gender"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
@@ -472,7 +469,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                   <SelectList
                     options={BIRTH_YEAR_OPTIONS}
                     label="최소 출생년도"
-                    defaultText="최소 출생년도"
                     {...field}
                   />
                 )}
@@ -494,7 +490,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                   <SelectList
                     options={BIRTH_YEAR_OPTIONS}
                     label="최대 출생년도"
-                    defaultText="최대 출생년도"
                     {...field}
                   />
                 )}
@@ -529,7 +524,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="ridingSkill"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
@@ -564,7 +558,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="participationFee"
-                rules={{ required: true, min: 0 }}
+                rules={{ min: 0 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"

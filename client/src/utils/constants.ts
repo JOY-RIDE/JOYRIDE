@@ -19,15 +19,18 @@ export const REGEX = {
   password: /[0-9]/,
 };
 
-export const GENDERS: Gender[] = ['m', 'f'];
-export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
-  { value: 'mixed', content: '무관' },
+export const GENDERS: Gender[] = ['m', 'f']; // TODO: 삭제
+export const GENDER_OPTIONS: Option<Gender>[] = [
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
 ];
+export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
+  { value: 'mixed', content: '무관' },
+  ...GENDER_OPTIONS,
+];
 export const BIRTH_YEAR_OPTIONS: Option<number>[] = range(
   new Date().getFullYear(),
-  1939,
+  1919,
   -1
 ).map(year => ({ value: year, content: `${year}` }));
 export const AGES: Age[] = [1, 2, 3, 4, 5];

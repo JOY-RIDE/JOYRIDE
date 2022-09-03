@@ -25,11 +25,14 @@ const SignupCompleted = () => {
         가입이 완료되었습니다
       </h1>
       {/* TODO */}
-      {/* <p className={cn('info')}>
-        {email}으로 발송된 링크를
+      <p className={cn('info')}>
+        JOYRIDE에서
         <br />
-        클릭하시면 계정이 활성화됩니다.
-      </p> */}
+        다양한 자전거 코스와 모임들을 만나보세요!
+        {/* {email}으로 발송된 링크를
+        <br />
+        클릭하시면 계정이 활성화됩니다. */}
+      </p>
       <Button
         type="button"
         color="main"

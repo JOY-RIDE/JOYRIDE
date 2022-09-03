@@ -52,7 +52,7 @@ export interface Meetup extends CreatedMeetup {
 //   | 'minNumOfParticipants'
 //   | 'maxNumOfParticipants'
 //   | 'gender'
-//   | 'ages'
+//   | 'age'
 //   | 'isParticipationFree';
 // TODO: refactor
 export interface MeetupFiltersState {
@@ -63,7 +63,7 @@ export interface MeetupFiltersState {
   minNumOfParticipants?: any;
   maxNumOfParticipants?: any;
   gender?: any;
-  ages?: any;
+  age?: any;
   isParticipationFree?: any;
 }
 // export interface MeetupFiltersState {
@@ -74,7 +74,7 @@ export interface MeetupFiltersState {
 //   minNumOfParticipants?: number;
 //   maxNumOfParticipants?: number;
 //   gender?: string;
-//   ages?: number[];
+//   age?: number[];
 //   isParticipationFree?: boolean;
 // }
 

@@ -140,13 +140,6 @@
   font-size: 1.8rem;
   text-align: center;
 }
-.number::-webkit-outer-spin-button,
-.number::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-}
-.number[type='number'] {
-  -moz-appearance: textfield;
-}
 
 .btn {
   margin-top: 3rem;

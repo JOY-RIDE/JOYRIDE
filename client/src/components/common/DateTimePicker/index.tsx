@@ -10,7 +10,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 const cn = classNames.bind(styles);
 
 interface DateTimePickerProps {
-  selectedDate: null | Date;
+  selectedDate: Date | null;
   onChange: any;
   CustomInput: ReactElement;
   minDate?: Date;

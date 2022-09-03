@@ -95,22 +95,22 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.ages && (
+      {filters.age && (
         <FilterOptionChip
           type="removeOnly"
-          filtersKey="ages"
-          value={filters.ages.value}
-          content={filters.ages.content}
+          filtersKey="age"
+          value={filters.age.value}
+          content={filters.age.content}
           isActive
           onXClick={handleRemove}
         />
       )}
-      {/* {filters.ages &&
-        filters.ages.map(({ value, content }: FilterOptionData) => (
+      {/* {filters.age &&
+        filters.age.map(({ value, content }: FilterOptionData) => (
           <FilterOptionChip
             key={`${value}`}
             type="removeOnly"
-            filtersKey="ages"
+            filtersKey="age"
             value={value}
             content={content}
             isActive
