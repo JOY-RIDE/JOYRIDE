@@ -92,16 +92,16 @@ public class CourseDao {
 //    }
 
     // 해당 유저 아이디로 된 좋아요가 있는지 확인
-    public int selectStatusByUserId(int title) {
-        String selectCourseLikeStatusQuery = "select status from courselike where course_id = ?";
-        int selectCourseLikeStatusParams = title;
+    public int selectStatusByUserId(int user_id) {
+        String selectCourseLikeStatusQuery = "select status from courselike where user_id = ?";
+        int selectCourseLikeStatusParams = user_id;
         return this.jdbcTemplate.queryForObject(selectCourseLikeStatusQuery,
                 int.class,
                 selectCourseLikeStatusParams);
     }
     public GetCourseRes selectCourseByCourseId(String title){
         // 이름 db에 맞게
-        String getCourseQuery = "select course_img_url, latitude, longitude from course where course_id = ?";
+        String getCourseQuery = "select course_img_url, latitude, longitude from course where title = ?";
         String getCourseParams = title;
         //db정보 가져오기
         return this.jdbcTemplate.queryForObject(getCourseQuery,
@@ -190,11 +190,19 @@ public class CourseDao {
         Object[] createCourseLikeParams = new Object[]{user_id, title};
         this.jdbcTemplate.update(createCourseLikeQuery, createCourseLikeParams);
     }
-    //좋아요 삭제
-    public void updateCourseLike(int user_id){
 
+    //좋아요 삭제
+    public void updateCourseLikeToZero(int user_id){
         // 이 부분 체크
         String deleteByCourseLikeIdQuery = "update courselike set status = 0 where user_id = ?";
+        int deleteByCourseLikeIdParams = user_id;
+
+        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
+    }
+
+    public void updateCourseLikeToOne(int user_id){
+        // 이 부분 체크
+        String deleteByCourseLikeIdQuery = "update courselike set status = 1 where user_id = ?";
         int deleteByCourseLikeIdParams = user_id;
 
         this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
@@ -216,5 +224,14 @@ public class CourseDao {
                 int.class,
                 existsCourseLikeParams);
     }
+
+    public int selectCourseLikeStatus(int user_id) {
+        String selectCourseLikeStatusQuery = "select status from courselike where user_id = ?";
+        int selectCourseLikeStatusParams = user_id;
+        return this.jdbcTemplate.queryForObject(selectCourseLikeStatusQuery,
+                int.class,
+                selectCourseLikeStatusParams);
+    }
+
 
 }

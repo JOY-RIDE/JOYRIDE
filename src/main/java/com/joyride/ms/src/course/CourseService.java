@@ -93,9 +93,17 @@ public class CourseService {
                 return new PostCourseLikeRes(message);
             }
             else {
-                courseDao.updateCourseLike(user_id);
-                String message = "좋아요 삭제에 성공했습니다.";
-                return new PostCourseLikeRes(message);
+                int status = courseDao.selectCourseLikeStatus(user_id);
+                if (status == 1) {
+                    courseDao.updateCourseLikeToZero(user_id);
+                    String message = "좋아요 삭제에 성공했습니다.";
+                    return new PostCourseLikeRes(message);
+                }
+                else {
+                    courseDao.updateCourseLikeToOne(user_id);
+                    String message = "좋아요 등록 성공했습니다.";
+                    return new PostCourseLikeRes(message);
+                }
             }
 
         } catch (Exception exception) {
