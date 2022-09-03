@@ -68,10 +68,12 @@ public class CourseController {
     }
 
     // 리뷰 조회 api
-    @GetMapping("/review/{title}")
-    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("title") String title){
+    @GetMapping("/review/{title}/{filter}")
+    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
         try{
-            List<GetCourseReviewRes> getCourseReviewRes = courseProvider.retrieveCourseReviewByCourseTitle(title);
+            List<GetCourseReviewRes> courseReviewList = courseProvider.retrieveCourseReviewByCourseTitle(title);
+            // 새로운 리스트
+            List<GetCourseReviewRes> getCourseReviewRes = courseService.reviewFilter(courseReviewList, filter);
             return new BaseResponse<>(getCourseReviewRes);
         } catch(BaseException exception){
             exception.printStackTrace();
@@ -90,6 +92,8 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+
 
     /**
      * 좋아요 api

@@ -54,6 +54,28 @@ public class CourseService {
         }
     }
 
+    // 리뷰 필터
+    // 리스트 반환
+    @Transactional(readOnly = true)
+    public Double reviewFilter(List<GetCourseReviewRes> courseReviewList, String filter) throws BaseException {
+        try{
+            for (int i = 0; i < courseReviewList.size(); i++) {
+                if (filter.equals("안전")) {
+                    courseReviewList.get(i).getCourse_id();
+                    courseReviewList.get(i).getId();
+                    courseReviewList.get(i).getNickName();
+                    courseReviewList.get(i).getUser_id();
+                    courseReviewList.get(i).getCreated_at();
+                    courseReviewList.get(i).getUpdated_at();
+                }
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
     //리뷰 삭제 api
     public DeleteCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
 
