@@ -46,7 +46,7 @@ const MONTHS = [
   '12월',
 ];
 
-const DateTimePicker = forwardRef<HTMLElement, DateTimePickerProps>(
+const DateTimePicker = forwardRef<DatePicker, DateTimePickerProps>(
   (props, ref) => {
     const {
       selectedDate,

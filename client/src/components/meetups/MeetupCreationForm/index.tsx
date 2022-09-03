@@ -18,7 +18,13 @@ import {
 } from 'utils/constants';
 import { BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
-import { forwardRef, KeyboardEvent, ReactNode, useEffect } from 'react';
+import {
+  ChangeEvent,
+  forwardRef,
+  KeyboardEvent,
+  ReactNode,
+  useEffect,
+} from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -56,6 +62,12 @@ interface MeetupCreationFormProp {
   close: () => void;
 }
 
+const SET_VALUE_OPTION = {
+  shouldValidate: true,
+  shouldDirty: true,
+};
+
+// TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
 const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const {
     register,
@@ -84,12 +96,15 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   });
   const dueDate = watch('dueDate');
   const path = watch('path');
+  const minBirthYear = watch('minBirthYear');
 
   useEffect(() => {
     if (!isSubmitSuccessful) return;
     close();
     return reset;
   }, [isSubmitSuccessful]);
+
+  // Callbacks
 
   const handlePathAdd = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== ',') return;
@@ -98,48 +113,47 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     const input = e.target.value.trim();
     if (!input) return;
 
-    setValue('path', [...path, input], {
-      shouldValidate: true,
-    });
+    setValue('path', [...path, input], SET_VALUE_OPTION);
     e.target.value = '';
   };
-  const handlePathDelete = (stopIndex: number) => () => {
+  const handlePathDelete = (stopIndex: number) => () =>
     setValue(
       'path',
-      path.filter((_, valueIndex) => valueIndex !== stopIndex, {
-        shouldValidate: true,
-      })
+      path.filter((_, valueIndex) => valueIndex !== stopIndex),
+      SET_VALUE_OPTION
     );
-  };
 
   const handleMaxNumOfParticipantsDecrease = () => {
     const oldValue = getValues('maxNumOfParticipants');
-    setValue('maxNumOfParticipants', oldValue <= 2 ? 2 : oldValue - 1, {
-      shouldValidate: true,
-    });
+    setValue(
+      'maxNumOfParticipants',
+      oldValue <= 2 ? 2 : oldValue - 1,
+      SET_VALUE_OPTION
+    );
   };
   const handleMaxNumOfParticipantsIncrease = () => {
     const oldValue = getValues('maxNumOfParticipants');
     if (99 <= oldValue) return;
-    setValue('maxNumOfParticipants', oldValue + 1, {
-      shouldValidate: true,
-    });
+    setValue('maxNumOfParticipants', oldValue + 1, SET_VALUE_OPTION);
   };
 
   const handleParticipationFeeDecrease = () => {
     const oldValue = getValues('participationFee');
-    setValue('participationFee', oldValue < 5000 ? 0 : oldValue - 5000, {
-      shouldValidate: true,
-    });
+    setValue(
+      'participationFee',
+      oldValue < 5000 ? 0 : oldValue - 5000,
+      SET_VALUE_OPTION
+    );
   };
-  const handleParticipationFeeIncrease = () => {
-    const oldValue = getValues('participationFee');
-    setValue('participationFee', oldValue + 5000, {
-      shouldValidate: true,
-    });
-  };
+  const handleParticipationFeeIncrease = () =>
+    setValue(
+      'participationFee',
+      getValues('participationFee') + 5000,
+      SET_VALUE_OPTION
+    );
 
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
+    // radio 숫자들 string으로 들어옴
     console.log(data);
   };
 
@@ -198,9 +212,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             control={control}
             name="dueDate"
             rules={{ required: true }}
-            render={({ field: { value: selectedDate, ...others } }) => (
+            render={({ field: { value, ...others } }) => (
               <DateTimePicker
-                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                selectedDate={value ? value : null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
                 placeholder="모집 마감 일시를 선택하세요."
                 {...others}
@@ -229,9 +243,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               validate: meetingDate =>
                 (dueDate as Date).getTime() <= (meetingDate as Date).getTime(),
             }}
-            render={({ field: { value: selectedDate, ...others } }) => (
+            render={({ field: { value, ...others } }) => (
               <DateTimePicker
-                selectedDate={selectedDate ? new Date(selectedDate) : null}
+                selectedDate={value ? value : null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
                 minDate={dueDate ? dueDate : undefined}
                 placeholder="모임 일시를 선택하세요."
@@ -256,7 +270,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           <ul className={cn('stops')}>
             {path.map((stop, index) => (
               <>
-                {index > 0 && <BsArrowRight />}
+                {index > 0 && <BsArrowRight key={`${index}${stop}`} />}
                 <Chip
                   key={`${stop}${index}`}
                   size="sm"
@@ -284,7 +298,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <ErrorMessage
               message={getMeetupCreationFormFieldErrorMessage(
                 'path',
-                'validate'
+                errors.path.type as string
               )}
             />
           )}
@@ -348,7 +362,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                         value={option.value}
                         content={option.content}
                         isSelected={values.indexOf(option.value) !== -1}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
                           onChange(
                             e.target.checked
                               ? [...values, option.value]
@@ -367,7 +381,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <ErrorMessage
               message={getMeetupCreationFormFieldErrorMessage(
                 'bicycleTypes',
-                'validate'
+                errors.bicycleTypes.type as string
               )}
             />
           )}
@@ -480,7 +494,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                 name="maxBirthYear"
                 rules={{
                   required: true,
-                  min: getValues('minBirthYear'),
+                  min: minBirthYear,
                 }}
                 render={({ field }) => (
                   <SelectList
