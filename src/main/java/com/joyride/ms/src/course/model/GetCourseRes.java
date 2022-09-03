@@ -57,7 +57,13 @@ public class GetCourseRes {
     // 이 클래스를 확장해서 디테일에서 보여줄 부분들 추가
 
     // 좋아요 누른 유저들
-    private List<Integer> userIdList;
+//    private List<Integer> userIdList;
+
+    private int isLike;
+
+    private String latitude;
+
+    private String longitude;
 
     // 리뷰
 
@@ -87,6 +93,16 @@ public class GetCourseRes {
 //        getCourseRes.setUpdated_at(updated_at);
 
 
+        return getCourseRes;
+    }
+
+    //==생성 메서드==//
+    // course 테이블에 있는 정보만
+    public static GetCourseRes createGetCourseRes(String image, String latitude, String longitude) {
+        GetCourseRes getCourseRes = new GetCourseRes();
+        getCourseRes.setImage(image);
+        getCourseRes.setLatitude(latitude);
+        getCourseRes.setLongitude(longitude);
         return getCourseRes;
     }
 

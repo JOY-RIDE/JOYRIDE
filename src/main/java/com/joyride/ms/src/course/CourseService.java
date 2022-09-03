@@ -76,12 +76,28 @@ public class CourseService {
      */
 
     //코스 좋아요 생성
-    public PostCourseLikeRes createCourseLike(int user_id, String course_id) throws BaseException {
+    public PostCourseLikeRes createCourseLike(PostCourseLikeReq postCourseLikeReq) throws BaseException {
 
         // 유저확인 로직 필요
         try{
-            int likeId = courseDao.insertCourseLike(user_id, course_id);
-            return new PostCourseLikeRes(likeId);
+
+            // 데이터 베이스 status값 설정해주기
+            int user_id = postCourseLikeReq.getUser_id();
+            String title = postCourseLikeReq.getTitle();
+
+            int existId = courseDao.existsCourseLikeByUserId(user_id);
+            // 없으면
+            if (existId == 0) {
+                courseDao.insertCourseLike(user_id, title);
+                String message = "좋아요 등록 성공했습니다.";
+                return new PostCourseLikeRes(message);
+            }
+            else {
+                courseDao.updateCourseLike(user_id);
+                String message = "좋아요 삭제에 성공했습니다.";
+                return new PostCourseLikeRes(message);
+            }
+
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
@@ -89,21 +105,21 @@ public class CourseService {
     }
 
     //코스 좋아요 삭제
-    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
-
-        // 유저확인 로직 필요
-        int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
-        if (existsCourseLike == 0) {
-            throw new BaseException(COURSE_LIKE_NOT_EXISTS);
-        }
-        try{
-            courseDao.deleteByCourseLikeId(courseLike_id);
-            String message = "좋아요 삭제에 성공했습니다.";
-            return new DeleteCourseLikeRes(message);
-        } catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
+//    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
+//
+//        // 유저확인 로직 필요
+//        int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
+//        if (existsCourseLike == 0) {
+//            throw new BaseException(COURSE_LIKE_NOT_EXISTS);
+//        }
+//        try{
+//            courseDao.deleteByCourseLikeId(courseLike_id);
+//            String message = "좋아요 삭제에 성공했습니다.";
+//            return new DeleteCourseLikeRes(message);
+//        } catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
 
 }
 

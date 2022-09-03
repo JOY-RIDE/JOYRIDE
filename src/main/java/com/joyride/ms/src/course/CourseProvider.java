@@ -65,20 +65,28 @@ public class CourseProvider {
         }
     }
     // 코스 디테일 조회 api
-    public GetCourseRes retrieveCourse(String title) throws BaseException {
+    public GetCourseRes retrieveCourse(String title, int userId) throws BaseException {
         try{
             JSONArray courseArr = callApi.callCourseAPI(title);
             GetCourseRes course = GetCourseRes.createCourse(courseArr);
 
-            // 좋아요한 userId
-            String courseId = course.getId();
-            List<Integer> userIdList = courseDao.selectUserIdByCourseId(courseId);
-            course.setUserIdList(userIdList);
-
+            // 좋아요
+            int checkLike = courseDao.selectStatusByUserId(userId);
+            if (checkLike == 0) {
+                course.setIsLike(0);
+            }
+            else {
+                course.setIsLike(1);
+            }
             // 코스 리뷰
-            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseId);
+            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(title);
             course.setGetCourseReviewRes(getCourseReviewRes);
 
+            // 사진과 위 경도.
+            GetCourseRes courseTableInfo = courseDao.selectCourseByCourseId(title);
+            course.setImage(courseTableInfo.getImage());
+            course.setLatitude(courseTableInfo.getLatitude());
+            course.setLongitude(courseTableInfo.getLongitude());
             return course;
         }
         catch (Exception exception) {
@@ -99,9 +107,9 @@ public class CourseProvider {
         }
     }
 
-    public List<GetCourseReviewRes> retrieveCourseReviewByCourseId(String course_id) throws BaseException {
+    public List<GetCourseReviewRes> retrieveCourseReviewByCourseTitle(String title) throws BaseException {
         try{
-            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(course_id);
+            List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(title);
             return getCourseReviewRes;
         }
         catch (Exception exception) {
