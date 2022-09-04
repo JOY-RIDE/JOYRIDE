@@ -7,29 +7,30 @@ const cn = classNames.bind(styles);
 
 interface StarProps {
   index: number;
-  rating: number;
-  hoverRating: number;
-  onMouseEnter: (index: number) => void;
+  value: number;
+  //   hoverRating: number;
+  //   onMouseEnter: (index: number) => void;
   //   onMouseLeave: () => void;
   onSaveRating: (index: number) => void;
 }
 
 const ReviewStar = (props: StarProps) => {
-  const { index, rating, hoverRating, onMouseEnter, onSaveRating } = props;
+  const { index, value, onSaveRating } = props;
 
   const fillColor = useMemo(() => {
-    if (hoverRating >= index) {
-      return '#ffa740'; // #ffa740 === 노란색
-    } else if (!hoverRating && rating >= index) {
-      return '#ffa740'; // #ffa740 === 노란색
-    }
+    if (value >= index) {
+      return '#ffa740';
+    } // #ffa740 === 노란색
+    // } else if (!hoverRating && rating >= index) {
+    //   return '#ffa740'; // #ffa740 === 노란색
+    // }
     return '#eeeeee';
-  }, [rating, hoverRating, index]);
+  }, [value, index]);
 
   return (
     <div
       className={cn('stars')}
-      onMouseEnter={() => onMouseEnter(index)}
+      //   onMouseEnter={() => onMouseEnter(index)}
       onClick={() => onSaveRating(index)}
     >
       <StarIcon fillColor={fillColor} />

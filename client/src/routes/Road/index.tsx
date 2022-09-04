@@ -110,8 +110,11 @@ const Road = () => {
               contents={data?.crsTourInfo}
             ></CrsDesc>
           </div>
-          {/* <PageTitle size="sm">코스 사진</PageTitle> */}
-          <PageTitle size="sm">코스 후기</PageTitle>
+          <PageTitle size="sm">코스 사진</PageTitle>
+          <div className={cn('review-title')}>
+            <PageTitle size="sm">코스 후기</PageTitle>
+            <span className={cn('cnt')}>12</span>
+          </div>
           <ReviewWriter />
           <PageTitle size="sm">관련 모임</PageTitle>
         </div>

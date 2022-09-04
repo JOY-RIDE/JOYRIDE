@@ -22,8 +22,7 @@ const cn = classNames.bind(styles);
 
 const Roads = () => {
   const { isLoading, data } = useQuery<IRoad[]>('allCourses', fetchCourses);
-  const filteredData = _.uniqBy(data, 'crsKorNm');
-  const RoadsData = _.filter(filteredData, { brdDiv: 'DNBW' });
+  const RoadsData = _.uniqBy(data, 'crsKorNm');
 
   let RoadsData1 = [...RoadsData];
   RoadsData1.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));

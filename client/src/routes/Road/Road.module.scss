@@ -31,3 +31,15 @@
   display: flex;
   margin-top: 0.5rem;
 }
+
+.review-title {
+  display: flex;
+  .cnt {
+    margin-top: 4.5rem;
+    padding-left: 0.5rem;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2.4rem;
+    color: $color-grey-500;
+  }
+}

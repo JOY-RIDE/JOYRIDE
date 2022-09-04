@@ -1,1 +1,17 @@
 @use '../../../styles/variables.scss' as *;
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  padding-top: 0.5rem;
+  font-size: 2rem;
+  right: 2rem;
+  bottom: 2rem;
+  background-color: white;
+  color: $color-grey-600;
+  opacity: 0.85;
+  z-index: 130;
+  border-radius: 0.3rem;
+  text-align: center;
+}

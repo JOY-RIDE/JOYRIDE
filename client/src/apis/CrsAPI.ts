@@ -1,5 +1,5 @@
 // const BASE_URL = 'http://localhost:3000';
-const BASE_URL = `https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=${process.env.REACT_APP_TOUR_API_KEY}`;
+const BASE_URL = `https://apis.data.go.kr/B551011/Durunubi/courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=${process.env.REACT_APP_TOUR_API_KEY}&brdDiv=DNBW`;
 
 function getTotalCount() {
   return fetch(`${BASE_URL}&_type=json`)
@@ -9,7 +9,7 @@ function getTotalCount() {
 }
 
 export function fetchCourses() {
-  return fetch(`${BASE_URL}&numOfRows=3004&_type=json`)
+  return fetch(`${BASE_URL}&numOfRows=114&_type=json`)
     .then(response => response.json())
     .then(json => json.response.body.items.item);
 }
