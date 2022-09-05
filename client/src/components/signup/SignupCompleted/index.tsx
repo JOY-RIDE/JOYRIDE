@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import completed from 'assets/images/completed.svg';
+// import completed from 'assets/images/completed.svg';
 import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';

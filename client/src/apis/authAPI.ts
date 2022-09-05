@@ -54,7 +54,7 @@ export const authAPI = (() => {
       throw new Error(code);
     }
 
-    handleLogin(result.accessToken, setUserID, result.userID);
+    handleLogin(result.accessToken, setUserID, result.userId);
   };
 
   const silentRefresh = async (setUserID: SetUserID) => {
@@ -70,7 +70,7 @@ export const authAPI = (() => {
     }
 
     // refresh token 유효할 때
-    handleLogin(result.accessToken, setUserID, result.userID);
+    handleLogin(result.accessToken, setUserID, result.userId);
   };
 
   const handleLogin = (
@@ -82,7 +82,7 @@ export const authAPI = (() => {
     setUserID(userID);
     // TODO: localStorage
 
-    const JWT_EXPIRY_TIME_IN_SECONDS = 2 * 3600;
+    const JWT_EXPIRY_TIME_IN_SECONDS = 20 * 60;
     setTimeout(
       () => silentRefresh(setUserID),
       (JWT_EXPIRY_TIME_IN_SECONDS - 10) * 1000

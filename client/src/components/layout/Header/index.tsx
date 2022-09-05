@@ -5,7 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Container from 'components/common/Container';
 import logo from 'assets/images/logo.svg';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
-import { FaRegUserCircle } from 'react-icons/fa';
+// import { FaRegUserCircle } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
