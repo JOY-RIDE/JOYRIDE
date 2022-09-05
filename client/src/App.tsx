@@ -11,16 +11,18 @@ import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/Login';
 import Toast from 'components/common/Toast';
-import AuthRoute from 'components/common/AuthRoute';
 import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { MAIN_COLOR } from 'utils/constants';
 import { Theme as MuiTheme } from '@mui/material/styles';
+import PrivateRoute from 'components/common/PrivateRoute';
+import Search from 'routes/Search';
 
-const Search = lazy(() => import('routes/Search'));
 const Signup = lazy(() => import('routes/Signup'));
+const FindEmail = lazy(() => import('routes/FindEmail'));
+const ResetPassword = lazy(() => import('routes/ResetPassword'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
 
@@ -63,13 +65,15 @@ const App = () => {
             <Route path="meetups/:meetupId" element={<Meetup />} />
             <Route path="search" element={<Search />} />
 
-            <Route element={<AuthRoute />}>
+            <Route element={<PrivateRoute />}>
               <Route path="mypage" element={<Mypage />} />
             </Route>
 
             <Route element={<PublicRoute />}>
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
+              <Route path="find_email" element={<FindEmail />} />
+              <Route path="reset_password" element={<ResetPassword />} />
             </Route>
           </Route>
 
