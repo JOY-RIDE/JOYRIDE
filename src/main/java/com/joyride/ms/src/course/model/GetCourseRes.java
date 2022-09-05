@@ -69,6 +69,12 @@ public class GetCourseRes {
 
     private List<GetCourseReviewRes> getCourseReviewRes;
 
+    double totalAvg;
+    double sceneAvg;
+    double facilitiesAvg;
+    double safetyAvg;
+    double accessibilityAvg;
+
     //==생성 메서드==//
     //GetCourseListRes 생성 메서드 이용
     public static GetCourseRes createGetCourseRes(String id, String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,

@@ -54,6 +54,51 @@ public class CourseService {
         }
     }
 
+    // 리뷰 필터
+    @Transactional(readOnly = true)
+    public List<GetFilteringReviewRes> reviewFilter(List<GetCourseReviewRes> courseReviewList, String filter) throws BaseException {
+        try{
+            ArrayList<GetFilteringReviewRes> getFilteringReviewList = new ArrayList<>();
+            for (int i = 0; i < courseReviewList.size(); i++) {
+                GetFilteringReviewRes getFilteringReviewRes = new GetFilteringReviewRes();
+                getFilteringReviewRes.setTitle(courseReviewList.get(i).getTitle());
+                getFilteringReviewRes.setId(courseReviewList.get(i).getId());
+                getFilteringReviewRes.setNickName(courseReviewList.get(i).getNickName());
+                getFilteringReviewRes.setUser_id(courseReviewList.get(i).getUser_id());
+                getFilteringReviewRes.setCreated_at(courseReviewList.get(i).getCreated_at());
+                getFilteringReviewRes.setUpdated_at(courseReviewList.get(i).getUpdated_at());
+
+                if (filter.equals("안전")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getSafety_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getSafety_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+
+                }
+                else if (filter.equals("접근성")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getAccessibility_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getAccessibility_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+                else if (filter.equals("편의시설")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getFacilities_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getFacilities_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+
+                else {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getScene_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getScene_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+            }
+            return getFilteringReviewList;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
     //리뷰 삭제 api
     public DeleteCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
 
@@ -93,9 +138,17 @@ public class CourseService {
                 return new PostCourseLikeRes(message);
             }
             else {
-                courseDao.updateCourseLike(user_id);
-                String message = "좋아요 삭제에 성공했습니다.";
-                return new PostCourseLikeRes(message);
+                int status = courseDao.selectCourseLikeStatus(user_id);
+                if (status == 1) {
+                    courseDao.updateCourseLikeToZero(user_id);
+                    String message = "좋아요 삭제에 성공했습니다.";
+                    return new PostCourseLikeRes(message);
+                }
+                else {
+                    courseDao.updateCourseLikeToOne(user_id);
+                    String message = "좋아요 등록 성공했습니다.";
+                    return new PostCourseLikeRes(message);
+                }
             }
 
         } catch (Exception exception) {

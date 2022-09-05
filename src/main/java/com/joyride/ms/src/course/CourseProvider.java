@@ -81,6 +81,35 @@ public class CourseProvider {
             // 코스 리뷰
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(title);
             course.setGetCourseReviewRes(getCourseReviewRes);
+            double totalSum = 0;
+            double accessibilitySum = 0;
+            double facilitiesSum = 0;
+            double safetySum = 0;
+            double sceneSum = 0;
+            for (int i = 0; i < getCourseReviewRes.size(); i ++) {
+                totalSum = totalSum + getCourseReviewRes.get(i).getTotal_rate();
+                accessibilitySum = accessibilitySum + getCourseReviewRes.get(i).getAccessibility_rate();
+                facilitiesSum = facilitiesSum + getCourseReviewRes.get(i).getFacilities_rate();
+                safetySum = safetySum + getCourseReviewRes.get(i).getSafety_rate();
+                sceneSum = sceneSum + getCourseReviewRes.get(i).getScene_rate();
+            }
+            double totalResult = totalSum/getCourseReviewRes.size();
+            totalResult = (Math.round(totalResult*10)/10.0);
+            double accessibilityResult = accessibilitySum/getCourseReviewRes.size();
+            accessibilityResult = (Math.round(accessibilityResult*10)/10.0);
+            double facilitiesResult = facilitiesSum/getCourseReviewRes.size();
+            facilitiesResult = (Math.round(facilitiesResult*10)/10.0);
+            double safetyResult = safetySum/getCourseReviewRes.size();
+            safetyResult = (Math.round(safetyResult*10)/10.0);
+            double sceneResult = sceneSum/getCourseReviewRes.size();
+            sceneResult = (Math.round(sceneResult*10)/10.0);
+
+            course.setTotalAvg(totalResult);
+            course.setAccessibilityAvg(accessibilityResult);
+            course.setFacilitiesAvg(facilitiesResult);
+            course.setSafetyAvg(safetyResult);
+            course.setSceneAvg(sceneResult);
+
 
             // 사진과 위 경도.
             GetCourseRes courseTableInfo = courseDao.selectCourseByCourseId(title);
@@ -96,9 +125,9 @@ public class CourseProvider {
     }
 
     // 코스 좋아요 수 조회
-    public int retrieveCourseLikeCount(String courseId) throws BaseException {
+    public int retrieveCourseLikeCount(String title) throws BaseException {
         try{
-            int likeCount = courseDao.countCourseLike(courseId);
+            int likeCount = courseDao.countCourseLike(title);
             return likeCount;
         }
         catch (Exception exception) {
