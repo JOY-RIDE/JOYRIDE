@@ -4,7 +4,8 @@ import { FiltersDispatch, FiltersReducer } from 'types/common';
 import { MeetupFiltersState } from 'types/meetup';
 import { CourseFiltersState } from 'types/course';
 
-type FiltersState = MeetupFiltersState; // TODO: 코스 필터 state type 추가
+// TODO
+type FiltersState = MeetupFiltersState;
 interface FiltersReducers {
   choose: FiltersReducer<FiltersState>;
   remove: FiltersReducer<FiltersState>;

@@ -1,12 +1,12 @@
 import styles from './CourseFilterChoices.module.scss';
 import { useSetRecoilState } from 'recoil';
 import { courseBoardFiltersState, courseFiltersState } from 'states/course';
-import OptionChip from 'components/common/OptionChip';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
+import FilterOptionChip from 'components/common/FilterOptionChip';
 
 const cn = classNames.bind(styles);
 
@@ -18,6 +18,7 @@ const CourseFilterChoices = ({ onBoard }: CourseFilterChoicesProp) => {
   const state = onBoard ? courseBoardFiltersState : courseFiltersState;
   const { filters, handleRemove } = useClientFilter(
     state,
+    // @ts-ignore
     COURSE_FILTERS_DISPATCHES
   );
 
@@ -30,22 +31,22 @@ const CourseFilterChoices = ({ onBoard }: CourseFilterChoicesProp) => {
   return (
     <ul className={cn('choices', { wide: !onBoard })}>
       {filters.location && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="location"
           value={filters.location.value}
           content={filters.location.content}
-          isChosen
+          isActive
           onXClick={handleRemove}
         />
       )}
       {filters.pathDifficulty && (
-        <OptionChip
+        <FilterOptionChip
           type="removeOnly"
           filtersKey="pathDifficulty"
           value={filters.pathDifficulty.value}
           content={filters.pathDifficulty.content}
-          isChosen
+          isActive
           onXClick={handleRemove}
         />
       )}

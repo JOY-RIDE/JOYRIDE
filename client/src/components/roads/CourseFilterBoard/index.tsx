@@ -18,6 +18,7 @@ interface CourseFilterBoardProp {
 const CourseFilterBoard = ({ closeBoard }: CourseFilterBoardProp) => {
   const { filters: boardFilters, handleReset } = useClientFilter(
     courseBoardFiltersState,
+    // @ts-ignore
     COURSE_FILTERS_DISPATCHES
   );
 

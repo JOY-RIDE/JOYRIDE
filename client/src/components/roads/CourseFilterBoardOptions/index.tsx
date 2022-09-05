@@ -2,18 +2,18 @@ import CheckBox from 'components/common/CheckBox';
 import styles from './CourseFilterBoardOptions.module.scss';
 import classNames from 'classnames/bind';
 import { LOCATIONS, COURSE_DIFFICULTY } from 'utils/constants';
-import OptionChip from 'components/common/OptionChip';
 import { useRecoilValue } from 'recoil';
 import { useCallback, useEffect } from 'react';
-import { FilterOptionData, FiltersDispatchPayload } from 'types/common';
+import { FilterOptionData, FiltersReducerPayload } from 'types/common';
 import { courseBoardFiltersState } from 'states/course';
 import { ChangeHandler, ClickHandler } from 'types/callback';
 import useClientFilter from 'hooks/useClientFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
+import FilterOptionChip from 'components/common/FilterOptionChip';
 
 const cn = classNames.bind(styles);
 
-const IS_CYCLE_PAYLOAD: FiltersDispatchPayload = {
+const IS_CYCLE_PAYLOAD: FiltersReducerPayload = {
   key: 'isCycle',
   value: true,
   content: '순환형 코스만',
@@ -26,10 +26,11 @@ const CourseFilterBoardOptions = () => {
     handleRemove,
     handleToggle,
     handleClear,
+    // @ts-ignore
   } = useClientFilter(courseBoardFiltersState, COURSE_FILTERS_DISPATCHES);
 
   const toggleSpecificOption = useCallback(
-    (payload: FiltersDispatchPayload) => () => handleToggle(payload),
+    (payload: FiltersReducerPayload) => () => handleToggle(payload),
     []
   );
 
@@ -38,22 +39,21 @@ const CourseFilterBoardOptions = () => {
       <div className={cn('filter')}>
         <label className={cn('label')}>지역</label>
         <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="location"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.location}
+            isActive={!boardFilters.location}
             onTextClick={handleClear}
           />
           {LOCATIONS.map(location => (
-            <OptionChip
+            <FilterOptionChip
               key={location}
-              type="normal"
+              type="default"
               filtersKey="location"
               value={location}
               content={location}
-              isChosen={location === boardFilters.location?.value}
+              isActive={location === boardFilters.location?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -64,24 +64,23 @@ const CourseFilterBoardOptions = () => {
       <div className={cn('filter')}>
         <label className={cn('label')}>코스 난이도</label>
         <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="pathDifficulty"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.pathDifficulty}
+            isActive={!boardFilters.pathDifficulty}
             onTextClick={handleClear}
           />
           {COURSE_DIFFICULTY.map(difficulty => (
-            <OptionChip
+            <FilterOptionChip
               key={difficulty}
-              type="normal"
+              type="default"
               filtersKey="pathDifficulty"
               value={difficulty}
               content={
                 difficulty === '1' ? '하' : difficulty === '2' ? '중' : '상'
               }
-              isChosen={difficulty === boardFilters.pathDifficulty?.value}
+              isActive={difficulty === boardFilters.pathDifficulty?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />

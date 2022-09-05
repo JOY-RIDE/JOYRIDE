@@ -11,7 +11,7 @@ import PageTitle from 'components/common/PageTitle';
 import Like from 'components/common/Like';
 import MapOverview from 'components/road/MapOverview';
 import CrsDesc from 'components/road/CrsDesc';
-import CrsInfo from 'components/road/CrsInfo';
+import CrsInfo from 'components/road/crsInfo';
 import ReviewWriter from 'components/road/ReviewWriter';
 import ReviewItem from 'components/road/ReviewItem';
 import ReviewFilter from 'components/road/ReviewFilter';

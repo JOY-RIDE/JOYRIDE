@@ -9,18 +9,7 @@ import {
   MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
-<<<<<<< HEAD
-import OptionChip from 'components/common/OptionChip';
-import { useRecoilValue } from 'recoil';
-import {
-  stringifyAge,
-  stringifyMeetupDifficulty,
-  stringifyGender,
-  stringifyRidingSkill,
-} from 'utils/stringify';
-=======
 import { stringifyAge } from 'utils/stringify';
->>>>>>> develop
 import { useCallback, useEffect } from 'react';
 import { FiltersReducerPayload } from 'types/common';
 import { meetupBoardFiltersState } from 'states/meetup';
@@ -158,15 +147,9 @@ const MeetupFilterBoardOptions = () => {
               key={option.value}
               type="default"
               filtersKey="pathDifficulty"
-<<<<<<< HEAD
-              value={difficulty}
-              content={stringifyMeetupDifficulty(difficulty)}
-              isChosen={difficulty === boardFilters.pathDifficulty?.value}
-=======
               value={option.value}
               content={option.content}
               isActive={option.value === boardFilters.pathDifficulty?.value}
->>>>>>> develop
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />

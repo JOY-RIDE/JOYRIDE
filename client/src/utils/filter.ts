@@ -95,7 +95,6 @@ function meetupFiltersReducerForClearing(
       return omit(state, [key]);
   }
 }
-
 export const MEETUP_FILTERS_REDUCERS = {
   choose: meetupFiltersReducerForChoosing,
   remove: meetupFiltersReducerForRemoving,
@@ -105,7 +104,7 @@ export const MEETUP_FILTERS_REDUCERS = {
 
 function courseFiltersDispatchForChoosing(
   state: CourseFiltersState,
-  { key, ...data }: FiltersDispatchPayload
+  { key, ...data }: FiltersReducerPayload
 ) {
   switch (key) {
     // 단일 선택 옵션들
@@ -119,7 +118,7 @@ function courseFiltersDispatchForChoosing(
 }
 function courseFiltersDispatchForRemoving(
   state: CourseFiltersState,
-  { key }: FiltersDispatchPayload
+  { key }: FiltersReducerPayload
 ) {
   switch (key) {
     // 단일 선택 옵션들
@@ -133,7 +132,7 @@ function courseFiltersDispatchForRemoving(
 }
 function courseFiltersDispatchForToggling(
   state: CourseFiltersState,
-  { key, ...data }: FiltersDispatchPayload
+  { key, ...data }: FiltersReducerPayload
 ) {
   switch (key) {
     case 'isCycle': {
@@ -147,7 +146,7 @@ function courseFiltersDispatchForToggling(
 }
 function courseFiltersDispatchForClearing(
   state: CourseFiltersState,
-  { key }: FiltersDispatchPayload
+  { key }: FiltersReducerPayload
 ) {
   switch (key) {
     case 'location':
@@ -156,7 +155,6 @@ function courseFiltersDispatchForClearing(
       return omit(state, [key]);
   }
 }
-
 export const COURSE_FILTERS_DISPATCHES = {
   choose: courseFiltersDispatchForChoosing,
   remove: courseFiltersDispatchForRemoving,

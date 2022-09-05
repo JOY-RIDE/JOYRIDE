@@ -44,9 +44,7 @@ export function stringifyCourseDifficulty(difficulty: CourseDifficulty) {
   }
 }
 
-export function stringifyDifficulty(
-  difficulty: CourseDifficulty | MeetupPathDifficulty
-) {
+export function stringifyMeetupDifficulty(difficulty: MeetupPathDifficulty) {
   switch (difficulty) {
     case 1:
       return '하';
