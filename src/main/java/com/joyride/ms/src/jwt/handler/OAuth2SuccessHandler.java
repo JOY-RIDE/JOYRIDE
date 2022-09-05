@@ -31,7 +31,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.setCharacterEncoding("utf-8");
 
         PrincipalDetails oAuth2User = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println(oAuth2User.getUser().getId());
         Token token = jwtTokenProvider.createToken(oAuth2User.getUser().getId());
         String refreshToken = token.getRefreshToken();
 
