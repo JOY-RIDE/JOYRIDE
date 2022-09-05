@@ -35,8 +35,3 @@ export const courseOrderState = atom<CourseOrderName>({
   key: 'courseOrder',
   default: 'abc',
 });
-
-export const isMapOpenedState = atom<boolean>({
-  key: 'isMapOpened',
-  default: false,
-});

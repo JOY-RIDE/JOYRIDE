@@ -1,12 +1,10 @@
 import { useState, useEffect, forwardRef, ReactElement, Ref } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import MapCheckOption from '../MapCheckOption';
 import styles from './MapDetail.module.scss';
 import classNames from 'classnames/bind';
-import { isMapOpenedState } from 'states/course';
-import { useTheme } from '@emotion/react';
-import { Slide, Dialog, useMediaQuery } from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import { BsArrowsAngleExpand } from 'react-icons/bs';
+import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 
 /* global kako */
 
@@ -18,30 +16,7 @@ declare global {
 
 const cn = classNames.bind(styles);
 
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement<any, any>;
-  },
-  ref: Ref<unknown>
-) {
-  return <Slide direction="left" ref={ref} {...props} />;
-});
-
 const MapDetail = () => {
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const theme = useTheme();
-  const isFullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const [isMapOpened, setIsMapOpened] = useRecoilState(isMapOpenedState);
-  const handleMapClose = () => setIsMapOpened(false);
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
@@ -51,17 +26,32 @@ const MapDetail = () => {
     const map = new window.kakao.maps.Map(container, options);
   }, []);
 
+  const navigate = useNavigate();
+  const onClickGoBack = () => {
+    navigate(-1);
+  };
+  const { roadId } = useParams();
+
   return (
     <div className={styles.container}>
+      <div className={cn('header')}>
+        <button onClick={onClickGoBack}>
+          <MdOutlineArrowBackIosNew />
+        </button>
+        <span>{roadId}</span>
+      </div>
+      <nav className={cn('select-items')}>
+        <MapCheckOption />
+      </nav>
       <div
         id="myMap"
         className={cn('map')}
         style={{
-          width: '99vw',
-          height: '39rem',
+          width: '97vw',
+          height: '100vh',
         }}
       ></div>
-      <button onClick={handleMapClose}>close</button>
+      {/* <button onClick={handleMapClose}>close</button> */}
     </div>
   );
 };

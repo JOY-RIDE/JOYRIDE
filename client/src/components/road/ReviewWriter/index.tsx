@@ -1,11 +1,8 @@
 import { useState, forwardRef, ReactElement, Ref } from 'react';
 import styles from './ReviewWriter.module.scss';
 import classNames from 'classnames/bind';
-import { isMapOpenedState } from 'states/course';
 import PageTitle from 'components/common/PageTitle';
 import Button from 'components/common/Button';
-import ReviewTitle from '../ReviewTitle';
-import ReviewStar from '../ReviewStar';
 import ReviewForm from '../ReviewForm';
 import { useTheme } from '@emotion/react';
 import { Slide, Dialog, useMediaQuery } from '@mui/material';

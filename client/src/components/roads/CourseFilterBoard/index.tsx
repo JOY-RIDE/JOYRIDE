@@ -21,8 +21,6 @@ const CourseFilterBoard = ({ closeBoard }: CourseFilterBoardProp) => {
     COURSE_FILTERS_DISPATCHES
   );
 
-  console.log(boardFilters);
-
   const showToastMessage = useSetRecoilState(toastMessageState);
   const setFilters = useSetRecoilState(courseFiltersState);
   const handleSubmit: SubmitHandler = e => {

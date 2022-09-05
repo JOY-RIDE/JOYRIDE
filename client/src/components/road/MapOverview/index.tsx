@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import styles from './MapOverview.module.scss';
 import classNames from 'classnames/bind';
-import MapDetail from '../MapDetail';
 import { BsArrowsAngleExpand } from 'react-icons/bs';
-import { isMapOpenedState } from 'states/course';
 
 /* global kako */
 
@@ -18,8 +15,6 @@ declare global {
 const cn = classNames.bind(styles);
 
 const MapOverview = () => {
-  const [isMapOpened, setIsMapOpened] = useRecoilState(isMapOpenedState);
-  const handleMapOpen = () => setIsMapOpened(true);
   useEffect(() => {
     const container = document.getElementById('myMap');
     const options = {
@@ -35,14 +30,16 @@ const MapOverview = () => {
         id="myMap"
         className={cn('map')}
         style={{
-          width: '99vw',
+          width: '98.5vw',
           height: '39rem',
         }}
       >
         {/* <MapDetail /> */}
-        <button className={cn('icon')} onClick={handleMapOpen}>
-          <BsArrowsAngleExpand />
-        </button>
+        <Link to={`map`}>
+          <button className={cn('icon')}>
+            <BsArrowsAngleExpand />
+          </button>
+        </Link>
       </div>
     </div>
   );

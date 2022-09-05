@@ -107,7 +107,7 @@ const Roads = () => {
               </li>
             ))}
           </ul>
-          {/* TODO 페이지 이동시 url에 값 전달 */}
+          {/* TODO url 페이지 파라미터 받아와서 처리 */}
           <Paging
             total={RoadsData1.length}
             limit={LIMIT}
