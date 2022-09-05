@@ -8,4 +8,5 @@ import lombok.Data;
 public class PostSigninRes {
 
     private String accessToken;
+    private Integer userId;
 }

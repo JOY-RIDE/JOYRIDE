@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class PostAutoSigninRes {
     private String accessToken;
+    private Integer userId;
 }

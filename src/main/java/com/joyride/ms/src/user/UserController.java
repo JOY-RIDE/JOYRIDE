@@ -137,7 +137,7 @@ public class UserController {
             Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
 
             String profile_img_fileKey = userProvider.retrieveById(userId).getProfile_img_url();
-            if (!profile_img_fileKey.equals("https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.png"))
+            if (!profile_img_fileKey.equals("https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.svg"))
                 awsS3Service.fileDelete(profile_img_fileKey.substring(55));
 
             String dirName = "profile/info/" + userId + "/profile-img";
@@ -161,7 +161,7 @@ public class UserController {
 
         try {
             String filekey = userProvider.retrieveById(userId).getProfile_img_url();
-            if (filekey.equals("https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.png"))
+            if (filekey.equals("https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.svg"))
                 return new BaseResponse<>("삭제에 성공하였습니다.");
 
             filekey = userProvider.retrieveById(userId).getProfile_img_url().substring(55);

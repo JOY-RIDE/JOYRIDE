@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class PostAccessRes {
     private final String accessToken;
+    private Integer userId;
 }

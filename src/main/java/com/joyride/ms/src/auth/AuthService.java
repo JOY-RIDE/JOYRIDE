@@ -1,5 +1,6 @@
 package com.joyride.ms.src.auth;
 
+import com.joyride.ms.src.auth.dto.PostAccessRes;
 import com.joyride.ms.src.jwt.JwtTokenProvider;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponseStatus;
@@ -28,13 +29,15 @@ public class AuthService {
         return userId;
     }
     @Transactional
-    public String createAccess(String refreshToken) throws BaseException {
+    public PostAccessRes createAccess(String refreshToken) throws BaseException {
 
         Integer userId = Integer.parseInt(jwtTokenProvider.getUseridFromRef(refreshToken));
 
         String newAccessToken = jwtTokenProvider.createAccessToken(userId);
+        PostAccessRes postAccessRes = new PostAccessRes(newAccessToken,userId);
 
-        return newAccessToken;
+
+        return postAccessRes;
 
     }
 }
