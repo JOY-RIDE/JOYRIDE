@@ -48,14 +48,14 @@ public class UserController {
      * [GET] /users/:userId
      *
      * @param request
-     * @return profileImgUrl, nickname, gender, manner, old, introduce, bicycleType, bicycleCareer
+     * @return profileImgUrl, nickname, gender, manner, birthYear, introduce, bicycleType, bicycleCareer
      * @throws BaseException
      */
     @GetMapping("{userId}")
     public BaseResponse<GetUserRes> getProfile(HttpServletRequest request, @PathVariable("userId") Integer userId) {
         try {
             User user = userProvider.retrieveById(userId);
-            GetUserRes getUserRes = new GetUserRes(user.getProfile_img_url(), user.getNickname(),user.getGender(),user.getManner(),user.getOld(), user.getIntroduce(), user.getBicycleType(), user.getBicycleCareer());
+            GetUserRes getUserRes = new GetUserRes(user.getProfile_img_url(), user.getNickname(),user.getGender(),user.getManner(),user.getBirthYear(), user.getIntroduce(), user.getBicycleType(), user.getBicycleCareer());
             return new BaseResponse<>(getUserRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());

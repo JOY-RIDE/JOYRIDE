@@ -15,7 +15,7 @@ public class User {
     private String password;
     private String gender;
     private Double manner;
-    private Integer old;
+    private Integer birthYear;
 
     private String profile_img_url;
     private String introduce;
@@ -25,12 +25,12 @@ public class User {
     private String provider;
     private String provider_id;
 
-    public User(String nickname, String email, String password, String gender,Integer old, String bicycleType,Integer bicycleCareer, String role, String provider, String provider_id){
+    public User(String nickname, String email, String password, String gender,Integer birthYear, String bicycleType,Integer bicycleCareer, String role, String provider, String provider_id){
         this.nickname = nickname;
         this.email = email;
         this.password = password;
         this.gender = gender;
-        this.old = old;
+        this.birthYear = birthYear;
         this.bicycleType = bicycleType;
         this.bicycleCareer = bicycleCareer;
         this.role = role;
