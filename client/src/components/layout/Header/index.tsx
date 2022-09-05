@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { userAPI } from 'apis/userAPI';
+import { USER_DEFAULT_IMAGE } from 'utils/urls';
 
 const cn = classNames.bind(styles);
 
@@ -69,8 +70,12 @@ const Header = () => {
                 aria-label="마이 페이지 링크 버튼"
                 onClick={closeMenu}
               >
-                {/* TODO: 백엔드에서 유저 사진 받아오기 */}
-                <FaRegUserCircle />
+                <img
+                  className={cn('profile-img')}
+                  src={userData.image || USER_DEFAULT_IMAGE}
+                  alt="프로필 사진"
+                />
+                {/* <FaRegUserCircle /> */}
               </Link>
               <button aria-label="로그아웃 버튼" onClick={handleLogoutClick}>
                 <FiLogOut />

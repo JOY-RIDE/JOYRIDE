@@ -22,7 +22,7 @@ export interface NewUser {
   isTermsEnable: boolean;
 }
 
-export interface UserDataState {
+export type UserDataState = {
   nickname: string;
   image: string;
-}
+} | null;
