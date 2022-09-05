@@ -110,7 +110,7 @@ public class AuthController {
         String accessToken = token.getAccessToken();
         String refreshToken = token.getRefreshToken();
 
-        PostSigninRes postSigninRes = new PostSigninRes(accessToken);
+        PostSigninRes postSigninRes = new PostSigninRes(accessToken,userId);
         authService.registerRefreshToken(userId, refreshToken);
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken",refreshToken)
@@ -154,7 +154,7 @@ public class AuthController {
         Token token = jwtTokenProvider.createToken(userId);
         String accessToken = token.getAccessToken();
         String refreshToken = token.getRefreshToken();
-        PostAutoSigninRes postAutoSigninRes = new PostAutoSigninRes(accessToken);
+        PostAutoSigninRes postAutoSigninRes = new PostAutoSigninRes(accessToken,userId);
 
         authService.registerRefreshToken(userId, refreshToken);
 
@@ -186,8 +186,7 @@ public class AuthController {
         }
 
         try {
-            String newAccessToken = authService.createAccess(refreshToken);
-            PostAccessRes postAccessRes = new PostAccessRes(newAccessToken);
+            PostAccessRes postAccessRes = authService.createAccess(refreshToken);
             return new BaseResponse<>(postAccessRes);
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
