@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
-  CreatedMeetup,
+  NewMeetup,
   MeetupDueDate,
   MeetupGender,
   MeetupMeetingDate,
@@ -18,13 +18,7 @@ import {
 } from 'utils/constants';
 import { BicycleType, Location, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
-import {
-  ChangeEvent,
-  forwardRef,
-  KeyboardEvent,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { ChangeEvent, forwardRef, KeyboardEvent, ReactNode } from 'react';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -36,6 +30,8 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import TextInput from 'components/common/TextInput';
 import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
+import { toastMessageState } from 'states/common';
+import { useSetRecoilState } from 'recoil';
 
 const cn = classNames.bind(styles);
 
@@ -47,16 +43,16 @@ interface DateInputProps {
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   ({ className, icon, onClick, ...others }, ref) => (
     <div className={cn('date-input')} onClick={onClick}>
-      <input ref={ref} {...others} />
+      <input {...others} />
       <button type="button">{icon}</button>
     </div>
   )
 );
 
 interface MeetupCreationForm
-  extends Omit<CreatedMeetup, 'meetingDate' | 'dueDate'> {
-  dueDate: null | MeetupDueDate;
-  meetingDate: null | MeetupMeetingDate;
+  extends Omit<NewMeetup, 'meetingDate' | 'dueDate'> {
+  dueDate: MeetupDueDate | null;
+  meetingDate: MeetupMeetingDate | null;
 }
 interface MeetupCreationFormProp {
   close: () => void;
@@ -65,6 +61,7 @@ interface MeetupCreationFormProp {
 const SET_VALUE_OPTION = {
   shouldValidate: true,
   shouldDirty: true,
+  shouldTouch: true,
 };
 
 // TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
@@ -74,9 +71,8 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
     control,
     getValues,
     setValue,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
-    reset,
     watch,
   } = useForm<MeetupCreationForm>({
     defaultValues: {
@@ -86,7 +82,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       bicycleTypes: ['따릉이'],
       ridingSkill: 1,
       gender: 'mixed',
-      minBirthYear: 1940,
+      minBirthYear: 1920,
       maxBirthYear: new Date().getFullYear(),
       maxNumOfParticipants: 2,
       dueDate: null,
@@ -97,12 +93,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const dueDate = watch('dueDate');
   const path = watch('path');
   const minBirthYear = watch('minBirthYear');
-
-  useEffect(() => {
-    if (!isSubmitSuccessful) return;
-    close();
-    return reset;
-  }, [isSubmitSuccessful]);
 
   // Callbacks
 
@@ -152,9 +142,12 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       SET_VALUE_OPTION
     );
 
+  const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     // radio 숫자들 string으로 들어옴
     console.log(data);
+    close();
+    showToastMessage('모임이 등록되었습니다');
   };
 
   return (
@@ -184,7 +177,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="location"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {LOCATIONS.map((location: Location) => (
@@ -214,7 +206,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             rules={{ required: true }}
             render={({ field: { value, ...others } }) => (
               <DateTimePicker
-                selectedDate={value ? value : null}
+                selectedDate={value || null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
                 placeholder="모집 마감 일시를 선택하세요."
                 {...others}
@@ -245,9 +237,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             }}
             render={({ field: { value, ...others } }) => (
               <DateTimePicker
-                selectedDate={value ? value : null}
+                selectedDate={value || null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
-                minDate={dueDate ? dueDate : undefined}
+                minDate={dueDate || undefined}
                 placeholder="모임 일시를 선택하세요."
                 {...others}
               />
@@ -319,7 +311,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="pathDifficulty"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_PATH_DIFFICULTY_OPTIONS.map(
@@ -402,7 +393,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="maxNumOfParticipants"
-                rules={{ required: true, min: 2, max: 99 }}
+                rules={{ min: 2, max: 99 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"
@@ -444,7 +435,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="gender"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {MEETUP_GENDER_OPTIONS.map((option: Option<MeetupGender>) => (
@@ -478,7 +468,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                   <SelectList
                     options={BIRTH_YEAR_OPTIONS}
                     label="최소 출생년도"
-                    defaultText="최소 출생년도"
                     {...field}
                   />
                 )}
@@ -500,7 +489,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                   <SelectList
                     options={BIRTH_YEAR_OPTIONS}
                     label="최대 출생년도"
-                    defaultText="최대 출생년도"
                     {...field}
                   />
                 )}
@@ -535,7 +523,6 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             <Controller
               control={control}
               name="ridingSkill"
-              rules={{ required: true }}
               render={({ field: { value, ...others } }) => (
                 <>
                   {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
@@ -570,7 +557,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="participationFee"
-                rules={{ required: true, min: 0 }}
+                rules={{ min: 0 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"

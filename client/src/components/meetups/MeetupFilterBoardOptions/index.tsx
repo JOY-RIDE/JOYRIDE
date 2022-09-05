@@ -11,7 +11,7 @@ import {
 } from 'utils/constants';
 import { stringifyAge } from 'utils/stringify';
 import { useCallback, useEffect } from 'react';
-import { FilterOptionData, FiltersReducerPayload } from 'types/common';
+import { FiltersReducerPayload } from 'types/common';
 import { meetupBoardFiltersState } from 'states/meetup';
 import { ChangeHandler, ClickHandler } from 'types/callback';
 import PlusMinusButton from 'components/common/PlusMinusButton';
@@ -182,50 +182,6 @@ const MeetupFilterBoardOptions = () => {
               onXClick={handleRemove}
             />
           ))}
-          {/* {BICYCLE_TYPE_OPTIONS.map(option => (
-            <FilterOptionChip
-              key={option.value}
-              type="default"
-              filtersKey="bicycleTypes"
-              value={option.value}
-              content={option.content}
-              isActive={
-                boardFilters.bicycleTypes &&
-                boardFilters.bicycleTypes.some(
-                  (data: FilterOptionData) => data.value === option.value
-                )
-              }
-              onTextClick={handleChoose}
-              onXClick={handleRemove}
-            />
-          ))} */}
-        </ul>
-      </div>
-
-      <div className={cn('filter')}>
-        <label className={cn('label')}>
-          <h4>라이딩 실력</h4>
-        </label>
-        <ul className={cn('options')}>
-          <FilterOptionChip
-            type="all"
-            filtersKey="ridingSkill"
-            content="전체"
-            isActive={!boardFilters.ridingSkill}
-            onTextClick={handleClear}
-          />
-          {RIDING_SKILL_OPTIONS.map(option => (
-            <FilterOptionChip
-              key={option.value}
-              type="default"
-              filtersKey="ridingSkill"
-              value={option.value}
-              content={option.content}
-              isActive={option.value === boardFilters.ridingSkill?.value}
-              onTextClick={handleChoose}
-              onXClick={handleRemove}
-            />
-          ))}
         </ul>
       </div>
 
@@ -264,40 +220,50 @@ const MeetupFilterBoardOptions = () => {
         <ul className={cn('options')}>
           <FilterOptionChip
             type="all"
-            filtersKey="ages"
+            filtersKey="age"
             content="전체"
-            isActive={!boardFilters.ages}
+            isActive={!boardFilters.age}
             onTextClick={handleClear}
           />
           {AGES.map(age => (
             <FilterOptionChip
               key={age}
               type="default"
-              filtersKey="ages"
+              filtersKey="age"
               value={age}
               content={stringifyAge(age)}
-              isActive={age === boardFilters.ages?.value}
+              isActive={age === boardFilters.age?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
           ))}
-          {/* {AGES.map(age => (
+        </ul>
+      </div>
+
+      <div className={cn('filter')}>
+        <label className={cn('label')}>
+          <h4>라이딩 실력</h4>
+        </label>
+        <ul className={cn('options')}>
+          <FilterOptionChip
+            type="all"
+            filtersKey="ridingSkill"
+            content="전체"
+            isActive={!boardFilters.ridingSkill}
+            onTextClick={handleClear}
+          />
+          {RIDING_SKILL_OPTIONS.map(option => (
             <FilterOptionChip
-              key={age}
+              key={option.value}
               type="default"
-              filtersKey="ages"
-              value={age}
-              content={stringifyAge(age)}
-              isActive={
-                boardFilters.ages &&
-                boardFilters.ages.some(
-                  (data: FilterOptionData) => data.value === age
-                )
-              }
+              filtersKey="ridingSkill"
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.ridingSkill?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
-          ))} */}
+          ))}
         </ul>
       </div>
 

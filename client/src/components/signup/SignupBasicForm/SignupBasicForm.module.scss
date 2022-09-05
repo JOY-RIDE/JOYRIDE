@@ -4,6 +4,15 @@
   gap: 4rem;
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+
+  & p {
+    margin-top: 0.6rem;
+  }
+}
+
 .label {
   display: flex;
   gap: 0.5rem;

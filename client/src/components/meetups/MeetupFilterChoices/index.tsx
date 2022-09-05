@@ -5,7 +5,6 @@ import {
   meetupFiltersState,
   MEETUP_FILTERS_INITIAL_STATE,
 } from 'states/meetup';
-import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import classNames from 'classnames/bind';
@@ -63,28 +62,6 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {/* {filters.bicycleTypes &&
-        filters.bicycleTypes.map(({ value, content }: FilterOptionData) => (
-          <FilterOptionChip
-            key={`${value}`}
-            type="removeOnly"
-            filtersKey="bicycleTypes"
-            value={value}
-            content={content}
-            isActive
-            onXClick={handleRemove}
-          />
-        ))} */}
-      {filters.ridingSkill && (
-        <FilterOptionChip
-          type="removeOnly"
-          filtersKey="ridingSkill"
-          value={filters.ridingSkill.value}
-          content={filters.ridingSkill.content}
-          isActive
-          onXClick={handleRemove}
-        />
-      )}
       {filters.gender && (
         <FilterOptionChip
           type="removeOnly"
@@ -95,28 +72,26 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {filters.ages && (
+      {filters.age && (
         <FilterOptionChip
           type="removeOnly"
-          filtersKey="ages"
-          value={filters.ages.value}
-          content={filters.ages.content}
+          filtersKey="age"
+          value={filters.age.value}
+          content={filters.age.content}
           isActive
           onXClick={handleRemove}
         />
       )}
-      {/* {filters.ages &&
-        filters.ages.map(({ value, content }: FilterOptionData) => (
-          <FilterOptionChip
-            key={`${value}`}
-            type="removeOnly"
-            filtersKey="ages"
-            value={value}
-            content={content}
-            isActive
-            onXClick={handleRemove}
-          />
-        ))} */}
+      {filters.ridingSkill && (
+        <FilterOptionChip
+          type="removeOnly"
+          filtersKey="ridingSkill"
+          value={filters.ridingSkill.value}
+          content={filters.ridingSkill.content}
+          isActive
+          onXClick={handleRemove}
+        />
+      )}
       {Boolean(
         filters.minNumOfParticipants.value || filters.maxNumOfParticipants.value
       ) && (

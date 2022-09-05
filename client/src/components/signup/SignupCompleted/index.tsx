@@ -3,20 +3,16 @@ import completed from 'assets/images/completed.svg';
 import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';
-import { useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { signupFormDataState } from 'states/auth';
 import { useEffect } from 'react';
 
 const cn = classNames.bind(styles);
 
-interface SignupCompletedProps {
-  email: string;
-  nickname: string;
-}
-
-const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
+const SignupCompleted = () => {
+  const { email, nickname } = useRecoilValue(signupFormDataState);
   const resetSignupFormData = useResetRecoilState(signupFormDataState);
-  useEffect(resetSignupFormData, []);
+  useEffect(() => resetSignupFormData, []);
 
   const navigate = useNavigate();
   const handleLoginClick = () => navigate('/login');
@@ -28,10 +24,14 @@ const SignupCompleted = ({ email, nickname }: SignupCompletedProps) => {
         <br />
         가입이 완료되었습니다
       </h1>
+      {/* TODO */}
       <p className={cn('info')}>
-        {email}으로 발송된 링크를
+        JOYRIDE에서
         <br />
-        클릭하시면 계정이 활성화됩니다.
+        다양한 자전거 코스와 모임들을 만나보세요!
+        {/* {email}으로 발송된 링크를
+        <br />
+        클릭하시면 계정이 활성화됩니다. */}
       </p>
       <Button
         type="button"
