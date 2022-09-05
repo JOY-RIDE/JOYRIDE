@@ -66,13 +66,27 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
-    // 리뷰 조회 api
+    // 리뷰 전체 조회 api
     @GetMapping("/review/{title}")
-    public BaseResponse<List<GetCourseReviewRes>> PostCourseReview(@PathVariable("title") String title){
+    public BaseResponse<List<GetCourseReviewRes>> GetCourseReview(@PathVariable("title") String title){
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseProvider.retrieveCourseReviewByCourseTitle(title);
             return new BaseResponse<>(getCourseReviewRes);
+        } catch(BaseException exception){
+            exception.printStackTrace();
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    // 리뷰 필터링 조회 api
+    @GetMapping("/review/{title}/{filter}")
+    public BaseResponse<List<GetFilteringReviewRes>> GetFilteringReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
+        try{
+            List<GetCourseReviewRes> courseReviewList = courseProvider.retrieveCourseReviewByCourseTitle(title);
+
+            List<GetFilteringReviewRes> getFilteringReviewList = courseService.reviewFilter(courseReviewList, filter);
+            return new BaseResponse<>(getFilteringReviewList);
         } catch(BaseException exception){
             exception.printStackTrace();
             return new BaseResponse<>((exception.getStatus()));
@@ -90,6 +104,8 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+
 
     /**
      * 좋아요 api
