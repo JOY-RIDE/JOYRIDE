@@ -8,10 +8,10 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetCourseReviewRes {
     private int id;
-    private int user_id;
     //유저 닉네임 뿐만 아니라 유저 사진도?
     private String nickName;
-    private int course_id;
+    private int user_id;
+    private String title;
 
     private double total_rate;
     private double scene_rate;

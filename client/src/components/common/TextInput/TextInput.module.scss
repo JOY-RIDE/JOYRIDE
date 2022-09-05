@@ -1,0 +1,7 @@
+@use '../../../styles/variables.scss' as *;
+
+.input {
+  background: $color-grey-100;
+  padding: 1.4rem 1.5rem;
+  border-radius: 0.3rem;
+}

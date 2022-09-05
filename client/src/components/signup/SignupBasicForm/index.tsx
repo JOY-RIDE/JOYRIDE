@@ -3,15 +3,14 @@ import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/Signup';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
-import { REGEX } from 'utils/constants';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
 import { signupFormDataState } from 'states/auth';
+import { REGEX } from 'utils/regex';
 
 const cn = classNames.bind(styles);
 
@@ -63,7 +62,6 @@ const SignupBasicForm = () => {
   }) => {
     const isEmailValid = await validateEmail(email);
     if (!isEmailValid) return;
-
     setSignupFormData(data => ({ ...data, email, password }));
     increaseStep();
   };
@@ -80,26 +78,24 @@ const SignupBasicForm = () => {
             name="email"
             rules={{
               required: true,
-              pattern: REGEX.email,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  placeholder="이메일"
-                  hasError={Boolean(errors.email)}
-                  {...field}
-                />
-                {errors.email && (
-                  <ErrorMessage
-                    message={getSignupFormFieldErrorMessage(
-                      'email',
-                      errors.email.type
-                    )}
-                  />
-                )}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                type="email"
+                placeholder="이메일"
+                hasError={Boolean(errors.email)}
+                {...field}
+              />
             )}
           />
+          {errors.email && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'email',
+                errors.email.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>
@@ -115,25 +111,23 @@ const SignupBasicForm = () => {
               pattern: REGEX.password,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  type="password"
-                  placeholder="비밀번호"
-                  helpText={!isSubmitted && '비밀번호 조건'}
-                  hasError={Boolean(errors.password)}
-                  {...field}
-                />
-                {errors.password && (
-                  <ErrorMessage
-                    message={getSignupFormFieldErrorMessage(
-                      'password',
-                      errors.password.type
-                    )}
-                  />
-                )}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                type="password"
+                placeholder="비밀번호"
+                helpText={!isSubmitted && '비밀번호 조건'}
+                hasError={Boolean(errors.password)}
+                {...field}
+              />
             )}
           />
+          {errors.password && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'password',
+                errors.password.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>
@@ -148,24 +142,22 @@ const SignupBasicForm = () => {
               validate: passwordConfirm => passwordConfirm === password,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  hasError={Boolean(errors.passwordConfirm)}
-                  {...field}
-                />
-                {errors.passwordConfirm && (
-                  <ErrorMessage
-                    message={getSignupFormFieldErrorMessage(
-                      'passwordConfirm',
-                      errors.passwordConfirm.type
-                    )}
-                  />
-                )}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                type="password"
+                placeholder="비밀번호 확인"
+                hasError={Boolean(errors.passwordConfirm)}
+                {...field}
+              />
             )}
           />
+          {errors.passwordConfirm && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'passwordConfirm',
+                errors.passwordConfirm.type
+              )}
+            />
+          )}
         </div>
       </div>
 

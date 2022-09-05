@@ -1,0 +1,17 @@
+@use '../../../styles/variables.scss' as *;
+
+.option {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background: $color-grey-100;
+  }
+
+  & .sign {
+    font-size: 1.1rem;
+  }
+}

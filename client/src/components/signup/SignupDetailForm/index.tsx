@@ -1,11 +1,9 @@
-import { BICYCLE_TYPES } from 'utils/constants';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/Signup';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
@@ -15,43 +13,24 @@ import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
 import { signupFormDataState } from 'states/auth';
+import {
+  BICYCLE_TYPE_OPTIONS,
+  GENDER_OPTIONS,
+  RIDING_SKILL_OPTIONS,
+} from 'utils/constants';
+import { BicycleType, Gender, Option, RidingSkill } from 'types/common';
+import { ChangeEvent } from 'react';
 
 const cn = classNames.bind(styles);
 
-// Interfaces
 interface SignupDetailForm {
   nickname: string;
-  gender: string;
-  age: string;
-  bicycleType: string;
-  message: string;
+  gender: Gender;
+  birthYear: string;
+  bicycleType: BicycleType;
+  ridingSkill: RidingSkill;
+  introduce: string;
 }
-interface SelectButtonProps {
-  value: string;
-  content: string;
-  contentEng: string;
-}
-interface SelectListOption {
-  value: string;
-  content: string;
-}
-
-// Variables
-const genderOptions: SelectButtonProps[] = [
-  { value: 'm', content: '남성', contentEng: 'male' },
-  { value: 'f', content: '여성', contentEng: 'female' },
-];
-const ageOptions: SelectButtonProps[] = [
-  { value: '1', content: '10대', contentEng: 'ten' },
-  { value: '2', content: '20대', contentEng: 'twenty' },
-  { value: '3', content: '30대', contentEng: 'thirty' },
-  { value: '4', content: '40대', contentEng: 'forty' },
-  { value: '5', content: '50대 이상', contentEng: 'fifty' },
-];
-const bicycleTypeOptions: SelectListOption[] = BICYCLE_TYPES.map(type => ({
-  value: type,
-  content: type,
-}));
 
 const SignupDetailForm = () => {
   const {
@@ -62,10 +41,11 @@ const SignupDetailForm = () => {
   } = useForm<SignupDetailForm>({
     defaultValues: {
       nickname: '',
-      gender: '',
-      age: '',
-      bicycleType: '',
-      message: '',
+      gender: 'm',
+      birthYear: '',
+      bicycleType: '따릉이',
+      ridingSkill: 1,
+      introduce: '',
     },
     // reValidateMode: 'onBlur',
   });
@@ -90,27 +70,29 @@ const SignupDetailForm = () => {
     useRecoilState(signupFormDataState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
-
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
     nickname,
     gender,
-    age,
+    birthYear,
     bicycleType,
-    message,
+    ridingSkill,
+    introduce,
   }) => {
     const isNicknameValid = await validateNickname(nickname);
     if (!isNicknameValid) return;
 
     const newUser = {
-      isTermsEnable: true,
       email,
       password,
       nickname,
-      gender: gender || null,
-      old: age ? Number(age) : null,
-      bicycleType: bicycleType || null,
-      introduce: message || null,
+      gender,
+      birthYear: Number(birthYear),
+      bicycleType,
+      bicycleCareer: Number(ridingSkill),
+      introduce: introduce || null,
+      isTermsEnable: true,
     };
+    console.log(newUser);
 
     try {
       await authAPI.signup(newUser);
@@ -133,27 +115,25 @@ const SignupDetailForm = () => {
             name="nickname"
             rules={{
               required: true,
-              maxLength: 10,
+              maxLength: 8,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  placeholder="닉네임"
-                  helpText={!isSubmitted && '닉네임 조건'}
-                  hasError={Boolean(errors.nickname)}
-                  {...field}
-                />
-                {errors.nickname && (
-                  <ErrorMessage
-                    message={getSignupFormFieldErrorMessage(
-                      'nickname',
-                      errors.nickname.type
-                    )}
-                  />
-                )}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                placeholder="닉네임"
+                helpText={!isSubmitted && '닉네임 조건'}
+                hasError={Boolean(errors.nickname)}
+                {...field}
+              />
             )}
           />
+          {errors.nickname && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'nickname',
+                errors.nickname.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>
@@ -164,18 +144,16 @@ const SignupDetailForm = () => {
             <Controller
               control={control}
               name="gender"
-              render={({ field: { value, onChange, ...others } }) => (
+              render={({ field: { value, ...others } }) => (
                 <>
-                  {genderOptions.map((option: SelectButtonProps) => (
+                  {GENDER_OPTIONS.map((option: Option<Gender>) => (
                     <li key={option.value} className={cn('col')}>
                       <SelectButton
-                        isSelected={value === option.value}
+                        type="radio"
+                        size="lg"
                         value={option.value}
                         content={option.content}
-                        contentEng={option.contentEng}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          onChange(e.target.checked ? option.value : '')
-                        }
+                        isSelected={value === option.value}
                         {...others}
                       />
                     </li>
@@ -188,32 +166,41 @@ const SignupDetailForm = () => {
 
         <div className={cn('field')}>
           <label className={cn('label')}>
-            <h4 className={cn('title')}>나이</h4>
+            <h4 className={cn('title')}>출생년도</h4>
           </label>
-          <ul className={cn('row')}>
-            <Controller
-              control={control}
-              name="age"
-              render={({ field: { value, onChange, ...others } }) => (
-                <>
-                  {ageOptions.map((option: SelectButtonProps) => (
-                    <li key={option.value} className={cn('col')}>
-                      <SelectButton
-                        isSelected={value === option.value}
-                        value={option.value}
-                        content={option.content}
-                        contentEng={option.contentEng}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          onChange(e.target.checked ? option.value : '')
-                        }
-                        {...others}
-                      />
-                    </li>
-                  ))}
-                </>
+          <Controller
+            control={control}
+            name="birthYear"
+            rules={{
+              required: true,
+              min: 1920,
+              max: new Date().getFullYear(),
+            }}
+            render={({ field: { onChange, ...others } }) => (
+              <AuthFormInput
+                type="number"
+                placeholder="출생년도"
+                helpText={!isSubmitted && '출생년도 네자리'}
+                hasError={Boolean(errors.birthYear)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const input = e.target.value;
+                  if (Number(input) < 0) {
+                    return onChange('');
+                  }
+                  return onChange(input);
+                }}
+                {...others}
+              />
+            )}
+          />
+          {errors.birthYear && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'birthYear',
+                errors.birthYear.type
               )}
             />
-          </ul>
+          )}
         </div>
 
         <div className={cn('field', 'bicycle-type')}>
@@ -223,46 +210,84 @@ const SignupDetailForm = () => {
           <Controller
             control={control}
             name="bicycleType"
+            rules={{
+              required: true,
+            }}
             render={({ field }) => (
               <SelectList
-                options={bicycleTypeOptions}
+                size="lg"
+                options={BICYCLE_TYPE_OPTIONS}
                 label="자전거 종류"
                 {...field}
               />
             )}
           />
+          {errors.bicycleType && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'bicycleType',
+                errors.bicycleType.type
+              )}
+            />
+          )}
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>라이딩 실력</h4>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="ridingSkill"
+              render={({ field: { value, ...others } }) => (
+                <>
+                  {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        type="radio"
+                        size="lg"
+                        value={option.value}
+                        content={option.content}
+                        isSelected={Number(value) === option.value}
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
         </div>
 
         <div className={cn('field')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>상태 메세지</h4>
-            <span className={cn('optional')}>(선택)</span>
+            <span className={cn('guide')}>(선택)</span>
           </label>
           <Controller
             control={control}
-            name="message"
+            name="introduce"
             rules={{
               maxLength: 30,
             }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  placeholder="상태 메세지"
-                  helpText={!isSubmitted && '상태 메세지 조건'}
-                  hasError={errors.message}
-                  {...field}
-                />
-                {errors.message && (
-                  <ErrorMessage
-                    message={getSignupFormFieldErrorMessage(
-                      'message',
-                      errors.message.type
-                    )}
-                  />
-                )}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                placeholder="상태 메세지"
+                helpText={!isSubmitted && '상태 메세지 조건'}
+                hasError={Boolean(errors.introduce)}
+                {...field}
+              />
             )}
           />
+          {errors.introduce && (
+            <ErrorMessage
+              message={getSignupFormFieldErrorMessage(
+                'introduce',
+                errors.introduce.type
+              )}
+            />
+          )}
         </div>
       </div>
 

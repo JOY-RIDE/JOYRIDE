@@ -14,7 +14,7 @@ public class PatchUserReq {
     private String nickname;
     @Size(min=1, max=1,message="gender: m/f")
     private String gender;
-    private Integer old;
+    private Integer birthYear;
     private String introduce;
     private String bicycleType;
     private Integer bicycleCareer;

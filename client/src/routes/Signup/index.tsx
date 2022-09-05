@@ -1,12 +1,10 @@
 import { createContext, useContext, useState } from 'react';
 import { SignupStepControls } from 'types/auth';
-import { useRecoilValue } from 'recoil';
 import PageTitle from 'components/common/PageTitle';
 import SignupForms from 'components/signup/SignupForms';
 import SignupCompleted from 'components/signup/SignupCompleted';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
-import { signupFormDataState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
@@ -25,11 +23,7 @@ const Signup = () => {
   const decreaseStep = () => setStep(step => step - 1);
   const increaseStep = () => setStep(step => step + 1);
 
-  const { email, nickname } = useRecoilValue(signupFormDataState);
-  if (step > TOTAL_STEPS) {
-    return <SignupCompleted email={email} nickname={nickname} />;
-  }
-
+  if (step > TOTAL_STEPS) return <SignupCompleted />;
   return (
     <SignupStepControlsContext.Provider
       value={{
@@ -45,7 +39,6 @@ const Signup = () => {
             <span className={cn('total')}>/{TOTAL_STEPS}</span>
           </div>
         </header>
-
         <SignupForms step={step} totalSteps={TOTAL_STEPS} />
       </section>
     </SignupStepControlsContext.Provider>

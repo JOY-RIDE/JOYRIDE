@@ -6,6 +6,12 @@
   gap: 2.5rem;
 }
 
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .auto-login-wrapper {
   display: flex;
   align-items: center;

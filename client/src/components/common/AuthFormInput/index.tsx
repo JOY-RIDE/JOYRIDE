@@ -12,9 +12,8 @@ interface AuthFormInputProps {
 }
 
 const AuthFormInput = memo(
-  forwardRef<HTMLInputElement, AuthFormInputProps>((props, ref) => {
-    const { helpText, hasError, ...others } = props;
-    return (
+  forwardRef<HTMLInputElement, AuthFormInputProps>(
+    ({ helpText, hasError, ...others }, ref) => (
       <>
         <input
           className={cn('input', { error: hasError })}
@@ -23,8 +22,8 @@ const AuthFormInput = memo(
         />
         {helpText && <p className={cn('help')}>{helpText}</p>}
       </>
-    );
-  })
+    )
+  )
 );
 
 export default AuthFormInput;

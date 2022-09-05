@@ -3,12 +3,13 @@ import styles from './MeetupFilterBoardOptions.module.scss';
 import classNames from 'classnames/bind';
 import {
   AGES,
-  BICYCLE_TYPES,
-  GENDERS,
+  BICYCLE_TYPE_OPTIONS,
   LOCATIONS,
-  MEETUP_PATH_DIFFICULTIES,
-  RIDING_SKILLS,
+  MEETUP_GENDER_OPTIONS,
+  MEETUP_PATH_DIFFICULTY_OPTIONS,
+  RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
+<<<<<<< HEAD
 import OptionChip from 'components/common/OptionChip';
 import { useRecoilValue } from 'recoil';
 import {
@@ -17,17 +18,21 @@ import {
   stringifyGender,
   stringifyRidingSkill,
 } from 'utils/stringify';
+=======
+import { stringifyAge } from 'utils/stringify';
+>>>>>>> develop
 import { useCallback, useEffect } from 'react';
-import { FilterOptionData, FiltersDispatchPayload } from 'types/common';
+import { FiltersReducerPayload } from 'types/common';
 import { meetupBoardFiltersState } from 'states/meetup';
 import { ChangeHandler, ClickHandler } from 'types/callback';
 import PlusMinusButton from 'components/common/PlusMinusButton';
 import useClientFilter from 'hooks/useClientFilter';
-import { MEETUP_FILTERS_DISPATCHES } from 'utils/filter';
+import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
+import FilterOptionChip from 'components/common/FilterOptionChip';
 
 const cn = classNames.bind(styles);
 
-const IS_PARTICIPATION_FREE_PAYLOAD: FiltersDispatchPayload = {
+const IS_PARTICIPATION_FREE_PAYLOAD: FiltersReducerPayload = {
   key: 'isParticipationFree',
   value: true,
   content: '참가비 없는 모임만',
@@ -40,7 +45,7 @@ const MeetupFilterBoardOptions = () => {
     handleRemove,
     handleToggle,
     handleClear,
-  } = useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_DISPATCHES);
+  } = useClientFilter(meetupBoardFiltersState, MEETUP_FILTERS_REDUCERS);
 
   useEffect(() => {
     const min = boardFilters.minNumOfParticipants.value;
@@ -53,7 +58,7 @@ const MeetupFilterBoardOptions = () => {
   }, [boardFilters.minNumOfParticipants.value]);
 
   const toggleSpecificOption = useCallback(
-    (payload: FiltersDispatchPayload) => () => handleToggle(payload),
+    (payload: FiltersReducerPayload) => () => handleToggle(payload),
     []
   );
 
@@ -110,24 +115,25 @@ const MeetupFilterBoardOptions = () => {
   return (
     <div className={cn('filters')}>
       <div className={cn('filter')}>
-        <label className={cn('label')}>지역</label>
+        <label className={cn('label')}>
+          <h4>지역</h4>
+        </label>
         <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="location"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.location}
+            isActive={!boardFilters.location}
             onTextClick={handleClear}
           />
           {LOCATIONS.map(location => (
-            <OptionChip
+            <FilterOptionChip
               key={location}
-              type="normal"
+              type="default"
               filtersKey="location"
               value={location}
               content={location}
-              isChosen={location === boardFilters.location?.value}
+              isActive={location === boardFilters.location?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -136,24 +142,31 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>코스 난이도</label>
+        <label className={cn('label')}>
+          <h4>코스 난이도</h4>
+        </label>
         <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="pathDifficulty"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.pathDifficulty}
+            isActive={!boardFilters.pathDifficulty}
             onTextClick={handleClear}
           />
-          {MEETUP_PATH_DIFFICULTIES.map(difficulty => (
-            <OptionChip
-              key={difficulty}
-              type="normal"
+          {MEETUP_PATH_DIFFICULTY_OPTIONS.map(option => (
+            <FilterOptionChip
+              key={option.value}
+              type="default"
               filtersKey="pathDifficulty"
+<<<<<<< HEAD
               value={difficulty}
               content={stringifyMeetupDifficulty(difficulty)}
               isChosen={difficulty === boardFilters.pathDifficulty?.value}
+=======
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.pathDifficulty?.value}
+>>>>>>> develop
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -162,29 +175,26 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>자전거 종류</label>
+        <label className={cn('label')}>
+          <h4>자전거 종류</h4>
+          {/* <span className={cn('multiple')}>(다중 선택)</span> */}
+        </label>
         <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="bicycleTypes"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.bicycleTypes}
+            isActive={!boardFilters.bicycleTypes}
             onTextClick={handleClear}
           />
-          {BICYCLE_TYPES.map(type => (
-            <OptionChip
-              key={type.toString()}
-              type="normal"
+          {BICYCLE_TYPE_OPTIONS.map(option => (
+            <FilterOptionChip
+              key={option.value}
+              type="default"
               filtersKey="bicycleTypes"
-              value={type}
-              content={type}
-              isChosen={
-                boardFilters.bicycleTypes &&
-                boardFilters.bicycleTypes.some(
-                  (data: FilterOptionData) => data.value === type
-                )
-              }
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.bicycleTypes?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -193,50 +203,25 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>최소 라이딩 실력</label>
+        <label className={cn('label')}>
+          <h4>성별</h4>
+        </label>
         <ul className={cn('options')}>
-          <OptionChip
-            type="all"
-            filtersKey="minRidingSkill"
-            value="all"
-            content="전체"
-            isChosen={!boardFilters.minRidingSkill}
-            onTextClick={handleClear}
-          />
-          {RIDING_SKILLS.map(skill => (
-            <OptionChip
-              key={skill}
-              type="normal"
-              filtersKey="minRidingSkill"
-              value={skill}
-              content={stringifyRidingSkill(skill)}
-              isChosen={skill === boardFilters.minRidingSkill?.value}
-              onTextClick={handleChoose}
-              onXClick={handleRemove}
-            />
-          ))}
-        </ul>
-      </div>
-
-      <div className={cn('filter')}>
-        <label className={cn('label')}>성별</label>
-        <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="gender"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.gender}
+            isActive={!boardFilters.gender}
             onTextClick={handleClear}
           />
-          {GENDERS.map(gender => (
-            <OptionChip
-              key={gender}
-              type="normal"
+          {MEETUP_GENDER_OPTIONS.map(gender => (
+            <FilterOptionChip
+              key={gender.value}
+              type="default"
               filtersKey="gender"
-              value={gender}
-              content={stringifyGender(gender)}
-              isChosen={gender === boardFilters.gender?.value}
+              value={gender.value}
+              content={gender.content}
+              isActive={gender.value === boardFilters.gender?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -245,29 +230,53 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter')}>
-        <label className={cn('label')}>연령대</label>
+        <label className={cn('label')}>
+          <h4>나이</h4>
+          {/* <span className={cn('multiple')}>(다중 선택)</span> */}
+        </label>
         <ul className={cn('options')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="age"
-            value="all"
             content="전체"
-            isChosen={!boardFilters.age}
+            isActive={!boardFilters.age}
             onTextClick={handleClear}
           />
           {AGES.map(age => (
-            <OptionChip
+            <FilterOptionChip
               key={age}
-              type="normal"
+              type="default"
               filtersKey="age"
               value={age}
               content={stringifyAge(age)}
-              isChosen={
-                boardFilters.age &&
-                boardFilters.age.some(
-                  (data: FilterOptionData) => data.value === age
-                )
-              }
+              isActive={age === boardFilters.age?.value}
+              onTextClick={handleChoose}
+              onXClick={handleRemove}
+            />
+          ))}
+        </ul>
+      </div>
+
+      <div className={cn('filter')}>
+        <label className={cn('label')}>
+          <h4>라이딩 실력</h4>
+        </label>
+        <ul className={cn('options')}>
+          <FilterOptionChip
+            type="all"
+            filtersKey="ridingSkill"
+            content="전체"
+            isActive={!boardFilters.ridingSkill}
+            onTextClick={handleClear}
+          />
+          {RIDING_SKILL_OPTIONS.map(option => (
+            <FilterOptionChip
+              key={option.value}
+              type="default"
+              filtersKey="ridingSkill"
+              value={option.value}
+              content={option.content}
+              isActive={option.value === boardFilters.ridingSkill?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}
             />
@@ -276,15 +285,16 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter', 'participants')}>
-        <label className={cn('label')}>인원</label>
+        <label className={cn('label')}>
+          <h4>인원</h4>
+        </label>
         {/* // Range? */}
         <div className={cn('option')}>
-          <OptionChip
+          <FilterOptionChip
             type="all"
             filtersKey="maxNumOfParticipants"
-            value={0}
             content="전체"
-            isChosen={
+            isActive={
               !(
                 boardFilters.minNumOfParticipants.value ||
                 boardFilters.maxNumOfParticipants.value
@@ -295,20 +305,24 @@ const MeetupFilterBoardOptions = () => {
           <div className={cn('regulators')}>
             <div className={cn('regulator')}>
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="minNumOfParticipants"
                 action="decrease"
                 onDecrease={handleNumOfParticipantsDecrease}
               />
               <input
                 type="number"
+                className={cn('number')}
                 name="minNumOfParticipants"
                 min={0}
                 max={99}
                 value={boardFilters.minNumOfParticipants.value}
                 onChange={handleNumOfParticipantsChange}
-                className={cn('number')}
               />
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="minNumOfParticipants"
                 action="increase"
                 onIncrease={handleNumOfParticipantsIncrease}
@@ -320,20 +334,24 @@ const MeetupFilterBoardOptions = () => {
 
             <div className={cn('regulator')}>
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="maxNumOfParticipants"
                 action="decrease"
                 onDecrease={handleNumOfParticipantsDecrease}
               />
               <input
                 type="number"
+                className={cn('number')}
                 name="maxNumOfParticipants"
                 min={0}
                 max={99}
                 value={boardFilters.maxNumOfParticipants.value}
                 onChange={handleNumOfParticipantsChange}
-                className={cn('number')}
               />
               <PlusMinusButton
+                color="grey"
+                size="sm"
                 name="maxNumOfParticipants"
                 action="increase"
                 onIncrease={handleNumOfParticipantsIncrease}
@@ -345,7 +363,9 @@ const MeetupFilterBoardOptions = () => {
       </div>
 
       <div className={cn('filter', 'participation-fee-container')}>
-        <label className={cn('label')}>참가비 여부</label>
+        <label className={cn('label')}>
+          <h4>참가비 여부</h4>
+        </label>
         <div className={cn('option')}>
           <CheckBox
             id={cn('participation-fee')}

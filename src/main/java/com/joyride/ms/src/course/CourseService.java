@@ -1,9 +1,6 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.CourseInfo;
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.PostCourseReviewReq;
-import com.joyride.ms.src.course.model.PostCourseReviewRes;
+import com.joyride.ms.src.course.model.*;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -11,100 +8,24 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
+import static com.joyride.ms.util.BaseResponseStatus.*;
 
 @Service
-@Transactional(rollbackOn = Exception.class)
+@Transactional
 @RequiredArgsConstructor
 public class CourseService {
-
-    @Value("${durunubi.secret}")
-    private String API_SECRET_KEY;
     private final CourseDao courseDao;
     private final CourseProvider courseProvider;
 
-    public List<GetCourseListRes> createCourseList() throws BaseException {
-        try {
-            int check = courseDao.existsCourse("고락산 둘레길");
-
-            // 만약 db에 정보가 없다면
-            if (check == 0) {
-                String result = "";
-
-                URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
-                        "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
-                        "&brdDiv=DNBW&numOfRows=3004&pageNo=1&_type=json");
-
-                BufferedReader bf;
-                bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-                result = bf.readLine();
-
-                JSONParser jsonParser = new JSONParser();
-                JSONObject jsonObject = (JSONObject) jsonParser.parse(result);
-                JSONObject response = (JSONObject) jsonObject.get("response");
-                JSONObject body = (JSONObject) response.get("body");
-                JSONObject items = (JSONObject) body.get("items");
-
-                JSONArray courseArr = (JSONArray) items.get("item");
-
-                for (int i = 0; i < courseArr.size(); i++) {
-                    JSONObject course = (JSONObject)courseArr.get(i);
-                    //중복 제거 및, 자전거 길만 저장
-                    ArrayList<String> courseIdList = new ArrayList<String>();
-                    if (courseIdList.contains((String)course.get("crsIdx"))) {
-                        continue;
-                    } else {
-                        courseIdList.add((String) course.get("crsIdx"));
-                    }
-
-                    String checkBrdDiv = (String)course.get("brdDiv");
-                    if (checkBrdDiv.equals("DNWW")) {
-                        continue;
-                    }
-
-                    String crsKorNm = (String)course.get("crsKorNm");
-                    String crsContents = (String)course.get("crsContents");
-                    String crsSummary = (String)course.get("crsSummary");
-                    String crsTourInfo = (String)course.get("crsTourInfo");
-                    String travelerinfo = (String)course.get("travelerinfo");
-                    String crsDstncStr = (String)course.get("crsDstnc");
-                    double crsDstnc = Double.parseDouble(crsDstncStr);
-                    String crsLevelStr = (String)course.get("crsLevel");
-                    int crsLevel = Integer.parseInt(crsLevelStr);
-                    String sigun = (String)course.get("sigun");
-                    String crsTotlRqrmHourStr = (String)course.get("crsTotlRqrmHour");
-                    double crsTotlRqrmHour = Double.parseDouble(crsTotlRqrmHourStr);
-                    String brdDiv = (String)course.get("brdDiv");
-
-                    CourseInfo courseInfo = CourseInfo.createCourseInfo(crsKorNm, crsContents, crsSummary, crsTourInfo,
-                            travelerinfo, crsDstnc, crsLevel, sigun, crsTotlRqrmHour, brdDiv);
-
-                    courseDao.insertCourse(courseInfo);
-
-                }
-                List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
-                return getCourseListRes;
-            }
-            else {
-                List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList();
-                return getCourseListRes;
-            }
-        }
-        catch (Exception exception) {
-            throw new BaseException(DATABASE_ERROR);
-        }
-    }
-
     // 리뷰작성 service
-    @Transactional
     public PostCourseReviewRes createCourseReview(PostCourseReviewReq postCourseReviewReq) throws BaseException {
 
         try{
@@ -113,11 +34,13 @@ public class CourseService {
             String message = "리뷰 작성에 성공했습니다.";
             return new PostCourseReviewRes(id, message);
         } catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
 
     //totalRate 계산 메소드
+    @Transactional(readOnly = true)
     public Double calculateTotalRate(PostCourseReviewReq postCourseReviewReq) throws BaseException {
         try{
             double sum = postCourseReviewReq.getAccessibility_rate() + postCourseReviewReq.getFacilities_rate() +
@@ -126,9 +49,130 @@ public class CourseService {
 
             return totalRate;
         } catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 리뷰 필터
+    @Transactional(readOnly = true)
+    public List<GetFilteringReviewRes> reviewFilter(List<GetCourseReviewRes> courseReviewList, String filter) throws BaseException {
+        try{
+            ArrayList<GetFilteringReviewRes> getFilteringReviewList = new ArrayList<>();
+            for (int i = 0; i < courseReviewList.size(); i++) {
+                GetFilteringReviewRes getFilteringReviewRes = new GetFilteringReviewRes();
+                getFilteringReviewRes.setTitle(courseReviewList.get(i).getTitle());
+                getFilteringReviewRes.setId(courseReviewList.get(i).getId());
+                getFilteringReviewRes.setNickName(courseReviewList.get(i).getNickName());
+                getFilteringReviewRes.setUser_id(courseReviewList.get(i).getUser_id());
+                getFilteringReviewRes.setCreated_at(courseReviewList.get(i).getCreated_at());
+                getFilteringReviewRes.setUpdated_at(courseReviewList.get(i).getUpdated_at());
+
+                if (filter.equals("안전")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getSafety_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getSafety_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+
+                }
+                else if (filter.equals("접근성")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getAccessibility_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getAccessibility_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+                else if (filter.equals("편의시설")) {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getFacilities_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getFacilities_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+
+                else {
+                    getFilteringReviewRes.setFilterReview(courseReviewList.get(i).getScene_review());
+                    getFilteringReviewRes.setFilterRate(courseReviewList.get(i).getScene_rate());
+                    getFilteringReviewList.add(getFilteringReviewRes);
+                }
+            }
+            return getFilteringReviewList;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+
+    //리뷰 삭제 api
+    public DeleteCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
+
+        // 유저확인 로직 필요
+        int existsCourseReview = courseDao.existsCourseReview(courseReview_id);
+        if (existsCourseReview == 0) {
+            throw new BaseException(COURSE_REVIEW_NOT_EXISTS);
+        }
+        try{
+           courseDao.deleteByCourseReviewId(courseReview_id);
+            String message = "리뷰 삭제에 성공했습니다.";
+            return new DeleteCourseReviewRes(message);
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    /**
+     * 코스 좋아요
+     */
+
+    //코스 좋아요 생성
+    public PostCourseLikeRes createCourseLike(PostCourseLikeReq postCourseLikeReq) throws BaseException {
+
+        // 유저확인 로직 필요
+        try{
+
+            // 데이터 베이스 status값 설정해주기
+            int user_id = postCourseLikeReq.getUser_id();
+            String title = postCourseLikeReq.getTitle();
+
+            int existId = courseDao.existsCourseLikeByUserId(user_id);
+            // 없으면
+            if (existId == 0) {
+                courseDao.insertCourseLike(user_id, title);
+                String message = "좋아요 등록 성공했습니다.";
+                return new PostCourseLikeRes(message);
+            }
+            else {
+                int status = courseDao.selectCourseLikeStatus(user_id);
+                if (status == 1) {
+                    courseDao.updateCourseLikeToZero(user_id);
+                    String message = "좋아요 삭제에 성공했습니다.";
+                    return new PostCourseLikeRes(message);
+                }
+                else {
+                    courseDao.updateCourseLikeToOne(user_id);
+                    String message = "좋아요 등록 성공했습니다.";
+                    return new PostCourseLikeRes(message);
+                }
+            }
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    //코스 좋아요 삭제
+//    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
+//
+//        // 유저확인 로직 필요
+//        int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
+//        if (existsCourseLike == 0) {
+//            throw new BaseException(COURSE_LIKE_NOT_EXISTS);
+//        }
+//        try{
+//            courseDao.deleteByCourseLikeId(courseLike_id);
+//            String message = "좋아요 삭제에 성공했습니다.";
+//            return new DeleteCourseLikeRes(message);
+//        } catch (Exception exception) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
+//    }
 
 }
 

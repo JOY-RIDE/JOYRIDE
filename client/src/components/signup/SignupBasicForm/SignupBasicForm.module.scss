@@ -1,9 +1,16 @@
-@use '../../../styles/variables.scss' as *;
-
 .fields {
   display: flex;
   flex-direction: column;
   gap: 4rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+
+  & p {
+    margin-top: 0.6rem;
+  }
 }
 
 .label {
@@ -12,10 +19,6 @@
   align-items: center;
   font-size: 2rem;
   margin-bottom: 1rem;
-
-  & .optional {
-    color: $color-grey-600;
-  }
 }
 
 .btns {

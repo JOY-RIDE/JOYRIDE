@@ -21,7 +21,7 @@ public class PostSignupReq {
     private String password;
     @Size(min=1, max=1,message="gender: m/f")
     private String gender; // m/f
-    private Integer old;
+    private Integer birthYear;
     private String bicycleType;
     private Integer bicycleCareer;
     @JsonProperty("isTermsEnable")

@@ -1,11 +1,18 @@
 @use '../../../styles/variables.scss' as *;
 
-$gap-row: 1.2rem;
-
 .fields {
   display: flex;
   flex-direction: column;
   gap: 4rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+
+  & p {
+    margin-top: 0.6rem;
+  }
 }
 
 .label {
@@ -15,24 +22,20 @@ $gap-row: 1.2rem;
   font-size: 2rem;
   margin-bottom: 1.5rem;
 
-  & .optional {
+  & .guide {
     color: $color-grey-600;
   }
 }
 
 .row {
+  $row-gap: 1.2rem;
+
   display: flex;
-  gap: $gap-row;
+  gap: $row-gap;
   flex-wrap: wrap;
 
   & .col {
-    flex: 1 0 calc((100% - 2 * $gap-row) / 3);
-  }
-}
-
-.bicycle-type {
-  & .label + div {
-    width: 100%;
+    flex: 1 0 calc((100% - 2 * $row-gap) / 3);
   }
 }
 

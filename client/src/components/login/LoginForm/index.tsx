@@ -5,7 +5,6 @@ import { isLoggedInState } from 'states/auth';
 import { toastMessageState } from 'states/common';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
-import AuthFormInputWithErrorMessageWrapper from 'components/common/AuthFormInputWithErrorMessageWrapper';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import CheckBox from 'components/common/CheckBox';
@@ -43,7 +42,6 @@ const LoginForm = () => {
       password: '',
       isAuto: false,
     },
-    reValidateMode: 'onBlur',
   });
 
   // Variables
@@ -80,17 +78,15 @@ const LoginForm = () => {
             name="email"
             rules={{ required: true }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  type="email"
-                  placeholder="이메일"
-                  hasError={errors.email}
-                  {...field}
-                />
-                {errors.email && <ErrorMessage message="이메일을 입력하세요" />}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                type="email"
+                placeholder="이메일"
+                hasError={errors.email}
+                {...field}
+              />
             )}
           />
+          {errors.email && <ErrorMessage message="이메일을 입력하세요" />}
         </div>
 
         <div className={cn('field')}>
@@ -99,19 +95,15 @@ const LoginForm = () => {
             name="password"
             rules={{ required: true }}
             render={({ field }) => (
-              <AuthFormInputWithErrorMessageWrapper>
-                <AuthFormInput
-                  type="password"
-                  placeholder="비밀번호"
-                  hasError={errors.password}
-                  {...field}
-                />
-                {errors.password && (
-                  <ErrorMessage message="비밀번호를 입력하세요" />
-                )}
-              </AuthFormInputWithErrorMessageWrapper>
+              <AuthFormInput
+                type="password"
+                placeholder="비밀번호"
+                hasError={errors.password}
+                {...field}
+              />
             )}
           />
+          {errors.password && <ErrorMessage message="비밀번호를 입력하세요" />}
         </div>
       </div>
 

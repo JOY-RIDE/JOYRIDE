@@ -1,0 +1,38 @@
+@use '../../../styles/variables.scss' as *;
+
+.open-btn {
+  color: $color-main;
+  font-weight: 700;
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+
+  & svg {
+    font-size: 1.7rem;
+  }
+
+  & span {
+    text-decoration: underline;
+  }
+}
+
+.header {
+  position: fixed;
+  width: min(100%, 60rem);
+  z-index: 2;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.close-btn {
+  color: $color-grey-500;
+  font-size: 2rem;
+}

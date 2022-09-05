@@ -1,7 +1,7 @@
 import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
-import { BICYCLE_TYPES, LOCATIONS } from 'utils/constants';
+import { AGES, GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
   getAllMeetups: () => Meetup[];
@@ -12,6 +12,7 @@ interface MeetupAPI {
 // };
 
 // Mock
+// @ts-ignore
 const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   id: index,
   title: faker.lorem.sentence(),
@@ -21,15 +22,18 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   courseName: faker.datatype.number(1) ? faker.random.words(3) : null,
   path: faker.helpers.arrayElements(LOCATIONS),
   pathDifficulty: faker.helpers.arrayElement([1, 2, 3]),
-  minRidingSkill: faker.helpers.arrayElement([1, 2, 3]),
-  bicycleTypes: faker.helpers.arrayElements(BICYCLE_TYPES, 3),
-  minNumOfParticipants: faker.datatype.number(30),
+  ridingSkill: faker.helpers.arrayElement([1, 2, 3]),
+  bicycleTypes: faker.helpers.arrayElements(
+    ['따릉이', 'MTB', '로드바이크', '하이브리드', '미니벨로', '기타'],
+    3
+  ),
   maxNumOfParticipants: faker.datatype.number(30),
   participants: Array.from({ length: faker.datatype.number(15) }, () => ({})),
   location: faker.helpers.arrayElement(LOCATIONS),
-  gender: faker.helpers.arrayElement(['m', 'f']),
-  ages: faker.helpers.arrayElements([1, 2, 3, 4, 5]),
+  gender: faker.helpers.arrayElement(['mixed', ...GENDERS]),
+  ages: faker.helpers.arrayElements(AGES),
   participationFee: faker.datatype.number(20000),
+  content: '',
 }));
 
 export const mockMeetupAPI: MeetupAPI = {

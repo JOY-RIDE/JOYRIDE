@@ -29,12 +29,24 @@ a {
 input,
 textarea,
 button {
+  background: none;
+  border: none;
   font: inherit;
   color: inherit;
 }
 
+input[type='number'] {
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+}
+
 button {
-  background: none;
-  border: none;
   cursor: pointer;
+}
+
+select {
+  font: inherit;
 }

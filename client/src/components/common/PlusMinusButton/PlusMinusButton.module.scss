@@ -1,12 +1,25 @@
 @use '../../../styles/variables.scss' as *;
 
 .btn {
-  width: 2rem;
-  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: $color-grey-300;
   border-radius: 50%;
   font-size: 1.3rem;
+
+  &.white {
+    background: white;
+  }
+  &.grey {
+    background: $color-grey-300;
+  }
+
+  &.sm {
+    width: 2rem;
+    height: 2rem;
+  }
+  &.md {
+    width: 3rem;
+    height: 3rem;
+  }
 }

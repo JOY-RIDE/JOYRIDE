@@ -5,28 +5,29 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface SelectButtonProps {
-  isSelected: boolean;
-  name: string;
-  value: string;
+  size?: 'md' | 'lg';
+  type: 'checkbox' | 'radio';
+  value: number | string;
   content: string;
-  contentEng: string;
+  isSelected: boolean;
   [key: string]: any;
 }
 
 const SelectButton = memo(
   forwardRef<HTMLInputElement, SelectButtonProps>((props, ref) => {
-    const { isSelected, content, contentEng, ...others } = props;
+    const { size = 'md', type, value, content, isSelected, ...others } = props;
     return (
       <>
         <input
-          type="checkbox"
+          type={type}
           checked={isSelected}
-          id={cn(contentEng)}
+          value={value}
+          id={cn(content)}
           className={cn('input')}
           ref={ref}
           {...others}
         />
-        <label htmlFor={cn(contentEng)} className={cn('btn')}>
+        <label htmlFor={cn(content)} className={cn('btn', size)}>
           {content}
         </label>
       </>

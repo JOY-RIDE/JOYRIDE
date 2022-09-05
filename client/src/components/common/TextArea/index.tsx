@@ -25,4 +25,5 @@ const TextArea = memo(
     )
   )
 );
+
 export default TextArea;

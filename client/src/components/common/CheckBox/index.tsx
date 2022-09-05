@@ -9,9 +9,8 @@ interface CheckBoxProps {
   [key: string]: any;
 }
 
-const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
-  const { shape, isChecked, ...others } = props;
-  return (
+const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>(
+  ({ shape, isChecked, ...others }, ref) => (
     <Checkbox
       icon={shape === 'circle' ? <RadioButtonUncheckedIcon /> : undefined}
       checkedIcon={shape === 'circle' ? <CheckCircleIcon /> : undefined}
@@ -25,7 +24,7 @@ const CheckBox = forwardRef<HTMLInputElement, CheckBoxProps>((props, ref) => {
       inputRef={ref}
       {...others}
     />
-  );
-});
+  )
+);
 
 export default CheckBox;

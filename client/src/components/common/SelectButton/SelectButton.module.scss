@@ -12,12 +12,15 @@
 
 .btn {
   cursor: pointer;
-  font-size: 2rem;
   background: white;
   color: $color-grey-600;
   border: $border-grey;
   border-radius: 0.3rem;
-  padding: 1rem 1.6rem;
+  padding: 1rem 0;
   display: block;
   text-align: center;
+
+  &.lg {
+    font-size: 2rem;
+  }
 }
