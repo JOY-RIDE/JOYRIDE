@@ -54,7 +54,7 @@ export const authAPI = (() => {
       throw new Error(code);
     }
 
-    onLoginSuccess(result.accessToken, setIsLoggedIn);
+    handleLogin(result.accessToken, setIsLoggedIn);
   };
 
   const silentRefresh = async (setIsLoggedIn: SetIsLoggedIn) => {
@@ -62,22 +62,18 @@ export const authAPI = (() => {
       data: { code, result },
     } = await axios.post('/auth/jwt');
 
-    switch (code) {
-      // refresh token 유효할 때
-      case 1000:
-        return onLoginSuccess(result.accessToken, setIsLoggedIn);
-      // 로그인 안 했을 때
-      case 2006:
-        return;
-      default:
-        console.log(code, result);
+    console.log(code, result);
+    // TODO: 로그아웃 했을 때/중간에 만료됐을 때?
+    if (code !== 1000) {
+      userAPI.handleLogout(setIsLoggedIn);
+      return;
     }
+
+    // refresh token 유효할 때
+    handleLogin(result.accessToken, setIsLoggedIn);
   };
 
-  const onLoginSuccess = (
-    accessToken: string,
-    setIsLoggedIn: SetIsLoggedIn
-  ) => {
+  const handleLogin = (accessToken: string, setIsLoggedIn: SetIsLoggedIn) => {
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     setIsLoggedIn(true);
     // TODO: localStorage

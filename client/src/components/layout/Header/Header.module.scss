@@ -18,11 +18,17 @@
   width: 7.5rem;
 }
 
-.toggleBtn,
-.login,
-.mypage {
-  color: $color-main;
-  font-size: 2.5rem;
+.row {
+  & svg {
+    color: $color-main;
+    font-size: 2.5rem;
+  }
+}
+
+.logged-in {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .wrapper {

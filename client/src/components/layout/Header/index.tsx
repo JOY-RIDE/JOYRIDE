@@ -53,20 +53,11 @@ const Header = () => {
     <div className={cn('header')} ref={menuRef}>
       <Container>
         <div className={cn('row')}>
-          <button
-            className={cn('toggleBtn')}
-            aria-label="JOYRIDE 메뉴 보기 버튼"
-            onClick={toggleMenu}
-          >
+          <button aria-label="메뉴 보기 버튼" onClick={toggleMenu}>
             <GiHamburgerMenu />
           </button>
 
-          <Link
-            to="/"
-            className={cn('home')}
-            aria-label="메인 페이지 링크 버튼"
-            onClick={closeMenu}
-          >
+          <Link to="/" aria-label="메인 페이지 링크 버튼" onClick={closeMenu}>
             <img className={cn('logo')} src={logo} alt="로고" />
           </Link>
 
@@ -74,21 +65,19 @@ const Header = () => {
             <div className={cn('logged-in')}>
               <Link
                 to="/mypage"
-                className={cn('mypage')}
                 aria-label="마이 페이지 링크 버튼"
                 onClick={closeMenu}
               >
                 {/* TODO: 백엔드에서 유저 사진 받아오기 */}
                 <FaRegUserCircle />
               </Link>
-              <button onClick={handleLogoutClick}>
+              <button aria-label="로그아웃 버튼" onClick={handleLogoutClick}>
                 <FiLogOut />
               </button>
             </div>
           ) : (
             <Link
               to={`/login${loginNextQuery}`}
-              className={cn('login')}
               aria-label="로그인 페이지 링크 버튼"
               onClick={closeMenu}
             >

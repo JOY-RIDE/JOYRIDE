@@ -115,7 +115,7 @@ const SignupDetailForm = () => {
             name="nickname"
             rules={{
               required: true,
-              maxLength: 8,
+              maxLength: 10,
             }}
             render={({ field }) => (
               <AuthFormInput

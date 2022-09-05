@@ -43,6 +43,10 @@ input[type='number'] {
   }
 }
 
+textarea {
+  resize: none;
+}
+
 button {
   cursor: pointer;
 }

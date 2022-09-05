@@ -6,14 +6,17 @@ type SetIsLoggedIn = SetterOrUpdater<boolean>;
 export const userAPI = {
   async logout(setIsLoggedIn: SetIsLoggedIn) {
     const {
-      data: { code },
+      data: { code, result },
     } = await axios.post('/users/signout');
 
-    console.log(code);
-
+    console.log(code, result);
     if (code === 1000) {
-      delete axios.defaults.headers.common.Authorization;
-      setIsLoggedIn(false);
+      this.handleLogout(setIsLoggedIn);
     }
+  },
+
+  handleLogout(setIsLoggedIn: SetIsLoggedIn) {
+    delete axios.defaults.headers.common.Authorization;
+    setIsLoggedIn(false);
   },
 };
