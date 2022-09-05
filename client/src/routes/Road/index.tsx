@@ -13,6 +13,8 @@ import MapOverview from 'components/road/MapOverview';
 import CrsDesc from 'components/road/CrsDesc';
 import CrsInfo from 'components/road/CrsInfo';
 import ReviewWriter from 'components/road/ReviewWriter';
+import ReviewItem from 'components/road/ReviewItem';
+import ReviewFilter from 'components/road/ReviewFilter';
 import { IRoad } from 'types/course';
 // import _ from 'lodash';
 
@@ -108,6 +110,17 @@ const Road = () => {
             <span className={cn('cnt')}>12</span>
           </div>
           <ReviewWriter />
+          <div className={cn('review-summary')}>
+            <span>전체평점</span>
+            <span className={cn('rating-summary')}>4.5</span>
+            <span>/5</span>
+          </div>
+          <ReviewFilter />
+          <div className={cn('review-container')}>
+            {[1, 2].map(idx => (
+              <ReviewItem key={idx} />
+            ))}
+          </div>
           <PageTitle size="sm">관련 모임</PageTitle>
         </div>
       )}

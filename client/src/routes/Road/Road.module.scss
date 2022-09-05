@@ -43,3 +43,32 @@
     color: $color-grey-500;
   }
 }
+
+.review-summary {
+  margin: 1.5rem 0 1.1rem 0;
+  span {
+    &:first-child {
+      font-size: 1.4rem;
+      font-weight: 1.7rem;
+      color: $color-grey-800;
+      margin-right: 0.65rem;
+    }
+    &:nth-child(2) {
+      font-size: 2.6rem;
+      line-height: 3.1rem;
+      font-weight: 700;
+    }
+    &:last-child {
+      font-size: 1.8rem;
+      line-height: 2.2rem;
+      color: $color-grey-500;
+      margin-left: 0.3rem;
+    }
+  }
+}
+
+.review-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}

@@ -21,6 +21,8 @@
     font-size: 1.4rem;
     line-height: 1.8rem;
     overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     resize: none;
     &::placeholder {
       color: $color-grey-500;
@@ -28,6 +30,9 @@
     }
     &:focus {
       outline: $border-grey;
+    }
+    &::-webkit-scrollbar {
+      display: none; /* Chrome , Safari , Opera */
     }
   }
 }

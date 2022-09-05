@@ -44,7 +44,7 @@ const ReviewWriter = () => {
         onClick={handleClickOpen}
       ></Button>
       <Dialog
-        className={cn('review')}
+        className={cn('review-writer')}
         fullScreen={isFullScreen}
         open={open}
         onClose={handleClose}
