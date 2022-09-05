@@ -1,6 +1,7 @@
 import { joyrideAxios as axios } from './axios';
 import { SetterOrUpdater } from 'recoil';
 import { NewUser } from 'types/auth';
+import { userAPI } from './userAPI';
 
 type SetIsLoggedIn = SetterOrUpdater<boolean>;
 
@@ -57,21 +58,19 @@ export const authAPI = (() => {
   };
 
   const silentRefresh = async (setIsLoggedIn: SetIsLoggedIn) => {
-    try {
-      const {
-        data: { code, result },
-      } = await axios.post('/auth/jwt');
+    const {
+      data: { code, result },
+    } = await axios.post('/auth/jwt');
 
-      if (code !== 1000) {
-        // TODO: 로그아웃
-        delete axios.defaults.headers.common.Authorization;
-        setIsLoggedIn(false);
+    switch (code) {
+      // refresh token 유효할 때
+      case 1000:
+        return onLoginSuccess(result.accessToken, setIsLoggedIn);
+      // 로그인 안 했을 때
+      case 2006:
         return;
-      }
-
-      onLoginSuccess(result.accessToken, setIsLoggedIn);
-    } catch (e) {
-      // refresh cookie X
+      default:
+        console.log(code, result);
     }
   };
 
@@ -86,7 +85,7 @@ export const authAPI = (() => {
     const JWT_EXPIRY_TIME_IN_SECONDS = 2 * 3600;
     setTimeout(
       () => silentRefresh(setIsLoggedIn),
-      (JWT_EXPIRY_TIME_IN_SECONDS - 30) * 1000
+      (JWT_EXPIRY_TIME_IN_SECONDS - 10) * 1000
     );
   };
 

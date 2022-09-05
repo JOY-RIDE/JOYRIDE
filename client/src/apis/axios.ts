@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-const JOYRIDE_BASE_URL = 'http://localhost:3000';
+const JOYRIDE_DOMAIN = '';
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? JOYRIDE_DOMAIN
+    : 'http://localhost:3000';
 
 export const joyrideAxios = axios.create({
-  baseURL: JOYRIDE_BASE_URL,
+  baseURL: BASE_URL,
   withCredentials: true,
 });

@@ -4,11 +4,11 @@ import { faker } from '@faker-js/faker';
 import { AGES, GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
-  getAllMeetups: () => Meetup[];
+  getMeetupList: () => Meetup[];
 }
 
 // export const meetupAPI: MeetupAPI = {
-//   async getAllMeetups() {},
+//   async getMeetupList() {},
 // };
 
 // Mock
@@ -37,5 +37,5 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
 }));
 
 export const mockMeetupAPI: MeetupAPI = {
-  getAllMeetups: () => mockMeetups,
+  getMeetupList: () => mockMeetups,
 };

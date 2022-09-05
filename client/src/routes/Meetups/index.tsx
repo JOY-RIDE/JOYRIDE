@@ -19,7 +19,7 @@ const cn = classNames.bind(styles);
 // TODO: react query, pagination
 const Meetups = () => {
   // temp
-  const [meetups, setMeetups] = useState(mockMeetupAPI.getAllMeetups());
+  const [meetups, setMeetups] = useState(mockMeetupAPI.getMeetupList());
   const order = useRecoilValue(meetupOrderState);
   useEffect(
     () => setMeetups(getMeetupsOrderedBy(order.name, meetups)),

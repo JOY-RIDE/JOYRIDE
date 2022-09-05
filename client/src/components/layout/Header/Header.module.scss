@@ -28,8 +28,6 @@
 .wrapper {
   border-bottom: $border-main-1;
   background-color: white;
-  display: flex;
-  flex-direction: column;
   position: absolute;
   width: 100%;
   left: 0;
@@ -59,8 +57,13 @@
   }
 }
 
+.menus-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .menus {
-  padding: 1.4rem 1.6rem;
+  padding: 1.4rem 0;
 }
 
 .icon {
