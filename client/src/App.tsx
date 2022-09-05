@@ -11,7 +11,6 @@ import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
 import Login from 'routes/AuthPage/Login';
 import Toast from 'components/common/Toast';
-import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
@@ -20,6 +19,7 @@ import { Theme as MuiTheme } from '@mui/material/styles';
 import PrivateRoute from 'components/common/PrivateRoute';
 import Search from 'routes/Search';
 import AuthPage from 'routes/AuthPage';
+import PublicOnlyRoute from 'components/common/PublicOnlyRoute';
 
 const Signup = lazy(() => import('routes/AuthPage/Signup'));
 const FindEmail = lazy(() => import('routes/AuthPage/FindEmail'));
@@ -70,7 +70,7 @@ const App = () => {
               <Route path="mypage" element={<Mypage />} />
             </Route>
 
-            <Route element={<PublicRoute />}>
+            <Route element={<PublicOnlyRoute />}>
               <Route path="auth" element={<AuthPage />}>
                 <Route path="login" element={<Login />} />
                 <Route path="signup" element={<Signup />} />
