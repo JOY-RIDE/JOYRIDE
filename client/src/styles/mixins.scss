@@ -1,35 +1,26 @@
 @use './variables.scss' as *;
 
-@mixin auth-page {
-  width: $width-mobile-flexible;
-  margin: 0 auto;
-}
-
 /* Media queries */
 @mixin for-commonMobile-down {
   @media (max-width: 374px) {
     @content;
   }
 }
-
 @mixin for-tablet-portrait-up {
   @media (min-width: 600px) {
     @content;
   }
 }
-
 @mixin for-tablet-landscape-up {
   @media (min-width: 900px) {
     @content;
   }
 }
-
 @mixin for-desktop-up {
   @media (min-width: 1200px) {
     @content;
   }
 }
-
 @mixin for-big-desktop-up {
   @media (min-width: 1500px) {
     @content;

@@ -23,12 +23,10 @@ interface Iform {
 }
 
 const Header = () => {
-  const { pathname } = useLocation();
   const isAtHome = useMatch('/');
-  const isAtSignup = useMatch('/signup');
-  const isAtLogin = useMatch('/login');
-  const loginNextQuery =
-    isAtHome || isAtSignup || isAtLogin ? '' : `?next=${pathname}`;
+  const { pathname } = useLocation();
+  const isAtAuthPage = pathname.includes('/auth/');
+  const loginNextQuery = isAtHome || isAtAuthPage ? '' : `?next=${pathname}`;
   const userData = useRecoilValue(userDataState);
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
@@ -83,7 +81,7 @@ const Header = () => {
             </div>
           ) : (
             <Link
-              to={`/login${loginNextQuery}`}
+              to={`/auth/login${loginNextQuery}`}
               aria-label="로그인 페이지 링크 버튼"
               onClick={closeMenu}
             >

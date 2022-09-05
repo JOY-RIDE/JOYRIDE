@@ -15,7 +15,7 @@ const SignupCompleted = () => {
   useEffect(() => resetSignupFormData, []);
 
   const navigate = useNavigate();
-  const handleLoginClick = () => navigate('/login');
+  const handleLoginClick = () => navigate('/auth/login');
   return (
     <div className={cn('page')}>
       <img src={completed} alt="가입 완료" />

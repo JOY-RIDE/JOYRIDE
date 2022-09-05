@@ -7,7 +7,7 @@ const PrivateRoute = () => {
   return useRecoilValue(userIDState) ? (
     <Outlet />
   ) : (
-    <Navigate to={`/login?next=${pathname}`} replace />
+    <Navigate to={`/auth/login?next=${pathname}`} replace />
   );
 };
 

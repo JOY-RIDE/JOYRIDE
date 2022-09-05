@@ -19,6 +19,7 @@ import { MAIN_COLOR } from 'utils/constants';
 import { Theme as MuiTheme } from '@mui/material/styles';
 import PrivateRoute from 'components/common/PrivateRoute';
 import Search from 'routes/Search';
+import AuthPage from 'routes/AuthPage';
 
 const Signup = lazy(() => import('routes/Signup'));
 const FindEmail = lazy(() => import('routes/FindEmail'));
@@ -70,10 +71,12 @@ const App = () => {
             </Route>
 
             <Route element={<PublicRoute />}>
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="find_email" element={<FindEmail />} />
-              <Route path="reset_password" element={<ResetPassword />} />
+              <Route path="auth" element={<AuthPage />}>
+                <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path="find_email" element={<FindEmail />} />
+                <Route path="reset_password" element={<ResetPassword />} />
+              </Route>
             </Route>
           </Route>
 
