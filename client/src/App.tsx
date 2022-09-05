@@ -9,7 +9,7 @@ import Roads from 'routes/Roads';
 import Road from 'routes/Road';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
-import Login from 'routes/Login';
+import Login from 'routes/AuthPage/Login';
 import Toast from 'components/common/Toast';
 import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
@@ -21,9 +21,9 @@ import PrivateRoute from 'components/common/PrivateRoute';
 import Search from 'routes/Search';
 import AuthPage from 'routes/AuthPage';
 
-const Signup = lazy(() => import('routes/Signup'));
-const FindEmail = lazy(() => import('routes/FindEmail'));
-const ResetPassword = lazy(() => import('routes/ResetPassword'));
+const Signup = lazy(() => import('routes/AuthPage/Signup'));
+const FindEmail = lazy(() => import('routes/AuthPage/FindEmail'));
+const ResetPassword = lazy(() => import('routes/AuthPage/ResetPassword'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
 
