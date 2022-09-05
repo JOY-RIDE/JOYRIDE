@@ -4,13 +4,13 @@ import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/Signup';
 import AuthFormInput from 'components/common/AuthFormInput';
-import { REGEX } from 'utils/constants';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
 import { signupFormDataState } from 'states/auth';
+import { REGEX } from 'utils/regex';
 
 const cn = classNames.bind(styles);
 

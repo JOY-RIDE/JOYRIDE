@@ -1,18 +1,8 @@
 import { joyrideAxios as axios } from './axios';
 import { SetterOrUpdater } from 'recoil';
+import { NewUser } from 'types/auth';
 
 type SetIsLoggedIn = SetterOrUpdater<boolean>;
-interface NewUser {
-  email: string;
-  password: string;
-  nickname: string;
-  gender: string;
-  birthYear: number;
-  bicycleType: string;
-  bicycleCareer: number;
-  introduce: string | null;
-  isTermsEnable: boolean;
-}
 
 // TODO: 클로저 공부
 export const authAPI = (() => {

@@ -11,13 +11,6 @@ import {
 import { stringifyRidingSkill } from './stringify';
 import { range } from 'lodash';
 
-export const REGEX = {
-  number: /[0-9]+/,
-  email:
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  password: /[0-9]/,
-}; // TODO: 이동
-
 export const MAIN_COLOR = '#22b573';
 
 export const GENDERS: Gender[] = ['m', 'f']; // TODO: 삭제
