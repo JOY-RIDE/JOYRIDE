@@ -9,6 +9,7 @@ interface NewUser {
   gender: string;
   birthYear: number;
   bicycleType: string;
+  bicycleCareer: number;
   introduce: string | null;
   isTermsEnable: boolean;
 }

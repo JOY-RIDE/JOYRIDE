@@ -11,13 +11,14 @@ import {
 import { stringifyRidingSkill } from './stringify';
 import { range } from 'lodash';
 
-export const MAIN_COLOR = '#22b573';
 export const REGEX = {
   number: /[0-9]+/,
   email:
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
   password: /[0-9]/,
-};
+}; // TODO: 이동
+
+export const MAIN_COLOR = '#22b573';
 
 export const GENDERS: Gender[] = ['m', 'f']; // TODO: 삭제
 export const GENDER_OPTIONS: Option<Gender>[] = [
@@ -34,6 +35,19 @@ export const BIRTH_YEAR_OPTIONS: Option<number>[] = range(
   -1
 ).map(year => ({ value: year, content: `${year}` }));
 export const AGES: Age[] = [1, 2, 3, 4, 5];
+export const BICYCLE_TYPE_OPTIONS: Option<BicycleType>[] = [
+  { value: '따릉이', content: '따릉이' },
+  { value: 'MTB', content: 'MTB' },
+  { value: '로드바이크', content: '로드바이크' },
+  { value: '하이브리드', content: '하이브리드' },
+  { value: '미니벨로', content: '미니벨로' },
+  { value: '기타', content: '기타' },
+];
+export const RIDING_SKILL_OPTIONS: Option<RidingSkill>[] = [
+  { value: 1, content: stringifyRidingSkill(1) },
+  { value: 2, content: stringifyRidingSkill(2) },
+  { value: 3, content: stringifyRidingSkill(3) },
+];
 export const LOCATIONS: Location[] = [
   '서울',
   '인천',
@@ -47,24 +61,10 @@ export const LOCATIONS: Location[] = [
   '경남',
   '제주',
 ];
-
 export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<RidingSkill>[] = [
   { value: 1, content: stringifyDifficulty(1) },
   { value: 2, content: stringifyDifficulty(2) },
   { value: 3, content: stringifyDifficulty(3) },
-];
-export const BICYCLE_TYPE_OPTIONS: Option<BicycleType>[] = [
-  { value: '따릉이', content: '따릉이' },
-  { value: 'MTB', content: 'MTB' },
-  { value: '로드바이크', content: '로드바이크' },
-  { value: '하이브리드', content: '하이브리드' },
-  { value: '미니벨로', content: '미니벨로' },
-  { value: '기타', content: '기타' },
-];
-export const RIDING_SKILL_OPTIONS: Option<RidingSkill>[] = [
-  { value: 1, content: stringifyRidingSkill(1) },
-  { value: 2, content: stringifyRidingSkill(2) },
-  { value: 3, content: stringifyRidingSkill(3) },
 ];
 
 interface MeetupOrderOption extends MeetupOrderState {

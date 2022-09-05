@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
-  CreatedMeetup,
+  NewMeetup,
   MeetupDueDate,
   MeetupGender,
   MeetupMeetingDate,
@@ -50,7 +50,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 );
 
 interface MeetupCreationForm
-  extends Omit<CreatedMeetup, 'meetingDate' | 'dueDate'> {
+  extends Omit<NewMeetup, 'meetingDate' | 'dueDate'> {
   dueDate: MeetupDueDate | null;
   meetingDate: MeetupMeetingDate | null;
 }
@@ -206,7 +206,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             rules={{ required: true }}
             render={({ field: { value, ...others } }) => (
               <DateTimePicker
-                selectedDate={value ? value : null}
+                selectedDate={value || null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
                 placeholder="모집 마감 일시를 선택하세요."
                 {...others}
@@ -237,9 +237,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             }}
             render={({ field: { value, ...others } }) => (
               <DateTimePicker
-                selectedDate={value ? value : null}
+                selectedDate={value || null}
                 CustomInput={<DateInput icon={<AiOutlineCalendar />} />}
-                minDate={dueDate ? dueDate : undefined}
+                minDate={dueDate || undefined}
                 placeholder="모임 일시를 선택하세요."
                 {...others}
               />

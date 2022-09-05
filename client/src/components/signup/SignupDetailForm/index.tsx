@@ -13,8 +13,12 @@ import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
 import { signupFormDataState } from 'states/auth';
-import { BICYCLE_TYPE_OPTIONS, GENDER_OPTIONS } from 'utils/constants';
-import { BicycleType, Gender, Option } from 'types/common';
+import {
+  BICYCLE_TYPE_OPTIONS,
+  GENDER_OPTIONS,
+  RIDING_SKILL_OPTIONS,
+} from 'utils/constants';
+import { BicycleType, Gender, Option, RidingSkill } from 'types/common';
 import { ChangeEvent } from 'react';
 
 const cn = classNames.bind(styles);
@@ -24,6 +28,7 @@ interface SignupDetailForm {
   gender: Gender;
   birthYear: string;
   bicycleType: BicycleType;
+  ridingSkill: RidingSkill;
   introduce: string;
 }
 
@@ -39,6 +44,7 @@ const SignupDetailForm = () => {
       gender: 'm',
       birthYear: '',
       bicycleType: '따릉이',
+      ridingSkill: 1,
       introduce: '',
     },
     // reValidateMode: 'onBlur',
@@ -69,6 +75,7 @@ const SignupDetailForm = () => {
     gender,
     birthYear,
     bicycleType,
+    ridingSkill,
     introduce,
   }) => {
     const isNicknameValid = await validateNickname(nickname);
@@ -81,6 +88,7 @@ const SignupDetailForm = () => {
       gender,
       birthYear: Number(birthYear),
       bicycleType,
+      bicycleCareer: Number(ridingSkill),
       introduce: introduce || null,
       isTermsEnable: true,
     };
@@ -91,6 +99,7 @@ const SignupDetailForm = () => {
       setSignupFormData(data => ({ ...data, nickname }));
       increaseStep();
     } catch (e) {
+      console.log(e);
       showToastMessage('회원가입 중 문제가 발생했습니다');
     }
   };
@@ -222,6 +231,34 @@ const SignupDetailForm = () => {
               )}
             />
           )}
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4 className={cn('title')}>라이딩 실력</h4>
+          </label>
+          <ul className={cn('row')}>
+            <Controller
+              control={control}
+              name="ridingSkill"
+              render={({ field: { value, ...others } }) => (
+                <>
+                  {RIDING_SKILL_OPTIONS.map((option: Option<RidingSkill>) => (
+                    <li key={option.value} className={cn('col')}>
+                      <SelectButton
+                        type="radio"
+                        size="lg"
+                        value={option.value}
+                        content={option.content}
+                        isSelected={Number(value) === option.value}
+                        {...others}
+                      />
+                    </li>
+                  ))}
+                </>
+              )}
+            />
+          </ul>
         </div>
 
         <div className={cn('field')}>

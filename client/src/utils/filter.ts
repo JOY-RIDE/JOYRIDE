@@ -78,7 +78,6 @@ function meetupFiltersReducerForToggling(
       const oldData = state[key];
       return oldData ? omit(state, [key]) : { ...state, [key]: data };
     }
-
     default:
       throw new Error();
   }
