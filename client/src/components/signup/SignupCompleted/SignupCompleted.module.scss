@@ -1,12 +1,15 @@
 @use '../../../styles/variables.scss' as *;
 
-.page {
+.wrapper {
   text-align: center;
   position: fixed;
-  width: 100%;
   top: 50%;
-  left: 50%;
-  transform: translate((-50%, -50%));
+  transform: translateY(-50%);
+
+  & > svg {
+    color: $color-main;
+    font-size: 6rem;
+  }
 }
 
 .title {
@@ -19,5 +22,5 @@
 .info {
   color: $color-grey-700;
   line-height: 1.3;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
