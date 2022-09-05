@@ -13,7 +13,7 @@ const FindEmail = () => {
   const handleEmailCopyClick = () =>
     navigator.clipboard
       .writeText(JOYRIDE_EMAIL)
-      .then(() => showToastMessage('이메일 주소가 복사되었습니다.'));
+      .then(() => showToastMessage('이메일 주소가 복사되었습니다'));
 
   return (
     <div className={cn('wrapper')}>

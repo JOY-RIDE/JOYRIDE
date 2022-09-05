@@ -35,11 +35,16 @@ import { useSetRecoilState } from 'recoil';
 
 const cn = classNames.bind(styles);
 
+const SET_VALUE_OPTION = {
+  shouldValidate: true,
+  shouldDirty: true,
+  shouldTouch: true,
+};
+
 interface DateInputProps {
   icon: ReactNode;
   [key: string]: any;
 }
-
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   ({ className, icon, onClick, ...others }, ref) => (
     <div className={cn('date-input')} onClick={onClick}>
@@ -57,12 +62,6 @@ interface MeetupCreationForm
 interface MeetupCreationFormProp {
   close: () => void;
 }
-
-const SET_VALUE_OPTION = {
-  shouldValidate: true,
-  shouldDirty: true,
-  shouldTouch: true,
-};
 
 // TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
 const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {

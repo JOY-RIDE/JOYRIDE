@@ -1,10 +1,8 @@
 @use '../../../styles/variables.scss' as *;
 
 .wrapper {
+  margin-top: 6rem;
   text-align: center;
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
 
   & > svg {
     font-size: 6rem;
