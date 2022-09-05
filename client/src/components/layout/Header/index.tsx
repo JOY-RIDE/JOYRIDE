@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { isLoggedInState } from 'states/auth';
-import { useRecoilState } from 'recoil';
+import { userDataState, userIDState } from 'states/auth';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Container from 'components/common/Container';
 import logo from 'assets/images/logo.svg';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
@@ -22,13 +22,13 @@ interface Iform {
 }
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const { pathname } = useLocation();
   const isAtHome = useMatch('/');
   const isAtSignup = useMatch('/signup');
   const isAtLogin = useMatch('/login');
   const loginNextQuery =
     isAtHome || isAtSignup || isAtLogin ? '' : `?next=${pathname}`;
+  const userData = useRecoilValue(userDataState);
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
   const toggleMenu = () => setMenuToggle(menuToggle => !menuToggle);
@@ -36,8 +36,9 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(menuRef, closeMenu);
 
+  const setUserID = useSetRecoilState(userIDState);
   const handleLogoutClick = () => {
-    userAPI.logout(setIsLoggedIn);
+    userAPI.logout(setUserID);
     closeMenu();
   };
 
@@ -61,7 +62,7 @@ const Header = () => {
             <img className={cn('logo')} src={logo} alt="로고" />
           </Link>
 
-          {isLoggedIn ? (
+          {userData ? (
             <div className={cn('logged-in')}>
               <Link
                 to="/mypage"

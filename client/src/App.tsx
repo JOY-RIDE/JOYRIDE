@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { isLoggedInState } from 'states/auth';
+import { userIDState } from 'states/auth';
 import { authAPI } from 'apis/authAPI';
 import Layout from 'routes/Layout';
 import Home from 'routes/Home';
@@ -43,10 +43,10 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setUserID = useSetRecoilState(userIDState);
   const { silentRefresh } = authAPI;
   useEffect(() => {
-    silentRefresh(setIsLoggedIn);
+    silentRefresh(setUserID);
   }, []);
 
   return (
