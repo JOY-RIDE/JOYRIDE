@@ -12,14 +12,14 @@ interface MeetupRouteProps {
 }
 
 const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
-  <div className={cn('container')}>
+  <div className={cn('container', { long: courseName })}>
     {courseName && <span className={cn('course')}>{courseName}</span>}
     <ul className={cn('path')}>
       {path.map((stop, index) => (
         <>
           {index > 0 && <BsArrowRight key={index} />}
           <li key={stop}>
-            <Chip size="sm" content={stop} isActive isDeletable={false} />
+            <Chip size="md" content={stop} isActive isDeletable={false} />
           </li>
         </>
       ))}
