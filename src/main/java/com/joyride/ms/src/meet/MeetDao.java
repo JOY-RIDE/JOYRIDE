@@ -109,7 +109,9 @@ public class MeetDao {
         String selectMeetByIdQuery = "select count(j.id) as join_people, max_people from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
                 "where m.id = ?";
         String selectAdminByMeetIdQuery = "select id,nickname,manner,profile_img_url from user where id = (select user_id from meet where id = ?)";
-        String selectParticipantsByMeetIdQuery = "select id,nickname,manner,profile_img_url from user where id = (select user_id from meet_join where meet_id = ?)";
+        String selectParticipantsByMeetIdQuery = "select user.id,nickname,manner,profile_img_url from user join meet_join\n" +
+                "                                          on user.id  = meet_join.user_id\n" +
+                "                                          where meet_join.meet_id = ?";
 
         return this.jdbcTemplate.queryForObject(selectMeetByIdQuery,
                 (rs, rowNum) -> new MeetDetailRes(
@@ -124,7 +126,7 @@ public class MeetDao {
                         rs.getInt("join_people"),
                         rs.getInt("max_people"),
                         this.jdbcTemplate.query(selectParticipantsByMeetIdQuery,
-                                (rs3,rowNum2) ->
+                                (rs3,rowNum3) ->
                                         new UserDetail(
                                                 rs3.getInt("id"),
                                                 rs3.getString("nickname"),
