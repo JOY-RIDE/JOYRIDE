@@ -1,9 +1,11 @@
 package com.joyride.ms.src.user;
 
+import com.joyride.ms.src.auth.dto.PatchPasswordReq;
 import com.joyride.ms.src.s3.AwsS3Service;
 import com.joyride.ms.src.s3.dto.PostProfileImgRes;
 import com.joyride.ms.src.user.dto.GetUserRes;
 import com.joyride.ms.src.user.dto.PatchUserReq;
+import com.joyride.ms.src.user.dto.UserPasswordReq;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponse;
@@ -167,6 +169,45 @@ public class UserController {
             awsS3Service.fileDelete(filekey);
             userService.modifyProfileImgToDefault(userId);
             return new BaseResponse<>("삭제에 성공하였습니다.");
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 2.7 소셜 유저 확인 API
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/provider")
+    public BaseResponse<String> checkUserProvider(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (userProvider.checkProviderById(userId) == 1) {
+                return new BaseResponse<>("일반 계정입니다.");
+            } else {
+                return new BaseResponse<>(BaseResponseStatus.USERS_SOCIAL);
+            }
+        }
+        catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 2.8 비밀번호 재설정(로그인 상태) API
+     *
+     * @param request
+     * @return
+     */
+    @PatchMapping("/password")
+    public BaseResponse<BaseResponseStatus> patchUserPasswordById(HttpServletRequest request, @RequestBody UserPasswordReq userPasswordReq) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+
+        try {
+            userService.modifyPasswordById(userId, userPasswordReq);
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
