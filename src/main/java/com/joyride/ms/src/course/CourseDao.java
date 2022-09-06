@@ -41,6 +41,16 @@ public class CourseDao {
         return this.jdbcTemplate.queryForObject(countCourseLikeQuery, Integer.class, countCourseLikeParams);
     }
 
+    // 코스 이름 조회
+    public List<String> selectCourseTitle(){
+        String getCourserTitleQuery = "select title from course";
+        //db정보 가져오기
+        return this.jdbcTemplate.query(getCourserTitleQuery,
+                (rs,rowNum) -> new String(
+                        rs.getString("title")
+                ));
+    }
+
 
 //    public void insertCourse(CourseInfo courseInfo){
 //
