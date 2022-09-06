@@ -34,7 +34,7 @@ const Meetup = () => {
 
       {/* TODO: 모임장 */}
 
-      <div className={cn('fields-wrapper')}>
+      <section className={cn('fields-section')}>
         <div className={cn('fields')}>
           <div className={cn('field')}>
             <label className={cn('label')}>모집 마감 일시</label>
@@ -125,9 +125,29 @@ const Meetup = () => {
         <div className={cn('fields')}>
           <p className={cn('content')}>{meetup.content}</p>
         </div>
-      </div>
+      </section>
 
-      <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+      <section className={cn('route-section')}>
+        <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+      </section>
+
+      {/* TODO */}
+      <section className={cn('participants-section')}>
+        <h2 className={cn('subtitle')}>
+          참여 중인 인원
+          <div className={cn('subtitle__num')}>
+            <span className={cn('current')}>{meetup.participants.length}</span>/
+            {meetup.maxNumOfParticipants}
+          </div>
+        </h2>
+      </section>
+
+      <section className={cn('comments-section')}>
+        <h2 className={cn('subtitle')}>
+          댓글
+          <span className={cn('subtitle__num')}>12</span>
+        </h2>
+      </section>
 
       <div className={cn('join-bar')}>
         <div>

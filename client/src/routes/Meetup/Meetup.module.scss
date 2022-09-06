@@ -1,5 +1,9 @@
 @use '../../styles/variables.scss' as *;
 
+.container {
+  padding-bottom: 2rem;
+}
+
 .title-wrapper {
   display: flex;
   gap: 5rem;
@@ -18,12 +22,18 @@
   color: $color-grey-600;
 }
 
-.fields-wrapper {
+.container {
+  & section + section {
+    margin-top: 5rem;
+  }
+}
+
+.fields-section {
+  margin-top: 4rem;
   color: $color-grey-800;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  margin: 4rem 0; // TODO
 }
 
 .fields {
@@ -56,6 +66,23 @@
   line-height: 1.5;
 }
 
+.subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  gap: 1rem;
+
+  & .subtitle__num {
+    color: $color-grey-500;
+  }
+}
+
+.participants-section {
+  & .current {
+    color: $color-main;
+  }
+}
+
 .join-bar {
   background: white;
   // border-top: $border-grey; // TODO
@@ -73,6 +100,10 @@
     display: flex;
     gap: 1rem;
     align-items: center;
+
+    & p {
+      color: $color-grey-800;
+    }
   }
 
   & .join-btn {
