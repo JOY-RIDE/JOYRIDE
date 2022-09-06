@@ -13,6 +13,16 @@ import 'dayjs/locale/ko';
 import MeetupRoute from 'components/meetup/MeetupRoute';
 import MeetupPathMap from 'components/meetup/MeetupPathMap';
 
+const testPath = [
+  '양수역',
+  '벗고개',
+  '서후고개',
+  '증미산',
+  '시나사 계곡',
+  '양수역',
+  '벗고개',
+];
+
 dayjs.locale('ko');
 
 const cn = classNames.bind(styles);
@@ -127,7 +137,8 @@ const Meetup = () => {
       </section>
 
       <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
-      <MeetupPathMap path={meetup.path} />
+
+      <MeetupPathMap path={testPath} />
 
       {/* TODO */}
       <section className={cn('participants-section')}>
