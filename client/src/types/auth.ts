@@ -1,3 +1,5 @@
+import { BicycleType, Gender, RidingSkill } from './common';
+
 export interface SignupStepControls {
   decreaseStep: () => void;
   increaseStep: () => void;
@@ -14,15 +16,21 @@ export interface NewUser {
   email: string;
   password: string;
   nickname: string;
-  gender: string;
+  gender: Gender;
   birthYear: number;
-  bicycleType: string;
+  bicycleType: BicycleType;
   bicycleCareer: number;
   introduce: string | null;
   isTermsEnable: boolean;
 }
 
-export type UserDataState = {
+export interface UserProfile {
   nickname: string;
   image: string;
-} | null;
+  gender: Gender;
+  birthYear: number;
+  bicycleType: BicycleType;
+  ridingSkill: RidingSkill;
+  introduce: string | null;
+  manner: number;
+}

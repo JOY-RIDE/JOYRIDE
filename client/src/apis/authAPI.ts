@@ -78,7 +78,7 @@ export const authAPI = (() => {
     setUserID: SetUserID,
     userID: number
   ) => {
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    axios.defaults.headers.common.Authorization = accessToken;
     setUserID(userID);
     // TODO: localStorage
 

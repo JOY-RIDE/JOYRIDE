@@ -4,7 +4,7 @@ import { joyrideAxios as axios } from './axios';
 type SetUserID = SetterOrUpdater<number | null>;
 
 export const userAPI = {
-  async getUserData(userID: number) {
+  async getProfile(userID: number) {
     const {
       data: { code, result },
     } = await axios.get(`/users/${userID}`);
@@ -14,7 +14,11 @@ export const userAPI = {
       throw new Error(code);
     }
 
-    return { nickname: result.nickname, image: result.profileImgUrl };
+    return {
+      ...result,
+      image: result.profileImgUrl,
+      ridingSkill: result.bicycleCareer,
+    };
   },
 
   async logout(setUserID: SetUserID) {

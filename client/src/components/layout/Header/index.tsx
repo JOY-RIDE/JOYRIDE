@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { userDataState, userIDState } from 'states/auth';
+import { userProfileState, userIDState } from 'states/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Container from 'components/common/Container';
 import logo from 'assets/images/logo.svg';
@@ -14,7 +14,6 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { userAPI } from 'apis/userAPI';
-import { USER_DEFAULT_IMAGE } from 'utils/urls';
 
 const cn = classNames.bind(styles);
 
@@ -27,7 +26,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const isAtAuthPage = pathname.includes('/auth/');
   const loginNextQuery = isAtHome || isAtAuthPage ? '' : `?next=${pathname}`;
-  const userData = useRecoilValue(userDataState);
+  const userProfile = useRecoilValue(userProfileState);
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
   const toggleMenu = () => setMenuToggle(menuToggle => !menuToggle);
@@ -61,7 +60,7 @@ const Header = () => {
             <img className={cn('logo')} src={logo} alt="로고" />
           </Link>
 
-          {userData ? (
+          {userProfile ? (
             <div className={cn('logged-in')}>
               <Link
                 to="/mypage"
@@ -70,10 +69,9 @@ const Header = () => {
               >
                 <img
                   className={cn('profile-img')}
-                  src={userData.image || USER_DEFAULT_IMAGE}
+                  src={userProfile.image}
                   alt="프로필 사진"
                 />
-                {/* <FaRegUserCircle /> */}
               </Link>
               <button aria-label="로그아웃 버튼" onClick={handleLogoutClick}>
                 <FiLogOut />
