@@ -1,0 +1,52 @@
+@use '../../../styles/variables.scss' as *;
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  background-color: $color-grey-100;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.8rem 1rem;
+}
+
+.each {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  line-height: 1.44rem;
+}
+
+.left {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-weight: 700;
+  .stars {
+    color: #ffa740;
+  }
+}
+
+.created-at {
+  color: $color-grey-500;
+}
+
+.content {
+  font-size: 1.4rem;
+  font-weight: 1.68rem;
+  color: $color-grey-800;
+}
+
+.field {
+  background-color: $color-main;
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1.3rem;
+}

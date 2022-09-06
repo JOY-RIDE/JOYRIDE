@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styles from './SortItem.module.scss';
 import classNames from 'classnames/bind';
-import { isCourseSortActiveState } from 'states/common';
+import { isCourseSortActiveState } from 'states/course';
 
 const cn = classNames.bind(styles);
 
@@ -14,6 +14,7 @@ interface SortProps {
 
 const SortItem = ({ setCurrentSort, currentSort }: SortProps) => {
   const setIsSortActive = useSetRecoilState(isCourseSortActiveState);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <Link
@@ -21,7 +22,7 @@ const SortItem = ({ setCurrentSort, currentSort }: SortProps) => {
       to={
         currentSort !== '가나다순'
           ? `&sort_by=${JSON.stringify(currentSort).replace(/\"/gi, '')}`
-          : '/roads'
+          : ``
       }
       onClick={() => {
         setCurrentSort(currentSort);

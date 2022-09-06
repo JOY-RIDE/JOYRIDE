@@ -1,0 +1,27 @@
+@use '../../../styles/variables.scss' as *;
+
+.boundary {
+  position: relative;
+}
+
+.toggle-btn {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: $color-grey-600;
+
+  & span {
+    font-weight: 600;
+  }
+
+  & svg {
+    color: $color-grey-500;
+    font-size: 1.4rem;
+  }
+}
+
+.board-container {
+  &.hidden {
+    display: none;
+  }
+}

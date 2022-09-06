@@ -4,7 +4,7 @@ import styles from './SortBox.module.scss';
 import classNames from 'classnames/bind';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
-import { isCourseSortActiveState } from 'states/common';
+import { isCourseSortActiveState } from 'states/course';
 import SortItem from '../SortItem';
 
 const cn = classNames.bind(styles);
