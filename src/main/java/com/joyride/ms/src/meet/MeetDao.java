@@ -3,6 +3,7 @@ package com.joyride.ms.src.meet;
 import com.joyride.ms.src.meet.dto.MeetCreateReq;
 import com.joyride.ms.src.meet.dto.MeetDetailRes;
 import com.joyride.ms.src.meet.dto.MeetListRes;
+import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.src.user.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +31,6 @@ public class MeetDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @Transactional
     public Integer insertMeet(Integer userId, MeetCreateReq meetCreateReq, String meeting_img_url) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         String insertMeetQuery = "INSERT INTO meet (user_id, course_name, title, local,riding_skill, path_difficulty,meeting_img_url,gender, max_people, path, participation_fee, content,min_year,max_year, meeting_date, due_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -68,6 +68,19 @@ public class MeetDao {
         }
 
         return meetId;
+    }
+
+    public void insertMeetJoin(Integer userId,Integer meetId) {
+        String insertMeetJoinQuery = "insert into meet_join (user_id, meet_id) values (?,?)";
+        Object[] insertMeetJoinParams = new Object[]{userId, meetId};
+
+        this.jdbcTemplate.update(insertMeetJoinQuery, insertMeetJoinParams);
+    }
+
+    public int checkMeetJoinById(Integer userId,Integer meetId) {
+        String checkJoinByIdQuery = "select exists(select id from meet_join where user_id = ? and meet_id = ?)";
+        Object[] checkJoinByIdParams = new Object[]{userId, meetId};
+        return this.jdbcTemplate.queryForObject(checkJoinByIdQuery, int.class, checkJoinByIdParams);
     }
 
     public List<MeetListRes> selectMeet() {
