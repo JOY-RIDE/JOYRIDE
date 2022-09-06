@@ -23,11 +23,11 @@ export const COURSE_FILTERS_INITIAL_STATE = {
 };
 
 export const courseFiltersState = atom<CourseFiltersState>({
-  key: 'meetupFilters',
+  key: 'courseFilters',
   default: COURSE_FILTERS_INITIAL_STATE,
 });
 export const courseBoardFiltersState = atom<CourseFiltersState>({
-  key: 'meetupFilterBoard',
+  key: 'courseFilterBoard',
   default: COURSE_FILTERS_INITIAL_STATE,
 });
 

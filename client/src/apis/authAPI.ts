@@ -63,7 +63,7 @@ export const authAPI = (() => {
     } = await axios.post('/auth/jwt');
 
     console.log(code, result);
-    // TODO: 로그아웃 했을 때/중간에 만료됐을 때?
+    // TODO: 자동 로그인 refresh token 중간에 만료됐을 때?
     if (code !== 1000) {
       userAPI.handleLogout(setUserID);
       return;

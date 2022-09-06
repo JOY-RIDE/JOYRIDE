@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Meetup } from 'types/meetup';
 import { Link } from 'react-router-dom';
-import MeetupInfo from '../MeetupInfo';
+import MeetupSummary from '../MeetupSummary';
 import MeetupRoute from '../MeetupRoute';
 import styles from './MeetupItem.module.scss';
 import classNames from 'classnames/bind';
@@ -15,7 +15,7 @@ interface MeetupItemProp {
 const MeetupItem = memo(({ meetup }: MeetupItemProp) => (
   <Link to={`/meetups/${meetup.id}`} className={cn('link')}>
     <article className={cn('meetup')}>
-      <MeetupInfo {...meetup} />
+      <MeetupSummary {...meetup} />
       <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
     </article>
   </Link>

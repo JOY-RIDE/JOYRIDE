@@ -5,12 +5,12 @@ import {
   stringifyRidingSkill,
 } from 'utils/stringify';
 import { calculateRemainingDays } from 'utils/calculate';
-import styles from './MeetupInfo.module.scss';
+import styles from './MeetupSummary.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-const MeetupInfo = (props: Meetup) => (
+const MeetupSummary = (props: Meetup) => (
   <div className={cn('container')}>
     <div className={cn('text')}>
       <header className={cn('header')}>
@@ -29,14 +29,14 @@ const MeetupInfo = (props: Meetup) => (
         <h2 className={cn('title')}>{props.title}</h2>
       </header>
 
-      <div className={cn('details')}>
-        <div className={cn('detail')}>
+      <div className={cn('summaries')}>
+        <div className={cn('summary')}>
           <label className={cn('label')}>코스 난이도</label>
           <span className={cn('data', 'emphasized')}>
             {stringifyMeetupDifficulty(props.pathDifficulty)}
           </span>
         </div>
-        <div className={cn('detail')}>
+        <div className={cn('summary')}>
           <label className={cn('label')}>자전거 종류</label>
           <ul className={cn('data')}>
             {props.bicycleTypes.map((type, index) => (
@@ -46,7 +46,7 @@ const MeetupInfo = (props: Meetup) => (
             ))}
           </ul>
         </div>
-        <div className={cn('detail')}>
+        <div className={cn('summary')}>
           <label className={cn('label')}>라이딩 실력</label>
           <ul className={cn('data')}>
             <li className={cn('emphasized')}>
@@ -54,7 +54,7 @@ const MeetupInfo = (props: Meetup) => (
             </li>
           </ul>
         </div>
-        <div className={cn('detail')}>
+        <div className={cn('summary')}>
           <label className={cn('label')}>인원</label>
           <div className={cn('data')}>
             <span className={cn('emphasized')}>
@@ -66,13 +66,8 @@ const MeetupInfo = (props: Meetup) => (
       </div>
     </div>
 
-    {/* TODO: 기본 이미지 */}
-    <img
-      className={cn('img')}
-      src={props.image ? props.image : undefined}
-      alt={props.title}
-    />
+    <img className={cn('img')} src={props.image} alt={props.title} />
   </div>
 );
 
-export default MeetupInfo;
+export default MeetupSummary;

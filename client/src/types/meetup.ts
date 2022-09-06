@@ -3,7 +3,7 @@ import { CourseName } from './course';
 
 export type MeetupID = number;
 export type MeetupTitle = string;
-export type MeetupImage = null | string;
+export type MeetupImage = string; // TODO
 export type MeetupMeetingDate = Date;
 export type MeetupDueDate = Date;
 export type MeetupCourseName = null | CourseName;
