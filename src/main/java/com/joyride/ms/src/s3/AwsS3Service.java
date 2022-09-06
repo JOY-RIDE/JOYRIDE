@@ -64,7 +64,6 @@ public class AwsS3Service {
             if (isFileExists == false) {
                 throw new BaseException(AWS_FILE_NOT_FOUND);
             }
-
             amazonS3Client.deleteObject(this.bucket, (fileName).replace(File.separatorChar, '/'));
         } catch (AmazonServiceException e) {
             e.printStackTrace();

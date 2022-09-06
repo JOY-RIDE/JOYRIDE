@@ -82,6 +82,12 @@ public class UserDao {
                 user_id);
     }
 
+    public String selectPasswordById(Integer userId) {
+        String selectPasswordByIdQuery = "select password from user where id = ? and status = 1";
+        return this.jdbcTemplate.queryForObject(selectPasswordByIdQuery, String.class, userId);
+
+    }
+
     public int checkId(Integer userId) {
         String checkIdQuery = "select exists(select nickname from user where id = ? and status = 1)";
         Integer checkIdParam = userId;
@@ -98,6 +104,12 @@ public class UserDao {
         String checkNameQuery = "select exists(select nickname from user where nickname = ?)";
         String checkNameParam = nickname;
         return this.jdbcTemplate.queryForObject(checkNameQuery, int.class, checkNameParam);
+    }
+
+    public int checkProviderById(Integer userId) {
+        String checkProviderByIdQuery = "select exists(select id from user where id = ? and provider = 'none')";
+        Integer checkProviderByIdParam = userId;
+        return this.jdbcTemplate.queryForObject(checkProviderByIdQuery, int.class, checkProviderByIdParam);
     }
 
     public int checkStatusDisabled(String email, String provider) {
@@ -118,10 +130,16 @@ public class UserDao {
         this.jdbcTemplate.update(updateStatusQuery, updateStatusParam);
     }
 
-    public void updatePassword(String email, String encodedPassword) {
-        String updatePasswordQuery = "update user set password = ? where email = ? and provider = 'none'";
-        Object[] updatePasswordParams = new Object[]{encodedPassword, email};
-        this.jdbcTemplate.update(updatePasswordQuery, updatePasswordParams);
+    public void updatePasswordByEmail(String email, String encodedPassword) {
+        String updatePasswordByEmailQuery = "update user set password = ? where email = ? and provider = 'none'";
+        Object[] updatePasswordByEmailParams = new Object[]{encodedPassword, email};
+        this.jdbcTemplate.update(updatePasswordByEmailQuery, updatePasswordByEmailParams);
+    }
+
+    public void updatePasswordById(Integer userId, String encodedPassword) {
+        String updatePasswordByIdQuery = "update user set password = ? where id = ? and provider = 'none'";
+        Object[] updatePasswordByIdParams = new Object[]{encodedPassword, userId};
+        this.jdbcTemplate.update(updatePasswordByIdQuery, updatePasswordByIdParams);
     }
 
     public void updateProfile(Integer userId, PatchUserReq patchUserReq) {
@@ -142,7 +160,7 @@ public class UserDao {
     }
 
     public void updateProfileImgToDefault(Integer userId) {
-        String updateProfileImgToDefaultQuery = "update user set profile_img_url = 'https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.png' where id = ?";
+        String updateProfileImgToDefaultQuery = "update user set profile_img_url = 'https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.svg' where id = ?";
         this.jdbcTemplate.update(updateProfileImgToDefaultQuery,userId);
     }
 

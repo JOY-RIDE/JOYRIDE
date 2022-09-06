@@ -254,14 +254,14 @@ public class AuthController {
     }
 
     /**
-     * 1.9.4 비밀번호 재설정 API
+     * 1.9.4 비밀번호 재설정 (비로그인 상태) API
      * [PATCH] /auth/password
      *
      * @param request
      * @return
      */
     @PatchMapping("/password")
-    public BaseResponse<BaseResponseStatus> patchUserPassword(HttpServletRequest request, @RequestBody PatchPasswordReq patchPasswordReq) {
+    public BaseResponse<BaseResponseStatus> patchUserPasswordByEmail(HttpServletRequest request, @RequestBody PatchPasswordReq patchPasswordReq) {
         try {
             userService.modifyPassword(patchPasswordReq);
             return new BaseResponse<>(BaseResponseStatus.SUCCESS);

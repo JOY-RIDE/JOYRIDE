@@ -35,6 +35,7 @@ public enum BaseResponseStatus {
     DUPLICATE_CATEGORY(false, 2104, "같은이름의 카테고리가 이미 존재합니다."),
 
     INVALID_PROVIDER(false, 2013, "올바르지 않은 provider입니다. (예: google)"),
+    USERS_SOCIAL(false,2014,"소셜계정 입니다."),
 
     // 300대 -> 3. todo 도메인 에러
     USERS_CATEGORY_NOT_EXISTS(false, 2301, "해당하는 유저와 일치하는 카테고리가 없습니다."),
