@@ -176,7 +176,7 @@ export function getMeetupCreationFormFieldErrorMessage(
     case 'path': {
       switch (errorType) {
         case 'validate':
-          return '최소 출발지와 도착지를 등록해야 합니다';
+          return '최소 출발지와 종료지를 등록해야 합니다';
         default:
           throw new Error();
       }

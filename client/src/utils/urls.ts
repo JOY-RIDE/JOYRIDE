@@ -5,5 +5,5 @@ export const USER_DEFAULT_IMAGE =
 
 export const START_MARKER_IMAGE =
   'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png';
-export const ARRIVE_MARKER_IMAGE =
+export const FINISH_MARKER_IMAGE =
   'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png';

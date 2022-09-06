@@ -1,14 +1,14 @@
 import { useRef, useEffect } from 'react';
 import { MeetupPath } from 'types/meetup';
 import {
-  ARRIVE_MARKER_IMAGE,
+  FINISH_MARKER_IMAGE,
   START_MARKER_IMAGE,
   USER_DEFAULT_IMAGE,
 } from 'utils/urls';
 import styles from './MeetupPathMap.module.scss';
 
 const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(50, 45);
-const CIRCLE_IMAGE_SIZE = new window.kakao.maps.Size(20, 20);
+const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(20, 20);
 
 const MAP_OPTION = {
   center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
@@ -37,12 +37,16 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       placeSearcher.keywordSearch(
         stop,
         (data: any, status: any) => {
-          if (!status === window.kakao.maps.services.Status.OK) return;
-
-          const place = data[0];
-          newBounds.extend(new window.kakao.maps.LatLng(place.y, place.x));
-          map.setBounds(newBounds, 0, 0);
-          attachMarker(place, stop, stopIndex);
+          try {
+            if (!status === window.kakao.maps.services.Status.OK) return;
+            const place = data[0];
+            newBounds.extend(new window.kakao.maps.LatLng(place.y, place.x));
+            map.setBounds(newBounds, 0, 0);
+            attachMarker(place, stop, stopIndex);
+          } catch (e) {
+            if (e instanceof TypeError) return;
+            else throw new Error(); // TODO
+          }
         },
         { size: 1 }
       )
@@ -65,15 +69,22 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     function getMarkerImage(stopIndex: number) {
       switch (stopIndex) {
         case 0:
-          return getMarkerImageObj(START_MARKER_IMAGE, FLAG_IMAGE_SIZE);
+          return getMarkerImageObj(START_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
+            alt: '출발지',
+          });
         case -1:
           return path[0] === path[path.length - 1]
-            ? getMarkerImageObj(ARRIVE_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
+            ? getMarkerImageObj(FINISH_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
                 offset: new window.kakao.maps.Point(15, 45),
+                alt: '종료지',
               })
-            : getMarkerImageObj(ARRIVE_MARKER_IMAGE, FLAG_IMAGE_SIZE);
+            : getMarkerImageObj(FINISH_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
+                alt: '종료지',
+              });
         default:
-          return getMarkerImageObj(USER_DEFAULT_IMAGE, CIRCLE_IMAGE_SIZE); // TODO
+          return getMarkerImageObj(USER_DEFAULT_IMAGE, DEFAULT_IMAGE_SIZE, {
+            alt: '경유지',
+          }); // TODO
       }
     }
 
