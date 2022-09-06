@@ -15,6 +15,7 @@ import MeetupRoute from 'components/meetup/MeetupRoute';
 dayjs.locale('ko');
 
 const cn = classNames.bind(styles);
+const DATE_FORMAT = 'M월 D일 a h:mm';
 
 const Meetup = () => {
   const { meetupId } = useParams();
@@ -38,14 +39,14 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>모집 마감 일시</label>
             <span className={cn('data')}>
-              {dayjs(meetup.dueDate).format('M월 D일 a h:mm')}
+              {dayjs(meetup.dueDate).format(DATE_FORMAT)}
             </span>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>모임 일시</label>
             <span className={cn('data', 'emphasized')}>
-              {dayjs(meetup.meetingDate).format('M월 D일 a h:mm')}
+              {dayjs(meetup.meetingDate).format(DATE_FORMAT)}
             </span>
           </div>
         </div>
@@ -96,15 +97,10 @@ const Meetup = () => {
           <div className={cn('field', 'age')}>
             <label className={cn('label')}>나이</label>
             <div className={cn('data')}>
-              <div className={cn('birthYear')}>
-                <span className={cn('emphasized')}>{meetup.minBirthYear}</span>{' '}
-                년생
-              </div>
-              <span className={cn('tilde')}>~</span>
-              <div className={cn('birthYear')}>
-                <span className={cn('emphasized')}>{meetup.maxBirthYear}</span>{' '}
-                년생
-              </div>
+              <span className={cn('emphasized')}>{meetup.minBirthYear}</span>
+              년생 ~{' '}
+              <span className={cn('emphasized')}>{meetup.maxBirthYear}</span>
+              년생
             </div>
           </div>
 
@@ -120,7 +116,7 @@ const Meetup = () => {
             <div className={cn('data')}>
               <span className={cn('emphasized')}>
                 {meetup.participationFee}
-              </span>{' '}
+              </span>
               원
             </div>
           </div>
@@ -132,6 +128,19 @@ const Meetup = () => {
       </div>
 
       <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+
+      <div className={cn('join-bar')}>
+        <div>
+          <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
+            {/* TODO: active */}
+            <HiOutlineBookmark />
+          </button>
+          <p>{dayjs(meetup.dueDate).format(DATE_FORMAT)} 모집 마감</p>
+        </div>
+        <button className={cn('join-btn')} aria-label="모임 참가 버튼">
+          참가하기
+        </button>
+      </div>
     </div>
   );
 };

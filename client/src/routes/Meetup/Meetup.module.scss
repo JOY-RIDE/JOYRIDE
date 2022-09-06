@@ -46,14 +46,6 @@
     gap: 0.5rem;
   }
 
-  &.age {
-    & .data {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-  }
-
   & .emphasized {
     color: $color-main;
     font-weight: 700;
@@ -62,4 +54,32 @@
 
 .content {
   line-height: 1.5;
+}
+
+.join-bar {
+  background: white;
+  // border-top: $border-grey; // TODO
+  // border-bottom: $border-grey;
+  position: fixed;
+  bottom: 0;
+  padding: 1.5rem 0;
+  width: calc(100% - 2 * $side-padding);
+  max-width: $max-width-page;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > div {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  & .join-btn {
+    background: $color-main;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.3rem;
+    font-weight: 700;
+  }
 }

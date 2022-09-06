@@ -8,7 +8,8 @@ const cn = classNames.bind(styles);
 
 const Footer = () => {
   const { pathname } = useLocation();
-  if (pathname.includes('/auth/')) return null;
+  if (pathname.includes('/auth/') || pathname.includes('/meetups/'))
+    return null;
   return (
     <footer className={cn('footer')}>
       <Container>
