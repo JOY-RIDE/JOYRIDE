@@ -110,7 +110,7 @@ public class UserController {
      */
 
     @PatchMapping("/profile")
-    public BaseResponse<BaseResponseStatus> patchProfile(@Validated HttpServletRequest request, @RequestBody PatchUserReq patchUserReq , BindingResult bindingResult) {
+    public BaseResponse<BaseResponseStatus> patchProfile(@Validated @RequestBody PatchUserReq patchUserReq , BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return new BaseResponse<>(errors);
@@ -139,7 +139,6 @@ public class UserController {
             String profile_img_fileKey = userProvider.retrieveById(userId).getProfile_img_url();
             if (!profile_img_fileKey.equals("https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.svg"))
                 awsS3Service.fileDelete(profile_img_fileKey.substring(55));
-
             String dirName = "profile/info/" + userId + "/profile-img";
             String profile_img_url = awsS3Service.upload(multipartFile, dirName);
             return new BaseResponse<>(userService.setProfileImg(userId, profile_img_url));

@@ -38,7 +38,7 @@ public class BaseResponse<T> {
 
     public BaseResponse(List<String> message) {
         this.isSuccess = false;
-        this.message = message.toString();
-        this.code = 2001;
+        this.message = message.get(0);
+        this.code = 2333;
     }
 }

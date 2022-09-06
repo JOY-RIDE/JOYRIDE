@@ -142,7 +142,7 @@ public class UserDao {
     }
 
     public void updateProfileImgToDefault(Integer userId) {
-        String updateProfileImgToDefaultQuery = "update user set profile_img_url = 'https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.png' where id = ?";
+        String updateProfileImgToDefaultQuery = "update user set profile_img_url = 'https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.svg' where id = ?";
         this.jdbcTemplate.update(updateProfileImgToDefaultQuery,userId);
     }
 
