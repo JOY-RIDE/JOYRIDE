@@ -1,0 +1,30 @@
+@use '../../../styles/variables.scss' as *;
+
+.option {
+  height: 2.5rem;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 1.3rem;
+  background-color: white;
+  border: 1px solid $color-grey-300;
+  font-size: 1.4rem;
+  line-height: 1.7rem;
+  cursor: pointer;
+  .content {
+    color: $color-grey-500;
+  }
+  .rating {
+    color: $color-main;
+  }
+}
+
+.active {
+  border: 1px solid $color-main;
+  background-color: $color-main;
+  .content {
+    color: white;
+    font-weight: 700;
+  }
+}

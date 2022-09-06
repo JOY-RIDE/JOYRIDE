@@ -1,4 +1,5 @@
-import { stringifyDifficulty, stringifyGender } from 'utils/stringify';
+import { CourseDifficulty } from 'types/course';
+import { stringifyMeetupDifficulty, stringifyGender } from 'utils/stringify';
 import {
   MeetupGender,
   MeetupOrderState,
@@ -59,10 +60,12 @@ export const LOCATIONS: Location[] = [
   '제주',
 ];
 export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<MeetupPathDifficulty>[] = [
-  { value: 1, content: stringifyDifficulty(1) },
-  { value: 2, content: stringifyDifficulty(2) },
-  { value: 3, content: stringifyDifficulty(3) },
+  { value: 1, content: stringifyMeetupDifficulty(1) },
+  { value: 2, content: stringifyMeetupDifficulty(2) },
+  { value: 3, content: stringifyMeetupDifficulty(3) },
 ];
+
+export const COURSE_DIFFICULTY: CourseDifficulty[] = ['1', '2', '3'];
 
 interface MeetupOrderOption extends MeetupOrderState {
   sign?: string;

@@ -98,6 +98,45 @@ export function getSignupFormFieldErrorMessage(
   }
 }
 
+type ReviewFormField =
+  | 'total'
+  | 'view'
+  | 'facility'
+  | 'accessibility'
+  | 'safety'
+  | 'totalRating'
+  | 'viewRating'
+  | 'facilityRating'
+  | 'accessibilityRating'
+  | 'safetyRating';
+export function getReviewFormFieldErrorMessage(
+  field: ReviewFormField,
+  errorType: string
+) {
+  switch (field) {
+    case 'total': {
+      switch (errorType) {
+        case 'required':
+          return '총평은 필수 항목입니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    case 'totalRating': {
+      switch (errorType) {
+        case 'required':
+          return '총 별점은 필수 항목입니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    default:
+      throw new Error();
+  }
+}
+
 type MeetupCreationFormField =
   | 'title'
   | 'meetingDate'

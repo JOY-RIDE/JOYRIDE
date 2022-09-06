@@ -1,1 +1,17 @@
 @use '../../../styles/variables.scss' as *;
+
+.like {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-top: 2.4rem;
+  text-align: center;
+  font-size: 2.7rem;
+  color: $color-red;
+  .likecnt {
+    font-size: 1rem;
+    line-height: 1.2rem;
+    color: $color-grey-600;
+    font-weight: 400;
+  }
+}
