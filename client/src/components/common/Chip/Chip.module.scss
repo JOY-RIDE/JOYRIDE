@@ -1,7 +1,6 @@
 @use '../../../styles/variables.scss' as *;
 
-.option {
-  cursor: pointer;
+.chip {
   border: 1px solid $color-grey-300;
   border-radius: 0.2rem;
   background: white;

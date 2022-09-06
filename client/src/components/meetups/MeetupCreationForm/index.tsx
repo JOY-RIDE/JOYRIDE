@@ -264,14 +264,15 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
             {path.map((stop, index) => (
               <>
                 {index > 0 && <BsArrowRight key={`${index}${stop}`} />}
-                <Chip
-                  key={`${stop}${index}`}
-                  size="sm"
-                  content={stop}
-                  isActive
-                  isDeletable
-                  onXClick={handlePathDelete(index)}
-                />
+                <li key={`${stop}${index}`}>
+                  <Chip
+                    size="sm"
+                    content={stop}
+                    isActive
+                    isDeletable
+                    onXClick={handlePathDelete(index)}
+                  />
+                </li>
               </>
             ))}
           </ul>

@@ -18,13 +18,9 @@ const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
       {path.map((stop, index) => (
         <>
           {index > 0 && <BsArrowRight key={index} />}
-          <Chip
-            key={stop}
-            size="sm"
-            content={stop}
-            isActive
-            isDeletable={false}
-          />
+          <li key={stop}>
+            <Chip size="sm" content={stop} isActive isDeletable={false} />
+          </li>
         </>
       ))}
     </ul>

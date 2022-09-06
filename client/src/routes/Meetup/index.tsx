@@ -10,7 +10,7 @@ import {
 } from 'utils/stringify';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import MeetupRoute from 'components/meetups/MeetupRoute';
+import MeetupRoute from 'components/meetup/MeetupRoute';
 
 dayjs.locale('ko');
 
