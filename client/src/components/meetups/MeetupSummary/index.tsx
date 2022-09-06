@@ -1,12 +1,11 @@
 import { Meetup } from 'types/meetup';
 import {
-  stringifyMeetupDifficulty,
-  stringifyDate,
+  stringifyMeetupPathDifficulty,
   stringifyRidingSkill,
 } from 'utils/stringify';
-import { calculateRemainingDays } from 'utils/calculate';
 import styles from './MeetupSummary.module.scss';
 import classNames from 'classnames/bind';
+import dayjs from 'dayjs';
 
 const cn = classNames.bind(styles);
 
@@ -16,14 +15,10 @@ const MeetupSummary = (props: Meetup) => (
       <header className={cn('header')}>
         <div className={cn('date-wrapper')}>
           <span className={cn('meeting-date')}>
-            {stringifyDate(props.meetingDate, {
-              year: false,
-              month: true,
-              day: true,
-            })}
+            {dayjs(props.meetingDate).format('M월 D일')}
           </span>
           <span className={cn('due-date')}>
-            {calculateRemainingDays(new Date(), props.dueDate)}일 뒤 모집 마감
+            {dayjs(props.dueDate).diff(new Date(), 'd')}일 뒤 모집 마감
           </span>
         </div>
         <h2 className={cn('title')}>{props.title}</h2>
@@ -33,7 +28,7 @@ const MeetupSummary = (props: Meetup) => (
         <div className={cn('summary')}>
           <label className={cn('label')}>코스 난이도</label>
           <span className={cn('data', 'emphasized')}>
-            {stringifyMeetupDifficulty(props.pathDifficulty)}
+            {stringifyMeetupPathDifficulty(props.pathDifficulty)}
           </span>
         </div>
         <div className={cn('summary')}>
@@ -58,7 +53,7 @@ const MeetupSummary = (props: Meetup) => (
           <label className={cn('label')}>인원</label>
           <div className={cn('data')}>
             <span className={cn('emphasized')}>
-              {props.participants ? props.participants.length : 0}
+              {props.participants.length}
             </span>
             /{props.maxNumOfParticipants}명
           </div>

@@ -3,7 +3,7 @@ import { SetterOrUpdater } from 'recoil';
 import { NewUser } from 'types/auth';
 import { userAPI } from './userAPI';
 
-type SetUserID = SetterOrUpdater<number | null>;
+type SetUserId = SetterOrUpdater<number | null>;
 
 // TODO: 클로저 공부
 export const authAPI = (() => {
@@ -41,7 +41,7 @@ export const authAPI = (() => {
     email: string,
     password: string,
     isAuto: boolean,
-    setUserID: SetUserID
+    setUserId: SetUserId
   ) => {
     const {
       data: { code, result },
@@ -54,10 +54,10 @@ export const authAPI = (() => {
       throw new Error(code);
     }
 
-    handleLogin(result.accessToken, setUserID, result.userId);
+    handleLogin(result.accessToken, setUserId, result.userId);
   };
 
-  const silentRefresh = async (setUserID: SetUserID) => {
+  const silentRefresh = async (setUserId: SetUserId) => {
     const {
       data: { code, result },
     } = await axios.post('/auth/jwt');
@@ -65,26 +65,26 @@ export const authAPI = (() => {
     console.log(code, result);
     // TODO: 자동 로그인 refresh token 중간에 만료됐을 때?
     if (code !== 1000) {
-      userAPI.handleLogout(setUserID);
+      userAPI.handleLogout(setUserId);
       return;
     }
 
     // refresh token 유효할 때
-    handleLogin(result.accessToken, setUserID, result.userId);
+    handleLogin(result.accessToken, setUserId, result.userId);
   };
 
   const handleLogin = (
     accessToken: string,
-    setUserID: SetUserID,
-    userID: number
+    setUserId: SetUserId,
+    userId: number
   ) => {
     axios.defaults.headers.common.Authorization = accessToken;
-    setUserID(userID);
+    setUserId(userId);
     // TODO: localStorage
 
     const JWT_EXPIRY_TIME_IN_SECONDS = 20 * 60;
     setTimeout(
-      () => silentRefresh(setUserID),
+      () => silentRefresh(setUserId),
       (JWT_EXPIRY_TIME_IN_SECONDS - 10) * 1000
     );
   };

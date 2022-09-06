@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { userProfileState, userIDState } from 'states/auth';
+import { userProfileState, userIdState } from 'states/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Container from 'components/common/Container';
 import logo from 'assets/images/logo.svg';
@@ -34,9 +34,9 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(menuRef, closeMenu);
 
-  const setUserID = useSetRecoilState(userIDState);
+  const setUserId = useSetRecoilState(userIdState);
   const handleLogoutClick = () => {
-    userAPI.logout(setUserID);
+    userAPI.logout(setUserId);
     closeMenu();
   };
 

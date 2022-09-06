@@ -1,7 +1,7 @@
 import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
-import { AGES, GENDERS, LOCATIONS } from 'utils/constants';
+import { GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
   getMeetupList: () => Meetup[];
@@ -12,7 +12,6 @@ interface MeetupAPI {
 // };
 
 // Mock
-// @ts-ignore
 const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   id: index,
   title: faker.lorem.sentence(),
@@ -28,10 +27,14 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
     3
   ),
   maxNumOfParticipants: faker.datatype.number(30),
-  participants: Array.from({ length: faker.datatype.number(15) }, () => ({})),
+  participants: Array.from(
+    { length: faker.datatype.number({ min: 1, max: 15 }) },
+    () => ({})
+  ),
   location: faker.helpers.arrayElement(LOCATIONS),
   gender: faker.helpers.arrayElement(['mixed', ...GENDERS]),
-  ages: faker.helpers.arrayElements(AGES),
+  minBirthYear: 1990,
+  maxBirthYear: 2000,
   participationFee: faker.datatype.number(20000),
   content: '',
 }));

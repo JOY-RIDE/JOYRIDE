@@ -1,10 +1,10 @@
 import { useRecoilValue } from 'recoil';
-import { userIDState } from 'states/auth';
+import { userIdState } from 'states/auth';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const PrivateRoute = () => {
   const { pathname } = useLocation();
-  return useRecoilValue(userIDState) ? (
+  return useRecoilValue(userIdState) ? (
     <Outlet />
   ) : (
     <Navigate to={`/auth/login?next=${pathname}`} replace />

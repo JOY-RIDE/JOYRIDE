@@ -2,17 +2,17 @@ import { userAPI } from 'apis/userAPI';
 import { atom, selector } from 'recoil';
 import { SignupFormData, UserProfile } from 'types/auth';
 
-export const userIDState = atom<number | null>({
-  key: 'userID',
+export const userIdState = atom<number | null>({
+  key: 'userId',
   default: null,
 });
 export const userProfileState = selector<UserProfile | null>({
   key: 'userProfile',
   get: async ({ get }) => {
     // TODO: 캐싱 확인
-    const userID = get(userIDState);
-    if (!userID) return null;
-    return await userAPI.getProfile(userID);
+    const userId = get(userIdState);
+    if (!userId) return null;
+    return await userAPI.getProfile(userId);
   },
 });
 

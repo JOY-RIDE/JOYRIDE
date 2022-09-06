@@ -1,13 +1,13 @@
 import { SetterOrUpdater } from 'recoil';
 import { joyrideAxios as axios } from './axios';
 
-type SetUserID = SetterOrUpdater<number | null>;
+type SetUserId = SetterOrUpdater<number | null>;
 
 export const userAPI = {
-  async getProfile(userID: number) {
+  async getProfile(userId: number) {
     const {
       data: { code, result },
-    } = await axios.get(`/users/${userID}`);
+    } = await axios.get(`/users/${userId}`);
 
     if (code !== 1000) {
       // TODO
@@ -21,7 +21,7 @@ export const userAPI = {
     };
   },
 
-  async logout(setUserID: SetUserID) {
+  async logout(setUserId: SetUserId) {
     const {
       data: { code, result },
     } = await axios.post('/users/signout');
@@ -29,12 +29,12 @@ export const userAPI = {
     // TODO
     console.log(code, result);
     if (code === 1000) {
-      this.handleLogout(setUserID);
+      this.handleLogout(setUserId);
     }
   },
 
-  handleLogout(setUserID: SetUserID) {
+  handleLogout(setUserId: SetUserId) {
     delete axios.defaults.headers.common.Authorization;
-    setUserID(null);
+    setUserId(null);
   },
 };
