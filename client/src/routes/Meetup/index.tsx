@@ -11,6 +11,7 @@ import {
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetupRoute from 'components/meetup/MeetupRoute';
+import MeetupPathMap from 'components/meetup/MeetupPathMap';
 
 dayjs.locale('ko');
 
@@ -45,7 +46,7 @@ const Meetup = () => {
 
           <div className={cn('field')}>
             <label className={cn('label')}>모임 일시</label>
-            <span className={cn('data', 'emphasized')}>
+            <span className={cn('data')}>
               {dayjs(meetup.meetingDate).format(DATE_FORMAT)}
             </span>
           </div>
@@ -94,7 +95,7 @@ const Meetup = () => {
             </span>
           </div>
 
-          <div className={cn('field', 'age')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>나이</label>
             <div className={cn('data')}>
               <span className={cn('emphasized')}>{meetup.minBirthYear}</span>
@@ -115,21 +116,18 @@ const Meetup = () => {
             <label className={cn('label')}>참가비</label>
             <div className={cn('data')}>
               <span className={cn('emphasized')}>
-                {meetup.participationFee}
+                {meetup.participationFee.toLocaleString()}
               </span>
               원
             </div>
           </div>
         </div>
 
-        <div className={cn('fields')}>
-          <p className={cn('content')}>{meetup.content}</p>
-        </div>
+        <p className={cn('content')}>{meetup.content}</p>
       </section>
 
-      <section className={cn('route-section')}>
-        <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
-      </section>
+      <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+      <MeetupPathMap path={meetup.path} />
 
       {/* TODO */}
       <section className={cn('participants-section')}>

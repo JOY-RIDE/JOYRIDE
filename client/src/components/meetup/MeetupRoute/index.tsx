@@ -12,7 +12,7 @@ interface MeetupRouteProps {
 }
 
 const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
-  <div className={cn('container', { long: courseName })}>
+  <section className={cn('container', { long: courseName })}>
     {courseName && <span className={cn('course')}>{courseName}</span>}
     <ul className={cn('path')}>
       {path.map((stop, index) => (
@@ -24,7 +24,7 @@ const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
         </>
       ))}
     </ul>
-  </div>
+  </section>
 );
 
 export default MeetupRoute;
