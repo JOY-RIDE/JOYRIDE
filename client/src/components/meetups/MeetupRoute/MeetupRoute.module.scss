@@ -1,33 +1,17 @@
 @use '../../../styles/variables.scss' as *;
 
-.container {
-  background: $color-grey-200;
-  padding: 0.6rem 1.5rem;
+.path {
   display: flex;
-  gap: 1rem;
-  font-size: 1.4rem;
-  overflow: hidden;
-}
+  gap: 0.5rem 0.4rem;
+  flex-wrap: wrap;
+  align-items: center;
 
-.course {
-  color: $color-main;
-  font-weight: 700;
-  flex-shrink: 0;
-}
+  & li {
+    font-weight: 700;
+    cursor: default;
+  }
 
-.path-wrapper {
-  color: $color-grey-600;
-  display: flex;
-}
-
-.to {
-  flex-shrink: 0;
-  white-space: pre;
-}
-
-.rest-path {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
+  & > svg {
+    font-size: 1rem;
+  }
 }

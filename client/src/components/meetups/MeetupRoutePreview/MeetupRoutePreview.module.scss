@@ -1,0 +1,33 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  background: $color-grey-200;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.4rem;
+  overflow: hidden;
+}
+
+.course {
+  color: $color-main;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.path {
+  color: $color-grey-600;
+  display: flex;
+}
+
+.to {
+  flex-shrink: 0;
+  white-space: pre;
+}
+
+.rest-path {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}

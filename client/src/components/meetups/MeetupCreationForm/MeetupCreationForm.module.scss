@@ -90,6 +90,10 @@
     flex-wrap: wrap;
     align-items: center;
 
+    & li {
+      font-weight: 700;
+    }
+
     & > svg {
       font-size: 1rem;
     }

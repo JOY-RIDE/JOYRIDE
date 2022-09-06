@@ -1,6 +1,8 @@
 import { MeetupCourseName, MeetupPath } from 'types/meetup';
 import styles from './MeetupRoute.module.scss';
 import classNames from 'classnames/bind';
+import { BsArrowRight } from 'react-icons/bs';
+import Chip from 'components/common/Chip';
 
 const cn = classNames.bind(styles);
 
@@ -9,21 +11,24 @@ interface MeetupRouteProps {
   path: MeetupPath;
 }
 
-const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => {
-  const pathLength = path.length;
-  // const from = path[0];
-  const to = path[pathLength - 1];
-  const restPathString = path.slice(0, pathLength - 1).join(' → ');
-  return (
-    <div className={cn('container')}>
-      {courseName && <span className={cn('course')}>{courseName}</span>}
-      {/* TODO: 코스명 너무 길 때 */}
-      <div className={cn('path-wrapper')}>
-        <p className={cn('rest-path')}>{restPathString}</p>
-        <span className={cn('to')}> → {to}</span>
-      </div>
-    </div>
-  );
-};
+const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
+  <div className={cn('container')}>
+    {courseName && <span className={cn('course')}>{courseName}</span>}
+    <ul className={cn('path')}>
+      {path.map((stop, index) => (
+        <>
+          {index > 0 && <BsArrowRight key={index} />}
+          <Chip
+            key={stop}
+            size="sm"
+            content={stop}
+            isActive
+            isDeletable={false}
+          />
+        </>
+      ))}
+    </ul>
+  </div>
+);
 
 export default MeetupRoute;

@@ -10,9 +10,11 @@ import {
 } from 'utils/stringify';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import MeetupRoute from 'components/meetups/MeetupRoute';
+
+dayjs.locale('ko');
 
 const cn = classNames.bind(styles);
-dayjs.locale('ko');
 
 const Meetup = () => {
   const { meetupId } = useParams();
@@ -128,6 +130,8 @@ const Meetup = () => {
           <p className={cn('content')}>{meetup.content}</p>
         </div>
       </div>
+
+      <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
     </div>
   );
 };
