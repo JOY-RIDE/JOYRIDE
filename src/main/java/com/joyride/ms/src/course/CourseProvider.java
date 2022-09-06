@@ -10,6 +10,7 @@ import org.json.simple.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
@@ -36,6 +37,17 @@ public class CourseProvider {
                 courseList.get(i).setLikeCount(likeCount);
             }
             return courseList;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+    public List<String> retrieveCourseTitleList() throws BaseException {
+        try {
+            List<String> titleList = courseDao.selectCourseTitle();
+            Collections.sort(titleList);
+            return titleList;
         }
         catch (Exception exception) {
             exception.printStackTrace();
