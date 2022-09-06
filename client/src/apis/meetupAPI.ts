@@ -36,7 +36,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   minBirthYear: 1990,
   maxBirthYear: 2000,
   participationFee: faker.datatype.number(20000),
-  content: '',
+  content: faker.lorem.sentences(10),
 }));
 
 export const mockMeetupAPI: MeetupAPI = {

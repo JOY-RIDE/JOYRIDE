@@ -49,7 +49,9 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   ({ className, icon, onClick, ...others }, ref) => (
     <div className={cn('date-input')} onClick={onClick}>
       <input {...others} />
-      <button type="button">{icon}</button>
+      <button type="button" aria-label="날짜 선택 버튼">
+        {icon}
+      </button>
     </div>
   )
 );
@@ -273,6 +275,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               </>
             ))}
           </ul>
+          {/* TODO: 모바일 폰트 크기 설정 */}
           <Controller
             control={control}
             name="path"
@@ -386,6 +389,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="인원 감소 버튼"
                 action="decrease"
                 onDecrease={handleMaxNumOfParticipantsDecrease}
               />
@@ -410,6 +414,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="인원 증가 버튼"
                 action="increase"
                 onIncrease={handleMaxNumOfParticipantsIncrease}
               />
@@ -550,6 +555,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="참가비 감소 버튼"
                 action="decrease"
                 onDecrease={handleParticipationFeeDecrease}
               />
@@ -575,6 +581,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="참가비 증가 버튼"
                 action="increase"
                 onIncrease={handleParticipationFeeIncrease}
               />

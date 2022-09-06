@@ -10,9 +10,9 @@ import {
 } from 'utils/stringify';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-dayjs.locale('ko');
 
 const cn = classNames.bind(styles);
+dayjs.locale('ko');
 
 const Meetup = () => {
   const { meetupId } = useParams();
@@ -23,7 +23,7 @@ const Meetup = () => {
     <div className={cn('container')}>
       <div className={cn('title-wrapper')}>
         <h1 className={cn('title')}>{meetup.title}</h1>
-        <button className={cn('bookmarkBtn')}>
+        <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
           {/* TODO: active */}
           <HiOutlineBookmark />
         </button>
@@ -31,16 +31,16 @@ const Meetup = () => {
 
       {/* TODO: 모임장 */}
 
-      <div className={cn('details-wrapper')}>
-        <div className={cn('details')}>
-          <div className={cn('row')}>
+      <div className={cn('fields-wrapper')}>
+        <div className={cn('fields')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>모집 마감 일시</label>
             <span className={cn('data')}>
               {dayjs(meetup.dueDate).format('M월 D일 a h:mm')}
             </span>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>모임 일시</label>
             <span className={cn('data', 'emphasized')}>
               {dayjs(meetup.meetingDate).format('M월 D일 a h:mm')}
@@ -48,20 +48,20 @@ const Meetup = () => {
           </div>
         </div>
 
-        <div className={cn('details')}>
-          <div className={cn('row')}>
+        <div className={cn('fields')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>지역</label>
             <span className={cn('data', 'emphasized')}>{meetup.location}</span>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>코스 난이도</label>
             <span className={cn('data', 'emphasized')}>
               {stringifyMeetupPathDifficulty(meetup.pathDifficulty)}
             </span>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>자전거 종류</label>
             <ul className={cn('data')}>
               {meetup.bicycleTypes.map(type => (
@@ -73,8 +73,8 @@ const Meetup = () => {
           </div>
         </div>
 
-        <div className={cn('details')}>
-          <div className={cn('row')}>
+        <div className={cn('fields')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>인원</label>
             <div className={cn('data')}>
               <span className={cn('emphasized')}>
@@ -84,31 +84,36 @@ const Meetup = () => {
             </div>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>성별</label>
             <span className={cn('data', 'emphasized')}>
               {stringifyGender(meetup.gender)}
             </span>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field', 'age')}>
             <label className={cn('label')}>나이</label>
             <div className={cn('data')}>
-              <span className={cn('emphasized')}>{meetup.minBirthYear}</span>{' '}
-              년생 ~{' '}
-              <span className={cn('emphasized')}>{meetup.maxBirthYear}</span>{' '}
-              년생
+              <div className={cn('birthYear')}>
+                <span className={cn('emphasized')}>{meetup.minBirthYear}</span>{' '}
+                년생
+              </div>
+              <span className={cn('tilde')}>~</span>
+              <div className={cn('birthYear')}>
+                <span className={cn('emphasized')}>{meetup.maxBirthYear}</span>{' '}
+                년생
+              </div>
             </div>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>라이딩 실력</label>
             <span className={cn('data', 'emphasized')}>
               {stringifyRidingSkill(meetup.ridingSkill)}
             </span>
           </div>
 
-          <div className={cn('row')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>참가비</label>
             <div className={cn('data')}>
               <span className={cn('emphasized')}>
@@ -117,7 +122,9 @@ const Meetup = () => {
               원
             </div>
           </div>
+        </div>
 
+        <div className={cn('fields')}>
           <p className={cn('content')}>{meetup.content}</p>
         </div>
       </div>
