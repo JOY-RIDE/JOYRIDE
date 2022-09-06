@@ -10,11 +10,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"admin", "joinPeople", "maxPeople","participants"})
+@JsonPropertyOrder({"admin","maxPeople","participants"})
 public class MeetDetailRes {
 
     private UserDetail admin;
-    private Integer joinPeople;
     private int maxPeople;
     private List<UserDetail> participants;
 }
