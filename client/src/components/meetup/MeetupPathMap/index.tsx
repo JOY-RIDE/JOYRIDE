@@ -8,6 +8,12 @@ import {
 } from 'utils/urls';
 import styles from './MeetupPathMap.module.scss';
 
+function getLatLngsOrderedByIndex(latLngs: any[]) {
+  return [...latLngs]
+    .sort((a, b) => a.index - b.index)
+    .map(latLng => latLng.latLng);
+}
+
 const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(50, 45);
 const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(20, 20);
 
@@ -31,32 +37,35 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
     const placeSearcher = new window.kakao.maps.services.Places();
-    const latLangs: any[] = [];
     const newBounds = new window.kakao.maps.LatLngBounds();
+    const latLngs: any[] = [];
+    let line: any;
 
-    path.forEach((stop, index) =>
+    path.forEach((stop, stopOriginalIndex) =>
       placeSearcher.keywordSearch(
         stop,
         (data: any, status: any) => {
           try {
             if (!status === window.kakao.maps.services.Status.OK) return;
-            const stopIndex = index === path.length - 1 ? -1 : index;
+            const stopNewIndex =
+              stopOriginalIndex === path.length - 1 ? -1 : stopOriginalIndex;
 
             const place = data[0];
             const latLng = new window.kakao.maps.LatLng(place.y, place.x);
-            latLangs.push(latLng);
             newBounds.extend(latLng);
             map.setBounds(newBounds, 0, 0);
+            latLngs.push({ index: stopOriginalIndex, latLng });
 
-            attachMarker(latLng, stopIndex);
+            attachMarker(latLng, stopNewIndex);
+            attachOverlay(latLng, stop, stopOriginalIndex);
 
-            if (latLangs.length < 2) return;
+            if (latLngs.length < 2) return;
 
-            if (latLangs.length === path.length) {
-              // TODO
-              drawLine(latLangs);
-            } else if (stopIndex === -1) {
-              drawLine(latLangs);
+            if (latLngs.length === path.length) {
+              removeExistingLine();
+              drawLine(getLatLngsOrderedByIndex(latLngs));
+            } else if (stopNewIndex === -1) {
+              drawLine(getLatLngsOrderedByIndex(latLngs));
             }
           } catch (e) {
             if (e instanceof TypeError) return;
@@ -67,19 +76,17 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       )
     );
 
-    function attachMarker(latLng: any, stopIndex: number) {
+    function attachMarker(latLng: any, stopNewIndex: number) {
       new window.kakao.maps.Marker({
         map,
         position: latLng,
-        image: getMarkerImage(stopIndex),
+        image: getMarkerImage(stopNewIndex),
+        zIndex: 2,
       });
-      // const infoWindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
-      // infoWindow.setContent(`<span>${stopIndex + 1}: ${stop}</span>`);
-      // infoWindow.open(map, marker);
     }
 
-    function getMarkerImage(stopIndex: number) {
-      switch (stopIndex) {
+    function getMarkerImage(stopNewIndex: number) {
+      switch (stopNewIndex) {
         case 0:
           return getMarkerImageObj(START_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
             alt: '출발지',
@@ -106,15 +113,37 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       return new window.kakao.maps.MarkerImage(imgSRC, sizeObj, options);
     }
 
-    function drawLine(latLangs: any[]) {
-      const line = new window.kakao.maps.Polyline({
-        path: latLangs,
+    function attachOverlay(
+      latLng: any,
+      stop: string,
+      stopOriginalIndex: number
+    ) {
+      const overlay = `<span class=${styles.overlay}>${
+        stopOriginalIndex + 1
+      }. ${stop}</span>`;
+
+      new window.kakao.maps.CustomOverlay({
+        map,
+        position: latLng,
+        content: overlay,
+        zIndex: 3,
+        yAnchor: 0,
+      });
+    }
+
+    function drawLine(latLngs: any[]) {
+      line = new window.kakao.maps.Polyline({
+        path: latLngs,
         strokeWeight: 5,
         strokeColor: MAIN_COLOR,
         strokeOpacity: 1,
-        strokeStyle: 'solid',
       });
       line.setMap(map);
+    }
+
+    function removeExistingLine() {
+      if (!line) return;
+      line.setMap(null);
     }
   }, []);
 

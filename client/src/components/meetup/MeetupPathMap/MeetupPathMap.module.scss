@@ -1,5 +1,19 @@
+@use '../../../styles/variables.scss' as *;
+
 .container {
   max-width: 100rem;
   margin: 0 auto;
   height: 50rem;
+}
+
+.overlay {
+  background: white;
+  color: $color-grey-600;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid $color-grey-500;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  position: relative;
+  top: 0.5em;
 }
