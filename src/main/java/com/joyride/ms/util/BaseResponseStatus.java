@@ -37,7 +37,7 @@ public enum BaseResponseStatus {
     INVALID_PROVIDER(false, 2013, "올바르지 않은 provider입니다. (예: google)"),
     USERS_SOCIAL(false,2014,"소셜계정 입니다."),
 
-    // 300대 -> 3. todo 도메인 에러
+    // 300대 -> 3. 
     USERS_CATEGORY_NOT_EXISTS(false, 2301, "해당하는 유저와 일치하는 카테고리가 없습니다."),
     USERS_TODO_NOT_EXISTS(false, 2302, "해당하는 유저와 일치하는 투두가 없습니다."),
 
@@ -55,9 +55,8 @@ public enum BaseResponseStatus {
 
 
     //400
-    USERS_DIARY_NOT_EXISTS(false, 2402, "해당하는 유저와 일치하는 일기가 없습니다."),
-
     POST_USERS_EXISTS_NICKNAME(false, 2032, "중복된 닉네임입니다."),
+    POST_USERS_EXISTS_JOIN(false, 2033, "이미 참여중인 모임입니다."),
 
     //500
    COURSE_REVIEW_NOT_EXISTS(false, 2500, "해당 코스리뷰가 없습니다."),

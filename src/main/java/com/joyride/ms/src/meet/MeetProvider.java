@@ -37,4 +37,13 @@ public class MeetProvider {
         }
     }
 
+    public int checkMeetJoinById(Integer userId ,Integer meetId) throws BaseException {
+        try {
+            return meetDao.checkMeetJoinById(userId, meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 }
