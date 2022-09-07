@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
+import static com.joyride.ms.util.BaseResponseStatus.DELETE_USER_NOT_EXISTS_JOIN;
+import static com.joyride.ms.util.BaseResponseStatus.DELETE_USER_NOT_EXISTS_MEET;
+
 @Slf4j
 @RestController
 @RequestMapping("/meets")
@@ -98,11 +101,53 @@ public class MeetController {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
             if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
-                return new BaseResponse<>(BaseResponseStatus.POST_USERS_EXISTS_JOIN);
+                return new BaseResponse<>(BaseResponseStatus.POST_USER_EXISTS_JOIN);
             } else {
                 meetService.createMeetJoin(userId,meetId);
                 return new BaseResponse<>(BaseResponseStatus.SUCCESS);
             }
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.5 모임 탈퇴 API
+     * [Delete] /meets/join/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/join/{meetId}")
+    public BaseResponse<String> deleteMeetJoin(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
+                meetService.removeMeetJoinById(userId,meetId);
+                return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            }
+            return new BaseResponse<>(DELETE_USER_NOT_EXISTS_JOIN);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.6 모임 삭제 API
+     * [Delete] /meets/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping("{meetId}")
+    public BaseResponse<String> deleteMeet(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (meetProvider.checkMeetById(userId,meetId) == 1) {
+                meetService.removeMeetBy(meetId);
+                return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            }
+            return new BaseResponse<>(DELETE_USER_NOT_EXISTS_MEET);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

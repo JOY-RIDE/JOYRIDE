@@ -83,6 +83,12 @@ public class MeetDao {
         return this.jdbcTemplate.queryForObject(checkJoinByIdQuery, int.class, checkJoinByIdParams);
     }
 
+    public int checkMeetById(Integer userId,Integer meetId) {
+        String checkMeetByIdQuery = "select exists(select id from meet where user_id = ? and id = ?)";
+        Object[] checkMeetByIdParams = new Object[]{userId, meetId};
+        return this.jdbcTemplate.queryForObject(checkMeetByIdQuery, int.class, checkMeetByIdParams);
+    }
+
     public List<MeetListRes> selectMeet() {
         String selectMeetQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year, meeting_date," +
@@ -146,5 +152,17 @@ public class MeetDao {
                                                 rs3.getString("profile_img_url")
                                         ),meetId)),
                         meetId);
+    }
+
+    public void deleteMeetJoin(Integer userId, Integer meetId) {
+        String deleteMeetJoinQuery = "delete from meet_join where user_id = ? and meet_id = ?";
+        Object[] deleteMeetJoinParam = new Object[]{userId, meetId};
+        this.jdbcTemplate.update(deleteMeetJoinQuery, deleteMeetJoinParam);
+    }
+
+    public void deleteMeet(Integer meetId) {
+        String deleteMeetQuery = "delete from meet where id = ?";
+        Integer deleteMeetParam = meetId;
+        this.jdbcTemplate.update(deleteMeetQuery, deleteMeetParam);
     }
 }
