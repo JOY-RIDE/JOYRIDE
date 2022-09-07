@@ -148,6 +148,7 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
         arrive: content === path[path.length - 1],
       })}"
       }>${content}</span>`;
+
       new window.kakao.maps.CustomOverlay({
         map,
         position: latLng,
