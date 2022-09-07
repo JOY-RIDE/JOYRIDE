@@ -17,7 +17,7 @@
   }
 }
 @mixin for-desktop-up {
-  @media (min-width: 1200px) {
+  @media (min-width: $max-width-page) {
     @content;
   }
 }

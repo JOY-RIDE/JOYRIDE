@@ -1,3 +1,4 @@
+import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
@@ -15,7 +16,9 @@ interface MeetupAPI {
 const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   id: index,
   title: faker.lorem.sentence(),
-  image: faker.image.cats(undefined, undefined, true),
+  image: faker.datatype.number(1)
+    ? MEETUP_DEFAULT_IMAGE
+    : faker.image.cats(undefined, undefined, true),
   meetingDate: faker.date.future(),
   dueDate: faker.date.soon(10),
   courseName: faker.datatype.number(1) ? faker.random.words(3) : null,

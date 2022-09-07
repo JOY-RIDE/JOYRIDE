@@ -148,7 +148,7 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     }
   }, []);
 
-  return <section className={styles.container} ref={mapContainerRef} />;
+  return <div className={styles.container} ref={mapContainerRef} />;
 };
 
 export default MeetupPathMap;

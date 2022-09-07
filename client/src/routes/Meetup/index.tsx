@@ -2,7 +2,7 @@ import styles from './Meetup.module.scss';
 import classNames from 'classnames/bind';
 import { mockMeetupAPI } from 'apis/meetupAPI';
 import { useParams } from 'react-router-dom';
-import { HiOutlineBookmark } from 'react-icons/hi';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import {
   stringifyGender,
   stringifyMeetupPathDifficulty,
@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import MeetupRoute from 'components/meetup/MeetupRoute';
 import MeetupPathMap from 'components/meetup/MeetupPathMap';
+import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 
 const testPath = [
   '안합',
@@ -33,14 +34,25 @@ const Meetup = () => {
   const { meetupId } = useParams();
   // TODO: react query
   const meetup = mockMeetupAPI.getMeetupList()[Number(meetupId)];
+  const imgStyle = {
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.image})`,
+  };
 
   return (
     <div className={cn('container')}>
+      <div
+        className={cn('img-wrapper', {
+          default: meetup.image === MEETUP_DEFAULT_IMAGE,
+        })}
+        style={imgStyle}
+      />
+
       <div className={cn('title-wrapper')}>
         <h1 className={cn('title')}>{meetup.title}</h1>
         <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
           {/* TODO: active */}
-          <HiOutlineBookmark />
+          <BsBookmark />
+          {/* <BsBookmarkFill/> */}
         </button>
       </div>
 
@@ -137,9 +149,13 @@ const Meetup = () => {
         <p className={cn('content')}>{meetup.content}</p>
       </section>
 
-      <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+      <section className={cn('route-section')}>
+        <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+      </section>
 
-      <MeetupPathMap path={testPath} />
+      <section className={cn('map-section')}>
+        <MeetupPathMap path={testPath} />
+      </section>
 
       {/* TODO */}
       <section className={cn('participants-section')}>
@@ -163,7 +179,8 @@ const Meetup = () => {
         <div>
           <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
             {/* TODO: active */}
-            <HiOutlineBookmark />
+            <BsBookmark />
+            {/* <BsBookmarkFill/> */}
           </button>
           <p>{dayjs(meetup.dueDate).format(DATE_FORMAT)} 모집 마감</p>
         </div>
