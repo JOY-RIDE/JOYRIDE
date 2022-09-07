@@ -32,6 +32,7 @@ import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
 import { toastMessageState } from 'states/common';
 import { useSetRecoilState } from 'recoil';
+import { Fragment } from 'react';
 
 const cn = classNames.bind(styles);
 
@@ -262,9 +263,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </label>
           <ul className={cn('stops')}>
             {path.map((stop, index) => (
-              <>
-                {index > 0 && <BsArrowRight key={`${index}${stop}`} />}
-                <li key={`${stop}${index}`}>
+              <Fragment key={stop + index}>
+                {index > 0 && <BsArrowRight />}
+                <li>
                   <Chip
                     size="sm"
                     content={stop}
@@ -273,7 +274,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
                     onXClick={handlePathDelete(index)}
                   />
                 </li>
-              </>
+              </Fragment>
             ))}
           </ul>
           {/* TODO: 모바일 폰트 크기 설정 */}

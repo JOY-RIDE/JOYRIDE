@@ -14,13 +14,14 @@ import MeetupRoute from 'components/meetup/MeetupRoute';
 import MeetupPathMap from 'components/meetup/MeetupPathMap';
 
 const testPath = [
-  '양수역',
-  '벗고개',
-  '서후고개',
-  '증미산',
-  '시나사 계곡',
-  '양수역',
-  '벗고개',
+  '안합',
+  '잠수교',
+  '한남 나들목',
+  '남산',
+  '사직공원',
+  '북악',
+  '홍제천',
+  '성산북단',
 ];
 
 dayjs.locale('ko');

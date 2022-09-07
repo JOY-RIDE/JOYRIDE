@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { MeetupPath } from 'types/meetup';
+import { MAIN_COLOR } from 'utils/constants';
 import {
   FINISH_MARKER_IMAGE,
   START_MARKER_IMAGE,
@@ -30,19 +31,33 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
     const placeSearcher = new window.kakao.maps.services.Places();
+    const latLangs: any[] = [];
     const newBounds = new window.kakao.maps.LatLngBounds();
 
-    path.forEach((stop, stopIndex) =>
-      // TODO: 비동기
+    path.forEach((stop, index) =>
       placeSearcher.keywordSearch(
         stop,
         (data: any, status: any) => {
           try {
             if (!status === window.kakao.maps.services.Status.OK) return;
+            const stopIndex = index === path.length - 1 ? -1 : index;
+
             const place = data[0];
-            newBounds.extend(new window.kakao.maps.LatLng(place.y, place.x));
+            const latLng = new window.kakao.maps.LatLng(place.y, place.x);
+            latLangs.push(latLng);
+            newBounds.extend(latLng);
             map.setBounds(newBounds, 0, 0);
-            attachMarker(place, stop, stopIndex);
+
+            attachMarker(latLng, stopIndex);
+
+            if (latLangs.length < 2) return;
+
+            if (latLangs.length === path.length) {
+              // TODO
+              drawLine(latLangs);
+            } else if (stopIndex === -1) {
+              drawLine(latLangs);
+            }
           } catch (e) {
             if (e instanceof TypeError) return;
             else throw new Error(); // TODO
@@ -52,16 +67,13 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       )
     );
 
-    function attachMarker(place: any, stop: string, stopIndex: number) {
-      // const infoWindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
-      const markerImage = getMarkerImage(
-        stopIndex === path.length - 1 ? -1 : stopIndex
-      );
+    function attachMarker(latLng: any, stopIndex: number) {
       new window.kakao.maps.Marker({
         map,
-        position: new window.kakao.maps.LatLng(place.y, place.x),
-        image: markerImage,
+        position: latLng,
+        image: getMarkerImage(stopIndex),
       });
+      // const infoWindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
       // infoWindow.setContent(`<span>${stopIndex + 1}: ${stop}</span>`);
       // infoWindow.open(map, marker);
     }
@@ -72,6 +84,7 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
           return getMarkerImageObj(START_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
             alt: '출발지',
           });
+
         case -1:
           return path[0] === path[path.length - 1]
             ? getMarkerImageObj(FINISH_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
@@ -81,6 +94,7 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
             : getMarkerImageObj(FINISH_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
                 alt: '종료지',
               });
+
         default:
           return getMarkerImageObj(USER_DEFAULT_IMAGE, DEFAULT_IMAGE_SIZE, {
             alt: '경유지',
@@ -88,8 +102,19 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       }
     }
 
-    function getMarkerImageObj(imgSRC: string, sizeObj?: any, options?: any) {
+    function getMarkerImageObj(imgSRC: string, sizeObj: any, options?: any) {
       return new window.kakao.maps.MarkerImage(imgSRC, sizeObj, options);
+    }
+
+    function drawLine(latLangs: any[]) {
+      const line = new window.kakao.maps.Polyline({
+        path: latLangs,
+        strokeWeight: 5,
+        strokeColor: MAIN_COLOR,
+        strokeOpacity: 1,
+        strokeStyle: 'solid',
+      });
+      line.setMap(map);
     }
   }, []);
 
