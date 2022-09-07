@@ -19,7 +19,7 @@ public class PostSignupReq {
     private String email;
     @NotBlank(message="패스워드는 필수 입력값입니다.")
     private String password;
-    @Size(min=1, max=1,message="gender: m/f")
+    @Size(min=1, max=5,message="성별 형식이 틀렸습니다")
     private String gender; // m/f
     private Integer birthYear;
     private String bicycleType;

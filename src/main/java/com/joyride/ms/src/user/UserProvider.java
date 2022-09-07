@@ -4,6 +4,7 @@ import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.util.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,10 +13,13 @@ import static com.joyride.ms.util.BaseResponseStatus.*;
 @Slf4j
 @Service
 public class UserProvider {
+    private final PasswordEncoder passwordEncoder;
+
     private final UserDao userDao;
 
     @Autowired
-    public UserProvider(UserDao userDao) {
+    public UserProvider(PasswordEncoder passwordEncoder, UserDao userDao) {
+        this.passwordEncoder = passwordEncoder;
         this.userDao = userDao;
     }
 
@@ -57,6 +61,17 @@ public class UserProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional(readOnly = true)
+    public String retrievePasswordById(Integer userId) throws BaseException {
+        if (checkId(userId) == 0)
+            throw new BaseException(USERS_EMPTY_USER_ID);
+        try {
+            return userDao.selectPasswordById(userId);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
     @Transactional(readOnly = true)
     public int checkId(Integer userId) throws BaseException {
         try {
@@ -87,6 +102,25 @@ public class UserProvider {
             return userDao.checkNickname(nickname);
         } catch (Exception exception) {
             log.warn(exception.getMessage());
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public Boolean checkPassword(Integer userId, String oldPassword) throws BaseException {
+        String encodedPassword = retrievePasswordById(userId);
+        if (passwordEncoder.matches(oldPassword,encodedPassword) != true) {
+            throw new BaseException(USERS_DISACCORD_PASSWORD);
+        }
+        return true;
+    }
+
+    @Transactional(readOnly = true)
+    public int checkProviderById(Integer userId) throws BaseException {
+
+        try {
+            return userDao.checkProviderById(userId);
+        } catch (Exception e){
+            e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

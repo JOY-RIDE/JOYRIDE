@@ -6,8 +6,8 @@ import com.joyride.ms.src.meet.dto.MeetListRes;
 import com.joyride.ms.src.s3.AwsS3Service;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponse;
+import com.joyride.ms.util.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -81,6 +81,28 @@ public class MeetController {
     public BaseResponse<MeetDetailRes> getMeetDetail(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         try{
             return new BaseResponse<>(meetProvider.retrieveMeetById(meetId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.4 모임 참여 API
+     * [POST] /meets/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("{meetId}")
+    public BaseResponse<String> postMeetJoin(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
+                return new BaseResponse<>(BaseResponseStatus.POST_USERS_EXISTS_JOIN);
+            } else {
+                meetService.createMeetJoin(userId,meetId);
+                return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            }
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

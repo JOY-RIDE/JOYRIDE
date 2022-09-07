@@ -4,6 +4,7 @@ import com.joyride.ms.src.auth.dto.PatchPasswordReq;
 import com.joyride.ms.src.auth.dto.PostSignupOauth2Req;
 import com.joyride.ms.src.s3.dto.PostProfileImgRes;
 import com.joyride.ms.src.user.dto.PatchUserReq;
+import com.joyride.ms.src.user.dto.UserPasswordReq;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponseStatus;
@@ -68,7 +69,22 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(patchPasswordReq.getNewPassword());
 
         try {
-            userDao.updatePassword(email, encodedPassword);
+            userDao.updatePasswordByEmail(email, encodedPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+
+    }
+
+    @Transactional
+    public void modifyPasswordById(Integer userId,UserPasswordReq userPasswordReq) throws BaseException {
+        //validation
+        userProvider.checkPassword(userId, userPasswordReq.getOldPassword());
+        String encodedPassword = passwordEncoder.encode(userPasswordReq.getNewPassword());
+
+        try {
+            userDao.updatePasswordById(userId, encodedPassword);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);

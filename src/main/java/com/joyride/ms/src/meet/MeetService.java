@@ -30,4 +30,13 @@ public class MeetService {
         }
     }
 
+    @Transactional
+    public void createMeetJoin(Integer userId,Integer meetId) throws BaseException {
+        try {
+            meetDao.insertMeetJoin(userId, meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

@@ -1,9 +1,11 @@
 package com.joyride.ms.src.user;
 
+import com.joyride.ms.src.auth.dto.PatchPasswordReq;
 import com.joyride.ms.src.s3.AwsS3Service;
 import com.joyride.ms.src.s3.dto.PostProfileImgRes;
 import com.joyride.ms.src.user.dto.GetUserRes;
 import com.joyride.ms.src.user.dto.PatchUserReq;
+import com.joyride.ms.src.user.dto.UserPasswordReq;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponse;
@@ -110,7 +112,7 @@ public class UserController {
      */
 
     @PatchMapping("/profile")
-    public BaseResponse<BaseResponseStatus> patchProfile(@Validated HttpServletRequest request, @RequestBody PatchUserReq patchUserReq , BindingResult bindingResult) {
+    public BaseResponse<BaseResponseStatus> patchProfile(@Validated @RequestBody PatchUserReq patchUserReq , BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return new BaseResponse<>(errors);
@@ -139,7 +141,6 @@ public class UserController {
             String profile_img_fileKey = userProvider.retrieveById(userId).getProfile_img_url();
             if (!profile_img_fileKey.equals("https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/profile/default-img.svg"))
                 awsS3Service.fileDelete(profile_img_fileKey.substring(55));
-
             String dirName = "profile/info/" + userId + "/profile-img";
             String profile_img_url = awsS3Service.upload(multipartFile, dirName);
             return new BaseResponse<>(userService.setProfileImg(userId, profile_img_url));
@@ -168,6 +169,45 @@ public class UserController {
             awsS3Service.fileDelete(filekey);
             userService.modifyProfileImgToDefault(userId);
             return new BaseResponse<>("삭제에 성공하였습니다.");
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 2.7 소셜 유저 확인 API
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/provider")
+    public BaseResponse<String> checkUserProvider(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (userProvider.checkProviderById(userId) == 1) {
+                return new BaseResponse<>("일반 계정입니다.");
+            } else {
+                return new BaseResponse<>(BaseResponseStatus.USERS_SOCIAL);
+            }
+        }
+        catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 2.8 비밀번호 재설정(로그인 상태) API
+     *
+     * @param request
+     * @return
+     */
+    @PatchMapping("/password")
+    public BaseResponse<BaseResponseStatus> patchUserPasswordById(HttpServletRequest request, @RequestBody UserPasswordReq userPasswordReq) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+
+        try {
+            userService.modifyPasswordById(userId, userPasswordReq);
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
