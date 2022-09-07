@@ -121,7 +121,6 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       const overlay = `<span class=${styles.overlay}>${
         stopOriginalIndex + 1
       }. ${stop}</span>`;
-
       new window.kakao.maps.CustomOverlay({
         map,
         position: latLng,

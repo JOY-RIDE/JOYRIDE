@@ -3,7 +3,6 @@ import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { userProfileState, userIdState } from 'states/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Container from 'components/common/Container';
-import logo from 'assets/images/logo.svg';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 // import { FaRegUserCircle } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -14,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { userAPI } from 'apis/userAPI';
+import { JOYRDIE_LOGO_IMAGE } from 'utils/urls';
 
 const cn = classNames.bind(styles);
 
@@ -57,7 +57,7 @@ const Header = () => {
           </button>
 
           <Link to="/" aria-label="메인 페이지 링크 버튼" onClick={closeMenu}>
-            <img className={cn('logo')} src={logo} alt="로고" />
+            <img className={cn('logo')} src={JOYRDIE_LOGO_IMAGE} alt="로고" />
           </Link>
 
           {userProfile ? (
