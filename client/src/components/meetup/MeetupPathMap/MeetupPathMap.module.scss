@@ -16,4 +16,21 @@
   font-weight: 700;
   position: relative;
   top: 0.1rem;
+
+  &.gather,
+  &.start,
+  &.arrive {
+    border: none;
+    color: white;
+  }
+
+  &.gather {
+    background: #ef00b3;
+  }
+  &.start {
+    background: #d6180c;
+  }
+  &.arrive {
+    background: #2654c9;
+  }
 }
