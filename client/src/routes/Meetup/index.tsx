@@ -13,6 +13,7 @@ import 'dayjs/locale/ko';
 import MeetupRoute from 'components/meetup/MeetupRoute';
 import MeetupPathMap from 'components/meetup/MeetupPathMap';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
+import { useEffect } from 'react';
 
 const testPath = [
   '안합',
@@ -34,9 +35,14 @@ const Meetup = () => {
   const { meetupId } = useParams();
   // TODO: react query
   const meetup = mockMeetupAPI.getMeetupList()[Number(meetupId)];
+
   const imgStyle = {
     backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.image})`,
   };
+
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, []); // TODO: 리스트 스크롤 위치 기억
 
   return (
     <div className={cn('container')}>
