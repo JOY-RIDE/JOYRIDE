@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { Link, useMatch } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { fetchCourses } from '../../apis/CrsAPI';
+import { fetchCourses, fetchCoursesFromServer } from '../../apis/CrsAPI';
 import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
@@ -16,16 +16,24 @@ import _ from 'lodash';
 import { CoursePageState, courseFiltersState } from 'states/course';
 import { stringifyCourseDifficulty } from 'utils/stringify';
 import { stringifyCourseHours } from 'utils/stringify';
-import { IRoad } from 'types/course';
+import { IRoad, ServerIRoads } from 'types/course';
 
 const cn = classNames.bind(styles);
 
 const Roads = () => {
-  const { isLoading, data } = useQuery<IRoad[]>('allCourses', fetchCourses);
-  const RoadsData = _.uniqBy(data, 'crsKorNm');
+  const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<
+    IRoad[]
+  >('allCourses', fetchCourses);
+  const RoadsData = _.uniqBy(durunubiData, 'crsKorNm');
 
   let RoadsData1 = [...RoadsData];
   RoadsData1.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+
+  const { data: serverData } = useQuery<ServerIRoads[]>(
+    'serverCourses',
+    fetchCoursesFromServer
+  );
+  console.log(serverData);
 
   const resetFilters = useResetRecoilState(courseFiltersState);
   useEffect(() => resetFilters, []);
@@ -42,7 +50,7 @@ const Roads = () => {
 
   return (
     <section className={styles.roads}>
-      {isLoading ? (
+      {isDurunubiLoading ? (
         <Loading />
       ) : (
         <div className={cn('container')}>

@@ -20,7 +20,6 @@ interface ReviewForm {
   facility: string;
   accessibility: string;
   safety: string;
-  totalRating: number;
   viewRating: number;
   facilityRating: number;
   accessibilityRating: number;
@@ -71,34 +70,6 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
       <div className={cn('fields')}>
         <div className={cn('field')}>
           <ReviewTitle content={'총평'}></ReviewTitle>
-          <Controller
-            name="totalRating"
-            control={control}
-            defaultValue={5}
-            rules={{ required: true }}
-            render={({ field: { onChange, value } }) => (
-              <Rating
-                name="half-rating"
-                precision={0.5}
-                size="large"
-                onChange={onChange}
-                value={Number(value)}
-                sx={{
-                  fontSize: '4.5rem',
-                  margin: '0 0.5rem',
-                }}
-                // icon={<StarIcon fontSize="inherit" />}
-              />
-            )}
-          />
-          {errors.totalRating && (
-            <ErrorMessage
-              message={getReviewFormFieldErrorMessage(
-                'totalRating',
-                errors.totalRating.type
-              )}
-            />
-          )}
           <Controller
             control={control}
             name="total"

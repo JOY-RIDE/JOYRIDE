@@ -132,13 +132,11 @@ function courseFiltersDispatchForRemoving(
 }
 function courseFiltersDispatchForToggling(
   state: CourseFiltersState,
-  { key, ...data }: FiltersReducerPayload
+  { key }: FiltersReducerPayload
 ) {
   switch (key) {
-    case 'isCycle': {
-      const cycleData = state[key];
-      return cycleData ? omit(state, [key]) : { ...state, [key]: data };
-    }
+    case 'location':
+      return { ...state, ...COURSE_FILTERS_INITIAL_STATE };
 
     default:
       throw new Error();

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
-import { fetchCourseInfo } from '../../apis/CrsAPI';
+import { fetchCourseInfo, fetchCourseFromServer } from '../../apis/CrsAPI';
 import styles from './Road.module.scss';
 import classNames from 'classnames/bind';
 import Loading from 'components/common/Loading';
@@ -15,7 +15,8 @@ import CrsInfo from 'components/road/CrsInfo';
 import ReviewWriter from 'components/road/ReviewWriter';
 import ReviewItem from 'components/road/ReviewItem';
 import ReviewFilter from 'components/road/ReviewFilter';
-import { IRoad } from 'types/course';
+import { IRoad, ServerIRoad } from 'types/course';
+import { userIdState } from 'states/auth';
 // import _ from 'lodash';
 
 const cn = classNames.bind(styles);
@@ -31,45 +32,58 @@ const Road = () => {
   const { state } = useLocation() as RouteState;
   const crsNm = state.name;
 
-  const { isLoading, data } = useQuery<IRoad>(['info', crsNm], () =>
-    fetchCourseInfo(crsNm)
+  const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<IRoad>(
+    ['info', crsNm],
+    () => fetchCourseInfo(crsNm)
   );
+
+  //   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
+  //   const { isLoading: isServerLoading, data: serverData } =
+  //     useQuery<ServerIRoad>(['serverCrs', crsNm, loggedInUser], () =>
+  //       fetchCourseFromServer(crsNm, loggedInUser)
+  //     );
+  //   console.log(serverData);
 
   return (
     <section className={styles.road}>
-      {isLoading ? (
+      {isDurunubiLoading ? (
         <Loading />
       ) : (
         <div>
           <div className={cn('head')}>
             <div className={cn('left')}>
               <PageTitle size="md">
-                <span className={cn('title-sigun')}>{data?.sigun} </span>
+                <span className={cn('title-sigun')}>
+                  {durunubiData?.sigun}{' '}
+                </span>
                 {crsNm}
               </PageTitle>
 
               <div className={cn('info-top')}>
-                <CrsInfo label="길이" content={`${data?.crsDstnc}km`}></CrsInfo>
+                <CrsInfo
+                  label="길이"
+                  content={`${durunubiData?.crsDstnc}km`}
+                ></CrsInfo>
                 <span className={cn('disc')}>·</span>
                 <CrsInfo
                   label="소요 시간"
                   content={
-                    data?.crsTotlRqrmHour! < 60
-                      ? `${data?.crsTotlRqrmHour}분`
-                      : data?.crsTotlRqrmHour! % 60 == 0
-                      ? `${Math.floor(data?.crsTotlRqrmHour! / 60)}시간`
-                      : `${Math.floor(data?.crsTotlRqrmHour! / 60)}시간 ${
-                          data?.crsTotlRqrmHour! % 60
-                        }분`
+                    durunubiData?.crsTotlRqrmHour! < 60
+                      ? `${durunubiData?.crsTotlRqrmHour}분`
+                      : durunubiData?.crsTotlRqrmHour! % 60 == 0
+                      ? `${Math.floor(durunubiData?.crsTotlRqrmHour! / 60)}시간`
+                      : `${Math.floor(
+                          durunubiData?.crsTotlRqrmHour! / 60
+                        )}시간 ${durunubiData?.crsTotlRqrmHour! % 60}분`
                   }
                 ></CrsInfo>
                 <span className={cn('disc')}>·</span>
                 <CrsInfo
                   label="난이도"
                   content={
-                    data?.crsLevel == '1'
+                    durunubiData?.crsLevel == '1'
                       ? '하'
-                      : data?.crsLevel == '2'
+                      : durunubiData?.crsLevel == '2'
                       ? '중'
                       : '상'
                   }
@@ -91,17 +105,17 @@ const Road = () => {
             <CrsDesc
               name={crsNm}
               label="코스 개요"
-              contents={data?.crsContents}
+              contents={durunubiData?.crsContents}
             ></CrsDesc>
             <CrsDesc
               name={crsNm}
               label="코스 설명"
-              contents={data?.crsSummary}
+              contents={durunubiData?.crsSummary}
             ></CrsDesc>
             <CrsDesc
               name={crsNm}
               label="관광 포인트"
-              contents={data?.crsTourInfo}
+              contents={durunubiData?.crsTourInfo}
             ></CrsDesc>
           </div>
           <PageTitle size="sm">코스 사진</PageTitle>

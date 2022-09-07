@@ -104,7 +104,6 @@ type ReviewFormField =
   | 'facility'
   | 'accessibility'
   | 'safety'
-  | 'totalRating'
   | 'viewRating'
   | 'facilityRating'
   | 'accessibilityRating'
@@ -118,15 +117,6 @@ export function getReviewFormFieldErrorMessage(
       switch (errorType) {
         case 'required':
           return '총평은 필수 항목입니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    case 'totalRating': {
-      switch (errorType) {
-        case 'required':
-          return '총 별점은 필수 항목입니다';
         default:
           throw new Error();
       }
