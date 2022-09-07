@@ -17,7 +17,8 @@ h6 {
   font-weight: 500;
 }
 
-ul {
+ul,
+li {
   list-style: none;
 }
 
@@ -41,6 +42,10 @@ input[type='number'] {
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
+}
+
+textarea {
+  resize: none;
 }
 
 button {

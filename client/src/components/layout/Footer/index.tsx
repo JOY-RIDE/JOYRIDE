@@ -1,24 +1,20 @@
-import { useMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Container from 'components/common/Container';
-import logo_green from 'assets/images/logo_green.svg';
 import styles from './Footer.module.scss';
 import classNames from 'classnames/bind';
+import { JOYRDIE_LOGO_GREEN_IMAGE } from 'utils/urls';
 
 const cn = classNames.bind(styles);
 
 const Footer = () => {
-  // TODO
-  const isAtLogin = useMatch('/login');
-  const isAtSignup = useMatch('/signup');
-
-  if (isAtLogin || isAtSignup) return null;
+  const { pathname } = useLocation();
+  if (pathname.includes('/auth/') || pathname.includes('/meetups/'))
+    return null;
   return (
     <footer className={cn('footer')}>
       <Container>
-        <img className={cn('logo')} src={logo_green} alt="로고" />
-
+        <img className={cn('logo')} src={JOYRDIE_LOGO_GREEN_IMAGE} alt="로고" />
         <h3 className={cn('brand')}>JOYRIDE 조이라이드</h3>
-
         <div className={cn('links')}>
           <a
             className={cn('link')}

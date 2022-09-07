@@ -1,15 +1,15 @@
 import { MeetupCourseName, MeetupPath } from 'types/meetup';
-import styles from './MeetupRoute.module.scss';
+import styles from './MeetupRoutePreview.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
 
-interface MeetupRouteProps {
+interface MeetupRoutePreviewProps {
   courseName: MeetupCourseName;
   path: MeetupPath;
 }
 
-const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => {
+const MeetupRoutePreview = ({ courseName, path }: MeetupRoutePreviewProps) => {
   const pathLength = path.length;
   // const from = path[0];
   const to = path[pathLength - 1];
@@ -18,7 +18,7 @@ const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => {
     <div className={cn('container')}>
       {courseName && <span className={cn('course')}>{courseName}</span>}
       {/* TODO: 코스명 너무 길 때 */}
-      <div className={cn('path-wrapper')}>
+      <div className={cn('path')}>
         <p className={cn('rest-path')}>{restPathString}</p>
         <span className={cn('to')}> → {to}</span>
       </div>
@@ -26,4 +26,4 @@ const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => {
   );
 };
 
-export default MeetupRoute;
+export default MeetupRoutePreview;

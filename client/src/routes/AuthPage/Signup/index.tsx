@@ -31,7 +31,7 @@ const Signup = () => {
         increaseStep,
       }}
     >
-      <section className={cn('page')}>
+      <>
         <header className={cn('header')}>
           <PageTitle size="lg">회원가입</PageTitle>
           <div className={cn('steps')}>
@@ -40,7 +40,7 @@ const Signup = () => {
           </div>
         </header>
         <SignupForms step={step} totalSteps={TOTAL_STEPS} />
-      </section>
+      </>
     </SignupStepControlsContext.Provider>
   );
 };

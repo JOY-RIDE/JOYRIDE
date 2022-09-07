@@ -44,7 +44,10 @@ const MeetupFilterBoardOptions = () => {
       value: min,
       content: `${min}`,
     });
-  }, [boardFilters.minNumOfParticipants.value]);
+  }, [
+    boardFilters.minNumOfParticipants.value,
+    boardFilters.maxNumOfParticipants.value,
+  ]);
 
   const toggleSpecificOption = useCallback(
     (payload: FiltersReducerPayload) => () => handleToggle(payload),
@@ -291,6 +294,7 @@ const MeetupFilterBoardOptions = () => {
                 color="grey"
                 size="sm"
                 name="minNumOfParticipants"
+                label="최소 인원 감소 버튼"
                 action="decrease"
                 onDecrease={handleNumOfParticipantsDecrease}
               />
@@ -307,6 +311,7 @@ const MeetupFilterBoardOptions = () => {
                 color="grey"
                 size="sm"
                 name="minNumOfParticipants"
+                label="최소 인원 증가 버튼"
                 action="increase"
                 onIncrease={handleNumOfParticipantsIncrease}
               />
@@ -320,6 +325,7 @@ const MeetupFilterBoardOptions = () => {
                 color="grey"
                 size="sm"
                 name="maxNumOfParticipants"
+                label="최대 인원 감소 버튼"
                 action="decrease"
                 onDecrease={handleNumOfParticipantsDecrease}
               />
@@ -336,6 +342,7 @@ const MeetupFilterBoardOptions = () => {
                 color="grey"
                 size="sm"
                 name="maxNumOfParticipants"
+                label="최대 인원 증가 버튼"
                 action="increase"
                 onIncrease={handleNumOfParticipantsIncrease}
               />

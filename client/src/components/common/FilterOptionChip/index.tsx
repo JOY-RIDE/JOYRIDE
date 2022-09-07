@@ -2,6 +2,7 @@ import { FiltersDispatch } from 'types/common';
 import { Resetter } from 'recoil';
 import Chip from '../Chip';
 import { memo } from 'react';
+import styles from './FilterOptionChip.module.scss';
 
 type FilterOptionChipType = 'all' | 'default' | 'removeOnly' | 'reset';
 
@@ -81,13 +82,16 @@ const FilterOptionChip = memo(
       ? undefined
       : () => onXClick({ key: filtersKey, value });
     return (
-      <Chip
-        content={content}
-        isActive={checkIfActive(type, isActive)}
-        isDeletable={checkIfDeletable(type, isActive)}
-        onTextClick={handleTextClick}
-        onXClick={handleXClick}
-      />
+      // TODO: cursor
+      <li className={styles.option}>
+        <Chip
+          content={content}
+          isActive={checkIfActive(type, isActive)}
+          isDeletable={checkIfDeletable(type, isActive)}
+          onTextClick={handleTextClick}
+          onXClick={handleXClick}
+        />
+      </li>
     );
   }
 );

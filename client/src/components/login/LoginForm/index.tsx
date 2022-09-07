@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { isLoggedInState } from 'states/auth';
+import { userIdState } from 'states/auth';
 import { toastMessageState } from 'states/common';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
@@ -49,7 +49,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   // Callbacks
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setUserId = useSetRecoilState(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<LoginForm> = async ({
     email,
@@ -57,7 +57,7 @@ const LoginForm = () => {
     isAuto,
   }) => {
     try {
-      await authAPI.login(email, password, isAuto, setIsLoggedIn);
+      await authAPI.login(email, password, isAuto, setUserId);
       // TODO
       // navigate(nextURL || '/');
     } catch (e) {

@@ -9,6 +9,8 @@ export function stringifyGender(gender: Gender) {
       return '남성';
     case 'f':
       return '여성';
+    case 'mixed':
+      return '무관';
     default:
       throw new Error();
   }
@@ -31,6 +33,19 @@ export function stringifyAge(age: Age) {
   }
 }
 
+export function stringifyRidingSkill(skill: RidingSkill) {
+  switch (skill) {
+    case 1:
+      return '초급';
+    case 2:
+      return '중급';
+    case 3:
+      return '고급';
+    default:
+      throw new Error();
+  }
+}
+
 export function stringifyCourseDifficulty(difficulty: CourseDifficulty) {
   switch (difficulty) {
     case '1':
@@ -44,7 +59,9 @@ export function stringifyCourseDifficulty(difficulty: CourseDifficulty) {
   }
 }
 
-export function stringifyMeetupDifficulty(difficulty: MeetupPathDifficulty) {
+export function stringifyMeetupPathDifficulty(
+  difficulty: MeetupPathDifficulty
+) {
   switch (difficulty) {
     case 1:
       return '하';
@@ -65,41 +82,4 @@ export function stringifyCourseHours(minutes: number) {
   } else {
     return `${Math.floor(minutes / 60)}시간 ${minutes % 60}분`;
   }
-}
-
-export function stringifyRidingSkill(skill: RidingSkill) {
-  switch (skill) {
-    case 1:
-      return '초급';
-    case 2:
-      return '중급';
-    case 3:
-      return '고급';
-    default:
-      throw new Error();
-  }
-}
-
-interface IncludeOption {
-  year: boolean;
-  month: boolean;
-  day: boolean;
-}
-export function stringifyDate(date: Date, option?: IncludeOption) {
-  const arr = [];
-  const year = option ? option.year : true;
-  const month = option ? option.month : true;
-  const day = option ? option.day : true;
-
-  if (year) {
-    arr.push(`${date.getFullYear()}년`);
-  }
-  if (month) {
-    arr.push(`${date.getMonth() + 1}월`);
-  }
-  if (day) {
-    arr.push(`${date.getDate()}일`);
-  }
-
-  return arr.join(' ');
 }

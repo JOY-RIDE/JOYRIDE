@@ -32,19 +32,27 @@ import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
 import { toastMessageState } from 'states/common';
 import { useSetRecoilState } from 'recoil';
+import { Fragment } from 'react';
 
 const cn = classNames.bind(styles);
+
+const SET_VALUE_OPTION = {
+  shouldValidate: true,
+  shouldDirty: true,
+  shouldTouch: true,
+};
 
 interface DateInputProps {
   icon: ReactNode;
   [key: string]: any;
 }
-
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
   ({ className, icon, onClick, ...others }, ref) => (
     <div className={cn('date-input')} onClick={onClick}>
       <input {...others} />
-      <button type="button">{icon}</button>
+      <button type="button" aria-label="날짜 선택 버튼">
+        {icon}
+      </button>
     </div>
   )
 );
@@ -57,12 +65,6 @@ interface MeetupCreationForm
 interface MeetupCreationFormProp {
   close: () => void;
 }
-
-const SET_VALUE_OPTION = {
-  shouldValidate: true,
-  shouldDirty: true,
-  shouldTouch: true,
-};
 
 // TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
 const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
@@ -261,19 +263,21 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
           </label>
           <ul className={cn('stops')}>
             {path.map((stop, index) => (
-              <>
-                {index > 0 && <BsArrowRight key={`${index}${stop}`} />}
-                <Chip
-                  key={`${stop}${index}`}
-                  size="sm"
-                  content={stop}
-                  isActive
-                  isDeletable
-                  onXClick={handlePathDelete(index)}
-                />
-              </>
+              <Fragment key={stop + index}>
+                {index > 0 && <BsArrowRight />}
+                <li>
+                  <Chip
+                    size="sm"
+                    content={stop}
+                    isActive
+                    isDeletable
+                    onXClick={handlePathDelete(index)}
+                  />
+                </li>
+              </Fragment>
             ))}
           </ul>
+          {/* TODO: 모바일 폰트 크기 설정 */}
           <Controller
             control={control}
             name="path"
@@ -387,6 +391,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="인원 감소 버튼"
                 action="decrease"
                 onDecrease={handleMaxNumOfParticipantsDecrease}
               />
@@ -411,6 +416,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="인원 증가 버튼"
                 action="increase"
                 onIncrease={handleMaxNumOfParticipantsIncrease}
               />
@@ -551,6 +557,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="참가비 감소 버튼"
                 action="decrease"
                 onDecrease={handleParticipationFeeDecrease}
               />
@@ -576,6 +583,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               <PlusMinusButton
                 color="white"
                 size="md"
+                label="참가비 증가 버튼"
                 action="increase"
                 onIncrease={handleParticipationFeeIncrease}
               />

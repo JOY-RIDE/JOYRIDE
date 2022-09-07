@@ -1,23 +1,22 @@
-import { atom } from 'recoil';
-import { SignupFormData } from 'types/auth';
+import { userAPI } from 'apis/userAPI';
+import { atom, selector } from 'recoil';
+import { SignupFormData, UserProfile } from 'types/auth';
 
-export const isLoggedInState = atom<boolean>({
-  key: 'isLoggedIn',
-  default: false,
+export const userIdState = atom<number | null>({
+  key: 'userId',
+  default: null,
+});
+export const userProfileState = selector<UserProfile | null>({
+  key: 'userProfile',
+  get: async ({ get }) => {
+    // TODO: 캐싱 확인
+    const userId = get(userIdState);
+    if (userId === null) return null;
+    return await userAPI.getProfile(userId);
+  },
 });
 
 export const signupFormDataState = atom<SignupFormData>({
   key: 'signupFormData',
   default: { email: '', password: '', nickname: '' },
 });
-
-// export const userDataState = selector({
-//   key: 'userData',
-//   get: async ({ get }) => {
-//     // TODO: 캐싱 확인
-//     const isLoggedIn = get(isLoggedInState);
-//     if (!isLoggedIn) return null;
-
-//     return await true;
-//   },
-// });

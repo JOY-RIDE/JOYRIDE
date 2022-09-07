@@ -9,6 +9,7 @@ interface CommonProps {
   color: 'white' | 'grey';
   size: 'sm' | 'md';
   name?: string;
+  label: string;
 }
 
 type ConditionalProps =
@@ -29,6 +30,7 @@ const PlusMinusButton = ({
   color,
   size,
   name,
+  label,
   action,
   onDecrease,
   onIncrease,
@@ -37,6 +39,7 @@ const PlusMinusButton = ({
     type="button"
     name={name}
     className={cn('btn', color, size)}
+    aria-label={label}
     onClick={action === 'decrease' ? onDecrease : onIncrease}
   >
     {action === 'decrease' ? <HiOutlineMinus /> : <HiOutlinePlus />}

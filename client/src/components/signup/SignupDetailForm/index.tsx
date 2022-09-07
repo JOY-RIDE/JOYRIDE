@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useSignupStepControls } from 'routes/Signup';
+import { useSignupStepControls } from 'routes/AuthPage/Signup';
 import { authAPI } from 'apis/authAPI';
 import { AxiosError } from 'axios';
 import AuthFormInput from 'components/common/AuthFormInput';
@@ -115,7 +115,7 @@ const SignupDetailForm = () => {
             name="nickname"
             rules={{
               required: true,
-              maxLength: 8,
+              maxLength: 10,
             }}
             render={({ field }) => (
               <AuthFormInput

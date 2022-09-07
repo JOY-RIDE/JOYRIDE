@@ -1,0 +1,41 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  border: 1px dashed #aeaeae;
+  border-radius: 2rem;
+  padding: 2rem 4rem;
+  position: relative;
+
+  &.long {
+    padding-top: 2.5rem;
+  }
+}
+
+.course {
+  color: $color-main;
+  background: #cef2e2;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.2rem;
+  font-weight: 700;
+  font-size: 1.4rem;
+  position: absolute;
+  top: -1em;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.path {
+  display: flex;
+  gap: 1rem 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+
+  & li {
+    font-weight: 700;
+  }
+
+  & > svg {
+    font-size: 1.1rem;
+  }
+}

@@ -1,9 +1,4 @@
-@use '../../styles/mixins.scss' as *;
-@use '../../styles/variables.scss' as *;
-
-.page {
-  @include auth-page;
-}
+@use '../../../styles/variables.scss' as *;
 
 .links {
   display: flex;

@@ -8,28 +8,24 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 const Login = () => (
-  <section className={cn('page')}>
+  <>
     <PageTitle size="lg">로그인</PageTitle>
-
     <LoginForm />
-
     <div className={cn('links')}>
-      <Link to="/signup" className={cn('signup')}>
+      <Link to="/auth/signup" className={cn('signup')}>
         회원가입
       </Link>
       <div className={cn('find')}>
-        {/* TODO: API 명세서 참조 */}
-        <Link to="/" className={cn('email')}>
+        <Link to="/auth/find_email" className={cn('email')}>
           이메일
         </Link>
-        <Link to="/" className={cn('password')}>
+        <Link to="/auth/reset_password" className={cn('password')}>
           비밀번호 찾기
         </Link>
       </div>
     </div>
-
     <SocialLogin />
-  </section>
+  </>
 );
 
 export default Login;

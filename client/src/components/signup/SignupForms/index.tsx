@@ -18,7 +18,7 @@ const SignupForms = ({ step, totalSteps }: SignupFormsProps) => (
     <div className={cn('form-wrapper', { expand: step === 1 })}>
       <SignupTermsForm />
       <div className={cn('login-wrapper')}>
-        <Link to="/login" className={cn('login')}>
+        <Link to="/auth/login" className={cn('login')}>
           이미 계정이 있으신가요?
         </Link>
       </div>

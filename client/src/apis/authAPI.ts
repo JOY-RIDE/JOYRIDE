@@ -1,8 +1,9 @@
 import { joyrideAxios as axios } from './axios';
 import { SetterOrUpdater } from 'recoil';
 import { NewUser } from 'types/auth';
+import { userAPI } from './userAPI';
 
-type SetIsLoggedIn = SetterOrUpdater<boolean>;
+type SetUserId = SetterOrUpdater<number | null>;
 
 // TODO: 클로저 공부
 export const authAPI = (() => {
@@ -40,7 +41,7 @@ export const authAPI = (() => {
     email: string,
     password: string,
     isAuto: boolean,
-    setIsLoggedIn: SetIsLoggedIn
+    setUserId: SetUserId
   ) => {
     const {
       data: { code, result },
@@ -53,40 +54,38 @@ export const authAPI = (() => {
       throw new Error(code);
     }
 
-    onLoginSuccess(result.accessToken, setIsLoggedIn);
+    handleLogin(result.accessToken, setUserId, result.userId);
   };
 
-  const silentRefresh = async (setIsLoggedIn: SetIsLoggedIn) => {
-    try {
-      const {
-        data: { code, result },
-      } = await axios.post('/auth/jwt');
+  const silentRefresh = async (setUserId: SetUserId) => {
+    const {
+      data: { code, result },
+    } = await axios.post('/auth/jwt');
 
-      if (code !== 1000) {
-        // TODO: 로그아웃
-        delete axios.defaults.headers.common.Authorization;
-        setIsLoggedIn(false);
-        return;
-      }
-
-      onLoginSuccess(result.accessToken, setIsLoggedIn);
-    } catch (e) {
-      // refresh cookie X
+    console.log(code, result);
+    // TODO: 자동 로그인 refresh token 중간에 만료됐을 때?
+    if (code !== 1000) {
+      userAPI.handleLogout(setUserId);
+      return;
     }
+
+    // refresh token 유효할 때
+    handleLogin(result.accessToken, setUserId, result.userId);
   };
 
-  const onLoginSuccess = (
+  const handleLogin = (
     accessToken: string,
-    setIsLoggedIn: SetIsLoggedIn
+    setUserId: SetUserId,
+    userId: number
   ) => {
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    setIsLoggedIn(true);
+    axios.defaults.headers.common.Authorization = accessToken;
+    setUserId(userId);
     // TODO: localStorage
 
-    const JWT_EXPIRY_TIME_IN_SECONDS = 2 * 3600;
+    const JWT_EXPIRY_TIME_IN_SECONDS = 20 * 60;
     setTimeout(
-      () => silentRefresh(setIsLoggedIn),
-      (JWT_EXPIRY_TIME_IN_SECONDS - 30) * 1000
+      () => silentRefresh(setUserId),
+      (JWT_EXPIRY_TIME_IN_SECONDS - 10) * 1000
     );
   };
 

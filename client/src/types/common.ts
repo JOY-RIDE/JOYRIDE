@@ -15,7 +15,7 @@ export type Location =
   | '경북'
   | '경남'
   | '제주';
-export type Gender = 'm' | 'f';
+export type Gender = 'm' | 'f' | 'mixed';
 export type Age = 1 | 2 | 3 | 4 | 5;
 export type BicycleType =
   | '따릉이'

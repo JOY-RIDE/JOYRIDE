@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import completed from 'assets/images/completed.svg';
+// import completed from 'assets/images/completed.svg';
 import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { signupFormDataState } from 'states/auth';
 import { useEffect } from 'react';
+import { CgCheckO } from 'react-icons/cg';
 
 const cn = classNames.bind(styles);
 
@@ -15,15 +16,18 @@ const SignupCompleted = () => {
   useEffect(() => resetSignupFormData, []);
 
   const navigate = useNavigate();
-  const handleLoginClick = () => navigate('/login');
+  const handleLoginClick = () => navigate('/auth/login');
   return (
-    <div className={cn('page')}>
-      <img src={completed} alt="가입 완료" />
+    <div className={cn('wrapper')}>
+      <CgCheckO />
+      {/* <img src={completed} alt="가입 완료" /> */}
+
       <h1 className={cn('title')}>
         {nickname}님,
         <br />
         가입이 완료되었습니다
       </h1>
+
       {/* TODO */}
       <p className={cn('info')}>
         JOYRIDE에서
@@ -33,6 +37,7 @@ const SignupCompleted = () => {
         <br />
         클릭하시면 계정이 활성화됩니다. */}
       </p>
+
       <Button
         type="button"
         color="main"

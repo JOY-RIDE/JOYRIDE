@@ -18,18 +18,29 @@
   width: 7.5rem;
 }
 
-.toggleBtn,
-.login,
-.mypage {
-  color: $color-main;
-  font-size: 2.5rem;
+.row {
+  & svg {
+    color: $color-main;
+    font-size: 2.5rem;
+  }
+}
+
+.logged-in {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-img {
+  width: 3rem; // TODO
+  height: 3rem;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .wrapper {
   border-bottom: $border-main-1;
   background-color: white;
-  display: flex;
-  flex-direction: column;
   position: absolute;
   width: 100%;
   left: 0;
@@ -59,8 +70,13 @@
   }
 }
 
+.menus-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .menus {
-  padding: 1.4rem 1.6rem;
+  padding: 1.4rem 0;
 }
 
 .icon {

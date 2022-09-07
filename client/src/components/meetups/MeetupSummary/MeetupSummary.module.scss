@@ -42,7 +42,7 @@
   word-break: break-all;
 }
 
-.details {
+.summaries {
   font-size: 1.4rem;
   color: $color-grey-600;
   display: flex;
@@ -50,7 +50,7 @@
   gap: 0.5rem;
 }
 
-.detail {
+.summary {
   display: flex;
 
   & .label {

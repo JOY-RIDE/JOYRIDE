@@ -1,0 +1,148 @@
+@use '../../styles/mixins.scss' as *;
+@use '../../styles/variables.scss' as *;
+
+.container {
+  padding-bottom: 2rem;
+}
+
+.img-wrapper {
+  width: calc(100% + 2 * $side-padding);
+  position: relative;
+  right: $side-padding;
+  height: 20rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 25%; // TODO
+
+  @include for-desktop-up {
+    width: auto;
+    position: static;
+    right: 0;
+    height: 25rem;
+    margin-top: $side-padding;
+  }
+
+  &.default {
+    background-position: center 40%;
+  }
+}
+
+.title-wrapper {
+  display: flex;
+  gap: 5rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.bookmark-btn {
+  font-size: 2.4rem;
+  color: $color-grey-600;
+}
+
+.fields-section {
+  margin-top: 3rem;
+  color: $color-grey-800;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.field {
+  display: flex;
+  gap: 2rem;
+
+  & .label {
+    width: 9.1rem;
+    flex-shrink: 0;
+  }
+
+  & ul.data {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  & .emphasized {
+    color: $color-main;
+    font-weight: 700;
+  }
+}
+
+.content {
+  line-height: 1.5;
+}
+
+.route-section {
+  margin: 5rem 0 1.5rem 0;
+}
+
+.participants-section,
+.comments-section {
+  margin-top: 4rem;
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  & .subtitle__num {
+    color: $color-grey-500;
+  }
+}
+
+.participants-section {
+  & .current {
+    color: $color-main;
+  }
+}
+
+.join-bar {
+  background: white;
+  padding: 1.5rem $side-padding;
+  border-top: 1px solid $color-grey-200;
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include for-desktop-up {
+    padding: 1.5rem calc((100vw - $max-width-page) / 2.5);
+  }
+
+  & > div {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    & p {
+      color: $color-grey-800;
+    }
+  }
+
+  & .join-btn {
+    background: $color-main;
+    color: white;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border-radius: 0.3rem;
+  }
+}

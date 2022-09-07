@@ -3,18 +3,18 @@ import { CourseName } from './course';
 
 export type MeetupID = number;
 export type MeetupTitle = string;
-export type MeetupImage = null | string;
+export type MeetupImage = string; // TODO
 export type MeetupMeetingDate = Date;
 export type MeetupDueDate = Date;
 export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
 export type MeetupBicycleTypes = BicycleType[];
-export type MeetupRidingSkill = RidingSkill; // TODO
+export type MeetupRidingSkill = RidingSkill;
 export type MeetupMaxNumOfParticipants = number;
 export type MeetupParticipants = {}[]; // TODO
 export type MeetupLocation = Location;
-export type MeetupGender = 'mixed' | Gender;
+export type MeetupGender = Gender;
 export type MeetupMinBirthYear = number;
 export type MeetupMaxBirthYear = number;
 export type MeetupParticipationFee = number;

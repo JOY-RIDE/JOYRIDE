@@ -1,5 +1,8 @@
 import { CourseDifficulty } from 'types/course';
-import { stringifyMeetupDifficulty, stringifyGender } from 'utils/stringify';
+import {
+  stringifyMeetupPathDifficulty,
+  stringifyGender,
+} from 'utils/stringify';
 import {
   MeetupGender,
   MeetupOrderState,
@@ -24,7 +27,7 @@ export const GENDER_OPTIONS: Option<Gender>[] = [
   { value: 'f', content: stringifyGender('f') },
 ];
 export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
-  { value: 'mixed', content: '무관' },
+  { value: 'mixed', content: stringifyGender('mixed') },
   ...GENDER_OPTIONS,
 ];
 export const BIRTH_YEAR_OPTIONS: Option<number>[] = range(
@@ -60,9 +63,9 @@ export const LOCATIONS: Location[] = [
   '제주',
 ];
 export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<MeetupPathDifficulty>[] = [
-  { value: 1, content: stringifyMeetupDifficulty(1) },
-  { value: 2, content: stringifyMeetupDifficulty(2) },
-  { value: 3, content: stringifyMeetupDifficulty(3) },
+  { value: 1, content: stringifyMeetupPathDifficulty(1) },
+  { value: 2, content: stringifyMeetupPathDifficulty(2) },
+  { value: 3, content: stringifyMeetupPathDifficulty(3) },
 ];
 
 export const COURSE_DIFFICULTY: CourseDifficulty[] = ['1', '2', '3'];

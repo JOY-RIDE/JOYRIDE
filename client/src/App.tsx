@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { isLoggedInState } from 'states/auth';
+import { userIdState } from 'states/auth';
 import { authAPI } from 'apis/authAPI';
 import Layout from 'routes/Layout';
 import Home from 'routes/Home';
@@ -10,18 +10,21 @@ import Road from 'routes/Road';
 import MapDetail from 'components/road/MapDetail';
 import Meetups from 'routes/Meetups';
 import Meetup from 'routes/Meetup';
-import Login from 'routes/Login';
+import Login from 'routes/AuthPage/Login';
 import Toast from 'components/common/Toast';
-import AuthRoute from 'components/common/AuthRoute';
-import PublicRoute from 'components/common/PublicRoute';
 // import ErrorBoundary from 'components/ErrorBoundary';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { MAIN_COLOR } from 'utils/constants';
 import { Theme as MuiTheme } from '@mui/material/styles';
+import PrivateRoute from 'components/common/PrivateRoute';
+import Search from 'routes/Search';
+import AuthPage from 'routes/AuthPage';
+import PublicOnlyRoute from 'components/common/PublicOnlyRoute';
 
-const Search = lazy(() => import('routes/Search'));
-const Signup = lazy(() => import('routes/Signup'));
+const Signup = lazy(() => import('routes/AuthPage/Signup'));
+const FindEmail = lazy(() => import('routes/AuthPage/FindEmail'));
+const ResetPassword = lazy(() => import('routes/AuthPage/ResetPassword'));
 const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
 
@@ -44,10 +47,10 @@ const theme = createTheme({
 });
 
 const App = () => {
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setUserId = useSetRecoilState(userIdState);
   const { silentRefresh } = authAPI;
   useEffect(() => {
-    silentRefresh(setIsLoggedIn);
+    silentRefresh(setUserId);
   }, []);
 
   return (
@@ -65,13 +68,17 @@ const App = () => {
             <Route path="meetups/:meetupId" element={<Meetup />} />
             <Route path="search" element={<Search />} />
 
-            <Route element={<AuthRoute />}>
+            <Route element={<PrivateRoute />}>
               <Route path="mypage" element={<Mypage />} />
             </Route>
 
-            <Route element={<PublicRoute />}>
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
+            <Route element={<PublicOnlyRoute />}>
+              <Route path="auth" element={<AuthPage />}>
+                <Route path="login" element={<Login />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path="find_email" element={<FindEmail />} />
+                <Route path="reset_password" element={<ResetPassword />} />
+              </Route>
             </Route>
           </Route>
 

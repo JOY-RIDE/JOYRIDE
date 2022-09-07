@@ -62,7 +62,7 @@ const DateTimePicker = forwardRef<DatePicker, DateTimePickerProps>(
         selected={selectedDate}
         onChange={onChange}
         locale={ko}
-        dateFormat="yyyy년 MM월 dd일 aa h:mm"
+        dateFormat="yyyy년 M월 d일 aa h:mm"
         minDate={minDate}
         filterTime={date => filterPassedTimes(date)}
         timeCaption="시간"

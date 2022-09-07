@@ -21,8 +21,8 @@ const Chip = ({
   onTextClick,
   onXClick,
 }: ChipProps) => (
-  <li
-    className={cn('option', size, { active: isActive })}
+  <div
+    className={cn('chip', size, { active: isActive })}
     onClick={!isActive ? onTextClick : undefined}
   >
     <span>{content}</span>
@@ -33,7 +33,7 @@ const Chip = ({
     >
       <VscChromeClose />
     </button>
-  </li>
+  </div>
 );
 
 export default Chip;
