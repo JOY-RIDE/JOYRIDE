@@ -11,7 +11,7 @@ export const userProfileState = selector<UserProfile | null>({
   get: async ({ get }) => {
     // TODO: 캐싱 확인
     const userId = get(userIdState);
-    if (!userId) return null;
+    if (userId === null) return null;
     return await userAPI.getProfile(userId);
   },
 });
