@@ -10,7 +10,6 @@ export const userAPI = {
     } = await axios.get(`/users/${userId}`);
 
     if (code !== 1000) {
-      // TODO
       throw new Error(code);
     }
 
@@ -23,11 +22,9 @@ export const userAPI = {
 
   async logout(setUserId: SetUserId) {
     const {
-      data: { code, result },
+      data: { code },
     } = await axios.post('/users/signout');
 
-    // TODO
-    console.log(code, result);
     if (code === 1000) {
       this.handleLogout(setUserId);
     }

@@ -13,11 +13,13 @@ import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
 import OrderList from 'components/meetups/OrderList';
 import { getMeetupsOrderedBy } from 'utils/order';
 import MeetupCreator from 'components/meetups/MeetupCreator';
+import { userIdState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
 // TODO: react query, pagination
 const Meetups = () => {
+  const userId = useRecoilValue(userIdState);
   // temp
   const [meetups, setMeetups] = useState(mockMeetupAPI.getMeetupList());
   const order = useRecoilValue(meetupOrderState);
