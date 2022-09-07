@@ -88,6 +88,15 @@
   margin: 5rem 0 1.5rem 0;
 }
 
+.map-section {
+  & .notice {
+    margin-top: 0.5em;
+    font-size: 1.3rem;
+    color: $color-grey-500;
+    text-align: right;
+  }
+}
+
 .participants-section,
 .comments-section {
   margin-top: 4rem;
