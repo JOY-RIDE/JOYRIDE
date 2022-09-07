@@ -76,6 +76,8 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       )
     );
 
+    // Callbacks
+
     function attachMarker(latLng: any, stopNewIndex: number) {
       new window.kakao.maps.Marker({
         map,

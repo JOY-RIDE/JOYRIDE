@@ -1,3 +1,4 @@
+@use '../../styles/mixins.scss' as *;
 @use '../../styles/variables.scss' as *;
 
 .container {
@@ -83,17 +84,20 @@
 
 .join-bar {
   background: white;
-  // border-top: $border-grey; // TODO
-  // border-bottom: $border-grey;
+  padding: 1.5rem $side-padding;
+  border-top: 1px solid $color-grey-200;
   position: fixed;
   z-index: 2;
+  width: 100%;
+  left: 0;
   bottom: 0;
-  padding: 1.5rem 0;
-  width: calc(100% - 2 * $side-padding);
-  max-width: $max-width-page;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @include for-desktop-up {
+    padding: 1.5rem calc((100vw - $max-width-page) / 2.5);
+  }
 
   & > div {
     display: flex;

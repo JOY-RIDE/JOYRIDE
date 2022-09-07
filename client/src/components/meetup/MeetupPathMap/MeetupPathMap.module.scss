@@ -1,7 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 
 .container {
-  max-width: 100rem;
+  max-width: $max-width-page;
   margin: 0 auto;
   height: 50rem;
 }
