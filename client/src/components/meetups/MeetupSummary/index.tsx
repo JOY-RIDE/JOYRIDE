@@ -25,6 +25,13 @@ const MeetupSummary = (props: Meetup) => (
       </header>
 
       <div className={cn('summaries')}>
+        <div className={cn('summary', 'meeting-place')}>
+          <label className={cn('label')}>집결지</label>
+          <div className={cn('data')}>
+            <span className={cn('emphasized')}>{props.location}</span>{' '}
+            {props.gatheringPlace}
+          </div>
+        </div>
         <div className={cn('summary')}>
           <label className={cn('label')}>코스 난이도</label>
           <span className={cn('data', 'emphasized')}>

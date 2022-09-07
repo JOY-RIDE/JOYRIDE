@@ -62,7 +62,6 @@ export const authAPI = (() => {
       data: { code, result },
     } = await axios.post('/auth/jwt');
 
-    console.log(code);
     // refresh token 유효할 때
     if (code === 1000) {
       handleLogin(result.accessToken, setUserId, result.userId);

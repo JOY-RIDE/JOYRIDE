@@ -79,6 +79,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   } = useForm<MeetupCreationForm>({
     defaultValues: {
       location: '서울',
+      gatheringPlace: '',
       path: [],
       pathDifficulty: 1,
       bicycleTypes: ['따릉이'],
@@ -90,6 +91,7 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       dueDate: null,
       meetingDate: null,
       participationFee: 0,
+      content: '',
     },
   });
   const dueDate = watch('dueDate');
@@ -196,6 +198,28 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
               )}
             />
           </ul>
+        </div>
+
+        <div className={cn('field')}>
+          <label className={cn('label')}>
+            <h4>집결지</h4>
+          </label>
+          <Controller
+            control={control}
+            name="gatheringPlace"
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextInput placeholder="집결지를 입력하세요." {...field} />
+            )}
+          />
+          {errors.gatheringPlace && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'gatheringPlace',
+                errors.gatheringPlace.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field', 'date')}>
