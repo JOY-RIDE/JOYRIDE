@@ -67,26 +67,26 @@ const Meetup = () => {
       <section className={cn('fields-section')}>
         <div className={cn('fields')}>
           <div className={cn('field')}>
-            <label className={cn('label')}>모집 마감 일시</label>
-            <span className={cn('data')}>
-              {dayjs(meetup.dueDate).format(DATE_FORMAT)}
+            <label className={cn('label')}>지역</label>
+            <span className={cn('data', 'emphasized')}>{meetup.location}</span>
+          </div>
+
+          <div className={cn('field')}>
+            <label className={cn('label')}>집결지</label>
+            <span className={cn('data', 'emphasized')}>
+              {meetup.gatheringPlace}
             </span>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>모임 일시</label>
-            <span className={cn('data')}>
+            <span className={cn('data', 'emphasized')}>
               {dayjs(meetup.meetingDate).format(DATE_FORMAT)}
             </span>
           </div>
         </div>
 
         <div className={cn('fields')}>
-          <div className={cn('field')}>
-            <label className={cn('label')}>지역</label>
-            <span className={cn('data', 'emphasized')}>{meetup.location}</span>
-          </div>
-
           <div className={cn('field')}>
             <label className={cn('label')}>코스 난이도</label>
             <span className={cn('data', 'emphasized')}>

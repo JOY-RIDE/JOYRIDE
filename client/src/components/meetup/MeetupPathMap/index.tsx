@@ -1,11 +1,8 @@
 import { useRef, useEffect } from 'react';
 import { MeetupPath } from 'types/meetup';
 import { MAIN_COLOR } from 'utils/constants';
-import {
-  FINISH_MARKER_IMAGE,
-  START_MARKER_IMAGE,
-  USER_DEFAULT_IMAGE,
-} from 'utils/urls';
+import { FINISH_MARKER_IMAGE, START_MARKER_IMAGE } from 'utils/urls';
+import meetup_stop from 'assets/icons/meetup_stop.svg';
 import styles from './MeetupPathMap.module.scss';
 
 function getLatLngsOrderedByIndex(latLngs: any[]) {
@@ -15,7 +12,7 @@ function getLatLngsOrderedByIndex(latLngs: any[]) {
 }
 
 const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(50, 45);
-const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(20, 20);
+const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(32, 32);
 
 const MAP_OPTION = {
   center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
@@ -57,7 +54,7 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
             latLngs.push({ index: stopOriginalIndex, latLng });
 
             attachMarker(latLng, stopNewIndex);
-            attachOverlay(latLng, stop, stopOriginalIndex);
+            attachOverlay(latLng, stop);
 
             if (latLngs.length < 2) return;
 
@@ -105,9 +102,9 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
               });
 
         default:
-          return getMarkerImageObj(USER_DEFAULT_IMAGE, DEFAULT_IMAGE_SIZE, {
+          return getMarkerImageObj(meetup_stop, DEFAULT_IMAGE_SIZE, {
             alt: '경유지',
-          }); // TODO
+          });
       }
     }
 
@@ -118,11 +115,9 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     function attachOverlay(
       latLng: any,
       stop: string,
-      stopOriginalIndex: number
+      stopOriginalIndex?: number
     ) {
-      const overlay = `<span class=${styles.overlay}>${
-        stopOriginalIndex + 1
-      }. ${stop}</span>`;
+      const overlay = `<span class=${styles.overlay}>${stop}</span>`;
       new window.kakao.maps.CustomOverlay({
         map,
         position: latLng,

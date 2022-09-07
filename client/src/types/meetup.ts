@@ -6,6 +6,7 @@ export type MeetupTitle = string;
 export type MeetupImage = string; // TODO
 export type MeetupMeetingDate = Date;
 export type MeetupDueDate = Date;
+export type MeetupGatheringPlace = string;
 export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
@@ -25,6 +26,7 @@ export interface NewMeetup {
   image: MeetupImage;
   meetingDate: MeetupMeetingDate;
   dueDate: MeetupDueDate;
+  gatheringPlace: MeetupGatheringPlace;
   courseName: MeetupCourseName;
   path: MeetupPath;
   pathDifficulty: MeetupPathDifficulty;

@@ -21,6 +21,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
     : faker.image.cats(undefined, undefined, true),
   meetingDate: faker.date.future(),
   dueDate: faker.date.soon(10),
+  gatheringPlace: '목동 스타벅스',
   courseName: faker.datatype.number(1) ? faker.random.words(3) : null,
   path: faker.helpers.arrayElements(LOCATIONS),
   pathDifficulty: faker.helpers.arrayElement([1, 2, 3]),
