@@ -59,6 +59,8 @@ public enum BaseResponseStatus {
     POST_USER_EXISTS_JOIN(false, 2033, "이미 참여중인 모임입니다."),
     DELETE_USER_NOT_EXISTS_JOIN(false, 2034, "참여중인 모임이 아닙니다."),
     DELETE_USER_NOT_EXISTS_MEET(false,2035,"해당 모임은 존재하지 않습니다"),
+    MEET_CLOSED(false,2036,"닫힌 모임입니다."),
+
 
     //500
    COURSE_REVIEW_NOT_EXISTS(false, 2500, "해당 코스리뷰가 없습니다."),

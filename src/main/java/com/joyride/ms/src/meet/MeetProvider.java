@@ -54,4 +54,13 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public int checkMeetStatus(Integer meetId) throws BaseException {
+        try {
+            return meetDao.checkMeetStatus(meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

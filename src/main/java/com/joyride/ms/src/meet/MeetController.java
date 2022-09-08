@@ -100,6 +100,8 @@ public class MeetController {
     public BaseResponse<String> postMeetJoin(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
+            if (meetProvider.checkMeetStatus(meetId) == 0 )
+                return new BaseResponse<>(BaseResponseStatus.MEET_CLOSED);
             if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
                 return new BaseResponse<>(BaseResponseStatus.POST_USER_EXISTS_JOIN);
             } else {
@@ -113,7 +115,7 @@ public class MeetController {
 
     /**
      * 4.5 모임 탈퇴 API
-     * [Delete] /meets/join/:meetId
+     * [DELETE] /meets/join/:meetId
      *
      * @param request
      * @return
@@ -134,12 +136,12 @@ public class MeetController {
 
     /**
      * 4.6 모임 삭제 API
-     * [Delete] /meets/:meetId
+     * [PATCH] /meets/:meetId
      *
      * @param request
      * @return
      */
-    @DeleteMapping("{meetId}")
+    @PatchMapping("{meetId}")
     public BaseResponse<String> deleteMeet(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
