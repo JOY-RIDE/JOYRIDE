@@ -1,4 +1,3 @@
-import { NewMeetup } from './../types/meetup';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
@@ -7,7 +6,7 @@ import { GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
   getMeetupList: () => any;
-  createMeetup: (meetup: NewMeetup) => void;
+  createMeetup: (newMeetup: FormData) => Promise<void>;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -23,10 +22,10 @@ export const meetupAPI: MeetupAPI = {
     return result;
   },
 
-  async createMeetup(meetup: NewMeetup) {
+  async createMeetup(newMeetup: FormData) {
     const {
       data: { code },
-    } = await axios.post('/meets', meetup, {
+    } = await axios.post('/meets', newMeetup, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

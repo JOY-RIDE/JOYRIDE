@@ -1,5 +1,22 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { NewMeetup, MeetupGender, MeetupPathDifficulty } from 'types/meetup';
+import {
+  MeetupGender,
+  MeetupPathDifficulty,
+  MeetupTitle,
+  MeetupImage,
+  MeetupGatheringPlace,
+  MeetupPath,
+  MeetupCourseName,
+  MeetupBicycleTypes,
+  MeetupRidingSkill,
+  MeetupLocation,
+  MeetupMinBirthYear,
+  MeetupMaxBirthYear,
+  MeetupParticipationFee,
+  MeetupContent,
+  MeetupMaxNumOfParticipants,
+  NewMeetup,
+} from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
@@ -24,10 +41,7 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import TextInput from 'components/common/TextInput';
 import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
-import { toastMessageState } from 'states/common';
-import { useSetRecoilState } from 'recoil';
 import { Fragment } from 'react';
-import { meetupAPI } from 'apis/meetupAPI';
 
 const cn = classNames.bind(styles);
 
@@ -53,16 +67,43 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 );
 
 interface MeetupCreationForm
-  extends Omit<NewMeetup, 'meetingDate' | 'dueDate'> {
+  extends Omit<
+    NewMeetup,
+    'dueDate' | 'meetingDate' | 'localLocation' | 'path' | 'maxPeople'
+  > {
   dueDate: Date | null;
   meetingDate: Date | null;
+  location: MeetupLocation;
+  path: string[];
+  maxNumOfParticipants: MeetupMaxNumOfParticipants;
 }
+
+// interface MeetupCreationForm {
+//   title: MeetupTitle;
+//   // image: MeetupImage | null;
+//   meetingDate: Date | null;
+//   dueDate: Date | null;
+//   gatheringPlace: MeetupGatheringPlace;
+//   courseName: MeetupCourseName;
+//   path: MeetupPath;
+//   pathDifficulty: MeetupPathDifficulty;
+//   bicycleTypes: MeetupBicycleTypes;
+//   ridingSkill: MeetupRidingSkill;
+//   maxNumOfParticipants: MeetupMaxNumOfParticipants;
+//   location: MeetupLocation;
+//   gender: MeetupGender;
+//   minBirthYear: MeetupMinBirthYear;
+//   maxBirthYear: MeetupMaxBirthYear;
+//   participationFee: MeetupParticipationFee;
+//   content: MeetupContent;
+// }
+
 interface MeetupCreationFormProp {
-  close: () => void;
+  createMeetup: (newMeetup: FormData) => void;
 }
 
 // TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
-const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
+const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
   const {
     register,
     control,
@@ -141,13 +182,22 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       SET_VALUE_OPTION
     );
 
-  const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     // radio 숫자들 string으로 들어옴
-    console.log(data);
-    // meetupAPI.createMeetup(data);
-    showToastMessage('모임이 등록되었습니다');
-    close();
+    const newMeetup = {
+      ...data,
+      localLocation: data.location,
+      path: data.path.join(','),
+      maxPeople: data.maxNumOfParticipants,
+    };
+    console.log(newMeetup);
+
+    const formData = new FormData();
+    for (const key in newMeetup) {
+      // @ts-ignore
+      formData.append(key, JSON.stringify(newMeetup[key]));
+    }
+    createMeetup(formData);
   };
 
   return (

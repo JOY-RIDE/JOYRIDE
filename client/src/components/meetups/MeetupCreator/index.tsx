@@ -6,12 +6,30 @@ import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
 import MeetupCreationForm from '../MeetupCreationForm';
 import useResponsivePopup from 'hooks/useResponsivePopup';
+import { useMutation, useQueryClient } from 'react-query';
+import { meetupAPI } from 'apis/meetupAPI';
+import { useSetRecoilState } from 'recoil';
+import { toastMessageState } from 'states/common';
 
 const cn = classNames.bind(styles);
 
 const MeetupCreator = () => {
   const { isOpen, handlePopupOpen, handlePopupClose, isFullScreen } =
     useResponsivePopup();
+  const showToastMessage = useSetRecoilState(toastMessageState);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation(meetupAPI.createMeetup, {
+    onSuccess: () => {
+      showToastMessage('모임이 등록되었습니다');
+      handlePopupClose();
+      queryClient.invalidateQueries(['meetups']);
+    },
+    onError: e => console.log(e),
+  });
+
+  const createMeetup = (newMeetup: FormData) => mutation.mutate(newMeetup);
+
   return (
     <>
       <button className={cn('open-btn')} onClick={handlePopupOpen}>
@@ -40,7 +58,7 @@ const MeetupCreator = () => {
             <VscChromeClose />
           </button>
         </header>
-        <MeetupCreationForm close={handlePopupClose} />
+        <MeetupCreationForm createMeetup={createMeetup} />
       </Dialog>
     </>
   );
