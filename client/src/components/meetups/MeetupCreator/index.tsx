@@ -25,7 +25,6 @@ const MeetupCreator = () => {
       handlePopupClose();
       queryClient.invalidateQueries(['meetups']);
     },
-
     onError: (e: any) => {
       if (e.message === '5003') {
         showToastMessage('이미지 파일을 다시 확인해 주세요');

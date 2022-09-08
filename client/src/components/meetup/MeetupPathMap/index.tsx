@@ -86,13 +86,8 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
             attachOverlay(latLng, stop);
 
             if (latLngs.length < 2) return;
-
-            if (latLngs.length === path.length) {
-              removeExistingLine();
-              drawLine(getLatLngsOrderedByIndex(latLngs));
-            } else if (stopNewIndex === -1) {
-              drawLine(getLatLngsOrderedByIndex(latLngs));
-            }
+            removeExistingLine();
+            drawLine(getLatLngsOrderedByIndex(latLngs));
           } catch (e) {
             if (e instanceof TypeError) return;
             else throw new Error();

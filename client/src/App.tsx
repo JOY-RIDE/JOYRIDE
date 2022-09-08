@@ -38,7 +38,6 @@ const theme = createTheme({
     fontFamily:
       'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
   },
-
   palette: {
     primary: {
       main: MAIN_COLOR,

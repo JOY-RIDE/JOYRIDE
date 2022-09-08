@@ -20,6 +20,7 @@ import { useQuery } from 'react-query';
 import { toastMessageState } from 'states/common';
 import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';
+import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 
 // const testPath = [
 //   '안합',
@@ -42,7 +43,7 @@ const Meetup = () => {
   const { meetupId } = useParams();
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetup } = useQuery(
-    ['meetup', meetupId],
+    ['meetup', Number(meetupId)],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
@@ -57,6 +58,7 @@ const Meetup = () => {
   const imgStyle = {
     backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.meetingImgUrl})`,
   };
+
   console.log(meetup);
   return (
     <div className={cn('container')}>
@@ -202,19 +204,10 @@ const Meetup = () => {
         </h2>
       </section>
 
-      <div className={cn('join-bar')}>
-        <div>
-          <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
-            {/* TODO: active */}
-            <BsBookmark />
-            {/* <BsBookmarkFill/> */}
-          </button>
-          <p>{dayjs(meetup.dueDate).format(DATE_FORMAT)} 모집 마감</p>
-        </div>
-        <button className={cn('join-btn')} aria-label="모임 참가 버튼">
-          참가하기
-        </button>
-      </div>
+      <MeetupJoinBar
+        meetupId={meetup.id}
+        dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)}
+      />
     </div>
   );
 };

@@ -34,7 +34,6 @@ const Meetups = () => {
   } = useQuery(['meetups'], meetupAPI.getMeetupList, {
     onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
   });
-  console.log(meetups);
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
