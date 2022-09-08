@@ -86,7 +86,6 @@
 
 .route-section {
   margin: 4rem 0 1.5rem 0;
-
   @include for-tablet-landscape-up {
     margin-top: 5rem;
   }
@@ -160,5 +159,6 @@
     font-weight: 700;
     padding: 1rem 2rem;
     border-radius: 0.3rem;
+    flex-shrink: 0;
   }
 }
