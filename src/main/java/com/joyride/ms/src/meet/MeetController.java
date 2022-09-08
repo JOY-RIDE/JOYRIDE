@@ -44,7 +44,7 @@ public class MeetController {
     public BaseResponse<Integer> postMeet(HttpServletRequest request, @RequestPart MeetCreateReq meetCreateReq, @RequestPart(value = "meeting-img", required = false) MultipartFile multipartFile) {
         try {
             Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
-            String meeting_img_url = "";
+            String meeting_img_url = "https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/meet/default-img.jpg";
             if (multipartFile != null) {
                 String dirName = "meet/info/" + userId + "/meeting-img";
                 meeting_img_url = awsS3Service.upload(multipartFile, dirName);
