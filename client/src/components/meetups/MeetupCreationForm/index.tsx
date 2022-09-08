@@ -27,6 +27,7 @@ import { BsArrowRight } from 'react-icons/bs';
 import { toastMessageState } from 'states/common';
 import { useSetRecoilState } from 'recoil';
 import { Fragment } from 'react';
+import { meetupAPI } from 'apis/meetupAPI';
 
 const cn = classNames.bind(styles);
 
@@ -144,8 +145,9 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     // radio 숫자들 string으로 들어옴
     console.log(data);
-    close();
+    // meetupAPI.createMeetup(data);
     showToastMessage('모임이 등록되었습니다');
+    close();
   };
 
   return (

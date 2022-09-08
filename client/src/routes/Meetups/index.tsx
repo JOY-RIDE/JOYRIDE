@@ -4,7 +4,7 @@ import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { meetupFiltersState, meetupOrderState } from 'states/meetup';
 import { useEffect } from 'react';
 import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
@@ -16,6 +16,7 @@ import MeetupCreator from 'components/meetups/MeetupCreator';
 import { userIdState } from 'states/auth';
 import { useQuery } from 'react-query';
 import Loading from 'components/common/Loading';
+import { toastMessageState } from 'states/common';
 
 const cn = classNames.bind(styles);
 
@@ -24,10 +25,15 @@ const Meetups = () => {
   const userId = useRecoilValue(userIdState);
   const order = useRecoilValue(meetupOrderState);
   const filters = useRecoilValue(meetupFiltersState);
-  const { data, isLoading, error, status } = useQuery(
+  const showToastMessage = useSetRecoilState(toastMessageState);
+
+  const { data, isLoading, status } = useQuery(
     ['meetups'],
     meetupAPI.getMeetupList,
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+    }
   );
   console.log(data);
 

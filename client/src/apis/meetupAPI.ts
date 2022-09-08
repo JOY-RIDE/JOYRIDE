@@ -1,3 +1,4 @@
+import { NewMeetup } from './../types/meetup';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
@@ -6,6 +7,7 @@ import { GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
   getMeetupList: () => any;
+  createMeetup: (meetup: NewMeetup) => void;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -19,6 +21,20 @@ export const meetupAPI: MeetupAPI = {
     }
 
     return result;
+  },
+
+  async createMeetup(meetup: NewMeetup) {
+    const {
+      data: { code },
+    } = await axios.post('/meets', meetup, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
   },
 };
 
@@ -54,6 +70,7 @@ const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({
   content: faker.lorem.sentences(10),
 }));
 
+// @ts-ignore
 export const mockMeetupAPI: MeetupAPI = {
   getMeetupList: () => mockMeetups,
 };
