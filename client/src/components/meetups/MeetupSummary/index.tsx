@@ -5,11 +5,11 @@ import {
 import styles from './MeetupSummary.module.scss';
 import classNames from 'classnames/bind';
 import dayjs from 'dayjs';
-import { Meetup } from 'types/meetup';
+import { MeetupData } from 'types/meetup';
 
 const cn = classNames.bind(styles);
 
-const MeetupSummary = (props: Meetup) => (
+const MeetupSummary = (props: MeetupData) => (
   <div className={cn('container')}>
     <div className={cn('text')}>
       <header className={cn('header')}>
@@ -59,11 +59,8 @@ const MeetupSummary = (props: Meetup) => (
         <div className={cn('summary')}>
           <label className={cn('label')}>인원</label>
           <div className={cn('data')}>
-            <span className={cn('emphasized')}>
-              {props.joinPeople}
-              {/* {props.participants.length} */}
-            </span>
-            /{props.maxPeople}명
+            <span className={cn('emphasized')}>{props.joinPeople}</span>/
+            {props.maxPeople}명
           </div>
         </div>
       </div>

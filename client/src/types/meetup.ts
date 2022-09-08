@@ -26,8 +26,8 @@ export type MeetupContent = string;
 export interface NewMeetup {
   title: MeetupTitle;
   meetingImgUrl?: MeetupImage;
-  meetingDate: Date;
-  dueDate: Date;
+  dueDate: MeetupDueDate;
+  meetingDate: MeetupMeetingDate;
   gatheringPlace: MeetupGatheringPlace;
   courseName: MeetupCourseName;
   path: string;
@@ -44,13 +44,14 @@ export interface NewMeetup {
 }
 
 // Response
-export interface Meetup
-  extends Omit<NewMeetup, 'dueDate' | 'meetingDate' | 'path'> {
+export interface MeetupData extends Omit<NewMeetup, 'path'> {
   id: MeetupID;
-  dueDate: MeetupDueDate;
-  meetingDate: MeetupMeetingDate;
   path: MeetupPath;
   joinPeople: number;
+}
+export interface MeetupDetail extends MeetupData {
+  admin: Object;
+  participants: any[];
 }
 
 // export type MeetupFiltersKey =

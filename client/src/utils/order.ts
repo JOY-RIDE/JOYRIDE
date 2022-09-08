@@ -1,7 +1,10 @@
 import dayjs from 'dayjs';
-import { Meetup, MeetupOrderName } from 'types/meetup';
+import { MeetupOrderName, MeetupData } from 'types/meetup';
 
-export function getMeetupsOrderedBy(name: MeetupOrderName, meetups: Meetup[]) {
+export function getMeetupsOrderedBy(
+  name: MeetupOrderName,
+  meetups: MeetupData[]
+) {
   const newMeetups = [...meetups];
   switch (name) {
     case '-createdAt':

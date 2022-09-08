@@ -1,13 +1,13 @@
+import { MeetupData, MeetupDetail } from './../types/meetup';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
-import { Meetup } from 'types/meetup';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
-  getMeetupList: () => Promise<Meetup[]>;
+  getMeetupList: () => Promise<MeetupData[]>;
   // TODO: type 추가
-  getMeetupDetail: (meetupId: number) => Promise<any>;
+  getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
 }

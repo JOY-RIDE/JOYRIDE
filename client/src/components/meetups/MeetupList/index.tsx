@@ -1,9 +1,9 @@
-import { Meetup } from 'types/meetup';
+import { MeetupData } from 'types/meetup';
 import MeetupItem from '../MeetupItem';
 import styles from './MeetupList.module.scss';
 
 interface MeetupListProp {
-  meetups: Meetup[];
+  meetups: MeetupData[];
 }
 
 const MeetupList = ({ meetups }: MeetupListProp) => (

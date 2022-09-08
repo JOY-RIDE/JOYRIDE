@@ -41,7 +41,7 @@ const Meetup = () => {
   const userId = useRecoilValue(userIdState);
   const { meetupId } = useParams();
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetup, isLoading } = useQuery(
+  const { data: meetup } = useQuery(
     ['meetup', meetupId],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {
@@ -53,7 +53,7 @@ const Meetup = () => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []); // TODO: 리스트 스크롤 위치 기억
 
-  if (isLoading) return <Loading />;
+  if (!meetup) return <Loading />;
   const imgStyle = {
     backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.meetingImgUrl})`,
   };
@@ -126,10 +126,8 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>인원</label>
             <div className={cn('data')}>
-              <span className={cn('emphasized')}>
-                {meetup.participants.length}
-              </span>
-              /{meetup.maxPeople}명
+              <span className={cn('emphasized')}>{meetup.joinPeople}</span>/
+              {meetup.maxPeople}명
             </div>
           </div>
 
@@ -191,7 +189,7 @@ const Meetup = () => {
         <h2 className={cn('subtitle')}>
           참여 중인 인원
           <div className={cn('subtitle__num')}>
-            <span className={cn('current')}>{meetup.participants.length}</span>/
+            <span className={cn('current')}>{meetup.joinPeople}</span>/
             {meetup.maxPeople}
           </div>
         </h2>

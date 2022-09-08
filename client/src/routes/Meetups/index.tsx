@@ -17,7 +17,7 @@ import { userIdState } from 'states/auth';
 import { useQuery } from 'react-query';
 import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
-import { Meetup } from 'types/meetup';
+import { MeetupData } from 'types/meetup';
 
 const cn = classNames.bind(styles);
 
@@ -71,7 +71,7 @@ const Meetups = () => {
         ) : (
           // TODO: order 디폴트 null?
           <MeetupList
-            meetups={getMeetupsOrderedBy(order.name, meetups as Meetup[])}
+            meetups={getMeetupsOrderedBy(order.name, meetups as MeetupData[])}
           />
         )}
       </div>

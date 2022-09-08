@@ -2,18 +2,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   MeetupGender,
   MeetupPathDifficulty,
-  MeetupTitle,
-  MeetupImage,
-  MeetupGatheringPlace,
-  MeetupPath,
-  MeetupCourseName,
-  MeetupBicycleTypes,
-  MeetupRidingSkill,
   MeetupLocation,
-  MeetupMinBirthYear,
-  MeetupMaxBirthYear,
-  MeetupParticipationFee,
-  MeetupContent,
   MeetupMaxNumOfParticipants,
   NewMeetup,
 } from 'types/meetup';
@@ -42,6 +31,7 @@ import TextInput from 'components/common/TextInput';
 import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
 import { Fragment } from 'react';
+import dayjs from 'dayjs';
 
 const cn = classNames.bind(styles);
 
@@ -77,26 +67,6 @@ interface MeetupCreationForm
   path: string[];
   maxNumOfParticipants: MeetupMaxNumOfParticipants;
 }
-
-// interface MeetupCreationForm {
-//   title: MeetupTitle;
-//   // image: MeetupImage | null;
-//   meetingDate: Date | null;
-//   dueDate: Date | null;
-//   gatheringPlace: MeetupGatheringPlace;
-//   courseName: MeetupCourseName;
-//   path: MeetupPath;
-//   pathDifficulty: MeetupPathDifficulty;
-//   bicycleTypes: MeetupBicycleTypes;
-//   ridingSkill: MeetupRidingSkill;
-//   maxNumOfParticipants: MeetupMaxNumOfParticipants;
-//   location: MeetupLocation;
-//   gender: MeetupGender;
-//   minBirthYear: MeetupMinBirthYear;
-//   maxBirthYear: MeetupMaxBirthYear;
-//   participationFee: MeetupParticipationFee;
-//   content: MeetupContent;
-// }
 
 interface MeetupCreationFormProp {
   createMeetup: (newMeetup: FormData) => void;
@@ -187,16 +157,23 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     const newMeetup = {
       ...data,
       localLocation: data.location,
+      dueDate: dayjs(data.dueDate).format('YYYY-MM-DD HH:mm:ss'),
+      meetingDate: dayjs(data.meetingDate).format('YYYY-MM-DD HH:mm:ss'),
       path: data.path.join(','),
       maxPeople: data.maxNumOfParticipants,
     };
-    console.log(newMeetup);
+    // @ts-ignore
+    delete newMeetup.location;
+    // @ts-ignore
+    delete newMeetup.maxNumOfParticipants;
 
     const formData = new FormData();
-    for (const key in newMeetup) {
-      // @ts-ignore
-      formData.append(key, JSON.stringify(newMeetup[key]));
-    }
+    const blob = new Blob([JSON.stringify(newMeetup)], {
+      type: 'application/json',
+    });
+    formData.append('meetCreateReq', blob);
+    // formData.append('meeting-img'); TODO
+
     createMeetup(formData);
   };
 
