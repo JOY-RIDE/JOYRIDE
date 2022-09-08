@@ -29,6 +29,7 @@ const Meetups = () => {
     meetupAPI.getMeetupList,
     { refetchOnWindowFocus: false }
   );
+  console.log(data);
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);

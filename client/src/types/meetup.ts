@@ -3,17 +3,17 @@ import { CourseName } from './course';
 
 export type MeetupID = number;
 export type MeetupTitle = string;
-export type MeetupImage = string; // TODO
-export type MeetupMeetingDate = Date;
-export type MeetupDueDate = Date;
+export type MeetupImage = string;
+// export type MeetupMeetingDate = Date;
+// export type MeetupDueDate = Date;
 export type MeetupGatheringPlace = string;
 export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
 export type MeetupBicycleTypes = BicycleType[];
 export type MeetupRidingSkill = RidingSkill;
-export type MeetupMaxNumOfParticipants = number;
-export type MeetupParticipants = {}[]; // TODO
+// export type MeetupMaxNumOfParticipants = number;
+// export type MeetupParticipants = {}[]; // TODO
 export type MeetupLocation = Location;
 export type MeetupGender = Gender;
 export type MeetupMinBirthYear = number;
@@ -23,16 +23,16 @@ export type MeetupContent = string;
 
 export interface NewMeetup {
   title: MeetupTitle;
-  image: MeetupImage;
-  meetingDate: MeetupMeetingDate;
-  dueDate: MeetupDueDate;
+  image: MeetupImage | null;
+  meetingDate: Date;
+  dueDate: Date;
   gatheringPlace: MeetupGatheringPlace;
   courseName: MeetupCourseName;
   path: MeetupPath;
   pathDifficulty: MeetupPathDifficulty;
   bicycleTypes: MeetupBicycleTypes;
   ridingSkill: MeetupRidingSkill;
-  maxNumOfParticipants: MeetupMaxNumOfParticipants;
+  maxNumOfParticipants: number;
   location: MeetupLocation;
   gender: MeetupGender;
   minBirthYear: MeetupMinBirthYear;
@@ -41,11 +41,18 @@ export interface NewMeetup {
   content: MeetupContent;
 }
 
-// TODO
-export interface Meetup extends NewMeetup {
+export interface Meetup
+  extends Omit<
+    NewMeetup,
+    'image' | 'dueDate' | 'meetingDate' | 'maxNumOfParticipants' | 'location'
+  > {
   id: MeetupID;
-  participants: MeetupParticipants;
-  // userId?
+  meetingImgUrl: MeetupImage;
+  dueDate: string;
+  meetingDate: string;
+  localLocation: MeetupLocation;
+  maxPeople: number;
+  joinPeople: number;
 }
 
 // export type MeetupFiltersKey =

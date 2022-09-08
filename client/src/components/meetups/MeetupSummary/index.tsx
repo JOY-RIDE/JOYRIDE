@@ -5,11 +5,11 @@ import {
 import styles from './MeetupSummary.module.scss';
 import classNames from 'classnames/bind';
 import dayjs from 'dayjs';
-import { BicycleType } from 'types/common';
+import { Meetup } from 'types/meetup';
 
 const cn = classNames.bind(styles);
 
-const MeetupSummary = (props: any) => (
+const MeetupSummary = (props: Meetup) => (
   <div className={cn('container')}>
     <div className={cn('text')}>
       <header className={cn('header')}>
@@ -41,7 +41,7 @@ const MeetupSummary = (props: any) => (
         <div className={cn('summary')}>
           <label className={cn('label')}>자전거 종류</label>
           <ul className={cn('data')}>
-            {props.bicycleTypes.map((type: BicycleType) => (
+            {props.bicycleTypes.map(type => (
               <li key={type} className={cn('emphasized')}>
                 {type}
               </li>

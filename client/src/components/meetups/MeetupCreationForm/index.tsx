@@ -1,11 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
-  NewMeetup,
-  MeetupDueDate,
-  MeetupGender,
-  MeetupMeetingDate,
-  MeetupPathDifficulty,
-} from 'types/meetup';
+import { NewMeetup, MeetupGender, MeetupPathDifficulty } from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import {
@@ -59,8 +53,8 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
 interface MeetupCreationForm
   extends Omit<NewMeetup, 'meetingDate' | 'dueDate'> {
-  dueDate: MeetupDueDate | null;
-  meetingDate: MeetupMeetingDate | null;
+  dueDate: Date | null;
+  meetingDate: Date | null;
 }
 interface MeetupCreationFormProp {
   close: () => void;
