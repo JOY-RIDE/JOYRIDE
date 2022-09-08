@@ -39,4 +39,24 @@ public class MeetService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional
+    public void removeMeetJoinById(Integer userId,Integer meetId) throws BaseException {
+        try {
+            meetDao.deleteMeetJoin(userId, meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public void removeMeetBy(Integer meetId) throws BaseException {
+        try {
+            meetDao.deleteMeet(meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

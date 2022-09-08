@@ -23,6 +23,7 @@ public class MeetCreateReq {
     private String content;
     private int minBirthYear;
     private int maxBirthYear;
+    private String gatheringPlace;
     private String meetingDate;
     private String dueDate;
 }
