@@ -1,12 +1,12 @@
 import PageTitle from 'components/common/PageTitle';
-import { mockMeetupAPI } from 'apis/meetupAPI';
+import { meetupAPI } from 'apis/meetupAPI';
 import MeetupList from 'components/meetups/MeetupList';
 import styles from './Meetups.module.scss';
 import classNames from 'classnames/bind';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { meetupFiltersState, meetupOrderState } from 'states/meetup';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
 import ContentToggleButton from 'components/common/ContentToggleButton';
 import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
@@ -14,18 +14,20 @@ import OrderList from 'components/meetups/OrderList';
 import { getMeetupsOrderedBy } from 'utils/order';
 import MeetupCreator from 'components/meetups/MeetupCreator';
 import { userIdState } from 'states/auth';
+import { useQuery } from 'react-query';
+import Loading from 'components/common/Loading';
 
 const cn = classNames.bind(styles);
 
-// TODO: react query, pagination
+// TODO: pagination, 렌더링 확인
 const Meetups = () => {
   const userId = useRecoilValue(userIdState);
-  // temp
-  const [meetups, setMeetups] = useState(mockMeetupAPI.getMeetupList());
   const order = useRecoilValue(meetupOrderState);
-  useEffect(
-    () => setMeetups(meetups => getMeetupsOrderedBy(order.name, meetups)),
-    [order.name]
+  const filters = useRecoilValue(meetupFiltersState);
+  const { data, isLoading, error, status } = useQuery(
+    ['meetups'],
+    meetupAPI.getMeetupList,
+    { refetchOnWindowFocus: false }
   );
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
@@ -58,7 +60,12 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        <MeetupList meetups={meetups} />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          // TODO: order 디폴트 null?
+          <MeetupList meetups={getMeetupsOrderedBy(order.name, data)} />
+        )}
       </div>
     </div>
   );

@@ -14,22 +14,23 @@ import MeetupRoute from 'components/meetup/MeetupRoute';
 import MeetupPathMap from 'components/meetup/MeetupPathMap';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { useEffect } from 'react';
+import { BicycleType } from 'types/common';
 
-const testPath = [
-  '안합',
-  '잠수교',
-  '한남 나들목',
-  '남산',
-  '사직공원',
-  '북악',
-  '홍제천',
-  '성산북단',
-];
-
-dayjs.locale('ko');
+// const testPath = [
+//   '안합',
+//   '잠수교',
+//   '한남 나들목',
+//   '남산',
+//   '사직공원',
+//   '북악',
+//   '홍제천',
+//   '성산북단',
+// ];
 
 const cn = classNames.bind(styles);
+
 const DATE_FORMAT = 'M월 D일 a h:mm';
+dayjs.locale('ko');
 
 const Meetup = () => {
   const { meetupId } = useParams();
@@ -97,7 +98,7 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>자전거 종류</label>
             <ul className={cn('data')}>
-              {meetup.bicycleTypes.map(type => (
+              {meetup.bicycleTypes.map((type: BicycleType) => (
                 <li key={type} className={cn('emphasized')}>
                   {type}
                 </li>
@@ -160,7 +161,10 @@ const Meetup = () => {
       </section>
 
       <section className={cn('map-section')}>
-        <MeetupPathMap gatheringPlace={meetup.gatheringPlace} path={testPath} />
+        <MeetupPathMap
+          gatheringPlace={meetup.gatheringPlace}
+          path={meetup.path}
+        />
         <div className={cn('notice')}>
           <p>* 위 지도는 장소의 위치를 대략적으로 나타내고 있습니다.</p>
           <p>* 입력된 장소 이름에 따라 지도에 표시되지 않을 수 있습니다.</p>

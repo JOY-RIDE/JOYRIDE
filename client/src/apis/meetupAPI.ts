@@ -5,12 +5,22 @@ import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
-  getMeetupList: () => Meetup[];
+  getMeetupList: () => any;
 }
 
-// export const meetupAPI: MeetupAPI = {
-//   async getMeetupList() {},
-// };
+export const meetupAPI: MeetupAPI = {
+  async getMeetupList() {
+    const {
+      data: { code, result },
+    } = await axios.get('/meets');
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+
+    return result;
+  },
+};
 
 // Mock
 const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({

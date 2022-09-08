@@ -41,9 +41,11 @@ export interface NewMeetup {
   content: MeetupContent;
 }
 
+// TODO
 export interface Meetup extends NewMeetup {
   id: MeetupID;
   participants: MeetupParticipants;
+  // userId?
 }
 
 // export type MeetupFiltersKey =
