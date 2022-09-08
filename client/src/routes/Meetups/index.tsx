@@ -17,6 +17,7 @@ import { userIdState } from 'states/auth';
 import { useQuery } from 'react-query';
 import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
+import { Meetup } from 'types/meetup';
 
 const cn = classNames.bind(styles);
 
@@ -26,16 +27,14 @@ const Meetups = () => {
   const order = useRecoilValue(meetupOrderState);
   const filters = useRecoilValue(meetupFiltersState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-
-  const { data, isLoading, status } = useQuery(
-    ['meetups'],
-    meetupAPI.getMeetupList,
-    {
-      refetchOnWindowFocus: false,
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
-    }
-  );
-  console.log(data);
+  const {
+    data: meetups,
+    isLoading,
+    status,
+  } = useQuery(['meetups'], meetupAPI.getMeetupList, {
+    onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+  });
+  console.log(meetups);
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
@@ -71,7 +70,9 @@ const Meetups = () => {
           <Loading />
         ) : (
           // TODO: order 디폴트 null?
-          <MeetupList meetups={getMeetupsOrderedBy(order.name, data)} />
+          <MeetupList
+            meetups={getMeetupsOrderedBy(order.name, meetups as Meetup[])}
+          />
         )}
       </div>
     </div>

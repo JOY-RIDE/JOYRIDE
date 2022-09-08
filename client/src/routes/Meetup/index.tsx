@@ -1,6 +1,6 @@
 import styles from './Meetup.module.scss';
 import classNames from 'classnames/bind';
-import { mockMeetupAPI } from 'apis/meetupAPI';
+import { meetupAPI } from 'apis/meetupAPI';
 import { useParams } from 'react-router-dom';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import {
@@ -15,6 +15,11 @@ import MeetupPathMap from 'components/meetup/MeetupPathMap';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { useEffect } from 'react';
 import { BicycleType } from 'types/common';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
+import { toastMessageState } from 'states/common';
+import Loading from 'components/common/Loading';
+import { userIdState } from 'states/auth';
 
 // const testPath = [
 //   '안합',
@@ -33,9 +38,17 @@ const DATE_FORMAT = 'M월 D일 a h:mm';
 dayjs.locale('ko');
 
 const Meetup = () => {
+  const userId = useRecoilValue(userIdState);
   const { meetupId } = useParams();
-  // TODO: react query
-  const meetup = mockMeetupAPI.getMeetupList()[Number(meetupId)];
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const { data: meetup, isLoading } = useQuery(
+    ['meetup', meetupId],
+    () => meetupAPI.getMeetupDetail(Number(meetupId)),
+    {
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+    }
+  );
+  console.log(meetup);
 
   const imgStyle = {
     backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.image})`,
@@ -45,11 +58,12 @@ const Meetup = () => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []); // TODO: 리스트 스크롤 위치 기억
 
+  if (isLoading) return <Loading />;
   return (
     <div className={cn('container')}>
       <div
         className={cn('img-wrapper', {
-          default: meetup.image === MEETUP_DEFAULT_IMAGE,
+          default: meetup.meetingImgUrl === MEETUP_DEFAULT_IMAGE,
         })}
         style={imgStyle}
       />
@@ -69,7 +83,9 @@ const Meetup = () => {
         <div className={cn('fields')}>
           <div className={cn('field')}>
             <label className={cn('label')}>지역</label>
-            <span className={cn('data', 'emphasized')}>{meetup.location}</span>
+            <span className={cn('data', 'emphasized')}>
+              {meetup.localLocation}
+            </span>
           </div>
 
           <div className={cn('field')}>
@@ -114,7 +130,7 @@ const Meetup = () => {
               <span className={cn('emphasized')}>
                 {meetup.participants.length}
               </span>
-              /{meetup.maxNumOfParticipants}명
+              /{meetup.maxPeople}명
             </div>
           </div>
 
@@ -177,7 +193,7 @@ const Meetup = () => {
           참여 중인 인원
           <div className={cn('subtitle__num')}>
             <span className={cn('current')}>{meetup.participants.length}</span>/
-            {meetup.maxNumOfParticipants}
+            {meetup.maxPeople}
           </div>
         </h2>
       </section>
