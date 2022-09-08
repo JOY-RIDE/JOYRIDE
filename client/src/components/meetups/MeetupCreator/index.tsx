@@ -25,7 +25,14 @@ const MeetupCreator = () => {
       handlePopupClose();
       queryClient.invalidateQueries(['meetups']);
     },
-    onError: e => console.log(e),
+
+    onError: (e: any) => {
+      if (e.message === '5003') {
+        showToastMessage('이미지 파일을 다시 확인해 주세요');
+        return;
+      }
+      showToastMessage('모임 등록 중 문제가 발생했습니다');
+    },
   });
 
   const createMeetup = (newMeetup: FormData) => mutation.mutate(newMeetup);

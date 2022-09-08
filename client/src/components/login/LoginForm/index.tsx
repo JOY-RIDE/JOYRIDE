@@ -4,7 +4,6 @@ import { useSetRecoilState } from 'recoil';
 import { userIdState } from 'states/auth';
 import { toastMessageState } from 'states/common';
 import { authAPI } from 'apis/authAPI';
-import { AxiosError } from 'axios';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import CheckBox from 'components/common/CheckBox';
@@ -62,12 +61,8 @@ const LoginForm = () => {
       await authAPI.login(email, password, isAuto, setUserId);
       // TODO
       // navigate(nextURL || '/');
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        showToastMessage(getLoginFailErrorMessage(e.message));
-      } else if (e instanceof Error) {
-        showToastMessage(getLoginFailErrorMessage(e.message));
-      }
+    } catch (e: any) {
+      showToastMessage(getLoginFailErrorMessage(e.message));
     }
   };
 
