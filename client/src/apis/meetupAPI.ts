@@ -28,7 +28,7 @@ export const meetupAPI: MeetupAPI = {
   async getMeetupDetail(meetupId: number) {
     const {
       data: { code, result },
-    } = await axios.get(`/meets`, { params: { meetId: meetupId } });
+    } = await axios.get(`/meets/${meetupId}`);
 
     if (code !== 1000) {
       throw new Error(code);
@@ -54,7 +54,7 @@ export const meetupAPI: MeetupAPI = {
   async joinMeetup(meetupId: number) {
     const {
       data: { code },
-    } = await axios.post(`/meets`, { params: { meetId: meetupId } });
+    } = await axios.post(`/meets/${meetupId}`);
 
     if (code !== 1000) {
       throw new Error(code);

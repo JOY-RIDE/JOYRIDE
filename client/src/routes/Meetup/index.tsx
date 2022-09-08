@@ -48,17 +48,16 @@ const Meetup = () => {
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
     }
   );
-  console.log(meetup);
-
-  const imgStyle = {
-    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.image})`,
-  };
 
   useEffect(() => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []); // TODO: 리스트 스크롤 위치 기억
 
   if (isLoading) return <Loading />;
+  const imgStyle = {
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.meetingImgUrl})`,
+  };
+  console.log(meetup);
   return (
     <div className={cn('container')}>
       <div
