@@ -25,11 +25,11 @@ function getLoginFailErrorMessage(code: string) {
     case '2011':
       return '등록되지 않은 이메일입니다';
     case '2012':
-      return '탈퇴한 회원입니다.';
+      return '탈퇴한 회원입니다';
     case '2112':
       return '비밀번호를 다시 확인해 주세요';
     default:
-      return '로그인 중 문제가 발생했습니다.';
+      return '로그인 중 문제가 발생했습니다';
   }
 }
 

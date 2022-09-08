@@ -161,9 +161,10 @@ const Meetup = () => {
 
       <section className={cn('map-section')}>
         <MeetupPathMap gatheringPlace={meetup.gatheringPlace} path={testPath} />
-        <p className={cn('notice')}>
-          * 위 지도는 장소의 위치를 대략적으로 나타내고 있습니다.
-        </p>
+        <div className={cn('notice')}>
+          <p>* 위 지도는 장소의 위치를 대략적으로 나타내고 있습니다.</p>
+          <p>* 입력된 장소 이름에 따라 지도에 표시되지 않을 수 있습니다.</p>
+        </div>
       </section>
 
       {/* TODO */}

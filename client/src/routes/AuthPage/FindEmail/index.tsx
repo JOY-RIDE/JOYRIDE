@@ -5,11 +5,14 @@ import Button from 'components/common/Button';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { BsQuestionCircle } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const cn = classNames.bind(styles);
 
 const FindEmail = () => {
+  const navigate = useNavigate();
   const showToastMessage = useSetRecoilState(toastMessageState);
+  const handleGoBackClick = () => navigate(-1);
   const handleEmailCopyClick = () =>
     navigator.clipboard
       .writeText(JOYRIDE_EMAIL)
@@ -33,13 +36,22 @@ const FindEmail = () => {
         문의를 남겨 주시면 빠르게 도와드리겠습니다.
       </p>
 
-      <Button
-        type="button"
-        color="main"
-        size="md"
-        content="이메일 주소 복사하기"
-        onClick={handleEmailCopyClick}
-      />
+      <div className={cn('btns')}>
+        <Button
+          type="button"
+          color="whiteGrey"
+          size="md"
+          content="이전으로"
+          onClick={handleGoBackClick}
+        />
+        <Button
+          type="button"
+          color="main"
+          size="md"
+          content="이메일 주소 복사하기"
+          onClick={handleEmailCopyClick}
+        />
+      </div>
     </div>
   );
 };
