@@ -93,13 +93,27 @@ public class MeetDao {
     public int checkMeetStatus(Integer meetId) {
         String checkMeetStatusQuery = "select exists(select id from meet where  id = ? and status = 1)";
         Integer checkMeetStatusParam = meetId;
-
         return this.jdbcTemplate.queryForObject(checkMeetStatusQuery, int.class, checkMeetStatusParam);
+    }
+
+    public int checkMeetFull(Integer meetId) {
+        String checkMeetMaxPeopleQuery = "select max_people from meet where id = ?";
+        Integer checkMeetMaxPeopleParam = meetId;
+
+        String checkMeetJoinPeopleQuery = "select count(meet_join.id) from meet_join where meet_id = ?";
+        Integer checkMeetJoinPeopleParam = meetId;
+
+        Integer maxPeople = this.jdbcTemplate.queryForObject(checkMeetMaxPeopleQuery, int.class, checkMeetMaxPeopleParam);
+        Integer joinPeople = this.jdbcTemplate.queryForObject(checkMeetJoinPeopleQuery, int.class, checkMeetJoinPeopleParam);
+
+        if (maxPeople == joinPeople)
+            return 1;
+        return 0;
     }
 
     public List<MeetListRes> selectMeet() {
         String selectMeetQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
-                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place, meeting_date," +
+                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
                 "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
                 "group by m.id";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
@@ -123,6 +137,7 @@ public class MeetDao {
                                 rs.getInt("min_year"),
                                 rs.getInt("max_year"),
                                 rs.getString("gathering_place"),
+                                rs.getInt("status"),
                                 rs.getString("meeting_date"),
                                 rs.getString("due_date"),
                                 rs.getString("created_at"),
@@ -135,7 +150,7 @@ public class MeetDao {
 
     public MeetDetailRes selectMeetById(Integer meetId) {
         String selectMeetByIdQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
-                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place, meeting_date," +
+                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
                 "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
                 "where m.id = ?";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
@@ -163,6 +178,7 @@ public class MeetDao {
                         rs.getInt("min_year"),
                         rs.getInt("max_year"),
                         rs.getString("gathering_place"),
+                        rs.getInt("status"),
                         rs.getString("meeting_date"),
                         rs.getString("due_date"),
                         rs.getString("created_at"),

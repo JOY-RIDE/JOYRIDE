@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
+import static com.joyride.ms.util.BaseResponseStatus.*;
 
 @Slf4j
 @Service
@@ -57,7 +57,16 @@ public class MeetProvider {
 
     public int checkMeetStatus(Integer meetId) throws BaseException {
         try {
-            return meetDao.checkMeetStatus(meetId);
+             return meetDao.checkMeetStatus(meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkMeetFull(Integer meetId) throws BaseException {
+        try {
+            return meetDao.checkMeetFull(meetId);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);

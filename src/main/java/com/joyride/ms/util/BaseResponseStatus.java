@@ -60,6 +60,7 @@ public enum BaseResponseStatus {
     DELETE_USER_NOT_EXISTS_JOIN(false, 2034, "참여중인 모임이 아닙니다."),
     DELETE_USER_NOT_EXISTS_MEET(false,2035,"해당 모임은 존재하지 않습니다"),
     MEET_CLOSED(false,2036,"닫힌 모임입니다."),
+    MEET_FULL(false,2037,"정원이 다 찬 모임입니다."),
 
 
     //500
