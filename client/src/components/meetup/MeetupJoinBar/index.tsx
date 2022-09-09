@@ -2,7 +2,7 @@ import styles from './MeetupJoinBar.module.scss';
 import classNames from 'classnames/bind';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { toastMessageState } from 'states/common';
+import { modalContentState, toastMessageState } from 'states/common';
 import { meetupAPI } from 'apis/meetupAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userIdState } from 'states/auth';
@@ -40,10 +40,10 @@ const MeetupJoinBar = ({ meetupId, dueDate }: MeetupJoinBarProps) => {
       showToastMessage(getMeetupJoinFailErrorMessage(e.message)),
   });
 
+  const displayModal = useSetRecoilState(modalContentState);
   const joinMeetup = () => {
     if (!userId) {
-      // TODO
-      window.alert('로그인이 필요한 서비스입니다. 로그인 안내 모달 제작 예정');
+      displayModal(<p>로그인이 필요한 서비스입니다.</p>);
       return;
     }
     if (window.confirm('모임에 참가할까요? 모달 제작 예정')) {
