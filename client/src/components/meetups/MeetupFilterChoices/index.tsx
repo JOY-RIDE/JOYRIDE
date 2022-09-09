@@ -111,13 +111,13 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleClear}
         />
       )}
-      {filters.isParticipationFree && (
+      {filters.participationFee && (
         <FilterOptionChip
           size="sm"
           type="removeOnly"
-          filtersKey="isParticipationFree"
-          value={filters.isParticipationFree.value}
-          content={filters.isParticipationFree.content}
+          filtersKey="participationFee"
+          value={filters.participationFee.value}
+          content={filters.participationFee.content}
           isActive
           onXClick={handleRemove}
         />
