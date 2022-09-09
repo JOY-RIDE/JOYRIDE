@@ -59,6 +59,8 @@ public class GetCourseListRes {
 
     private int likeCount;
 
+    private double totalRate;
+
     //==생성 메서드==//
     public static GetCourseListRes createGetCourseListRes(String id, String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,
                                                            String travelerinfo, double crsDstnc, int crsLevel, String sigun,
