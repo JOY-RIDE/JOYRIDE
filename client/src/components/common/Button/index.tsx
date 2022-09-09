@@ -13,7 +13,7 @@ interface CommonProps {
 type ConditionalProps =
   | {
       type: 'button';
-      onClick: ClickHandler<HTMLButtonElement>;
+      onClick?: ClickHandler<HTMLButtonElement>;
     }
   | {
       type: 'submit';

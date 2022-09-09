@@ -6,6 +6,7 @@ import { modalContentState, toastMessageState } from 'states/common';
 import { meetupAPI } from 'apis/meetupAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userIdState } from 'states/auth';
+import AskLogin from 'components/common/AskLogin';
 
 function getMeetupJoinFailErrorMessage(code: string) {
   switch (code) {
@@ -43,7 +44,7 @@ const MeetupJoinBar = ({ meetupId, dueDate }: MeetupJoinBarProps) => {
   const displayModal = useSetRecoilState(modalContentState);
   const joinMeetup = () => {
     if (!userId) {
-      displayModal(<p>로그인이 필요한 서비스입니다.</p>);
+      displayModal(<AskLogin />);
       return;
     }
     if (window.confirm('모임에 참가할까요? 모달 제작 예정')) {
