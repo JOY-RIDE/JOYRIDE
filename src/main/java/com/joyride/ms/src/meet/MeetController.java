@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
-import static com.joyride.ms.util.BaseResponseStatus.DELETE_USER_NOT_EXISTS_JOIN;
-import static com.joyride.ms.util.BaseResponseStatus.DELETE_USER_NOT_EXISTS_MEET;
+import static com.joyride.ms.util.BaseResponseStatus.*;
 
 @Slf4j
 @RestController
@@ -100,11 +99,15 @@ public class MeetController {
     public BaseResponse<String> postMeetJoin(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
-            if (meetProvider.checkMeetStatus(meetId) == 0 )
-                return new BaseResponse<>(BaseResponseStatus.MEET_CLOSED);
+            if (meetProvider.checkMeetStatus(meetId) == 0)
+                return new BaseResponse<>(MEET_CLOSED);
             if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
                 return new BaseResponse<>(BaseResponseStatus.POST_USER_EXISTS_JOIN);
-            } else {
+            }
+            else if (meetProvider.checkMeetFull(meetId) == 1){
+                return new BaseResponse<>(MEET_FULL);
+            }
+            else {
                 meetService.createMeetJoin(userId,meetId);
                 return new BaseResponse<>(BaseResponseStatus.SUCCESS);
             }
