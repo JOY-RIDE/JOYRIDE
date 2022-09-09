@@ -21,6 +21,7 @@ import { toastMessageState } from 'states/common';
 import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';
 import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
+import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
 
 // const testPath = [
 //   '안합',
@@ -82,7 +83,7 @@ const Meetup = () => {
         <img
           className={cn('leader__avatar')}
           src={meetup.admin.profile_img_url}
-          alt="모임장 프로필 사진"
+          alt={meetup.admin.nickname}
         />
         <span className={cn('leader__nickname')}>{meetup.admin.nickname}</span>
         <span className={cn('leader__manner')}>{meetup.admin.manner}°C</span>
@@ -205,6 +206,7 @@ const Meetup = () => {
             {meetup.maxPeople}
           </div>
         </h2>
+        <MeetupParticipantList participants={meetup.participants} />
       </section>
 
       <section className={cn('comments-section')}>

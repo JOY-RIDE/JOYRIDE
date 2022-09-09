@@ -1,6 +1,11 @@
 @use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
+.bookmark-btn {
+  font-size: 2.4rem;
+  color: $color-grey-600;
+}
+
 .container {
   background: white;
   padding: 1.5rem $side-padding;

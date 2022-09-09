@@ -12,7 +12,7 @@ function getMeetupJoinFailErrorMessage(code: string) {
     case '2033':
       return '이미 참여 중인 모임입니다';
     case '2036':
-      return '종료된 모임입니다';
+      return '종료된 모임입니다'; // TODO
     default:
       return '모임 참가 중 문제가 발생했습니다';
   }
@@ -31,7 +31,7 @@ const MeetupJoinBar = ({ meetupId, dueDate }: MeetupJoinBarProps) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(meetupAPI.joinMeetup, {
     onSuccess: () => {
-      showToastMessage('모임에 참가하였습니다');
+      showToastMessage('모임에 참가되었습니다. 즐거운 모임 되세요!');
       queryClient.invalidateQueries(['meetup', meetupId]);
     },
     onError: (e: any) =>
