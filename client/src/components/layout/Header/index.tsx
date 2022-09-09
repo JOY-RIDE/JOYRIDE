@@ -23,9 +23,9 @@ interface Iform {
 
 const Header = () => {
   const isAtHome = useMatch('/');
+  const isAtAuth = useMatch('/auth/*');
   const { pathname } = useLocation();
-  const isAtAuthPage = pathname.includes('/auth/');
-  const loginNextQuery = isAtHome || isAtAuthPage ? '' : `?next=${pathname}`;
+  const loginNextQuery = isAtHome || isAtAuth ? '' : `?next=${pathname}`;
   const userProfile = useRecoilValue(userProfileState);
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);

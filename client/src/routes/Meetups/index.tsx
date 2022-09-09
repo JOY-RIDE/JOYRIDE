@@ -31,8 +31,11 @@ const Meetups = () => {
     data: meetups,
     isLoading,
     status,
-  } = useQuery(['meetups'], meetupAPI.getMeetupList, {
+  } = useQuery<MeetupData[]>(['meetups'], meetupAPI.getMeetupList, {
+    select: meetups => getMeetupsOrderedBy(order.name, meetups),
     onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+    staleTime: 5 * 1000,
+    cacheTime: Infinity,
   });
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
@@ -69,9 +72,7 @@ const Meetups = () => {
           <Loading />
         ) : (
           // TODO: order 디폴트 null?
-          <MeetupList
-            meetups={getMeetupsOrderedBy(order.name, meetups as MeetupData[])}
-          />
+          <MeetupList meetups={meetups as MeetupData[]} />
         )}
       </div>
     </div>

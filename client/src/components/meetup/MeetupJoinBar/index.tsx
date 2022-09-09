@@ -36,7 +36,7 @@ const MeetupJoinBar = ({ dueDate }: MeetupJoinBarProp) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
 
   const queryClient = useQueryClient();
-  const mutation = useMutation(meetupAPI.joinMeetup, {
+  const { mutate } = useMutation(meetupAPI.joinMeetup, {
     onSuccess: () => {
       showToastMessage('모임에 참가되었습니다. 즐거운 모임 되세요!');
       queryClient.invalidateQueries(['meetup', Number(meetupId)]);
@@ -44,7 +44,7 @@ const MeetupJoinBar = ({ dueDate }: MeetupJoinBarProp) => {
     onError: (e: any) =>
       showToastMessage(getMeetupJoinFailErrorMessage(e.message)),
   });
-  const joinMeetup = () => mutation.mutate(Number(meetupId));
+  const joinMeetup = () => mutate(Number(meetupId));
 
   const handleJoinClick = () => {
     if (!userId) {

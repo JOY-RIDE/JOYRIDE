@@ -22,6 +22,7 @@ import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';
 import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
+import { MeetupDetail } from 'types/meetup';
 
 // const testPath = [
 //   '안합',
@@ -43,7 +44,7 @@ const Meetup = () => {
   const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetup } = useQuery(
+  const { data: meetup } = useQuery<MeetupDetail>(
     ['meetup', Number(meetupId)],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {

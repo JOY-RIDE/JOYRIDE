@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 import Container from 'components/common/Container';
 import styles from './Footer.module.scss';
 import classNames from 'classnames/bind';
@@ -7,9 +7,9 @@ import { JOYRDIE_LOGO_GREEN_IMAGE } from 'utils/urls';
 const cn = classNames.bind(styles);
 
 const Footer = () => {
-  const { pathname } = useLocation();
-  if (pathname.includes('/auth/') || pathname.includes('/meetups/'))
-    return null;
+  const isAtAuth = useMatch('/auth/*');
+  const isAtMeetup = useMatch('/meetups/:meetupId');
+  if (isAtAuth || isAtMeetup) return null;
   return (
     <footer className={cn('footer')}>
       <Container>
