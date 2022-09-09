@@ -6,14 +6,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetCourseNameListRes /*implements Comparable<GetCourseNameListRes>*/ {
+public class GetCourseNameListRes implements Comparable<GetCourseNameListRes> {
     private String title;
 
-    /*
     @Override
     public int compareTo(GetCourseNameListRes o) {
-
+        return this.title.compareTo(o.title);
     }
-
-     */
 }

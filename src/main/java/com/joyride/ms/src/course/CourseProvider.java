@@ -1,11 +1,9 @@
 package com.joyride.ms.src.course;
 
-import com.joyride.ms.src.course.model.GetCourseListRes;
-import com.joyride.ms.src.course.model.GetCourseRes;
-import com.joyride.ms.src.course.model.GetCourseReviewRes;
-import com.joyride.ms.src.course.model.GetFilteringCourseReq;
+import com.joyride.ms.src.course.model.*;
 import com.joyride.ms.util.BaseException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +13,7 @@ import java.util.List;
 
 import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -43,9 +42,9 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-    public List<String> retrieveCourseTitleList() throws BaseException {
+    public List<GetCourseNameListRes> retrieveCourseTitleList() throws BaseException {
         try {
-            List<String> titleList = courseDao.selectCourseTitle();
+            List<GetCourseNameListRes> titleList = courseDao.selectCourseTitle();
             Collections.sort(titleList);
             return titleList;
         }

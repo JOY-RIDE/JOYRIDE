@@ -42,12 +42,11 @@ public class CourseDao {
     }
 
     // 코스 이름 조회
-    public List<String> selectCourseTitle(){
+    public List<GetCourseNameListRes> selectCourseTitle(){
         String getCourserTitleQuery = "select title from course";
         //db정보 가져오기
         return this.jdbcTemplate.query(getCourserTitleQuery,
-                (rs,rowNum) -> new String(
-                        rs.getString("title")
+                (rs,rowNum) -> new GetCourseNameListRes(rs.getString("title")
                 ));
     }
 
