@@ -102,10 +102,6 @@ public class GetCourseListRes {
                     courseIdList.add((String)course.get("crsIdx"));
                 }
 
-                String checkBrdDiv = (String)course.get("brdDiv");
-                if (checkBrdDiv.equals("DNWW")) {
-                    continue;
-                }
                 String crsIdx = (String)course.get("crsIdx");
                 String crsKorNm = (String)course.get("crsKorNm");
                 String crsContents = (String)course.get("crsContents");
@@ -152,11 +148,6 @@ public class GetCourseListRes {
                     continue;
                 } else {
                     courseIdList.add((String)course.get("crsIdx"));
-                }
-
-                String checkBrdDiv = (String)course.get("brdDiv");
-                if (checkBrdDiv.equals("DNWW")) {
-                    continue;
                 }
 
                 String checkSigun = (String)course.get("sigun");
