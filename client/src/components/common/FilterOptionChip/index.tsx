@@ -7,6 +7,7 @@ import styles from './FilterOptionChip.module.scss';
 type FilterOptionChipType = 'all' | 'default' | 'removeOnly' | 'reset';
 
 interface CommonProps {
+  size?: 'sm' | 'md';
   content: string;
 }
 
@@ -65,6 +66,7 @@ function checkIfDeletable(type: FilterOptionChipType, isActive: boolean) {
 // TODO: refactor
 const FilterOptionChip = memo(
   ({
+    size,
     type,
     filtersKey,
     value,
@@ -85,6 +87,7 @@ const FilterOptionChip = memo(
       // TODO: cursor
       <li className={styles.option}>
         <Chip
+          size={size}
           content={content}
           isActive={checkIfActive(type, isActive)}
           isDeletable={checkIfDeletable(type, isActive)}

@@ -6,7 +6,6 @@ import { GENDERS, LOCATIONS } from 'utils/constants';
 
 interface MeetupAPI {
   getMeetupList: () => Promise<MeetupData[]>;
-  // TODO: type 추가
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;

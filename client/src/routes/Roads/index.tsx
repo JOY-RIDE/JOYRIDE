@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link, useMatch } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { fetchCourses } from '../../apis/CrsAPI';
@@ -21,7 +21,7 @@ import { IRoad } from 'types/course';
 const cn = classNames.bind(styles);
 
 const Roads = () => {
-  const { isLoading, data } = useQuery<IRoad[]>('allCourses', fetchCourses);
+  const { isLoading, data } = useQuery<IRoad[]>(['allCourses'], fetchCourses);
   const RoadsData = _.uniqBy(data, 'crsKorNm');
 
   let RoadsData1 = [...RoadsData];

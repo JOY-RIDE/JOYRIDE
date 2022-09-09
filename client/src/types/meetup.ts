@@ -14,13 +14,18 @@ export type MeetupPathDifficulty = 1 | 2 | 3;
 export type MeetupBicycleTypes = BicycleType[];
 export type MeetupRidingSkill = RidingSkill;
 export type MeetupMaxNumOfParticipants = number;
-// export type MeetupParticipants = {}[]; // TODO
 export type MeetupLocation = Location;
 export type MeetupGender = Gender;
 export type MeetupMinBirthYear = number;
 export type MeetupMaxBirthYear = number;
 export type MeetupParticipationFee = number;
 export type MeetupContent = string;
+export type MeetupParticipant = {
+  id: number;
+  nickname: string;
+  profile_img_url: string;
+  manner: number;
+};
 
 // Request formData 내부
 export interface NewMeetup {
@@ -50,8 +55,8 @@ export interface MeetupData extends Omit<NewMeetup, 'path'> {
   joinPeople: number;
 }
 export interface MeetupDetail extends MeetupData {
-  admin: Object;
-  participants: any[];
+  admin: MeetupParticipant;
+  participants: MeetupParticipant[];
 }
 
 // export type MeetupFiltersKey =

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import App from 'App';
 import 'main.scss';
-import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,12 +12,12 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
     },
   },
+  logger: {
+    log: console.log,
+    warn: console.warn,
+    error: () => {},
+  },
 });
-// setLogger({
-//   log: console.log,
-//   warn: console.warn,
-//   error: () => {},
-// });
 
 const root = createRoot(document.getElementById('root') as HTMLDivElement);
 root.render(

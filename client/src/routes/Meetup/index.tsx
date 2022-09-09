@@ -16,11 +16,12 @@ import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { useEffect } from 'react';
 import { BicycleType } from 'types/common';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { toastMessageState } from 'states/common';
 import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';
 import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
+import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
 
 // const testPath = [
 //   '안합',
@@ -39,8 +40,8 @@ const DATE_FORMAT = 'M월 D일 a h:mm';
 dayjs.locale('ko');
 
 const Meetup = () => {
-  const userId = useRecoilValue(userIdState);
   const { meetupId } = useParams();
+  const userId = useRecoilValue(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetup } = useQuery(
     ['meetup', Number(meetupId)],
@@ -78,7 +79,15 @@ const Meetup = () => {
         </button>
       </div>
 
-      {/* TODO: 모임장 */}
+      <div className={cn('leader')}>
+        <img
+          className={cn('leader__avatar')}
+          src={meetup.admin.profile_img_url}
+          alt={meetup.admin.nickname}
+        />
+        <span className={cn('leader__nickname')}>{meetup.admin.nickname}</span>
+        <span className={cn('leader__manner')}>{meetup.admin.manner}°C</span>
+      </div>
 
       <section className={cn('fields-section')}>
         <div className={cn('fields')}>
@@ -167,7 +176,9 @@ const Meetup = () => {
             </div>
           </div>
         </div>
+      </section>
 
+      <section className={cn('content-section')}>
         <p className={cn('content')}>{meetup.content}</p>
       </section>
 
@@ -186,7 +197,6 @@ const Meetup = () => {
         </div>
       </section>
 
-      {/* TODO */}
       <section className={cn('participants-section')}>
         <h2 className={cn('subtitle')}>
           참여 중인 인원
@@ -195,6 +205,7 @@ const Meetup = () => {
             {meetup.maxPeople}
           </div>
         </h2>
+        <MeetupParticipantList participants={meetup.participants} />
       </section>
 
       <section className={cn('comments-section')}>
@@ -204,10 +215,7 @@ const Meetup = () => {
         </h2>
       </section>
 
-      <MeetupJoinBar
-        meetupId={meetup.id}
-        dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)}
-      />
+      <MeetupJoinBar dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)} />
     </div>
   );
 };

@@ -14,7 +14,7 @@ import OrderList from 'components/meetups/OrderList';
 import { getMeetupsOrderedBy } from 'utils/order';
 import MeetupCreator from 'components/meetups/MeetupCreator';
 import { userIdState } from 'states/auth';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
 import { MeetupData } from 'types/meetup';
