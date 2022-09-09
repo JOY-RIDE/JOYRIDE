@@ -6,7 +6,7 @@ import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
 import MeetupCreationForm from '../MeetupCreationForm';
 import useResponsivePopup from 'hooks/useResponsivePopup';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';

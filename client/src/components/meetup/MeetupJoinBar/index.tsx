@@ -4,7 +4,7 @@ import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { meetupAPI } from 'apis/meetupAPI';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userIdState } from 'states/auth';
 
 function getMeetupJoinFailErrorMessage(code: string) {

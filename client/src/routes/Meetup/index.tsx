@@ -16,7 +16,7 @@ import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { useEffect } from 'react';
 import { BicycleType } from 'types/common';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { toastMessageState } from 'states/common';
 import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';

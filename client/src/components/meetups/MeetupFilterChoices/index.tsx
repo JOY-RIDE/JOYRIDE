@@ -34,6 +34,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
     <ul className={cn('choices', { wide: !onBoard })}>
       {filters.location && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="location"
           value={filters.location.value}
@@ -44,6 +45,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       )}
       {filters.pathDifficulty && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="pathDifficulty"
           value={filters.pathDifficulty.value}
@@ -54,6 +56,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       )}
       {filters.bicycleTypes && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="bicycleTypes"
           value={filters.bicycleTypes.value}
@@ -64,6 +67,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       )}
       {filters.gender && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="gender"
           value={filters.gender.value}
@@ -74,6 +78,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       )}
       {filters.age && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="age"
           value={filters.age.value}
@@ -84,6 +89,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       )}
       {filters.ridingSkill && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="ridingSkill"
           value={filters.ridingSkill.value}
@@ -96,6 +102,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
         filters.minNumOfParticipants.value || filters.maxNumOfParticipants.value
       ) && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="maxNumOfParticipants"
           value={filters.maxNumOfParticipants.value}
@@ -106,6 +113,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
       )}
       {filters.isParticipationFree && (
         <FilterOptionChip
+          size="sm"
           type="removeOnly"
           filtersKey="isParticipationFree"
           value={filters.isParticipationFree.value}
@@ -118,6 +126,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
         JSON.stringify(filters) !==
           JSON.stringify(MEETUP_FILTERS_INITIAL_STATE) && (
           <FilterOptionChip
+            size="sm"
             type="reset"
             content="초기화"
             isActive={false}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { fetchCourseInfo } from '../../apis/CrsAPI';
 import styles from './Road.module.scss';
 import classNames from 'classnames/bind';
