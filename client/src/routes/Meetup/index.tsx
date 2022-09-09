@@ -1,6 +1,6 @@
 import styles from './Meetup.module.scss';
 import classNames from 'classnames/bind';
-import { mockMeetupAPI } from 'apis/meetupAPI';
+import { meetupAPI } from 'apis/meetupAPI';
 import { useParams } from 'react-router-dom';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import {
@@ -14,41 +14,57 @@ import MeetupRoute from 'components/meetup/MeetupRoute';
 import MeetupPathMap from 'components/meetup/MeetupPathMap';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { useEffect } from 'react';
+import { BicycleType } from 'types/common';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
+import { toastMessageState } from 'states/common';
+import Loading from 'components/common/Loading';
+import { userIdState } from 'states/auth';
+import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 
-const testPath = [
-  '안합',
-  '잠수교',
-  '한남 나들목',
-  '남산',
-  '사직공원',
-  '북악',
-  '홍제천',
-  '성산북단',
-];
-
-dayjs.locale('ko');
+// const testPath = [
+//   '안합',
+//   '잠수교',
+//   '한남 나들목',
+//   '남산',
+//   '사직공원',
+//   '북악',
+//   '홍제천',
+//   '성산북단',
+// ];
 
 const cn = classNames.bind(styles);
+
 const DATE_FORMAT = 'M월 D일 a h:mm';
+dayjs.locale('ko');
 
 const Meetup = () => {
+  const userId = useRecoilValue(userIdState);
   const { meetupId } = useParams();
-  // TODO: react query
-  const meetup = mockMeetupAPI.getMeetupList()[Number(meetupId)];
-
-  const imgStyle = {
-    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.image})`,
-  };
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const { data: meetup } = useQuery(
+    ['meetup', Number(meetupId)],
+    () => meetupAPI.getMeetupDetail(Number(meetupId)),
+    {
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+    }
+  );
 
   useEffect(() => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []); // TODO: 리스트 스크롤 위치 기억
 
+  if (!meetup) return <Loading />;
+  const imgStyle = {
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.meetingImgUrl})`,
+  };
+
+  console.log(meetup);
   return (
     <div className={cn('container')}>
       <div
         className={cn('img-wrapper', {
-          default: meetup.image === MEETUP_DEFAULT_IMAGE,
+          default: meetup.meetingImgUrl === MEETUP_DEFAULT_IMAGE,
         })}
         style={imgStyle}
       />
@@ -68,7 +84,9 @@ const Meetup = () => {
         <div className={cn('fields')}>
           <div className={cn('field')}>
             <label className={cn('label')}>지역</label>
-            <span className={cn('data', 'emphasized')}>{meetup.location}</span>
+            <span className={cn('data', 'emphasized')}>
+              {meetup.localLocation}
+            </span>
           </div>
 
           <div className={cn('field')}>
@@ -97,7 +115,7 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>자전거 종류</label>
             <ul className={cn('data')}>
-              {meetup.bicycleTypes.map(type => (
+              {meetup.bicycleTypes.map((type: BicycleType) => (
                 <li key={type} className={cn('emphasized')}>
                   {type}
                 </li>
@@ -110,10 +128,8 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>인원</label>
             <div className={cn('data')}>
-              <span className={cn('emphasized')}>
-                {meetup.participants.length}
-              </span>
-              /{meetup.maxNumOfParticipants}명
+              <span className={cn('emphasized')}>{meetup.joinPeople}</span>/
+              {meetup.maxPeople}명
             </div>
           </div>
 
@@ -160,10 +176,14 @@ const Meetup = () => {
       </section>
 
       <section className={cn('map-section')}>
-        <MeetupPathMap gatheringPlace={meetup.gatheringPlace} path={testPath} />
-        <p className={cn('notice')}>
-          * 위 지도는 장소의 위치를 대략적으로 나타내고 있습니다.
-        </p>
+        <MeetupPathMap
+          gatheringPlace={meetup.gatheringPlace}
+          path={meetup.path}
+        />
+        <div className={cn('notice')}>
+          <p>* 위 지도는 장소의 위치를 대략적으로 나타내고 있습니다.</p>
+          <p>* 입력된 장소 이름에 따라 지도에 표시되지 않을 수 있습니다.</p>
+        </div>
       </section>
 
       {/* TODO */}
@@ -171,8 +191,8 @@ const Meetup = () => {
         <h2 className={cn('subtitle')}>
           참여 중인 인원
           <div className={cn('subtitle__num')}>
-            <span className={cn('current')}>{meetup.participants.length}</span>/
-            {meetup.maxNumOfParticipants}
+            <span className={cn('current')}>{meetup.joinPeople}</span>/
+            {meetup.maxPeople}
           </div>
         </h2>
       </section>
@@ -184,19 +204,10 @@ const Meetup = () => {
         </h2>
       </section>
 
-      <div className={cn('join-bar')}>
-        <div>
-          <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
-            {/* TODO: active */}
-            <BsBookmark />
-            {/* <BsBookmarkFill/> */}
-          </button>
-          <p>{dayjs(meetup.dueDate).format(DATE_FORMAT)} 모집 마감</p>
-        </div>
-        <button className={cn('join-btn')} aria-label="모임 참가 버튼">
-          참가하기
-        </button>
-      </div>
+      <MeetupJoinBar
+        meetupId={meetup.id}
+        dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)}
+      />
     </div>
   );
 };

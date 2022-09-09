@@ -1,6 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
-import { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/AuthPage/Signup';
 import AuthFormInput from 'components/common/AuthFormInput';
@@ -42,14 +41,10 @@ const SignupBasicForm = () => {
     try {
       await authAPI.checkIfEmailExists(email);
       return true;
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        setError('email', { type: 'etc' });
-      } else if (e instanceof Error) {
-        setError('email', {
-          type: e.message === '2017' ? 'duplicated' : 'etc',
-        });
-      }
+    } catch (e: any) {
+      setError('email', {
+        type: e.message === '2017' ? 'duplicated' : 'etc',
+      });
       return false;
     }
   };

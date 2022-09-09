@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Meetup } from 'types/meetup';
+import { MeetupData } from 'types/meetup';
 import { Link } from 'react-router-dom';
 import MeetupSummary from '../MeetupSummary';
 import MeetupRoutePreview from '../MeetupRoutePreview';
@@ -9,7 +9,7 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface MeetupItemProp {
-  meetup: Meetup;
+  meetup: MeetupData;
 }
 
 const MeetupItem = memo(({ meetup }: MeetupItemProp) => (

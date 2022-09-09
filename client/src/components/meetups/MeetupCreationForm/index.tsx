@@ -1,10 +1,10 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
-  NewMeetup,
-  MeetupDueDate,
   MeetupGender,
-  MeetupMeetingDate,
   MeetupPathDifficulty,
+  MeetupLocation,
+  MeetupMaxNumOfParticipants,
+  NewMeetup,
 } from 'types/meetup';
 import styles from './MeetupCreationForm.module.scss';
 import classNames from 'classnames/bind';
@@ -30,9 +30,8 @@ import { AiOutlineCalendar } from 'react-icons/ai';
 import TextInput from 'components/common/TextInput';
 import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
-import { toastMessageState } from 'states/common';
-import { useSetRecoilState } from 'recoil';
 import { Fragment } from 'react';
+import dayjs from 'dayjs';
 
 const cn = classNames.bind(styles);
 
@@ -58,16 +57,23 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 );
 
 interface MeetupCreationForm
-  extends Omit<NewMeetup, 'meetingDate' | 'dueDate'> {
-  dueDate: MeetupDueDate | null;
-  meetingDate: MeetupMeetingDate | null;
+  extends Omit<
+    NewMeetup,
+    'dueDate' | 'meetingDate' | 'localLocation' | 'path' | 'maxPeople'
+  > {
+  dueDate: Date | null;
+  meetingDate: Date | null;
+  location: MeetupLocation;
+  path: string[];
+  maxNumOfParticipants: MeetupMaxNumOfParticipants;
 }
+
 interface MeetupCreationFormProp {
-  close: () => void;
+  createMeetup: (newMeetup: FormData) => void;
 }
 
 // TODO: 다른 필드 수정 시 상대 필드에 영향을 X, setValue Error 타이밍
-const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
+const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
   const {
     register,
     control,
@@ -146,12 +152,29 @@ const MeetupCreationForm = ({ close }: MeetupCreationFormProp) => {
       SET_VALUE_OPTION
     );
 
-  const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<MeetupCreationForm> = data => {
     // radio 숫자들 string으로 들어옴
-    console.log(data);
-    close();
-    showToastMessage('모임이 등록되었습니다');
+    const newMeetup = {
+      ...data,
+      localLocation: data.location,
+      dueDate: dayjs(data.dueDate).format('YYYY-MM-DD HH:mm:ss'),
+      meetingDate: dayjs(data.meetingDate).format('YYYY-MM-DD HH:mm:ss'),
+      path: data.path.join(','),
+      maxPeople: data.maxNumOfParticipants,
+    };
+    // @ts-ignore
+    delete newMeetup.location;
+    // @ts-ignore
+    delete newMeetup.maxNumOfParticipants;
+
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(newMeetup)], {
+      type: 'application/json',
+    });
+    formData.append('meetCreateReq', blob);
+    // formData.append('meeting-img'); TODO
+
+    createMeetup(formData);
   };
 
   return (

@@ -3,7 +3,6 @@ import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useSignupStepControls } from 'routes/AuthPage/Signup';
 import { authAPI } from 'apis/authAPI';
-import { AxiosError } from 'axios';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
@@ -54,14 +53,10 @@ const SignupDetailForm = () => {
     try {
       await authAPI.checkIfNicknameExists(nickname);
       return true;
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        setError('nickname', { type: 'etc' });
-      } else if (e instanceof Error) {
-        setError('nickname', {
-          type: e.message === '2032' ? 'duplicated' : 'etc',
-        });
-      }
+    } catch (e: any) {
+      setError('nickname', {
+        type: e.message === '2032' ? 'duplicated' : 'etc',
+      });
       return false;
     }
   };

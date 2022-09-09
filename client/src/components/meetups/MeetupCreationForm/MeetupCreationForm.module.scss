@@ -22,9 +22,9 @@
 }
 
 .form {
-  padding: 0 2.5rem 5rem 2.5rem;
-  padding-top: 0.1rem;
-  margin-top: 7.4rem;
+  padding: 0 2.5rem 4rem 2.5rem;
+  // padding-top: 0.1rem;
+  margin-top: 7.5rem; // TODO
   overflow-y: scroll;
   position: relative;
 }
@@ -40,7 +40,7 @@
 .fields {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 .field {

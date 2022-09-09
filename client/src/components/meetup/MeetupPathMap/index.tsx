@@ -15,7 +15,7 @@ function getLatLngsOrderedByIndex(latLngs: any[]) {
     .map(latLng => latLng.latLng);
 }
 
-const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(50, 45);
+const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(47, 42);
 const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(32, 32);
 
 const MAP_OPTION = {
@@ -86,13 +86,8 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
             attachOverlay(latLng, stop);
 
             if (latLngs.length < 2) return;
-
-            if (latLngs.length === path.length) {
-              removeExistingLine();
-              drawLine(getLatLngsOrderedByIndex(latLngs));
-            } else if (stopNewIndex === -1) {
-              drawLine(getLatLngsOrderedByIndex(latLngs));
-            }
+            removeExistingLine();
+            drawLine(getLatLngsOrderedByIndex(latLngs));
           } catch (e) {
             if (e instanceof TypeError) return;
             else throw new Error();
