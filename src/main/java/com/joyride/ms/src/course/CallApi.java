@@ -25,7 +25,7 @@ public class CallApi {
         try {
             String result = "";
 
-            URL url = new URL("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/" +
+            URL url = new URL("http://apis.data.go.kr/B551011/Durunubi/" +
                     "courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=" + API_SECRET_KEY +
                     "&brdDiv=DNBW&numOfRows=3004&pageNo=1&_type=json");
 
@@ -52,7 +52,7 @@ public class CallApi {
         try {
             String result = "";
 
-            StringBuilder urlBuilder = new StringBuilder("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/courseList"); /*URL*/
+            StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B551011/Durunubi/courseList"); /*URL*/
             urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + API_SECRET_KEY); /*Service Key*/
 
             urlBuilder.append("&" + URLEncoder.encode("MobileOS","UTF-8") + "=" + URLEncoder.encode("ETC", "UTF-8")); /*IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC*/
@@ -88,7 +88,7 @@ public class CallApi {
                 level = "";
             }
 
-            StringBuilder urlBuilder = new StringBuilder("https://api.visitkorea.or.kr/openapi/service/rest/Durunubi/courseList"); /*URL*/
+            StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B551011/Durunubi/courseList"); /*URL*/
             urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + API_SECRET_KEY); /*Service Key*/
             urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*현재 페이지 번호*/
             urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("3004", "UTF-8")); /*한 페이지 결과 수*/
