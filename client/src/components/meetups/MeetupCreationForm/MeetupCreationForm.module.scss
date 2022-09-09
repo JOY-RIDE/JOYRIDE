@@ -1,40 +1,55 @@
 @use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
-.date-input {
-  cursor: pointer;
-  background: $color-grey-100;
-  padding: 1.4rem 1.5rem;
-  border-radius: 0.3rem;
-  display: flex;
-  align-items: center;
-
-  & input {
-    cursor: inherit;
-    flex-grow: 1;
-    outline: none;
-  }
-
-  & svg {
-    font-size: 2rem;
-    color: $color-grey-700;
-  }
-}
+$form-side-padding: 2.5rem;
 
 .form {
-  padding: 0 2.5rem 4rem 2.5rem;
-  // padding-top: 0.1rem;
-  margin-top: 7.5rem; // TODO
+  padding: 0 $form-side-padding 4rem $form-side-padding;
+  margin-top: 7.5rem;
   overflow-y: scroll;
   position: relative;
+}
+
+.img-wrapper {
+  width: calc(100% + 2 * $form-side-padding);
+  right: $form-side-padding;
+  height: 20rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+#img {
+  display: none;
+
+  & + label {
+    cursor: pointer;
+    background: $color-grey-200;
+    border-radius: 0.4rem;
+    color: $color-grey-600;
+    font-weight: 700;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.3rem 0.7rem;
+    position: absolute;
+    top: 2rem;
+    left: 2.5rem;
+
+    & svg {
+      font-size: 2.2rem;
+    }
+  }
 }
 
 .title {
   font-weight: 700;
   font-size: 2.4rem;
-  border: none;
   padding: 1rem;
   // padding-left: 0.5rem;
+  margin-top: 1rem;
 }
 
 .fields {
@@ -73,6 +88,26 @@
 
   & .col {
     flex-basis: calc((100% - 2 * $options-gap) / 3);
+  }
+}
+
+.date-input {
+  cursor: pointer;
+  background: $color-grey-100;
+  padding: 1.4rem 1.5rem;
+  border-radius: 0.3rem;
+  display: flex;
+  align-items: center;
+
+  & input {
+    cursor: inherit;
+    flex-grow: 1;
+    outline: none;
+  }
+
+  & svg {
+    font-size: 2rem;
+    color: $color-grey-700;
   }
 }
 

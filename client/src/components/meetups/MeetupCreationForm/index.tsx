@@ -32,6 +32,8 @@ import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
 import { Fragment } from 'react';
 import dayjs from 'dayjs';
+import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 const cn = classNames.bind(styles);
 
@@ -93,16 +95,25 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       gender: 'mixed',
       minBirthYear: 1920,
       maxBirthYear: new Date().getFullYear(),
-      maxNumOfParticipants: 2,
+      maxNumOfParticipants: 1,
       dueDate: null,
       meetingDate: null,
       participationFee: 0,
       content: '',
     },
   });
+
+  const imgFile = watch('meetingImgUrl');
   const dueDate = watch('dueDate');
   const path = watch('path');
   const minBirthYear = watch('minBirthYear');
+
+  const imgURL = imgFile?.length
+    ? URL.createObjectURL(imgFile[0])
+    : MEETUP_DEFAULT_IMAGE;
+  const imgStyle = {
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${imgURL})`,
+  };
 
   // Callbacks
 
@@ -127,7 +138,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     const oldValue = getValues('maxNumOfParticipants');
     setValue(
       'maxNumOfParticipants',
-      oldValue <= 2 ? 2 : oldValue - 1,
+      oldValue <= 1 ? 1 : oldValue - 1,
       SET_VALUE_OPTION
     );
   };
@@ -172,13 +183,27 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       type: 'application/json',
     });
     formData.append('meetCreateReq', blob);
-    // formData.append('meeting-img'); TODO
+    if (imgFile?.length) {
+      formData.append('meeting-img', imgFile[0]);
+    }
 
     createMeetup(formData);
   };
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
+      <div className={cn('img-wrapper')} style={imgStyle} />
+      <input
+        type="file"
+        id={cn('img')}
+        accept="image/*"
+        {...register('meetingImgUrl')}
+      />
+      <label htmlFor={cn('img')}>
+        <AddPhotoAlternateIcon />
+        사진 {imgFile?.length ? '변경' : '추가'}하기
+      </label>
+
       <div className={cn('fields')}>
         <div className={cn('field')}>
           <input
@@ -445,7 +470,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="maxNumOfParticipants"
-                rules={{ min: 2, max: 99 }}
+                rules={{ min: 1, max: 99 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"

@@ -30,7 +30,7 @@ export type MeetupParticipant = {
 // Request formData 내부
 export interface NewMeetup {
   title: MeetupTitle;
-  meetingImgUrl?: MeetupImage;
+  meetingImgUrl?: FileList;
   dueDate: MeetupDueDate;
   meetingDate: MeetupMeetingDate;
   gatheringPlace: MeetupGatheringPlace;
@@ -49,8 +49,9 @@ export interface NewMeetup {
 }
 
 // Response
-export interface MeetupData extends Omit<NewMeetup, 'path'> {
+export interface MeetupData extends Omit<NewMeetup, 'meetingImgUrl' | 'path'> {
   id: MeetupID;
+  meetingImgUrl: MeetupImage;
   path: MeetupPath;
   joinPeople: number;
 }
