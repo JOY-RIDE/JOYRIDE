@@ -48,7 +48,7 @@ function meetupFiltersReducerForRemoving(
     case 'pathDifficulty':
     case 'ridingSkill':
     case 'gender':
-    case 'isParticipationFree':
+    case 'participationFee':
     case 'bicycleTypes':
     case 'age':
       return omit(state, [key]);
@@ -76,7 +76,7 @@ function meetupFiltersReducerForToggling(
   { key, ...data }: FiltersReducerPayload
 ) {
   switch (key) {
-    case 'isParticipationFree': {
+    case 'participationFee': {
       const oldData = state[key];
       return oldData ? omit(state, [key]) : { ...state, [key]: data };
     }

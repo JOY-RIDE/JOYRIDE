@@ -68,7 +68,7 @@ export interface MeetupDetail extends MeetupData {
 //   | 'maxNumOfParticipants'
 //   | 'gender'
 //   | 'age'
-//   | 'isParticipationFree';
+//   | 'participationFee';
 // TODO: refactor
 export interface MeetupFiltersState {
   location?: any;
@@ -79,7 +79,7 @@ export interface MeetupFiltersState {
   maxNumOfParticipants?: any;
   gender?: any;
   age?: any;
-  isParticipationFree?: any;
+  participationFee?: any;
 }
 // export interface MeetupFiltersState {
 //   location?: string;
@@ -90,7 +90,7 @@ export interface MeetupFiltersState {
 //   maxNumOfParticipants?: number;
 //   gender?: string;
 //   age?: number[];
-//   isParticipationFree?: boolean;
+//   participationFee?: boolean;
 // }
 
 export type MeetupOrderName =

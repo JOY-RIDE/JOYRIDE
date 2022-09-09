@@ -22,8 +22,8 @@ import FilterOptionChip from 'components/common/FilterOptionChip';
 const cn = classNames.bind(styles);
 
 const IS_PARTICIPATION_FREE_PAYLOAD: FiltersReducerPayload = {
-  key: 'isParticipationFree',
-  value: true,
+  key: 'participationFee',
+  value: 0,
   content: '참가비 없는 모임만',
 };
 
@@ -360,7 +360,7 @@ const MeetupFilterBoardOptions = () => {
           <CheckBox
             id={cn('participation-fee')}
             shape="square"
-            isChecked={Boolean(boardFilters.isParticipationFree)}
+            isChecked={Boolean(boardFilters.participationFee)}
             onChange={toggleSpecificOption(IS_PARTICIPATION_FREE_PAYLOAD)}
           />
           <label htmlFor={cn('participation-fee')}>
