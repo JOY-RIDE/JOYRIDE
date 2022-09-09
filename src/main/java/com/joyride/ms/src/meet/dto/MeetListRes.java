@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({"id", "userId", "courseName","title","localLocation","ridingSkill","pathDifficulty","meetingImgUrl","gender","joinPeople",
-        "maxPeople","path","participationFee","content","minBirthYear","maxBirthYear","gatheringPlace", "meetingDate","dueDate","createdAt","bicycleTypes"})
+        "maxPeople","path","participationFee","content","minBirthYear","maxBirthYear","gatheringPlace", "status","meetingDate","dueDate","createdAt","bicycleTypes"})
 public class MeetListRes {
 
     private Integer id;
@@ -31,6 +31,7 @@ public class MeetListRes {
     private int minBirthYear;
     private int maxBirthYear;
     private String gatheringPlace;
+    private int status;
     private String meetingDate;
     private String dueDate;
     private String createdAt;
