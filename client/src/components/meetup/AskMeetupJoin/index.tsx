@@ -1,4 +1,4 @@
-import styles from './AskMeetupLogin.module.scss';
+import styles from './AskMeetupJoin.module.scss';
 import classNames from 'classnames/bind';
 import { useResetRecoilState } from 'recoil';
 import { modalContentState } from 'states/common';
