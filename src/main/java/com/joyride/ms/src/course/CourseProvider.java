@@ -132,6 +132,10 @@ public class CourseProvider {
             course.setImage(courseTableInfo.getImage());
             course.setLatitude(courseTableInfo.getLatitude());
             course.setLongitude(courseTableInfo.getLongitude());
+
+            int likeCount = retrieveCourseLikeCount(title);
+            course.setLikeCount(likeCount);
+
             return course;
         }
         catch (Exception exception) {
