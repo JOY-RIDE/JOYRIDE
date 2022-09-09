@@ -7,6 +7,8 @@ import { meetupAPI } from 'apis/meetupAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userIdState } from 'states/auth';
 import AskLogin from 'components/common/AskLogin';
+import { useParams } from 'react-router-dom';
+import AskMeetupJoin from '../AskMeetupJoin';
 
 function getMeetupJoinFailErrorMessage(code: string) {
   switch (code) {
@@ -23,33 +25,33 @@ function getMeetupJoinFailErrorMessage(code: string) {
 
 const cn = classNames.bind(styles);
 
-interface MeetupJoinBarProps {
-  meetupId: number;
+interface MeetupJoinBarProp {
   dueDate: string;
 }
 
-const MeetupJoinBar = ({ meetupId, dueDate }: MeetupJoinBarProps) => {
+const MeetupJoinBar = ({ dueDate }: MeetupJoinBarProp) => {
+  const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
+  const displayModal = useSetRecoilState(modalContentState);
   const showToastMessage = useSetRecoilState(toastMessageState);
+
   const queryClient = useQueryClient();
   const mutation = useMutation(meetupAPI.joinMeetup, {
     onSuccess: () => {
       showToastMessage('모임에 참가되었습니다. 즐거운 모임 되세요!');
-      queryClient.invalidateQueries(['meetup', meetupId]);
+      queryClient.invalidateQueries(['meetup', Number(meetupId)]);
     },
     onError: (e: any) =>
       showToastMessage(getMeetupJoinFailErrorMessage(e.message)),
   });
+  const joinMeetup = () => mutation.mutate(Number(meetupId));
 
-  const displayModal = useSetRecoilState(modalContentState);
-  const joinMeetup = () => {
+  const handleJoinClick = () => {
     if (!userId) {
       displayModal(<AskLogin />);
       return;
     }
-    if (window.confirm('모임에 참가할까요? 모달 제작 예정')) {
-      mutation.mutate(meetupId);
-    }
+    displayModal(<AskMeetupJoin joinMeetup={joinMeetup} />);
   };
 
   return (
@@ -65,7 +67,7 @@ const MeetupJoinBar = ({ meetupId, dueDate }: MeetupJoinBarProps) => {
       <button
         className={cn('join-btn')}
         aria-label="모임 참가 버튼"
-        onClick={joinMeetup}
+        onClick={handleJoinClick}
       >
         참가하기
       </button>

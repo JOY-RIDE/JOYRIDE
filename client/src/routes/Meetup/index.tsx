@@ -40,8 +40,8 @@ const DATE_FORMAT = 'M월 D일 a h:mm';
 dayjs.locale('ko');
 
 const Meetup = () => {
-  const userId = useRecoilValue(userIdState);
   const { meetupId } = useParams();
+  const userId = useRecoilValue(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetup } = useQuery(
     ['meetup', Number(meetupId)],
@@ -197,7 +197,6 @@ const Meetup = () => {
         </div>
       </section>
 
-      {/* TODO */}
       <section className={cn('participants-section')}>
         <h2 className={cn('subtitle')}>
           참여 중인 인원
@@ -216,10 +215,7 @@ const Meetup = () => {
         </h2>
       </section>
 
-      <MeetupJoinBar
-        meetupId={meetup.id}
-        dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)}
-      />
+      <MeetupJoinBar dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)} />
     </div>
   );
 };
