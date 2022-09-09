@@ -42,6 +42,17 @@ public class CourseController {
         }
     }
 
+    // 코스 이름 조회 api
+    @GetMapping("/name")
+    public BaseResponse<List<String>> getCourseTitleList(){
+        try{
+            List<String> titleList = courseProvider.retrieveCourseTitleList();
+            return new BaseResponse<>(titleList);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     // 코스 필터링 api
     // Post로 할지 아니면 Pathvariable로 받을지
     @PostMapping("/filter")
