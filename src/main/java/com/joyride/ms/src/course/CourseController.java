@@ -32,10 +32,10 @@ public class CourseController {
     }
 
     // 코스 디테일 조회 api
-    @GetMapping("/{title}/{user_id}")
-    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title, @PathVariable("user_id") int user_id){
+    @GetMapping("/{title}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title){
         try{
-            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title, user_id);
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title);
             return new BaseResponse<>(getCourseRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

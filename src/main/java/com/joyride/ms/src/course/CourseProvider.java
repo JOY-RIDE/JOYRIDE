@@ -76,19 +76,11 @@ public class CourseProvider {
         }
     }
     // 코스 디테일 조회 api
-    public GetCourseRes retrieveCourse(String title, int userId) throws BaseException {
+    public GetCourseRes retrieveCourse(String title) throws BaseException {
         try{
             JSONArray courseArr = callApi.callCourseAPI(title);
             GetCourseRes course = GetCourseRes.createCourse(courseArr);
 
-            // 좋아요
-            int checkLike = courseDao.selectStatusByUserId(userId);
-            if (checkLike == 0) {
-                course.setIsLike(0);
-            }
-            else {
-                course.setIsLike(1);
-            }
             // 코스 리뷰
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(title);
             course.setGetCourseReviewRes(getCourseReviewRes);
