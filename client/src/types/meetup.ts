@@ -50,7 +50,7 @@ export interface MeetupData extends Omit<NewMeetup, 'path'> {
   joinPeople: number;
 }
 export interface MeetupDetail extends MeetupData {
-  admin: Object;
+  admin: any;
   participants: any[];
 }
 

@@ -78,7 +78,15 @@ const Meetup = () => {
         </button>
       </div>
 
-      {/* TODO: 모임장 */}
+      <div className={cn('leader')}>
+        <img
+          className={cn('leader__avatar')}
+          src={meetup.admin.profile_img_url}
+          alt="모임장 프로필 사진"
+        />
+        <span className={cn('leader__nickname')}>{meetup.admin.nickname}</span>
+        <span className={cn('leader__manner')}>{meetup.admin.manner}°C</span>
+      </div>
 
       <section className={cn('fields-section')}>
         <div className={cn('fields')}>
@@ -167,7 +175,9 @@ const Meetup = () => {
             </div>
           </div>
         </div>
+      </section>
 
+      <section className={cn('content-section')}>
         <p className={cn('content')}>{meetup.content}</p>
       </section>
 
