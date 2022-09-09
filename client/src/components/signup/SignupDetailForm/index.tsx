@@ -94,7 +94,7 @@ const SignupDetailForm = () => {
       setSignupFormData(data => ({ ...data, nickname }));
       increaseStep();
     } catch (e) {
-      showToastMessage('회원가입 중 문제가 발생했습니다');
+      showToastMessage('회원가입 중 문제가 발생했습니다.');
     }
   };
 

@@ -142,6 +142,7 @@ type MeetupCreationFormField =
   | 'meetingDate'
   | 'dueDate'
   | 'gatheringPlace'
+  | 'courseName'
   | 'path'
   | 'birthYear'
   | 'bicycleTypes'
@@ -174,6 +175,15 @@ export function getMeetupCreationFormFieldErrorMessage(
         default:
           throw new Error();
       }
+
+    case 'courseName': {
+      switch (errorType) {
+        case 'validate':
+          return '목록에 있는 자전거길을 선택해 주세요';
+        default:
+          throw new Error();
+      }
+    }
 
     case 'path': {
       switch (errorType) {

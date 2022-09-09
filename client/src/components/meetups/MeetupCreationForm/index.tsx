@@ -34,6 +34,11 @@ import { Fragment } from 'react';
 import dayjs from 'dayjs';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { useQuery } from '@tanstack/react-query';
+import { meetupAPI } from 'apis/meetupAPI';
+import { useSetRecoilState } from 'recoil';
+import { toastMessageState } from 'states/common';
+import { CourseName } from 'types/course';
 
 const cn = classNames.bind(styles);
 
@@ -61,10 +66,16 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 interface MeetupCreationForm
   extends Omit<
     NewMeetup,
-    'dueDate' | 'meetingDate' | 'localLocation' | 'path' | 'maxPeople'
+    | 'dueDate'
+    | 'meetingDate'
+    | 'courseName'
+    | 'localLocation'
+    | 'path'
+    | 'maxPeople'
   > {
   dueDate: Date | null;
   meetingDate: Date | null;
+  courseName: CourseName;
   location: MeetupLocation;
   path: string[];
   maxNumOfParticipants: MeetupMaxNumOfParticipants;
@@ -88,6 +99,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     defaultValues: {
       location: '서울',
       gatheringPlace: '',
+      courseName: '',
       path: [],
       pathDifficulty: 1,
       bicycleTypes: ['따릉이'],
@@ -102,6 +114,16 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       content: '',
     },
   });
+
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const { data: courseNames } = useQuery<CourseName[]>(
+    ['courseNames'],
+    meetupAPI.getCourseNames,
+    {
+      onError: e =>
+        showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
+    }
+  );
 
   const imgFile = watch('meetingImgUrl');
   const dueDate = watch('dueDate');
@@ -170,6 +192,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       localLocation: data.location,
       dueDate: dayjs(data.dueDate).format('YYYY-MM-DD HH:mm:ss'),
       meetingDate: dayjs(data.meetingDate).format('YYYY-MM-DD HH:mm:ss'),
+      courseName: data.courseName || null,
       path: data.path.join(','),
       maxPeople: data.maxNumOfParticipants,
     };
@@ -372,11 +395,41 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           )}
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'course')}>
           <label className={cn('label')}>
             <h4>관련 자전거길</h4>
             <span className={cn('guide')}>(선택 사항)</span>
           </label>
+          <Controller
+            control={control}
+            name="courseName"
+            rules={{
+              validate: courseName =>
+                courseNames ? courseNames.indexOf(courseName) > 0 : !courseName,
+            }}
+            render={({ field }) => (
+              <>
+                <TextInput
+                  list="courseNames"
+                  placeholder="자전거길을 선택하세요."
+                  {...field}
+                />
+                <datalist id="courseNames">
+                  <option value="하하" />
+                  {courseNames &&
+                    courseNames.map(course => <option value={course} />)}
+                </datalist>
+              </>
+            )}
+          />
+          {errors.courseName && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'courseName',
+                errors.courseName.type
+              )}
+            />
+          )}
         </div>
 
         <div className={cn('field')}>

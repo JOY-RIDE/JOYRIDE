@@ -3,12 +3,14 @@ import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
+import { CourseName } from 'types/course';
 
 interface MeetupAPI {
   getMeetupList: () => Promise<MeetupData[]>;
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
+  getCourseNames: () => Promise<CourseName[]>;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -58,6 +60,18 @@ export const meetupAPI: MeetupAPI = {
     if (code !== 1000) {
       throw new Error(code);
     }
+  },
+
+  async getCourseNames() {
+    const {
+      data: { code, message },
+    } = await axios.get('courses/name');
+
+    if (code !== 2001) {
+      throw new Error(code);
+    }
+
+    return message;
   },
 };
 

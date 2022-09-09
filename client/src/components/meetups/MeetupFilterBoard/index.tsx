@@ -30,7 +30,7 @@ const MeetupFilterBoard = ({ close }: MeetupFilterBoardProp) => {
       boardFilters.minNumOfParticipants.value >
       boardFilters.maxNumOfParticipants.value
     ) {
-      showToastMessage('인원을 다시 확인해 주세요');
+      showToastMessage('인원을 다시 확인해 주세요.');
       return;
     }
     setFilters(boardFilters);

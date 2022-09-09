@@ -47,7 +47,7 @@ const Meetup = () => {
     ['meetup', Number(meetupId)],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
 
@@ -205,7 +205,9 @@ const Meetup = () => {
             {meetup.maxPeople}
           </div>
         </h2>
-        <MeetupParticipantList participants={meetup.participants} />
+        {Boolean(meetup.joinPeople) && (
+          <MeetupParticipantList participants={meetup.participants} />
+        )}
       </section>
 
       <section className={cn('comments-section')}>

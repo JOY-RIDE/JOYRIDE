@@ -13,13 +13,13 @@ import AskMeetupJoin from '../AskMeetupJoin';
 function getMeetupJoinFailErrorMessage(code: string) {
   switch (code) {
     case '2033':
-      return '이미 참여 중인 모임입니다';
+      return '이미 참여 중인 모임입니다.';
     case '2036':
-      return '종료된 모임입니다'; // TODO
+      return '종료된 모임입니다.'; // TODO
     case '2037':
       return '정원이 꽉 찬 모임입니다.';
     default:
-      return '모임 참가 중 문제가 발생했습니다';
+      return '모임 참가 중 문제가 발생했습니다.';
   }
 }
 

@@ -43,7 +43,7 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
     // radio 숫자들 string으로 들어옴
     console.log(data);
     close();
-    showToastMessage('후기가 등록되었습니다');
+    showToastMessage('후기가 등록되었습니다.');
   };
 
   //   const [hoverRating, setHoverRating] = useState(0);

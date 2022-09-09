@@ -21,16 +21,16 @@ const MeetupCreator = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(meetupAPI.createMeetup, {
     onSuccess: () => {
-      showToastMessage('모임이 등록되었습니다');
+      showToastMessage('모임이 등록되었습니다.');
       handlePopupClose();
       queryClient.invalidateQueries(['meetups']);
     },
     onError: (e: any) => {
       if (e.message === '5003') {
-        showToastMessage('이미지 파일을 다시 확인해 주세요');
+        showToastMessage('이미지 파일을 다시 확인해 주세요.');
         return;
       }
-      showToastMessage('모임 등록 중 문제가 발생했습니다');
+      showToastMessage('모임 등록 중 문제가 발생했습니다.');
     },
   });
 
