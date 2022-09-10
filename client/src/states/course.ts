@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { CourseOrderName, CourseFiltersState } from 'types/course';
+import { CourseOrderState, CourseFiltersState } from 'types/course';
 
 const { persistAtom } = recoilPersist({
   key: 'recoil-persist',
@@ -31,7 +31,7 @@ export const courseBoardFiltersState = atom<CourseFiltersState>({
   default: COURSE_FILTERS_INITIAL_STATE,
 });
 
-export const courseOrderState = atom<CourseOrderName>({
+export const courseOrderState = atom<CourseOrderState>({
   key: 'courseOrder',
-  default: 'abc',
+  default: { name: 'abc', content: '가나다순' },
 });

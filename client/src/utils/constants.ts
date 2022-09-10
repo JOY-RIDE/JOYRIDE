@@ -16,6 +16,7 @@ import {
   Option,
   RidingSkill,
 } from 'types/common';
+import { CourseOrderState } from 'types/course';
 import { stringifyRidingSkill } from './stringify';
 import { range } from 'lodash';
 
@@ -83,4 +84,16 @@ export const MEETUP_ORDER_OPTIONS: MeetupOrderOption[] = [
   { name: 'maxNumOfParticipants', content: '모집 인원 적은순', sign: '△' },
   { name: '-maxNumOfParticipants', content: '모집 인원 많은순', sign: '▽' },
   { name: 'participationFee', content: '참가비 적은순' },
+];
+
+interface CourseOrderOption extends CourseOrderState {
+  sign?: string;
+}
+export const COURSE_ORDER_OPTIONS: CourseOrderOption[] = [
+  { name: 'abc', content: '가나다순' },
+  { name: '-hour', content: '짧은 시간순', sign: '△' },
+  { name: 'hour', content: '긴 시간순', sign: '▽' },
+  { name: '-distance', content: '짧은 거리순', sign: '△' },
+  { name: 'distance', content: '긴 거리순', sign: '▽' },
+  { name: 'like', content: '좋아요순', sign: '▽' },
 ];

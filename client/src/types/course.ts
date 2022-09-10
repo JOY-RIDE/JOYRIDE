@@ -19,19 +19,10 @@ export interface IRoad {
   modifiedtime: number;
 }
 
-export interface ServerIRoads {
-  crsContents: string;
-  crsDstnc: number;
-  crsKorNm: string;
-  crsLevel: number;
-  crsSummary: string;
-  crsTourInfo: string;
+export interface ServerIRoads extends IRoad {
   id: string;
   image: string;
   likeCount: number;
-  required_at: number;
-  sigun: string;
-  travelerinfo: string;
 }
 
 export interface ServerIRoad {
@@ -93,3 +84,7 @@ export type CourseOrderName =
   | 'distance'
   | 'like'
   | 'rating';
+export interface CourseOrderState {
+  name: CourseOrderName;
+  content: string;
+}

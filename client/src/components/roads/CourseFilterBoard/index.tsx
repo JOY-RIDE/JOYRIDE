@@ -4,7 +4,6 @@ import { useSetRecoilState } from 'recoil';
 import { courseBoardFiltersState, courseFiltersState } from 'states/course';
 import { SubmitHandler } from 'types/callback';
 import useClientFilter from 'hooks/useClientFilter';
-import { toastMessageState } from 'states/common';
 import CourseFilterChoices from '../CourseFilterChoices';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import CourseFilterBoardOptions from '../CourseFilterBoardOptions';
@@ -12,22 +11,22 @@ import CourseFilterBoardOptions from '../CourseFilterBoardOptions';
 const cn = classNames.bind(styles);
 
 interface CourseFilterBoardProp {
-  closeBoard: () => void;
+  close: () => void;
 }
 
-const CourseFilterBoard = ({ closeBoard }: CourseFilterBoardProp) => {
+const CourseFilterBoard = ({ close }: CourseFilterBoardProp) => {
   const { filters: boardFilters, handleReset } = useClientFilter(
     courseBoardFiltersState,
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES
   );
+  console.log(boardFilters);
 
-  const showToastMessage = useSetRecoilState(toastMessageState);
   const setFilters = useSetRecoilState(courseFiltersState);
   const handleSubmit: SubmitHandler = e => {
     e.preventDefault();
     setFilters(boardFilters);
-    closeBoard();
+    close();
   };
 
   return (
