@@ -1,6 +1,10 @@
 import styles from './CourseFilterChoices.module.scss';
 import { useSetRecoilState } from 'recoil';
-import { courseBoardFiltersState, courseFiltersState } from 'states/course';
+import {
+  courseBoardFiltersState,
+  courseFiltersState,
+  COURSE_FILTERS_INITIAL_STATE,
+} from 'states/course';
 import { FilterOptionData } from 'types/common';
 import useClientFilter from 'hooks/useClientFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
@@ -16,7 +20,7 @@ interface CourseFilterChoicesProp {
 
 const CourseFilterChoices = ({ onBoard }: CourseFilterChoicesProp) => {
   const state = onBoard ? courseBoardFiltersState : courseFiltersState;
-  const { filters, handleRemove } = useClientFilter(
+  const { filters, handleRemove, handleReset } = useClientFilter(
     state,
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES
@@ -50,6 +54,16 @@ const CourseFilterChoices = ({ onBoard }: CourseFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
+      {/* {!onBoard &&
+        JSON.stringify(filters) !==
+          JSON.stringify(COURSE_FILTERS_INITIAL_STATE) && (
+          <FilterOptionChip
+            type="reset"
+            content="초기화"
+            isActive={false}
+            onTextClick={handleReset}
+          />
+        )} */}
     </ul>
   );
 };

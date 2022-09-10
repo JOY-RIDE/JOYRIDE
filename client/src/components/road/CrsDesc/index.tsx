@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 const cn = classNames.bind(styles);
 
 interface CrsDescProps {
-  name: string;
   label: string;
   contents: string | undefined;
 }
