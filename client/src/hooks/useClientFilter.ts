@@ -5,7 +5,7 @@ import { MeetupFiltersState } from 'types/meetup';
 import { CourseFiltersState } from 'types/course';
 
 // TODO
-type FiltersState = MeetupFiltersState;
+type FiltersState = MeetupFiltersState & CourseFiltersState;
 interface FiltersReducers {
   choose: FiltersReducer<FiltersState>;
   remove: FiltersReducer<FiltersState>;

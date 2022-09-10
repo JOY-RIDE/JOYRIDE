@@ -48,18 +48,19 @@ const Paging = ({ total, limit, page, setPage }: PaginationProps) => {
       >
         &lt;
       </button>
-      {pageGroup.map(p => (
-        <Link
-          to={`?page=${p}`}
-          key={p}
-          onClick={() => {
-            setPage(p);
-          }}
-          className={p === page ? cn('active') : cn('page')}
-        >
-          {p}
-        </Link>
-      ))}
+      {pageGroup &&
+        pageGroup.map(p => (
+          <Link
+            to={`?page=${p}`}
+            key={p}
+            onClick={() => {
+              setPage(p);
+            }}
+            className={p === page ? cn('active') : cn('page')}
+          >
+            {p}
+          </Link>
+        ))}
       <button
         onClick={() => {
           if (index <= Math.ceil(numPages / 5) - 1) {
