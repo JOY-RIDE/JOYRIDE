@@ -90,10 +90,11 @@ interface CourseOrderOption extends CourseOrderState {
   sign?: string;
 }
 export const COURSE_ORDER_OPTIONS: CourseOrderOption[] = [
-  { name: 'abc', content: '가나다순' },
-  { name: '-hour', content: '짧은 시간순', sign: '△' },
-  { name: 'hour', content: '긴 시간순', sign: '▽' },
-  { name: '-distance', content: '짧은 거리순', sign: '△' },
-  { name: 'distance', content: '긴 거리순', sign: '▽' },
-  { name: 'like', content: '좋아요순', sign: '▽' },
+  { name: 'crsKorNm', content: '가나다순' },
+  { name: 'crsTotlRqrmHour', content: '짧은 시간순', sign: '△' },
+  { name: '-crsTotlRqrmHour', content: '긴 시간순', sign: '▽' },
+  { name: 'crsDstnc', content: '짧은 거리순', sign: '△' },
+  { name: '-crsDstnc', content: '긴 거리순', sign: '▽' },
+  { name: 'likeCount', content: '좋아요순', sign: '▽' },
+  { name: 'rating', content: '평점순', sign: '▽' },
 ];

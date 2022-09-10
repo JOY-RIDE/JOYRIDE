@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link, useMatch } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
@@ -21,8 +21,7 @@ import {
   courseFiltersState,
   courseOrderState,
 } from 'states/course';
-import { stringifyCourseDifficulty } from 'utils/stringify';
-import { stringifyCourseHours } from 'utils/stringify';
+import { getCoursesOrderedBy } from 'utils/order';
 import { IRoad, ServerIRoads } from 'types/course';
 
 const cn = classNames.bind(styles);
@@ -33,8 +32,8 @@ const Roads = () => {
   >('allCourses', fetchCourses);
   const RoadsData = _.uniqBy(durunubiData, 'crsKorNm');
 
-  let RoadsData1 = [...RoadsData];
-  RoadsData1.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+  let newRoads = [...RoadsData];
+  newRoads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
   const { data: serverData } = useQuery<ServerIRoads[]>(
     'serverCourses',
@@ -43,10 +42,16 @@ const Roads = () => {
   console.log(serverData);
 
   const order = useRecoilValue(courseOrderState);
+  const [roads, setRoads] = useState(newRoads);
+  useEffect(
+    () => setRoads(roads => getCoursesOrderedBy(order.name, roads)),
+    [order.name]
+  );
   const resetFilters = useResetRecoilState(courseFiltersState);
   const resetOrder = useResetRecoilState(courseOrderState);
   useEffect(() => resetFilters, []);
   useEffect(() => resetOrder, []);
+  console.log(order.name);
 
   const url = window.location.search;
   const query = queryString.parse(url);
@@ -83,13 +88,13 @@ const Roads = () => {
           <CourseFilterChoices />
 
           <div className={cn('contents')}>
-            {RoadsData1?.slice(offset, offset + LIMIT).map(road => (
+            {roads?.slice(offset, offset + LIMIT).map(road => (
               <CourseItem course={road} name={road.crsKorNm} />
             ))}
           </div>
           {/* TODO url 페이지 파라미터 받아와서 처리 */}
           <Paging
-            total={RoadsData1.length}
+            total={roads.length}
             limit={LIMIT}
             page={page}
             setPage={setPage}

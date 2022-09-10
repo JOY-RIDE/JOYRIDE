@@ -7,11 +7,6 @@ const { persistAtom } = recoilPersist({
   storage: localStorage,
 });
 
-export const isCourseSortActiveState = atom<boolean>({
-  key: 'isCourseSortActive',
-  default: false,
-});
-
 export const CoursePageState = atom({
   key: 'course-page',
   default: 1,
@@ -33,5 +28,5 @@ export const courseBoardFiltersState = atom<CourseFiltersState>({
 
 export const courseOrderState = atom<CourseOrderState>({
   key: 'courseOrder',
-  default: { name: 'abc', content: '가나다순' },
+  default: { name: 'crsKorNm', content: '가나다순' },
 });

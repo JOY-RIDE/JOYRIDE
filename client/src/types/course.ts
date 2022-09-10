@@ -23,6 +23,7 @@ export interface ServerIRoads extends IRoad {
   id: string;
   image: string;
   likeCount: number;
+  rating: number;
 }
 
 export interface ServerIRoad {
@@ -77,12 +78,12 @@ export interface CourseFiltersState {
 }
 
 export type CourseOrderName =
-  | 'abc'
-  | '-hour'
-  | 'hour'
-  | '-distance'
-  | 'distance'
-  | 'like'
+  | 'crsKorNm'
+  | '-crsTotlRqrmHour'
+  | 'crsTotlRqrmHour'
+  | '-crsDstnc'
+  | 'crsDstnc'
+  | 'likeCount'
   | 'rating';
 export interface CourseOrderState {
   name: CourseOrderName;
