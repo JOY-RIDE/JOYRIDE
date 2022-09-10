@@ -4,6 +4,8 @@ import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
 import { CourseName } from 'types/course';
+import { fetchCourses } from './CrsAPI';
+import { uniqBy } from 'lodash';
 
 interface MeetupAPI {
   getMeetupList: () => Promise<MeetupData[]>;
@@ -63,15 +65,10 @@ export const meetupAPI: MeetupAPI = {
   },
 
   async getCourseNames() {
-    const {
-      data: { code, message },
-    } = await axios.get('courses/name');
-
-    if (code !== 2001) {
-      throw new Error(code);
-    }
-
-    return message;
+    let courses = await fetchCourses();
+    courses = uniqBy(courses, 'crsKorNm');
+    const courseNames = courses.map((course: any) => course.crsKorNm);
+    return courseNames.sort();
   },
 };
 
