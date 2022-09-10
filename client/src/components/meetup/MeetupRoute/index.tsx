@@ -17,7 +17,7 @@ interface MeetupRouteProps {
 const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
   <div className={cn('container', { long: courseName })}>
     {courseName && (
-      <Link to={`/roads/${courseName}`}>
+      <Link to={`/roads/${courseName}`} target="_blank">
         <span className={cn('course')}>
           {courseName}
           <TbLayersLinked />
