@@ -3,7 +3,7 @@
 .container {
   border: 1px dashed #aeaeae;
   border-radius: 2rem;
-  padding: 2rem 4rem;
+  padding: 1.5rem 3rem;
   position: relative;
 
   &.long {
@@ -23,6 +23,18 @@
   right: 50%;
   transform: translateX(50%);
   width: max-content;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  & svg {
+    font-size: 1.8rem;
+    position: absolute;
+    top: -1.1em;
+    right: -0.5em;
+    color: $color-grey-600;
+  }
 }
 
 .path {
