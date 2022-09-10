@@ -135,6 +135,17 @@ public class CourseController {
         }
     }
 
+    @GetMapping("/like/check")
+    public BaseResponse<GetCourseLikeRes> GetCourseLike(@RequestBody GetCourseLikeReq getCourseLikeReq) {
+        try{
+            GetCourseLikeRes getCourseLikeRes = courseProvider.retrieveCourseLike(getCourseLikeReq);
+            return new BaseResponse<>(getCourseLikeRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
 //    //리뷰 종아요 취소 api
 //    @DeleteMapping("/like/{courseLike_id}")
 //    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){

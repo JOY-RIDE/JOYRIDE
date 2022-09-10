@@ -167,6 +167,26 @@ public class CourseProvider {
         }
     }
 
+    // 좋아요 조회
+    // 좋아요 있으면 1
+    // 없으면 0
+    public GetCourseLikeRes retrieveCourseLike(GetCourseLikeReq getCourseLikeReq) throws BaseException {
+        try{
+            String title = getCourseLikeReq.getTitle();
+            int id = getCourseLikeReq.getUser_id();
+            List<String> selectedTitle = courseDao.selectCourseByUserId(id);
+            if (selectedTitle.contains(title)) {
+                return  new GetCourseLikeRes(1);
+            }
+
+            return  new GetCourseLikeRes(0);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
 
 
 }
