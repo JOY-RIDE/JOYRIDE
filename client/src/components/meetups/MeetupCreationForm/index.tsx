@@ -39,6 +39,7 @@ import { meetupAPI } from 'apis/meetupAPI';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { CourseName } from 'types/course';
+import { Autocomplete } from '@mui/material';
 
 const cn = classNames.bind(styles);
 
@@ -66,16 +67,10 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 interface MeetupCreationForm
   extends Omit<
     NewMeetup,
-    | 'dueDate'
-    | 'meetingDate'
-    | 'courseName'
-    | 'localLocation'
-    | 'path'
-    | 'maxPeople'
+    'dueDate' | 'meetingDate' | 'localLocation' | 'path' | 'maxPeople'
   > {
   dueDate: Date | null;
   meetingDate: Date | null;
-  courseName: CourseName;
   location: MeetupLocation;
   path: string[];
   maxNumOfParticipants: MeetupMaxNumOfParticipants;
@@ -99,7 +94,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     defaultValues: {
       location: '서울',
       gatheringPlace: '',
-      courseName: '',
+      courseName: null,
       path: [],
       pathDifficulty: 1,
       bicycleTypes: ['따릉이'],
@@ -116,11 +111,14 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
   });
 
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: courseNames } = useQuery<CourseName[]>(
+  const { data: courseNames, refetch } = useQuery<CourseName[]>(
     ['courseNames'],
     meetupAPI.getCourseNames,
     {
-      onError: e =>
+      enabled: false,
+      staleTime: 60 * 60 * 1000, // TODO
+      cacheTime: Infinity,
+      onError: () =>
         showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
     }
   );
@@ -129,6 +127,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
   const dueDate = watch('dueDate');
   const path = watch('path');
   const minBirthYear = watch('minBirthYear');
+  console.log(watch('courseName'));
 
   const imgURL = imgFile?.length
     ? URL.createObjectURL(imgFile[0])
@@ -192,7 +191,6 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       localLocation: data.location,
       dueDate: dayjs(data.dueDate).format('YYYY-MM-DD HH:mm:ss'),
       meetingDate: dayjs(data.meetingDate).format('YYYY-MM-DD HH:mm:ss'),
-      courseName: data.courseName || null,
       path: data.path.join(','),
       maxPeople: data.maxNumOfParticipants,
     };
@@ -403,33 +401,31 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           <Controller
             control={control}
             name="courseName"
-            rules={{
-              validate: courseName =>
-                courseNames ? courseNames.indexOf(courseName) > 0 : !courseName,
-            }}
-            render={({ field }) => (
-              <>
-                <TextInput
-                  list="courseNames"
-                  placeholder="자전거길을 선택하세요."
-                  {...field}
-                />
-                <datalist id="courseNames">
-                  <option value="하하" />
-                  {courseNames &&
-                    courseNames.map(course => <option value={course} />)}
-                </datalist>
-              </>
+            render={({ field: { onChange, ...others } }) => (
+              <Autocomplete
+                loading={!courseNames}
+                loadingText="목록을 불러오고 있습니다"
+                options={courseNames || []}
+                onOpen={() => refetch()}
+                onChange={(_, value) => onChange(value)}
+                renderInput={params => (
+                  <div ref={params.InputProps.ref}>
+                    <TextInput
+                      {...params.inputProps}
+                      placeholder="자전거길을 선택하세요."
+                    />
+                  </div>
+                )}
+                handleHomeEndKeys
+                sx={{
+                  '& input': {
+                    width: '100%',
+                  },
+                }}
+                {...others}
+              />
             )}
           />
-          {errors.courseName && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'courseName',
-                errors.courseName.type
-              )}
-            />
-          )}
         </div>
 
         <div className={cn('field')}>

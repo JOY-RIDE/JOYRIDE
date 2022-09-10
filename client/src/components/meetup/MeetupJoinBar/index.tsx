@@ -32,7 +32,7 @@ interface MeetupJoinBarProp {
 const MeetupJoinBar = ({ dueDate }: MeetupJoinBarProp) => {
   const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
-  const displayModal = useSetRecoilState(modalContentState);
+  const showModal = useSetRecoilState(modalContentState);
   const showToastMessage = useSetRecoilState(toastMessageState);
 
   const queryClient = useQueryClient();
@@ -48,10 +48,10 @@ const MeetupJoinBar = ({ dueDate }: MeetupJoinBarProp) => {
 
   const handleJoinClick = () => {
     if (!userId) {
-      displayModal(<AskLogin />);
+      showModal(<AskLogin />);
       return;
     }
-    displayModal(<AskMeetupJoin joinMeetup={joinMeetup} />);
+    showModal(<AskMeetupJoin joinMeetup={joinMeetup} />);
   };
 
   return (
