@@ -376,7 +376,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
             rules={{ validate: path => path.length >= 2 }}
             render={({ field: { value, onChange, ...others } }) => (
               <TextInput
-                placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
+                placeholder="장소 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
                 onKeyDown={handlePathAdd}
                 {...others}
               />

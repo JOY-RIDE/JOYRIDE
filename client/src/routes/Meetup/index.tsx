@@ -186,6 +186,7 @@ const Meetup = () => {
         <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
       </section>
 
+      {/* TODO: 아이콘 설명 */}
       <section className={cn('map-section')}>
         <MeetupPathMap
           gatheringPlace={meetup.gatheringPlace}
