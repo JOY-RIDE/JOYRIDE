@@ -25,9 +25,10 @@ const cn = classNames.bind(styles);
 
 const PAGE_LIMIT = 6;
 
-// TODO: pagination, 렌더링 확인
+// TODO: 렌더링 확인
 const Meetups = () => {
   const userId = useRecoilValue(userIdState);
+  // TODO: useState로
   const order = useRecoilValue(meetupOrderState);
   const filters = useRecoilValue(meetupFiltersState);
   const [page, setPage] = useState(
