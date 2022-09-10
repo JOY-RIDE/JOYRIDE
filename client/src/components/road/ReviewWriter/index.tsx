@@ -1,13 +1,17 @@
 import { useState, forwardRef, ReactElement, Ref } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styles from './ReviewWriter.module.scss';
 import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
 import Button from 'components/common/Button';
 import ReviewForm from '../ReviewForm';
+import { toastMessageState } from 'states/common';
 import { useTheme } from '@emotion/react';
 import { Slide, Dialog, useMediaQuery } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { HiX } from 'react-icons/hi';
+import { userIdState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
@@ -22,9 +26,21 @@ const Transition = forwardRef(function Transition(
 
 const ReviewWriter = () => {
   const [open, setOpen] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
+
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const navigate = useNavigate();
+  const currentPath = window.location.pathname;
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (loggedInUser === null) {
+      showToastMessage('로그인이 필요한 서비스입니다.');
+      setTimeout(function () {
+        navigate(`/auth/login?next=${currentPath}`);
+      }, 1000);
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {

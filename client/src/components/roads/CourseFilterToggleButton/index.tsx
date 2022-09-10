@@ -15,7 +15,7 @@ const CourseFilterToggleButton = () => {
         {isOpen ? <AiOutlineUp /> : <AiOutlineDown />}
       </button>
       <div className={cn('board-container', { hidden: !isOpen })}>
-        <CourseFilterBoard closeBoard={close} />
+        <CourseFilterBoard close={close} />
       </div>
     </div>
   );

@@ -48,7 +48,7 @@ const Meetup = () => {
     ['meetup', Number(meetupId)],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
 
@@ -187,6 +187,7 @@ const Meetup = () => {
         <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
       </section>
 
+      {/* TODO: 아이콘 설명 */}
       <section className={cn('map-section')}>
         <MeetupPathMap
           gatheringPlace={meetup.gatheringPlace}
@@ -206,7 +207,9 @@ const Meetup = () => {
             {meetup.maxPeople}
           </div>
         </h2>
-        <MeetupParticipantList participants={meetup.participants} />
+        {Boolean(meetup.joinPeople) && (
+          <MeetupParticipantList participants={meetup.participants} />
+        )}
       </section>
 
       <section className={cn('comments-section')}>

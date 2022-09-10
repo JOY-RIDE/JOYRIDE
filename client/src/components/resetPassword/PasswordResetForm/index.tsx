@@ -40,7 +40,7 @@ const PasswordResetForm = () => {
           render={({ field }) => (
             <TextInput
               type="email"
-              placeholder="이메일을 입력하세요"
+              placeholder="이메일을 입력하세요."
               {...field}
             />
           )}

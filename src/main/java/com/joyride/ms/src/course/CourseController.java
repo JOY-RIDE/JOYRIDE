@@ -42,6 +42,17 @@ public class CourseController {
         }
     }
 
+    // 코스 이름 조회 api
+    @GetMapping("/name")
+    public BaseResponse<List<GetCourseNameListRes>> getCourseTitleList(){
+        try{
+            List<GetCourseNameListRes> titleList = courseProvider.retrieveCourseTitleList();
+            return new BaseResponse<>(titleList);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     // 코스 필터링 api
     // Post로 할지 아니면 Pathvariable로 받을지
     @PostMapping("/filter")
@@ -84,7 +95,6 @@ public class CourseController {
     public BaseResponse<List<GetFilteringReviewRes>> GetFilteringReview(@PathVariable("title") String title, @PathVariable("filter") String filter){
         try{
             List<GetCourseReviewRes> courseReviewList = courseProvider.retrieveCourseReviewByCourseTitle(title);
-
             List<GetFilteringReviewRes> getFilteringReviewList = courseService.reviewFilter(courseReviewList, filter);
             return new BaseResponse<>(getFilteringReviewList);
         } catch(BaseException exception){

@@ -41,9 +41,9 @@ const Meetups = () => {
     isLoading,
     status,
   } = useQuery<MeetupData[]>(['meetups'], meetupAPI.getMeetupList, {
-    onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
     staleTime: 10 * 1000,
     cacheTime: Infinity,
+    onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
   });
 
   const resetFilters = useResetRecoilState(meetupFiltersState);

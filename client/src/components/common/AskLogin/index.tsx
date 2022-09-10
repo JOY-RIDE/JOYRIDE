@@ -16,7 +16,7 @@ const AskLogin = () => {
   const close = useResetRecoilState(modalContentState);
   return (
     <div className={cn('container')}>
-      <h1 className={cn('title')}>로그인이 필요한 서비스입니다</h1>
+      <h1 className={cn('title')}>로그인이 필요한 서비스입니다.</h1>
       <div className={cn('login-btn')}>
         <Link to={`/auth/login?next=${pathname}`}>
           <Button

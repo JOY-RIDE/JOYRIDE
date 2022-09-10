@@ -1,115 +1,102 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useMatch } from 'react-router-dom';
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import { fetchCourses } from '../../apis/CrsAPI';
+import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
+import { fetchCourses, fetchCoursesFromServer } from '../../apis/CrsAPI';
 import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
 import Loading from 'components/common/Loading';
-import CourseFilterToggleButton from 'components/roads/CourseFilterToggleButton';
+import CourseFilterBoard from 'components/roads/CourseFilterBoard';
+import ContentToggleButton from 'components/common/ContentToggleButton';
 import CourseFilterChoices from 'components/roads/CourseFilterChoices';
-import SortBox from 'components/roads/SortBox';
+import OrderList from 'components/roads/OrderList';
+import CourseItem from 'components/roads/CourseItem';
 import Paging from 'components/common/Paging';
 import _ from 'lodash';
-import { CoursePageState, courseFiltersState } from 'states/course';
-import { stringifyCourseDifficulty } from 'utils/stringify';
-import { stringifyCourseHours } from 'utils/stringify';
-import { IRoad } from 'types/course';
+import { COURSE_ORDER_OPTIONS } from 'utils/constants';
+import {
+  CoursePageState,
+  courseFiltersState,
+  courseOrderState,
+  courseBoardFiltersState,
+} from 'states/course';
+import { getCoursesOrderedBy } from 'utils/order';
+import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
+import { IRoad, ServerIRoads } from 'types/course';
+import useClientFilter from 'hooks/useClientFilter';
 
 const cn = classNames.bind(styles);
 
 const Roads = () => {
-  const { isLoading, data } = useQuery<IRoad[]>(['allCourses'], fetchCourses);
-  const RoadsData = _.uniqBy(data, 'crsKorNm');
+  const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<
+    ServerIRoads[]
+  >(['allCourses'], fetchCourses);
+  const RoadsData = _.uniqBy(durunubiData, 'crsKorNm');
 
-  let RoadsData1 = [...RoadsData];
-  RoadsData1.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+  let newRoads = [...RoadsData];
+  newRoads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
+  const { data: serverData } = useQuery<ServerIRoads[]>(
+    ['serverCourses'],
+    fetchCoursesFromServer
+  );
+  console.log(serverData);
+
+  const { filters: boardFilters } = useClientFilter(
+    courseBoardFiltersState,
+    // @ts-ignore
+    COURSE_FILTERS_DISPATCHES
+  );
+
+  const order = useRecoilValue(courseOrderState);
   const resetFilters = useResetRecoilState(courseFiltersState);
+  const resetOrder = useResetRecoilState(courseOrderState);
   useEffect(() => resetFilters, []);
-
-  const url = window.location.search;
-  const query = queryString.parse(url);
-  console.log(query.page);
-
-  const reviewMatch = useMatch('roads/:roadId/review');
+  useEffect(() => resetOrder, []);
+  //   console.log(order.name);
 
   const LIMIT = 5;
   const [page, setPage] = useRecoilState(CoursePageState);
   const offset = (page - 1) * LIMIT;
+  console.log(window.location.search);
 
   return (
     <section className={styles.roads}>
-      {isLoading ? (
+      {isDurunubiLoading ? (
         <Loading />
       ) : (
         <div className={cn('container')}>
           <PageTitle size="md">자전거 코스</PageTitle>
-          <div className={cn('func')}>
-            <div className={cn('filter-container')}>
-              <div className={cn('filter')}>
-                <CourseFilterToggleButton />
-              </div>
-              <CourseFilterChoices />
-            </div>
-            <SortBox />
-            {/* <Sort
-              sortOptionData={sortOptionData}
-              setCurrentSort={setCurrentSort}
-              currentSort={currentSort}
-            /> */}
+          <div className={cn('filter-order')}>
+            {/* @ts-ignore */}
+            <ContentToggleButton title="필터" Content={<CourseFilterBoard />} />
+            <ContentToggleButton
+              title={order.content}
+              Content={
+                // TODO
+                // @ts-ignore
+                <OrderList
+                  options={COURSE_ORDER_OPTIONS}
+                  // TODO
+                  // @ts-ignore
+                  recoilState={courseOrderState}
+                />
+              }
+            />
           </div>
-          <ul className={cn('contents')}>
-            {RoadsData1?.slice(offset, offset + LIMIT).map(road => (
-              <li className={cn('content')} key={road.crsIdx}>
-                <Link to={`${road.crsKorNm}`} state={{ name: road.crsKorNm }}>
-                  {/* 사진 있을시
-                  <div className={cn('top')}>
-                    <img
-                      className={cn('image')}
-                      src="https://images.unsplash.com/photo-1559235270-2df4dcfb4eca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop"
-                      alt="cycling"
-                    />
-                  </div> */}
-                  <div className={cn('bottom')}>
-                    <p className={cn('title')}>
-                      <span className={cn('sigun')}>{road.sigun}</span>{' '}
-                      <span className={cn('name')}>{road.crsKorNm}</span>
-                    </p>
-                    <p className={cn('info')}>
-                      <span className={cn('dstnc')}>{road.crsDstnc}km </span>
-                      <span className={cn('hour')}>
-                        {stringifyCourseHours(road.crsTotlRqrmHour)}
-                      </span>
-                    </p>
-                    <p className={cn('info2')}>
-                      <span className={cn('level')}>
-                        <span className={cn('type')}>난이도</span>{' '}
-                        <span className={cn('value')}>
-                          {stringifyCourseDifficulty(road.crsLevel)}
-                        </span>
-                      </span>
-                      ·
-                      <span className={cn('rate')}>
-                        <span className={cn('type')}>평점</span>{' '}
-                        <span className={cn('value')}>4.5</span>
-                      </span>
-                      ·
-                      <span className={cn('likes')}>
-                        <span className={cn('type')}>♥</span>{' '}
-                        <span className={cn('value')}>12</span>
-                      </span>
-                    </p>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <CourseFilterChoices />
+
+          <div className={cn('contents')}>
+            {getCoursesOrderedBy(order.name, newRoads)
+              .slice(offset, offset + LIMIT)
+              .map(road => (
+                <CourseItem course={road} name={road.crsKorNm} />
+              ))}
+          </div>
           {/* TODO url 페이지 파라미터 받아와서 처리 */}
           <Paging
-            total={RoadsData1.length}
+            total={newRoads.length}
             limit={LIMIT}
             page={page}
             setPage={setPage}

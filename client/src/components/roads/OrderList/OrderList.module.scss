@@ -1,0 +1,14 @@
+@use '../../../styles/variables.scss' as *;
+
+.options {
+  position: absolute;
+  top: 2.5rem;
+  z-index: 2;
+  right: 0;
+  width: max-content;
+  background: white;
+  color: $color-grey-600;
+  font-size: 1.4rem;
+  border: $border-grey;
+  border-radius: 0.3rem;
+}
