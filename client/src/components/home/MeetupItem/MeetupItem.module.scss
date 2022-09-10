@@ -1,0 +1,92 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  border: $border-grey;
+  border-radius: 0.3rem;
+}
+
+.preview {
+  display: flex;
+  gap: 3rem;
+  justify-content: space-between;
+}
+
+.text {
+  padding: 1.4rem 0 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.meeting-date {
+  color: $color-grey-800;
+  font-size: 1.4rem;
+}
+
+.title-wrapper {
+  display: flex;
+  font-weight: 700;
+  gap: 0.5rem;
+  font-size: 1.4rem;
+  margin-top: 0.3rem;
+
+  & .location {
+    color: $color-main;
+  }
+
+  & .title {
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+}
+
+.info-wrapper {
+  display: flex;
+  align-items: center;
+  color: $color-grey-600;
+  font-weight: 700;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  margin-top: 1.2rem;
+
+  & .courseName {
+    background: #cef2e2;
+    color: $color-main;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+  }
+
+  & .info,
+  .field {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  & .emphasize {
+    color: $color-main;
+  }
+}
+
+.img {
+  width: 30%;
+  object-fit: cover;
+}
+
+.path {
+  background: $color-grey-200;
+  color: $color-grey-600;
+  display: flex;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+}
+
+.rest-path {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.to {
+  flex-shrink: 0;
+}
