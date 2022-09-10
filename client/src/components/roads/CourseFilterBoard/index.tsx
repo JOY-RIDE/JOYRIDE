@@ -20,7 +20,6 @@ const CourseFilterBoard = ({ close }: CourseFilterBoardProp) => {
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES
   );
-  console.log(boardFilters);
 
   const setFilters = useSetRecoilState(courseFiltersState);
   const handleSubmit: SubmitHandler = e => {

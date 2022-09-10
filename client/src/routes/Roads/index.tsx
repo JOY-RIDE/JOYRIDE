@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { Link, useMatch } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
 import { fetchCourses, fetchCoursesFromServer } from '../../apis/CrsAPI';
 import queryString from 'query-string';
@@ -20,9 +19,12 @@ import {
   CoursePageState,
   courseFiltersState,
   courseOrderState,
+  courseBoardFiltersState,
 } from 'states/course';
 import { getCoursesOrderedBy } from 'utils/order';
+import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import { IRoad, ServerIRoads } from 'types/course';
+import useClientFilter from 'hooks/useClientFilter';
 
 const cn = classNames.bind(styles);
 
@@ -41,25 +43,23 @@ const Roads = () => {
   );
   console.log(serverData);
 
-  const order = useRecoilValue(courseOrderState);
-  const [roads, setRoads] = useState(newRoads);
-  useEffect(
-    () => setRoads(roads => getCoursesOrderedBy(order.name, roads)),
-    [order.name]
+  const { filters: boardFilters } = useClientFilter(
+    courseBoardFiltersState,
+    // @ts-ignore
+    COURSE_FILTERS_DISPATCHES
   );
+
+  const order = useRecoilValue(courseOrderState);
   const resetFilters = useResetRecoilState(courseFiltersState);
   const resetOrder = useResetRecoilState(courseOrderState);
   useEffect(() => resetFilters, []);
   useEffect(() => resetOrder, []);
-  console.log(order.name);
-
-  const url = window.location.search;
-  const query = queryString.parse(url);
-  console.log(query.page);
+  //   console.log(order.name);
 
   const LIMIT = 5;
   const [page, setPage] = useRecoilState(CoursePageState);
   const offset = (page - 1) * LIMIT;
+  console.log(window.location.search);
 
   return (
     <section className={styles.roads}>
@@ -88,13 +88,15 @@ const Roads = () => {
           <CourseFilterChoices />
 
           <div className={cn('contents')}>
-            {roads?.slice(offset, offset + LIMIT).map(road => (
-              <CourseItem course={road} name={road.crsKorNm} />
-            ))}
+            {getCoursesOrderedBy(order.name, newRoads)
+              .slice(offset, offset + LIMIT)
+              .map(road => (
+                <CourseItem course={road} name={road.crsKorNm} />
+              ))}
           </div>
           {/* TODO url 페이지 파라미터 받아와서 처리 */}
           <Paging
-            total={roads.length}
+            total={newRoads.length}
             limit={LIMIT}
             page={page}
             setPage={setPage}

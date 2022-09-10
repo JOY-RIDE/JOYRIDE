@@ -22,10 +22,6 @@ const Like = () => {
   const handleLike = () => {
     if (loggedInUser === null) {
       showToastMessage('로그인이 필요한 서비스입니다.');
-      //   navigate(`/auth/login?next=${currentPath}`);
-      setTimeout(function () {
-        navigate(`/auth/login?next=${currentPath}`);
-      }, 800);
     } else {
       if (isLiked === 0) {
         setIsLiked(1);

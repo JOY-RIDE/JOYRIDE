@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import { fetchCourseInfo, fetchCourseFromServer } from '../../apis/CrsAPI';
@@ -29,8 +29,7 @@ interface RouteState {
 }
 
 const Road = () => {
-  const { state } = useLocation() as RouteState;
-  const crsNm = state.name;
+  const { roadId: crsNm } = useParams();
 
   const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<IRoad>(
     ['info', crsNm],
@@ -103,17 +102,14 @@ const Road = () => {
           <PageTitle size="sm">코스 소개</PageTitle>
           <div className={cn('desc')}>
             <CrsDesc
-              name={crsNm}
               label="코스 개요"
               contents={durunubiData?.crsContents}
             ></CrsDesc>
             <CrsDesc
-              name={crsNm}
               label="코스 설명"
               contents={durunubiData?.crsSummary}
             ></CrsDesc>
             <CrsDesc
-              name={crsNm}
               label="관광 포인트"
               contents={durunubiData?.crsTourInfo}
             ></CrsDesc>

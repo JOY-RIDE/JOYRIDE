@@ -19,11 +19,6 @@ declare global {
 const cn = classNames.bind(styles);
 
 const MapDetail = () => {
-  const [isToiletChecked, setIsToiletChecked] = useState(false);
-  const [isCafeChecked, setIsCafeChecked] = useState(false);
-  const [isRepairChecked, setIsRepairChecked] = useState(false);
-  const [isRentalChecked, setIsRentalChecked] = useState(false);
-
   useEffect(() => {
     var infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
 
