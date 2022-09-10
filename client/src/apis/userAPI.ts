@@ -33,5 +33,6 @@ export const userAPI = {
   handleLogout(setUserId: SetUserId) {
     delete axios.defaults.headers.common.Authorization;
     setUserId(null);
+    localStorage.removeItem('userId');
   },
 };

@@ -54,7 +54,9 @@ export const authAPI = (() => {
       throw new Error(code);
     }
 
-    handleLogin(result.accessToken, setUserId, result.userId);
+    setUserId(result.userId);
+    handleLogin(result.accessToken, setUserId);
+    localStorage.setItem('userId', JSON.stringify(result.userId));
   };
 
   const silentRefresh = async (setUserId: SetUserId) => {
@@ -64,7 +66,7 @@ export const authAPI = (() => {
 
     // refresh token 유효할 때
     if (code === 1000) {
-      handleLogin(result.accessToken, setUserId, result.userId);
+      handleLogin(result.accessToken, setUserId);
       return;
     }
 
@@ -74,15 +76,8 @@ export const authAPI = (() => {
     userAPI.handleLogout(setUserId);
   };
 
-  const handleLogin = (
-    accessToken: string,
-    setUserId: SetUserId,
-    userId: number
-  ) => {
+  const handleLogin = (accessToken: string, setUserId: SetUserId) => {
     axios.defaults.headers.common.Authorization = accessToken;
-    setUserId(userId);
-    // TODO: localStorage
-
     const JWT_EXPIRY_TIME_IN_SECONDS = 20 * 60;
     setTimeout(
       () => silentRefresh(setUserId),

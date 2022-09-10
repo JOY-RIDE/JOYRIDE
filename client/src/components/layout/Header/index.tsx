@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { userProfileState, userIdState } from 'states/auth';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userIdState } from 'states/auth';
+import { useRecoilState } from 'recoil';
 import Container from 'components/common/Container';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 // import { FaRegUserCircle } from 'react-icons/fa';
@@ -14,6 +14,8 @@ import { motion } from 'framer-motion';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { userAPI } from 'apis/userAPI';
 import { JOYRDIE_LOGO_IMAGE } from 'utils/urls';
+import { useQuery } from '@tanstack/react-query';
+import { UserProfile } from 'types/auth';
 
 const cn = classNames.bind(styles);
 
@@ -26,19 +28,23 @@ const Header = () => {
   const { pathname } = useLocation();
   const isAtAuthPage = pathname.includes('/auth/');
   const loginNextQuery = isAtHome || isAtAuthPage ? '' : `?next=${pathname}`;
-  const userProfile = useRecoilValue(userProfileState);
+
+  const [userId, setUserId] = useRecoilState(userIdState);
+  const { data: userProfile } = useQuery<UserProfile>(
+    ['userProfile'],
+    () => userAPI.getProfile(userId as number),
+    { enabled: !!userId, staleTime: Infinity, cacheTime: Infinity }
+  );
+  const handleLogoutClick = () => {
+    userAPI.logout(setUserId);
+    closeMenu();
+  };
 
   const [menuToggle, setMenuToggle] = useState<boolean>(false);
   const toggleMenu = () => setMenuToggle(menuToggle => !menuToggle);
   const closeMenu = () => setMenuToggle(false);
   const menuRef = useRef<HTMLDivElement>(null);
   useOnClickOutside(menuRef, closeMenu);
-
-  const setUserId = useSetRecoilState(userIdState);
-  const handleLogoutClick = () => {
-    userAPI.logout(setUserId);
-    closeMenu();
-  };
 
   const { register, handleSubmit, reset } = useForm<Iform>();
   const navigate = useNavigate();

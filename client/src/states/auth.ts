@@ -4,17 +4,20 @@ import { SignupFormData, UserProfile } from 'types/auth';
 
 export const userIdState = atom<number | null>({
   key: 'userId',
-  default: null,
+  default:
+    localStorage.getItem('userId') &&
+    JSON.parse(localStorage.getItem('userId') as string),
 });
-export const userProfileState = selector<UserProfile | null>({
-  key: 'userProfile',
-  get: async ({ get }) => {
-    // TODO: 캐싱 확인
-    const userId = get(userIdState);
-    if (!userId) return null;
-    return await userAPI.getProfile(userId);
-  },
-});
+// export const userProfileState = selector<UserProfile | null>({
+//   key: 'userProfile',
+//   get: async ({ get }) => {
+//     // TODO: 캐싱 확인
+//     const userId = get(userIdState);
+//     console.log(userId);
+//     if (!userId) return null;
+//     return await userAPI.getProfile(userId);
+//   },
+// });
 
 export const signupFormDataState = atom<SignupFormData>({
   key: 'signupFormData',
