@@ -33,7 +33,7 @@ public class MeetDao {
 
     public Integer insertMeet(Integer userId, MeetCreateReq meetCreateReq, String meeting_img_url) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        String insertMeetQuery = "INSERT INTO meet (user_id, course_name, title, local,riding_skill, path_difficulty,meeting_img_url,gender, max_people, path, participation_fee, content,min_year,max_year, meeting_date, due_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String insertMeetQuery = "INSERT INTO meet (user_id, course_name, title, local,riding_skill, path_difficulty,meeting_img_url,gender, max_people, path, participation_fee, content,min_year,max_year,gathering_place, meeting_date, due_date) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String insertBicycleTypeQuery = "INSERT INTO meet_bicycletype (meet_id, bicycle_type) VALUES (?,?)";
 
         this.jdbcTemplate.update(new PreparedStatementCreator() {
@@ -55,8 +55,9 @@ public class MeetDao {
                 pstmt.setString(12, meetCreateReq.getContent());
                 pstmt.setInt(13, meetCreateReq.getMinBirthYear());
                 pstmt.setInt(14, meetCreateReq.getMaxBirthYear());
-                pstmt.setString(15, meetCreateReq.getMeetingDate());
-                pstmt.setString(16, meetCreateReq.getDueDate());
+                pstmt.setString(15, meetCreateReq.getGatheringPlace());
+                pstmt.setString(16, meetCreateReq.getMeetingDate());
+                pstmt.setString(17, meetCreateReq.getDueDate());
                 return pstmt;
             }
         }, keyHolder);
@@ -83,9 +84,36 @@ public class MeetDao {
         return this.jdbcTemplate.queryForObject(checkJoinByIdQuery, int.class, checkJoinByIdParams);
     }
 
+    public int checkMeetById(Integer userId,Integer meetId) {
+        String checkMeetByIdQuery = "select exists(select id from meet where user_id = ? and id = ?)";
+        Object[] checkMeetByIdParams = new Object[]{userId, meetId};
+        return this.jdbcTemplate.queryForObject(checkMeetByIdQuery, int.class, checkMeetByIdParams);
+    }
+
+    public int checkMeetStatus(Integer meetId) {
+        String checkMeetStatusQuery = "select exists(select id from meet where  id = ? and status = 1)";
+        Integer checkMeetStatusParam = meetId;
+        return this.jdbcTemplate.queryForObject(checkMeetStatusQuery, int.class, checkMeetStatusParam);
+    }
+
+    public int checkMeetFull(Integer meetId) {
+        String checkMeetMaxPeopleQuery = "select max_people from meet where id = ?";
+        Integer checkMeetMaxPeopleParam = meetId;
+
+        String checkMeetJoinPeopleQuery = "select count(meet_join.id) from meet_join where meet_id = ?";
+        Integer checkMeetJoinPeopleParam = meetId;
+
+        Integer maxPeople = this.jdbcTemplate.queryForObject(checkMeetMaxPeopleQuery, int.class, checkMeetMaxPeopleParam);
+        Integer joinPeople = this.jdbcTemplate.queryForObject(checkMeetJoinPeopleQuery, int.class, checkMeetJoinPeopleParam);
+
+        if (maxPeople == joinPeople)
+            return 1;
+        return 0;
+    }
+
     public List<MeetListRes> selectMeet() {
         String selectMeetQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
-                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year, meeting_date," +
+                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
                 "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
                 "group by m.id";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
@@ -103,11 +131,13 @@ public class MeetDao {
                                 rs.getString("gender"),
                                 rs.getInt("join_people"),
                                 rs.getInt("max_people"),
-                                Arrays.asList(rs.getString("path").split("-")),
+                                Arrays.asList(rs.getString("path").split(",")),
                                 rs.getInt("participation_fee"),
                                 rs.getString("content"),
                                 rs.getInt("min_year"),
                                 rs.getInt("max_year"),
+                                rs.getString("gathering_place"),
+                                rs.getInt("status"),
                                 rs.getString("meeting_date"),
                                 rs.getString("due_date"),
                                 rs.getString("created_at"),
@@ -119,8 +149,11 @@ public class MeetDao {
     }
 
     public MeetDetailRes selectMeetById(Integer meetId) {
-        String selectMeetByIdQuery = "select max_people from meet \n" +
-                "where id = ?";
+        String selectMeetByIdQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
+                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
+                "where m.id = ?";
+        String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
         String selectAdminByMeetIdQuery = "select id,nickname,manner,profile_img_url from user where id = (select user_id from meet where id = ?)";
         String selectParticipantsByMeetIdQuery = "select user.id,nickname,manner,profile_img_url from user join meet_join\n" +
                 "                                          on user.id  = meet_join.user_id\n" +
@@ -128,23 +161,59 @@ public class MeetDao {
 
         return this.jdbcTemplate.queryForObject(selectMeetByIdQuery,
                 (rs, rowNum) -> new MeetDetailRes(
-                        this.jdbcTemplate.queryForObject(selectAdminByMeetIdQuery,
-                                (rs2,rowNum2) ->
-                                        new UserDetail(
-                                                rs2.getInt("id"),
-                                                rs2.getString("nickname"),
-                                                rs2.getDouble("manner"),
-                                                rs2.getString("profile_img_url")
-                                        ),meetId),
+                        rs.getInt("id"),
+                        rs.getInt("user_id"),
+                        rs.getString("course_name"),
+                        rs.getString("title"),
+                        rs.getString("local"),
+                        rs.getInt("riding_skill"),
+                        rs.getInt("path_difficulty"),
+                        rs.getString("meeting_img_url"),
+                        rs.getString("gender"),
+                        rs.getInt("join_people"),
                         rs.getInt("max_people"),
-                        this.jdbcTemplate.query(selectParticipantsByMeetIdQuery,
+                        Arrays.asList(rs.getString("path").split(",")),
+                        rs.getInt("participation_fee"),
+                        rs.getString("content"),
+                        rs.getInt("min_year"),
+                        rs.getInt("max_year"),
+                        rs.getString("gathering_place"),
+                        rs.getInt("status"),
+                        rs.getString("meeting_date"),
+                        rs.getString("due_date"),
+                        rs.getString("created_at"),
+                        this.jdbcTemplate.query(selectBicycleTypeQuery,
+                                (rs2,rowNum2) ->
+                                        rs2.getString("bicycle_type")
+                                ,rs.getInt("id")),
+                        this.jdbcTemplate.queryForObject(selectAdminByMeetIdQuery,
                                 (rs3,rowNum3) ->
                                         new UserDetail(
                                                 rs3.getInt("id"),
                                                 rs3.getString("nickname"),
                                                 rs3.getDouble("manner"),
                                                 rs3.getString("profile_img_url")
+                                        ),meetId),
+                        this.jdbcTemplate.query(selectParticipantsByMeetIdQuery,
+                                (rs4,rowNum4) ->
+                                        new UserDetail(
+                                                rs4.getInt("id"),
+                                                rs4.getString("nickname"),
+                                                rs4.getDouble("manner"),
+                                                rs4.getString("profile_img_url")
                                         ),meetId)),
                         meetId);
+    }
+
+    public void deleteMeetJoin(Integer userId, Integer meetId) {
+        String deleteMeetJoinQuery = "delete from meet_join where user_id = ? and meet_id = ?";
+        Object[] deleteMeetJoinParam = new Object[]{userId, meetId};
+        this.jdbcTemplate.update(deleteMeetJoinQuery, deleteMeetJoinParam);
+    }
+
+    public void deleteMeet(Integer meetId) {
+        String deleteMeetQuery = "update meet set status = 0 where id = ?";
+        Integer deleteMeetParam = meetId;
+        this.jdbcTemplate.update(deleteMeetQuery, deleteMeetParam);
     }
 }

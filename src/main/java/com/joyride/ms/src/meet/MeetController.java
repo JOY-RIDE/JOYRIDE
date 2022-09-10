@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
+import static com.joyride.ms.util.BaseResponseStatus.*;
+
 @Slf4j
 @RestController
 @RequestMapping("/meets")
@@ -41,7 +43,7 @@ public class MeetController {
     public BaseResponse<Integer> postMeet(HttpServletRequest request, @RequestPart MeetCreateReq meetCreateReq, @RequestPart(value = "meeting-img", required = false) MultipartFile multipartFile) {
         try {
             Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
-            String meeting_img_url = "";
+            String meeting_img_url = "https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/meet/default-img.jpg";
             if (multipartFile != null) {
                 String dirName = "meet/info/" + userId + "/meeting-img";
                 meeting_img_url = awsS3Service.upload(multipartFile, dirName);
@@ -97,12 +99,60 @@ public class MeetController {
     public BaseResponse<String> postMeetJoin(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
+            if (meetProvider.checkMeetStatus(meetId) == 0)
+                return new BaseResponse<>(MEET_CLOSED);
             if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
-                return new BaseResponse<>(BaseResponseStatus.POST_USERS_EXISTS_JOIN);
-            } else {
+                return new BaseResponse<>(BaseResponseStatus.POST_USER_EXISTS_JOIN);
+            }
+            else if (meetProvider.checkMeetFull(meetId) == 1){
+                return new BaseResponse<>(MEET_FULL);
+            }
+            else {
                 meetService.createMeetJoin(userId,meetId);
                 return new BaseResponse<>(BaseResponseStatus.SUCCESS);
             }
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.5 모임 탈퇴 API
+     * [DELETE] /meets/join/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/join/{meetId}")
+    public BaseResponse<String> deleteMeetJoin(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
+                meetService.removeMeetJoinById(userId,meetId);
+                return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            }
+            return new BaseResponse<>(DELETE_USER_NOT_EXISTS_JOIN);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.6 모임 삭제 API
+     * [PATCH] /meets/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @PatchMapping("{meetId}")
+    public BaseResponse<String> deleteMeet(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if (meetProvider.checkMeetById(userId,meetId) == 1) {
+                meetService.removeMeetBy(meetId);
+                return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+            }
+            return new BaseResponse<>(DELETE_USER_NOT_EXISTS_MEET);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

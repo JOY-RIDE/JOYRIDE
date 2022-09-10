@@ -1,3 +1,4 @@
+@use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
 .boundary {
@@ -18,6 +19,16 @@
     color: $color-grey-500;
     font-size: 1.4rem;
   }
+
+  // @include for-tablet-landscape-up {
+  //   gap: 0.5rem;
+  //   & span {
+  //     font-size: 1.6rem;
+  //   }
+  //   & svg {
+  //     font-size: 1.4rem;
+  //   }
+  // }
 }
 
 .content-container {

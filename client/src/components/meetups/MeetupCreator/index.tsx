@@ -5,13 +5,37 @@ import PopupSlide from 'components/transitions/PopupSlide';
 import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
 import MeetupCreationForm from '../MeetupCreationForm';
-import useResponsivePopup from 'hooks/useResponsivePopup';
+import useDialog from 'hooks/useDialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { meetupAPI } from 'apis/meetupAPI';
+import { useSetRecoilState } from 'recoil';
+import { toastMessageState } from 'states/common';
 
 const cn = classNames.bind(styles);
 
 const MeetupCreator = () => {
   const { isOpen, handlePopupOpen, handlePopupClose, isFullScreen } =
-    useResponsivePopup();
+    useDialog();
+  const showToastMessage = useSetRecoilState(toastMessageState);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation(meetupAPI.createMeetup, {
+    onSuccess: () => {
+      showToastMessage('모임이 등록되었습니다');
+      handlePopupClose();
+      queryClient.invalidateQueries(['meetups']);
+    },
+    onError: (e: any) => {
+      if (e.message === '5003') {
+        showToastMessage('이미지 파일을 다시 확인해 주세요');
+        return;
+      }
+      showToastMessage('모임 등록 중 문제가 발생했습니다');
+    },
+  });
+
+  const createMeetup = (newMeetup: FormData) => mutation.mutate(newMeetup);
+
   return (
     <>
       <button className={cn('open-btn')} onClick={handlePopupOpen}>
@@ -40,7 +64,7 @@ const MeetupCreator = () => {
             <VscChromeClose />
           </button>
         </header>
-        <MeetupCreationForm close={handlePopupClose} />
+        <MeetupCreationForm createMeetup={createMeetup} />
       </Dialog>
     </>
   );

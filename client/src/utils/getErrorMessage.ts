@@ -131,6 +131,7 @@ type MeetupCreationFormField =
   | 'title'
   | 'meetingDate'
   | 'dueDate'
+  | 'gatheringPlace'
   | 'path'
   | 'birthYear'
   | 'bicycleTypes'
@@ -144,6 +145,7 @@ export function getMeetupCreationFormFieldErrorMessage(
   switch (field) {
     case 'title':
     case 'dueDate':
+    case 'gatheringPlace':
     case 'content': {
       switch (errorType) {
         case 'required':

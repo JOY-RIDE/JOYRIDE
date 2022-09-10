@@ -32,7 +32,7 @@
   gap: 5rem;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
+  margin: 1.5rem 0;
 }
 
 .title {
@@ -44,6 +44,32 @@
 .bookmark-btn {
   font-size: 2.4rem;
   color: $color-grey-600;
+}
+
+.leader {
+  display: flex;
+  align-items: center;
+
+  & .leader__avatar {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+
+  & .leader__nickname {
+    color: $color-grey-800;
+    font-weight: 700;
+    font-size: 1.7rem;
+  }
+
+  & .leader__manner {
+    color: $color-main;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+  }
 }
 
 .fields-section {
@@ -80,12 +106,32 @@
   }
 }
 
-.content {
-  line-height: 1.5;
+.content-section {
+  margin-top: 3rem;
+  color: $color-grey-800;
+
+  & .content {
+    line-height: 1.5;
+  }
 }
 
 .route-section {
-  margin: 5rem 0 1.5rem 0;
+  margin: 4rem 0 1.5rem 0;
+  @include for-tablet-landscape-up {
+    margin-top: 5rem;
+  }
+}
+
+.map-section {
+  & .notice {
+    margin-top: 0.5em;
+    font-size: 1.3rem;
+    color: $color-grey-500;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    align-items: flex-end;
+  }
 }
 
 .participants-section,
@@ -108,41 +154,5 @@
 .participants-section {
   & .current {
     color: $color-main;
-  }
-}
-
-.join-bar {
-  background: white;
-  padding: 1.5rem $side-padding;
-  border-top: 1px solid $color-grey-200;
-  position: fixed;
-  z-index: 2;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @include for-desktop-up {
-    padding: 1.5rem calc((100vw - $max-width-page) / 2.5);
-  }
-
-  & > div {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-
-    & p {
-      color: $color-grey-800;
-    }
-  }
-
-  & .join-btn {
-    background: $color-main;
-    color: white;
-    font-weight: 700;
-    padding: 1rem 2rem;
-    border-radius: 0.3rem;
   }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
 import { fetchCourses, fetchCoursesFromServer } from '../../apis/CrsAPI';
 import queryString from 'query-string';
@@ -31,7 +31,7 @@ const cn = classNames.bind(styles);
 const Roads = () => {
   const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<
     ServerIRoads[]
-  >('allCourses', fetchCourses);
+  >(['allCourses'], fetchCourses);
   const RoadsData = _.uniqBy(durunubiData, 'crsKorNm');
 
   let newRoads = [...RoadsData];

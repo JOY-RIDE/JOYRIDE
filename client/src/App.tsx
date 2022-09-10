@@ -21,6 +21,7 @@ import PrivateRoute from 'components/common/PrivateRoute';
 import Search from 'routes/Search';
 import AuthPage from 'routes/AuthPage';
 import PublicOnlyRoute from 'components/common/PublicOnlyRoute';
+import Modal from 'components/common/Modal';
 
 const Signup = lazy(() => import('routes/AuthPage/Signup'));
 const FindEmail = lazy(() => import('routes/AuthPage/FindEmail'));
@@ -38,7 +39,6 @@ const theme = createTheme({
     fontFamily:
       'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
   },
-
   palette: {
     primary: {
       main: MAIN_COLOR,
@@ -84,6 +84,7 @@ const App = () => {
 
           <Route path="*" element={<Error />} />
         </Routes>
+        <Modal />
         <Toast />
       </Suspense>
       {/* </ErrorBoundary> */}

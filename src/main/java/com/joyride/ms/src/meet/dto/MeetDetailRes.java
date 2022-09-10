@@ -10,10 +10,31 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"admin","maxPeople","participants"})
+@JsonPropertyOrder({"id", "userId", "courseName","title","localLocation","ridingSkill","pathDifficulty","meetingImgUrl","gender","joinPeople",
+        "maxPeople","path","participationFee","content","minBirthYear","maxBirthYear","gatheringPlace","status", "meetingDate","dueDate","createdAt","bicycleTypes","admin","participants"})
 public class MeetDetailRes {
-
-    private UserDetail admin;
+    private Integer id;
+    private Integer userId;
+    private String courseName;
+    private String title;
+    private String localLocation;
+    private int ridingSkill;
+    private int pathDifficulty;
+    private String meetingImgUrl;
+    private String gender;
+    private Integer joinPeople;
     private int maxPeople;
+    private List<String> path;
+    private int participationFee;
+    private String content;
+    private int minBirthYear;
+    private int maxBirthYear;
+    private String gatheringPlace;
+    private int status;
+    private String meetingDate;
+    private String dueDate;
+    private String createdAt;
+    private List<String> bicycleTypes;
+    private UserDetail admin;
     private List<UserDetail> participants;
 }

@@ -1,12 +1,13 @@
 import { useRef, useEffect } from 'react';
-import { MeetupPath } from 'types/meetup';
+import { MeetupGatheringPlace, MeetupPath } from 'types/meetup';
 import { MAIN_COLOR } from 'utils/constants';
-import {
-  FINISH_MARKER_IMAGE,
-  START_MARKER_IMAGE,
-  USER_DEFAULT_IMAGE,
-} from 'utils/urls';
+import { FINISH_MARKER_IMAGE, START_MARKER_IMAGE } from 'utils/urls';
+import meetup_stop from 'assets/icons/meetup_stop.svg';
+import meetup_gatheringPlace from 'assets/icons/meetup_gatheringPlace.svg';
 import styles from './MeetupPathMap.module.scss';
+import classNames from 'classnames/bind';
+
+const cn = classNames.bind(styles);
 
 function getLatLngsOrderedByIndex(latLngs: any[]) {
   return [...latLngs]
@@ -14,8 +15,8 @@ function getLatLngsOrderedByIndex(latLngs: any[]) {
     .map(latLng => latLng.latLng);
 }
 
-const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(50, 45);
-const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(20, 20);
+const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(47, 42);
+const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(32, 32);
 
 const MAP_OPTION = {
   center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
@@ -23,10 +24,11 @@ const MAP_OPTION = {
 };
 
 interface MeetupPathMapProp {
+  gatheringPlace: MeetupGatheringPlace;
   path: MeetupPath;
 }
 
-const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
+const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -40,6 +42,30 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     const newBounds = new window.kakao.maps.LatLngBounds();
     const latLngs: any[] = [];
     let line: any;
+
+    placeSearcher.keywordSearch(
+      gatheringPlace,
+      (data: any, status: any) => {
+        try {
+          if (!status === window.kakao.maps.services.Status.OK) return;
+          const place = data[0];
+          const latLng = new window.kakao.maps.LatLng(place.y, place.x);
+          newBounds.extend(latLng);
+
+          attachMarker(
+            latLng,
+            getMarkerImageObj(meetup_gatheringPlace, DEFAULT_IMAGE_SIZE, {
+              alt: '집결지',
+            })
+          );
+          attachOverlay(latLng, gatheringPlace);
+        } catch (e) {
+          if (e instanceof TypeError) return;
+          else throw new Error(); // TODO
+        }
+      },
+      { size: 1 }
+    );
 
     path.forEach((stop, stopOriginalIndex) =>
       placeSearcher.keywordSearch(
@@ -56,20 +82,15 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
             map.setBounds(newBounds, 0, 0);
             latLngs.push({ index: stopOriginalIndex, latLng });
 
-            attachMarker(latLng, stopNewIndex);
-            attachOverlay(latLng, stop, stopOriginalIndex);
+            attachMarker(latLng, getDifferentMarkerImageObj(stopNewIndex));
+            attachOverlay(latLng, stop);
 
             if (latLngs.length < 2) return;
-
-            if (latLngs.length === path.length) {
-              removeExistingLine();
-              drawLine(getLatLngsOrderedByIndex(latLngs));
-            } else if (stopNewIndex === -1) {
-              drawLine(getLatLngsOrderedByIndex(latLngs));
-            }
+            removeExistingLine();
+            drawLine(getLatLngsOrderedByIndex(latLngs));
           } catch (e) {
             if (e instanceof TypeError) return;
-            else throw new Error(); // TODO
+            else throw new Error();
           }
         },
         { size: 1 }
@@ -78,16 +99,16 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
 
     // Callbacks
 
-    function attachMarker(latLng: any, stopNewIndex: number) {
+    function attachMarker(latLng: any, imageObj: any) {
       new window.kakao.maps.Marker({
         map,
         position: latLng,
-        image: getMarkerImage(stopNewIndex),
+        image: imageObj,
         zIndex: 2,
       });
     }
 
-    function getMarkerImage(stopNewIndex: number) {
+    function getDifferentMarkerImageObj(stopNewIndex: number) {
       switch (stopNewIndex) {
         case 0:
           return getMarkerImageObj(START_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
@@ -105,9 +126,9 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
               });
 
         default:
-          return getMarkerImageObj(USER_DEFAULT_IMAGE, DEFAULT_IMAGE_SIZE, {
+          return getMarkerImageObj(meetup_stop, DEFAULT_IMAGE_SIZE, {
             alt: '경유지',
-          }); // TODO
+          });
       }
     }
 
@@ -115,14 +136,14 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
       return new window.kakao.maps.MarkerImage(imgSRC, sizeObj, options);
     }
 
-    function attachOverlay(
-      latLng: any,
-      stop: string,
-      stopOriginalIndex: number
-    ) {
-      const overlay = `<span class=${styles.overlay}>${
-        stopOriginalIndex + 1
-      }. ${stop}</span>`;
+    function attachOverlay(latLng: any, content: string) {
+      const overlay = `<span class="${cn('overlay', {
+        gather: content === gatheringPlace,
+        start: content === path[0],
+        arrive: content === path[path.length - 1],
+      })}"
+      }>${content}</span>`;
+
       new window.kakao.maps.CustomOverlay({
         map,
         position: latLng,
@@ -148,7 +169,7 @@ const MeetupPathMap = ({ path }: MeetupPathMapProp) => {
     }
   }, []);
 
-  return <div className={styles.container} ref={mapContainerRef} />;
+  return <div className={cn('container')} ref={mapContainerRef} />;
 };
 
 export default MeetupPathMap;

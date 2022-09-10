@@ -1,0 +1,17 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  padding: 3rem 2.5rem 2rem 2.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.btns {
+  display: flex;
+  gap: 1.5rem;
+}

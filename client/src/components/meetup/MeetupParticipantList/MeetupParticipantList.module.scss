@@ -1,0 +1,40 @@
+@use '../../../styles/mixins.scss' as *;
+@use '../../../styles/variables.scss' as *;
+
+.participants {
+  border: $border-grey;
+  border-radius: 0.5rem;
+  padding: 0 1.5rem;
+}
+
+.participant {
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & + .participant {
+    border-top: $border-grey;
+  }
+}
+
+.left {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+
+  & .avatar {
+    width: 3.6rem;
+    height: 3.6rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  & .nickname {
+    color: $color-grey-800;
+  }
+}
+
+.manner {
+  color: $color-main;
+}

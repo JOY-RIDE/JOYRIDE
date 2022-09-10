@@ -2,7 +2,7 @@ import { useTheme } from '@emotion/react';
 import { useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 
-const useResponsivePopup = () => {
+const useDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const handlePopupOpen = () => setIsOpen(true);
   const handlePopupClose = () => setIsOpen(false);
@@ -11,4 +11,4 @@ const useResponsivePopup = () => {
   return { isOpen, handlePopupOpen, handlePopupClose, isFullScreen };
 };
 
-export default useResponsivePopup;
+export default useDialog;

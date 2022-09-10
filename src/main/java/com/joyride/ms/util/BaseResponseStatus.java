@@ -56,7 +56,12 @@ public enum BaseResponseStatus {
 
     //400
     POST_USERS_EXISTS_NICKNAME(false, 2032, "중복된 닉네임입니다."),
-    POST_USERS_EXISTS_JOIN(false, 2033, "이미 참여중인 모임입니다."),
+    POST_USER_EXISTS_JOIN(false, 2033, "이미 참여중인 모임입니다."),
+    DELETE_USER_NOT_EXISTS_JOIN(false, 2034, "참여중인 모임이 아닙니다."),
+    DELETE_USER_NOT_EXISTS_MEET(false,2035,"해당 모임은 존재하지 않습니다"),
+    MEET_CLOSED(false,2036,"닫힌 모임입니다."),
+    MEET_FULL(false,2037,"정원이 다 찬 모임입니다."),
+
 
     //500
    COURSE_REVIEW_NOT_EXISTS(false, 2500, "해당 코스리뷰가 없습니다."),

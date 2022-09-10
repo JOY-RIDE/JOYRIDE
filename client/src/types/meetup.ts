@@ -1,37 +1,46 @@
 import { BicycleType, Gender, Location, RidingSkill } from './common';
 import { CourseName } from './course';
 
+// Response 기준
 export type MeetupID = number;
 export type MeetupTitle = string;
-export type MeetupImage = string; // TODO
-export type MeetupMeetingDate = Date;
-export type MeetupDueDate = Date;
+export type MeetupImage = string;
+export type MeetupMeetingDate = string;
+export type MeetupDueDate = string;
+export type MeetupGatheringPlace = string;
 export type MeetupCourseName = null | CourseName;
 export type MeetupPath = string[];
 export type MeetupPathDifficulty = 1 | 2 | 3;
 export type MeetupBicycleTypes = BicycleType[];
 export type MeetupRidingSkill = RidingSkill;
 export type MeetupMaxNumOfParticipants = number;
-export type MeetupParticipants = {}[]; // TODO
 export type MeetupLocation = Location;
 export type MeetupGender = Gender;
 export type MeetupMinBirthYear = number;
 export type MeetupMaxBirthYear = number;
 export type MeetupParticipationFee = number;
 export type MeetupContent = string;
+export type MeetupParticipant = {
+  id: number;
+  nickname: string;
+  profile_img_url: string;
+  manner: number;
+};
 
+// Request formData 내부
 export interface NewMeetup {
   title: MeetupTitle;
-  image: MeetupImage;
-  meetingDate: MeetupMeetingDate;
+  meetingImgUrl?: MeetupImage;
   dueDate: MeetupDueDate;
+  meetingDate: MeetupMeetingDate;
+  gatheringPlace: MeetupGatheringPlace;
   courseName: MeetupCourseName;
-  path: MeetupPath;
+  path: string;
   pathDifficulty: MeetupPathDifficulty;
   bicycleTypes: MeetupBicycleTypes;
   ridingSkill: MeetupRidingSkill;
-  maxNumOfParticipants: MeetupMaxNumOfParticipants;
-  location: MeetupLocation;
+  maxPeople: MeetupMaxNumOfParticipants;
+  localLocation: MeetupLocation;
   gender: MeetupGender;
   minBirthYear: MeetupMinBirthYear;
   maxBirthYear: MeetupMaxBirthYear;
@@ -39,9 +48,15 @@ export interface NewMeetup {
   content: MeetupContent;
 }
 
-export interface Meetup extends NewMeetup {
+// Response
+export interface MeetupData extends Omit<NewMeetup, 'path'> {
   id: MeetupID;
-  participants: MeetupParticipants;
+  path: MeetupPath;
+  joinPeople: number;
+}
+export interface MeetupDetail extends MeetupData {
+  admin: MeetupParticipant;
+  participants: MeetupParticipant[];
 }
 
 // export type MeetupFiltersKey =
@@ -53,7 +68,7 @@ export interface Meetup extends NewMeetup {
 //   | 'maxNumOfParticipants'
 //   | 'gender'
 //   | 'age'
-//   | 'isParticipationFree';
+//   | 'participationFee';
 // TODO: refactor
 export interface MeetupFiltersState {
   location?: any;
@@ -64,7 +79,7 @@ export interface MeetupFiltersState {
   maxNumOfParticipants?: any;
   gender?: any;
   age?: any;
-  isParticipationFree?: any;
+  participationFee?: any;
 }
 // export interface MeetupFiltersState {
 //   location?: string;
@@ -75,7 +90,7 @@ export interface MeetupFiltersState {
 //   maxNumOfParticipants?: number;
 //   gender?: string;
 //   age?: number[];
-//   isParticipationFree?: boolean;
+//   participationFee?: boolean;
 // }
 
 export type MeetupOrderName =

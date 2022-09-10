@@ -62,15 +62,16 @@ export const authAPI = (() => {
       data: { code, result },
     } = await axios.post('/auth/jwt');
 
-    console.log(code, result);
-    // TODO: 자동 로그인 refresh token 중간에 만료됐을 때?
-    if (code !== 1000) {
-      userAPI.handleLogout(setUserId);
+    // refresh token 유효할 때
+    if (code === 1000) {
+      handleLogin(result.accessToken, setUserId, result.userId);
       return;
     }
 
-    // refresh token 유효할 때
-    handleLogin(result.accessToken, setUserId, result.userId);
+    if (code === 2003) {
+      window.alert('로그인 유지 토큰이 만료되어 로그아웃됩니다.');
+    }
+    userAPI.handleLogout(setUserId);
   };
 
   const handleLogin = (
