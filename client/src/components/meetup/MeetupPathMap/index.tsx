@@ -15,12 +15,11 @@ function getLatLngsOrderedByIndex(latLngs: any[]) {
     .map(latLng => latLng.latLng);
 }
 
-const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(47, 42);
+const FLAG_IMAGE_SIZE = new window.kakao.maps.Size(45, 40);
 const DEFAULT_IMAGE_SIZE = new window.kakao.maps.Size(32, 32);
 
 const MAP_OPTION = {
   center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
-  // level: 3,
 };
 
 interface MeetupPathMapProp {
@@ -56,7 +55,8 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
             latLng,
             getMarkerImageObj(meetup_gatheringPlace, DEFAULT_IMAGE_SIZE, {
               alt: '집결지',
-            })
+            }),
+            2
           );
           attachOverlay(latLng, gatheringPlace);
         } catch (e) {
@@ -82,7 +82,7 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
             map.setBounds(newBounds, 0, 0);
             latLngs.push({ index: stopOriginalIndex, latLng });
 
-            attachMarker(latLng, getDifferentMarkerImageObj(stopNewIndex));
+            attachMarker(latLng, getDifferentMarkerImageObj(stopNewIndex), 3);
             attachOverlay(latLng, stop);
 
             if (latLngs.length < 2) return;
@@ -99,12 +99,12 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
 
     // Callbacks
 
-    function attachMarker(latLng: any, imageObj: any) {
+    function attachMarker(latLng: any, imageObj: any, zIndex: number) {
       new window.kakao.maps.Marker({
         map,
         position: latLng,
         image: imageObj,
-        zIndex: 2,
+        zIndex,
       });
     }
 
@@ -118,7 +118,7 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
         case -1:
           return path[0] === path[path.length - 1]
             ? getMarkerImageObj(FINISH_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
-                offset: new window.kakao.maps.Point(15, 45),
+                offset: new window.kakao.maps.Point(10, 40),
                 alt: '종료지',
               })
             : getMarkerImageObj(FINISH_MARKER_IMAGE, FLAG_IMAGE_SIZE, {
@@ -148,7 +148,7 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
         map,
         position: latLng,
         content: overlay,
-        zIndex: 3,
+        zIndex: 4,
         yAnchor: 0,
       });
     }

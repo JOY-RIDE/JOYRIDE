@@ -41,7 +41,7 @@ const SignupTermsForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!(isServiceTermAgreed && isPrivacyTermAgreed)) {
-      showToastMessage('약관 동의가 필요합니다');
+      showToastMessage('약관 동의가 필요합니다.');
       return;
     }
     increaseStep();

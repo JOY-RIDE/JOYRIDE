@@ -38,7 +38,7 @@ const Roads = () => {
   newRoads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
   const { data: serverData } = useQuery<ServerIRoads[]>(
-    'serverCourses',
+    ['serverCourses'],
     fetchCoursesFromServer
   );
   console.log(serverData);

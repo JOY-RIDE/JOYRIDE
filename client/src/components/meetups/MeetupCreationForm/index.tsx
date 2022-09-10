@@ -32,6 +32,14 @@ import Chip from 'components/common/Chip';
 import { BsArrowRight } from 'react-icons/bs';
 import { Fragment } from 'react';
 import dayjs from 'dayjs';
+import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { useQuery } from '@tanstack/react-query';
+import { meetupAPI } from 'apis/meetupAPI';
+import { useSetRecoilState } from 'recoil';
+import { toastMessageState } from 'states/common';
+import { CourseName } from 'types/course';
+import { Autocomplete } from '@mui/material';
 
 const cn = classNames.bind(styles);
 
@@ -86,6 +94,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     defaultValues: {
       location: '서울',
       gatheringPlace: '',
+      courseName: null,
       path: [],
       pathDifficulty: 1,
       bicycleTypes: ['따릉이'],
@@ -93,16 +102,38 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       gender: 'mixed',
       minBirthYear: 1920,
       maxBirthYear: new Date().getFullYear(),
-      maxNumOfParticipants: 2,
+      maxNumOfParticipants: 1,
       dueDate: null,
       meetingDate: null,
       participationFee: 0,
       content: '',
     },
   });
+
+  const showToastMessage = useSetRecoilState(toastMessageState);
+  const { data: courseNames, refetch } = useQuery<CourseName[]>(
+    ['courseNames'],
+    meetupAPI.getCourseNames,
+    {
+      enabled: false,
+      staleTime: 60 * 60 * 1000,
+      cacheTime: Infinity,
+      onError: () =>
+        showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
+    }
+  );
+
+  const imgFile = watch('meetingImgUrl');
   const dueDate = watch('dueDate');
   const path = watch('path');
   const minBirthYear = watch('minBirthYear');
+
+  const imgURL = imgFile?.length
+    ? URL.createObjectURL(imgFile[0])
+    : MEETUP_DEFAULT_IMAGE;
+  const imgStyle = {
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${imgURL})`,
+  };
 
   // Callbacks
 
@@ -127,7 +158,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     const oldValue = getValues('maxNumOfParticipants');
     setValue(
       'maxNumOfParticipants',
-      oldValue <= 2 ? 2 : oldValue - 1,
+      oldValue <= 1 ? 1 : oldValue - 1,
       SET_VALUE_OPTION
     );
   };
@@ -172,13 +203,27 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
       type: 'application/json',
     });
     formData.append('meetCreateReq', blob);
-    // formData.append('meeting-img'); TODO
+    if (imgFile?.length) {
+      formData.append('meeting-img', imgFile[0]);
+    }
 
     createMeetup(formData);
   };
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
+      <div className={cn('img-wrapper')} style={imgStyle} />
+      <input
+        type="file"
+        id={cn('img')}
+        accept="image/*"
+        {...register('meetingImgUrl')}
+      />
+      <label htmlFor={cn('img')}>
+        <AddPhotoAlternateIcon />
+        사진 {imgFile?.length ? '변경' : '추가'}하기
+      </label>
+
       <div className={cn('fields')}>
         <div className={cn('field')}>
           <input
@@ -331,7 +376,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
             rules={{ validate: path => path.length >= 2 }}
             render={({ field: { value, onChange, ...others } }) => (
               <TextInput
-                placeholder="경유지 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
+                placeholder="장소 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
                 onKeyDown={handlePathAdd}
                 {...others}
               />
@@ -347,11 +392,40 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           )}
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'course')}>
           <label className={cn('label')}>
             <h4>관련 자전거길</h4>
             <span className={cn('guide')}>(선택 사항)</span>
           </label>
+          <Controller
+            control={control}
+            name="courseName"
+            render={({ field: { onChange, ...others } }) => (
+              <Autocomplete
+                loading={!courseNames}
+                loadingText="목록을 불러오고 있습니다"
+                noOptionsText="데이터가 존재하지 않습니다."
+                options={courseNames || []}
+                onOpen={() => refetch()}
+                onChange={(_, value) => onChange(value)}
+                renderInput={params => (
+                  <div ref={params.InputProps.ref}>
+                    <TextInput
+                      {...params.inputProps}
+                      placeholder="자전거길을 선택하세요."
+                    />
+                  </div>
+                )}
+                handleHomeEndKeys
+                sx={{
+                  '& input': {
+                    width: '100%',
+                  },
+                }}
+                {...others}
+              />
+            )}
+          />
         </div>
 
         <div className={cn('field')}>
@@ -445,7 +519,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
               <Controller
                 control={control}
                 name="maxNumOfParticipants"
-                rules={{ min: 2, max: 99 }}
+                rules={{ min: 1, max: 99 }}
                 render={({ field: { onChange, ...others } }) => (
                   <input
                     type="number"

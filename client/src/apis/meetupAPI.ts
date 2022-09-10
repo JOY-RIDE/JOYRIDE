@@ -3,12 +3,16 @@ import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
+import { CourseName } from 'types/course';
+import { fetchCourses } from './CrsAPI';
+import { uniqBy } from 'lodash';
 
 interface MeetupAPI {
   getMeetupList: () => Promise<MeetupData[]>;
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
+  getCourseNames: () => Promise<CourseName[]>;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -58,6 +62,13 @@ export const meetupAPI: MeetupAPI = {
     if (code !== 1000) {
       throw new Error(code);
     }
+  },
+
+  async getCourseNames() {
+    let courses = await fetchCourses();
+    courses = uniqBy(courses, 'crsKorNm');
+    const courseNames = courses.map((course: any) => course.crsKorNm);
+    return courseNames.sort();
   },
 };
 
