@@ -32,10 +32,10 @@ public class CourseController {
     }
 
     // 코스 디테일 조회 api
-    @GetMapping("/{title}/{user_id}")
-    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title, @PathVariable("user_id") int user_id){
+    @GetMapping("/{title}")
+    public BaseResponse<GetCourseRes> getCourse(@PathVariable("title") String title){
         try{
-            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title, user_id);
+            GetCourseRes getCourseRes = courseProvider.retrieveCourse(title);
             return new BaseResponse<>(getCourseRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));
@@ -135,15 +135,26 @@ public class CourseController {
         }
     }
 
-//    //리뷰 종아요 취소 api
-//    @DeleteMapping("/like/{courseLike_id}")
-//    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
-//        try{
-//            // 유저 확인 로직 필요
-//            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
-//            return new BaseResponse<>(deleteCourseReviewRes);
-//        } catch(BaseException exception){
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    @PostMapping("/like/check")
+    public BaseResponse<GetCourseLikeRes> GetCourseLike(@RequestBody GetCourseLikeReq getCourseLikeReq) {
+        try{
+            GetCourseLikeRes getCourseLikeRes = courseProvider.retrieveCourseLike(getCourseLikeReq);
+            return new BaseResponse<>(getCourseLikeRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+
+    //코스 종아요 취소 api
+    @DeleteMapping("/like/{courseLike_id}")
+    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
+        try{
+            // 유저 확인 로직 필요
+            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
+            return new BaseResponse<>(deleteCourseReviewRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

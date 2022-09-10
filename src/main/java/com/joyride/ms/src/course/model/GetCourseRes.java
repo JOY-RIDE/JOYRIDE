@@ -69,11 +69,13 @@ public class GetCourseRes {
 
     private List<GetCourseReviewRes> getCourseReviewRes;
 
-    double totalAvg;
-    double sceneAvg;
-    double facilitiesAvg;
-    double safetyAvg;
-    double accessibilityAvg;
+    private double totalAvg;
+    private double sceneAvg;
+    private double facilitiesAvg;
+    private double safetyAvg;
+    private double accessibilityAvg;
+
+    private int likeCount;
 
     //==생성 메서드==//
     //GetCourseListRes 생성 메서드 이용
