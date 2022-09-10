@@ -29,12 +29,25 @@ public class CourseProvider {
             JSONArray courseArr = callApi.callCourseAPI();
             List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
 
-            // 좋아요 수 넣어주기
+            // 좋아요 수 넣어주기와 코스 평점 넣어주기
             for (int i = 0; i < courseList.size(); i++) {
-                String courseId = courseList.get(i).getId();
-                int likeCount = retrieveCourseLikeCount(courseId);
+                String courseTitle = courseList.get(i).getCrsKorNm();
+                int likeCount = retrieveCourseLikeCount(courseTitle);
                 courseList.get(i).setLikeCount(likeCount);
+
+                List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseTitle);
+
+                double totalSum = 0;
+                for (int j = 0; j < getCourseReviewRes.size(); j ++) {
+                    totalSum = totalSum + getCourseReviewRes.get(j).getTotal_rate();
+                }
+                double totalResult = totalSum/getCourseReviewRes.size();
+                totalResult = (Math.round(totalResult*10)/10.0);
+
+                courseList.get(i).setTotalRate(totalResult);
             }
+
+
             return courseList;
         }
         catch (Exception exception) {
@@ -76,19 +89,11 @@ public class CourseProvider {
         }
     }
     // 코스 디테일 조회 api
-    public GetCourseRes retrieveCourse(String title, int userId) throws BaseException {
+    public GetCourseRes retrieveCourse(String title) throws BaseException {
         try{
             JSONArray courseArr = callApi.callCourseAPI(title);
             GetCourseRes course = GetCourseRes.createCourse(courseArr);
 
-            // 좋아요
-            int checkLike = courseDao.selectStatusByUserId(userId);
-            if (checkLike == 0) {
-                course.setIsLike(0);
-            }
-            else {
-                course.setIsLike(1);
-            }
             // 코스 리뷰
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(title);
             course.setGetCourseReviewRes(getCourseReviewRes);
@@ -127,6 +132,10 @@ public class CourseProvider {
             course.setImage(courseTableInfo.getImage());
             course.setLatitude(courseTableInfo.getLatitude());
             course.setLongitude(courseTableInfo.getLongitude());
+
+            int likeCount = retrieveCourseLikeCount(title);
+            course.setLikeCount(likeCount);
+
             return course;
         }
         catch (Exception exception) {
@@ -151,6 +160,27 @@ public class CourseProvider {
         try{
             List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(title);
             return getCourseReviewRes;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    // 좋아요 조회
+    // 좋아요 있으면 1
+    // 없으면 0
+    public GetCourseLikeRes retrieveCourseLike(GetCourseLikeReq getCourseLikeReq) throws BaseException {
+        try{
+            String title = getCourseLikeReq.getTitle();
+            int id = getCourseLikeReq.getUser_id();
+            List<String> selectedTitle = courseDao.selectCourseByUserId(id);
+            System.out.println("selectedTitle = " + selectedTitle);
+            if (selectedTitle.contains(title)) {
+                return  new GetCourseLikeRes(1);
+            }
+
+            return  new GetCourseLikeRes(0);
         }
         catch (Exception exception) {
             exception.printStackTrace();
