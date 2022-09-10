@@ -36,15 +36,15 @@ const Meetups = () => {
   const offset = PAGE_LIMIT * (page - 1);
 
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const {
-    data: meetups,
-    isLoading,
-    status,
-  } = useQuery<MeetupData[]>(['meetups'], meetupAPI.getMeetupList, {
-    staleTime: 10 * 1000,
-    cacheTime: Infinity,
-    onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
-  });
+  const { data: meetups } = useQuery<MeetupData[]>(
+    ['meetups'],
+    meetupAPI.getMeetupList,
+    {
+      staleTime: 5 * 60 * 1000,
+      cacheTime: Infinity,
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다'),
+    }
+  );
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
@@ -76,9 +76,7 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        {isLoading ? (
-          <Loading />
-        ) : (
+        {meetups ? (
           // TODO: order 디폴트 null?
           <MeetupList
             meetups={getMeetupsOrderedBy(
@@ -86,10 +84,12 @@ const Meetups = () => {
               meetups as MeetupData[]
             ).slice(offset, offset + PAGE_LIMIT)}
           />
+        ) : (
+          <Loading />
         )}
       </div>
 
-      {!isLoading && (
+      {meetups && (
         <Paging
           total={(meetups as MeetupData[]).length}
           limit={PAGE_LIMIT}

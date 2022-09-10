@@ -116,7 +116,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     meetupAPI.getCourseNames,
     {
       enabled: false,
-      staleTime: 60 * 60 * 1000,
+      staleTime: 24 * 60 * 60 * 1000,
       cacheTime: Infinity,
       onError: () =>
         showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
