@@ -119,6 +119,7 @@ public class CourseService {
         // 유저확인 로직 필요
         try{
 
+            // 두개를 동시에 어떻게 할꼬...
             // 데이터 베이스 status값 설정해주기
             int user_id = postCourseLikeReq.getUser_id();
             String title = postCourseLikeReq.getTitle();
@@ -130,6 +131,7 @@ public class CourseService {
                 String message = "좋아요가 이미 존재합니다.";
                 return new PostCourseLikeRes(message);
             }
+
             courseDao.insertCourseLike(user_id, title);
             String message = "좋아요 등록 성공했습니다.";
             return new PostCourseLikeRes(message);
@@ -156,7 +158,7 @@ public class CourseService {
     }
 
     //코스 좋아요 삭제
-    public PatchCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
+    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
 
         // 유저확인 로직 필요
         int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
@@ -164,10 +166,11 @@ public class CourseService {
             throw new BaseException(COURSE_LIKE_NOT_EXISTS);
         }
         try{
-            courseDao.updateCourseLikeToZero(courseLike_id);
+            courseDao.deleteCourseLike(courseLike_id);
             String message = "좋아요 삭제에 성공했습니다.";
-            return new PatchCourseLikeRes(message);
+            return new DeleteCourseLikeRes(message);
         } catch (Exception exception) {
+            exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
         }
     }

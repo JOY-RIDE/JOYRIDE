@@ -175,6 +175,7 @@ public class CourseProvider {
             String title = getCourseLikeReq.getTitle();
             int id = getCourseLikeReq.getUser_id();
             List<String> selectedTitle = courseDao.selectCourseByUserId(id);
+            System.out.println("selectedTitle = " + selectedTitle);
             if (selectedTitle.contains(title)) {
                 return  new GetCourseLikeRes(1);
             }

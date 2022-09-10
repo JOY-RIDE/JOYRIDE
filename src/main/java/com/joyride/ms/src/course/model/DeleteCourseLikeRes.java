@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PatchCourseLikeRes {
+public class DeleteCourseLikeRes {
 
     private String message;
 

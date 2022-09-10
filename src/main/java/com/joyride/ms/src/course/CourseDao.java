@@ -151,13 +151,20 @@ public class CourseDao {
     }
 
     //좋아요 삭제
-    public void updateCourseLikeToZero(int courseLike_id){
+    public void deleteCourseLike(int courseLike_id){
         // 이 부분 체크
-        String deleteByCourseLikeIdQuery = "update courselike set status = 0 where id = ?";
+        String deleteByCourseLikeIdQuery = "delete from courselike where id = ?";
         int deleteByCourseLikeIdParams = courseLike_id;
 
         this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
     }
+//    public void updateCourseLikeToZero(int courseLike_id){
+//        // 이 부분 체크
+//        String deleteByCourseLikeIdQuery = "update courselike set status = 0 where id = ?";
+//        int deleteByCourseLikeIdParams = courseLike_id;
+//
+//        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
+//    }
 
     public void updateCourseLikeToOne(int user_id){
         // 이 부분 체크

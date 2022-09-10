@@ -135,7 +135,7 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/like/check")
+    @PostMapping("/like/check")
     public BaseResponse<GetCourseLikeRes> GetCourseLike(@RequestBody GetCourseLikeReq getCourseLikeReq) {
         try{
             GetCourseLikeRes getCourseLikeRes = courseProvider.retrieveCourseLike(getCourseLikeReq);
@@ -146,15 +146,15 @@ public class CourseController {
     }
 
 
-//    //리뷰 종아요 취소 api
-//    @DeleteMapping("/like/{courseLike_id}")
-//    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
-//        try{
-//            // 유저 확인 로직 필요
-//            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
-//            return new BaseResponse<>(deleteCourseReviewRes);
-//        } catch(BaseException exception){
-//            return new BaseResponse<>((exception.getStatus()));
-//        }
-//    }
+    //코스 종아요 취소 api
+    @DeleteMapping("/like/{courseLike_id}")
+    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
+        try{
+            // 유저 확인 로직 필요
+            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
+            return new BaseResponse<>(deleteCourseReviewRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
