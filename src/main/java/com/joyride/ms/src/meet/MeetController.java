@@ -2,6 +2,7 @@ package com.joyride.ms.src.meet;
 
 import com.joyride.ms.src.meet.dto.MeetCreateReq;
 import com.joyride.ms.src.meet.dto.MeetDetailRes;
+import com.joyride.ms.src.meet.dto.MeetFilterReq;
 import com.joyride.ms.src.meet.dto.MeetListRes;
 import com.joyride.ms.src.s3.AwsS3Service;
 import com.joyride.ms.util.BaseException;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.joyride.ms.util.BaseResponseStatus.*;
 
@@ -63,13 +65,37 @@ public class MeetController {
      * @param request
      * @return
      */
+//    @GetMapping("")
+//    public BaseResponse<List<MeetListRes>> getMeet(HttpServletRequest request) {
+//        try{
+//            return new BaseResponse<>(meetProvider.retrieveMeet());
+//        } catch (BaseException e) {
+//            return new BaseResponse<>(e.getStatus());
+//        }
+//    }
+
+    /**
+     * 4.2# 모임 리스트 조회 API
+     * [GET] /meets
+     *
+     * @param request
+     * @return
+     */
     @GetMapping("")
-    public BaseResponse<List<MeetListRes>> getMeet(HttpServletRequest request) {
+    public BaseResponse<List<MeetListRes>> getMeet(HttpServletRequest request,
+                                                         @RequestParam(required = false) Integer age, @RequestParam(required = false) String bicycleTypes,
+                                                         @RequestParam(required = false) String gender, @RequestParam(required = false) Integer participationFee,
+                                                         @RequestParam(required = false) String location, @RequestParam(required = false) Integer maxNumOfParticipants,
+                                                         @RequestParam(required = false) Integer minNumOfParticipants, @RequestParam(required = false) Integer pathDifficulty,
+                                                         @RequestParam(required = false) Integer ridingSkill) {
+
+        MeetFilterReq meetFilterReq = new MeetFilterReq(age,bicycleTypes,gender,participationFee,location,maxNumOfParticipants,minNumOfParticipants,pathDifficulty,ridingSkill);
         try{
-            return new BaseResponse<>(meetProvider.retrieveMeet());
+            return new BaseResponse<>(meetProvider.retrieveMeetByFilter(meetFilterReq));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
+
     }
 
     /**
