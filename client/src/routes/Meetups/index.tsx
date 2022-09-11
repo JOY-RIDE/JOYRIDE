@@ -19,6 +19,7 @@ import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
 import { MeetupData } from 'types/meetup';
 import Pagination from 'components/meetups/Pagination';
+import NoResults from 'components/common/NoResults';
 
 const cn = classNames.bind(styles);
 
@@ -87,7 +88,7 @@ const Meetups = () => {
             meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          <p>결과 없음</p>
+          <NoResults />
         )}
       </div>
 

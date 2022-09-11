@@ -271,12 +271,12 @@ const Meetup = () => {
         )}
       </section>
 
-      <section className={cn('comments-section')}>
+      {/* <section className={cn('comments-section')}>
         <h2 className={cn('subtitle')}>
           댓글
           <span className={cn('subtitle__num')}>12</span>
         </h2>
-      </section>
+      </section> */}
 
       <MeetupJoinBar {...getJoinBarProps(meetup as MeetupDetail, userId)} />
     </div>
