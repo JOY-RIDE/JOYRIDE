@@ -9,7 +9,6 @@ import lombok.*;
 public class PostCourseReviewRes {
 
     private int id;
-
     private String message;
 }
 

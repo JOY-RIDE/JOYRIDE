@@ -7,8 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetCourseReviewRes {
+
     private int id;
-    //유저 닉네임 뿐만 아니라 유저 사진도?
     private String nickName;
     private int user_id;
     private String title;
@@ -27,6 +27,4 @@ public class GetCourseReviewRes {
 
     private String created_at;
     private String updated_at;
-
-
 }
