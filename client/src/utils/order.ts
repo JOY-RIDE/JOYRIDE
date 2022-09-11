@@ -2,6 +2,7 @@ import { ServerIRoads, CourseOrderName } from 'types/course';
 import dayjs from 'dayjs';
 import { MeetupOrderName, MeetupData } from 'types/meetup';
 
+// TODO: refactor
 export function getMeetupsOrderedBy(
   name: MeetupOrderName,
   meetups: MeetupData[]

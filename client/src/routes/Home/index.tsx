@@ -17,8 +17,6 @@ import { getMeetupsOrderedBy } from 'utils/order';
 
 const cn = classNames.bind(styles);
 
-const MAX_NUM_OF_ITEMS = 5;
-
 const Home = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: courses } = useQuery<ServerIRoads[]>(
@@ -37,7 +35,7 @@ const Home = () => {
         getMeetupsOrderedBy(
           '-createdAt',
           meetups.filter(meetup => dayjs().isBefore(dayjs(meetup.dueDate)))
-        ).slice(0, MAX_NUM_OF_ITEMS),
+        ).slice(0, 3),
       staleTime: 10 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),

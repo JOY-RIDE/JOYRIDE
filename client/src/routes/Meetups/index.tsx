@@ -57,7 +57,7 @@ const Meetups = () => {
   useEffect(() => resetFilters, []);
 
   return (
-    <div>
+    <div className={cn('container')}>
       <header className={cn('header')}>
         <PageTitle size="md">자전거 모임</PageTitle>
         {userId && <MeetupCreator />}
