@@ -28,11 +28,8 @@ export function fetchCoursesFromServer() {
     .then(json => json.result);
 }
 
-export function fetchCourseFromServer(
-  crsNm: string | undefined,
-  userId: number | null
-) {
-  return fetch(`${SERVER_URL}/courses/${crsNm}/${userId}`).then(response =>
-    response.json()
-  );
+export function fetchCourseFromServer(crsNm: string | undefined) {
+  return fetch(`${SERVER_URL}/courses/${crsNm}`)
+    .then(response => response.json())
+    .then(json => json.result);
 }

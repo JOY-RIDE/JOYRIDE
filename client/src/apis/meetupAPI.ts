@@ -4,7 +4,7 @@ import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
 import { CourseName } from 'types/course';
-import { fetchCourses } from './CrsAPI';
+import { fetchCourses } from './coursesAPI';
 import { uniqBy } from 'lodash';
 
 interface MeetupAPI {

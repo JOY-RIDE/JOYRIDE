@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
-import { fetchCourses, fetchCoursesFromServer } from '../../apis/CrsAPI';
+import { fetchCourses, fetchCoursesFromServer } from '../../apis/coursesAPI';
 import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
@@ -29,19 +29,21 @@ import useClientFilter from 'hooks/useClientFilter';
 const cn = classNames.bind(styles);
 
 const Roads = () => {
-  const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<
+  //   const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<
+  //     ServerIRoads[]
+  //   >(['allCourses'], fetchCourses);
+  //   const RoadsData = _.uniqBy(durunubiData, 'crsKorNm');
+
+  //   let newRoads = [...RoadsData];
+  //   newRoads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+
+  const { isLoading: isServerLoading, data: serverData } = useQuery<
     ServerIRoads[]
-  >(['allCourses'], fetchCourses);
-  const RoadsData = _.uniqBy(durunubiData, 'crsKorNm');
+  >(['serverCourses'], fetchCoursesFromServer);
+  const serverRoads = _.uniqBy(serverData, 'crsKorNm');
 
-  let newRoads = [...RoadsData];
-  newRoads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
-
-  const { data: serverData } = useQuery<ServerIRoads[]>(
-    ['serverCourses'],
-    fetchCoursesFromServer
-  );
-  console.log(serverData);
+  let tmp = [...serverRoads];
+  tmp.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
   const { filters: boardFilters } = useClientFilter(
     courseBoardFiltersState,
@@ -63,7 +65,7 @@ const Roads = () => {
 
   return (
     <section className={styles.roads}>
-      {isDurunubiLoading ? (
+      {isServerLoading ? (
         <Loading />
       ) : (
         <div className={cn('container')}>
@@ -88,15 +90,15 @@ const Roads = () => {
           <CourseFilterChoices />
 
           <div className={cn('contents')}>
-            {getCoursesOrderedBy(order.name, newRoads)
+            {getCoursesOrderedBy(order.name, tmp)
               .slice(offset, offset + LIMIT)
               .map(road => (
-                <CourseItem course={road} name={road.crsKorNm} />
+                <CourseItem course={road} />
               ))}
           </div>
           {/* TODO url 페이지 파라미터 받아와서 처리 */}
           <Paging
-            total={newRoads.length}
+            total={tmp.length}
             limit={LIMIT}
             page={page}
             setPage={setPage}

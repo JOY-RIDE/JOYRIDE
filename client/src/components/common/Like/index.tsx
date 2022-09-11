@@ -4,14 +4,19 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi';
 import classNames from 'classnames/bind';
 import styles from './Like.module.scss';
+import AskLogin from '../AskLogin';
 import { toastMessageState } from 'states/common';
 import { userIdState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
-const Like = () => {
+interface likeProps {
+  count?: number;
+}
+
+const Like = ({ count }: likeProps) => {
   const [isLiked, setIsLiked] = useState(0);
-  const [like, setLike] = useState(0);
+  const [like, setLike] = useState(count);
   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   console.log(loggedInUser);
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -25,10 +30,8 @@ const Like = () => {
     } else {
       if (isLiked === 0) {
         setIsLiked(1);
-        setLike(like + 1);
       } else {
         setIsLiked(0);
-        setLike(like - 1);
       }
     }
   };
@@ -41,7 +44,7 @@ const Like = () => {
           <HiOutlineHeart></HiOutlineHeart>
         )}
       </button>
-      <span className={cn('likecnt')}>{like}</span>
+      <span className={cn('likecnt')}>{count}</span>
     </div>
   );
 };

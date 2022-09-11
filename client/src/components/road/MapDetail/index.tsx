@@ -16,16 +16,21 @@ declare global {
   }
 }
 
+interface mapProps {
+  lat: number | undefined;
+  lng: number | undefined;
+}
+
 const cn = classNames.bind(styles);
 
-const MapDetail = () => {
+const MapDetail = ({ lat, lng }: mapProps) => {
   useEffect(() => {
     var infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
 
     const container = document.getElementById('myMap');
     const options = {
-      center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
-      level: 3,
+      center: new window.kakao.maps.LatLng(lat, lng),
+      level: 6,
     };
     const map = new window.kakao.maps.Map(container, options);
 
@@ -37,32 +42,32 @@ const MapDetail = () => {
     var toilet = document.getElementById('toilet');
     toilet?.addEventListener('click', function () {
       ps.keywordSearch('화장실', toiletSearchCB, {
-        radius: 5000,
-        location: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+        radius: 10000,
+        location: new window.kakao.maps.LatLng(lat, lng),
       });
     });
 
     var cafe = document.getElementById('cafe');
     cafe?.addEventListener('click', function () {
       ps.keywordSearch('맛집', restaurantSearchCB, {
-        radius: 5000,
-        location: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+        radius: 10000,
+        location: new window.kakao.maps.LatLng(lat, lng),
       });
     });
 
     var repair = document.getElementById('repair');
     repair?.addEventListener('click', function () {
       ps.keywordSearch('자전거수리', repairSearchCB, {
-        radius: 5000,
-        location: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+        radius: 10000,
+        location: new window.kakao.maps.LatLng(lat, lng),
       });
     });
 
     var rental = document.getElementById('rental');
     rental?.addEventListener('click', function () {
       ps.keywordSearch('자전거대여', rentalSearchCB, {
-        radius: 5000,
-        location: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+        radius: 10000,
+        location: new window.kakao.maps.LatLng(lat, lng),
       });
     });
 

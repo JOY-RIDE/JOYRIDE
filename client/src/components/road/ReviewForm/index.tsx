@@ -27,9 +27,10 @@ interface ReviewForm {
 }
 interface ReviewFormProp {
   close: () => void;
+  createReview: (newReview: string) => void;
 }
 
-const ReviewForm = ({ close }: ReviewFormProp) => {
+const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
   const {
     register,
     control,
@@ -40,30 +41,12 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<ReviewForm> = data => {
     // radio 숫자들 string으로 들어옴
+    // const newReview =JSON.stringify(data);
+    createReview(JSON.stringify(data));
     console.log(data);
     close();
     showToastMessage('후기가 등록되었습니다.');
   };
-
-  //   const [hoverRating, setHoverRating] = useState(0);
-  //   const onMouseEnter = (index: number) => setHoverRating(index);
-  //   // 마우스가 별 위에 올라가면 스테이트를 변경.
-  const [totalRating, setTotalRating] = useState(0);
-  const onSaveTotalRating = (index: number) => setTotalRating(index);
-  // 클릭시, 별 인덱스를 스테이트에 저장.
-
-  const [viewRating, setViewRating] = useState(0);
-  const onSaveViewRating = (index: number) => setViewRating(index);
-
-  const [facilityRating, setFacilityRating] = useState(0);
-  const onSaveFacilityRating = (index: number) => setFacilityRating(index);
-
-  const [accessibilityRating, setAccessibilityRating] = useState(0);
-  const onSaveAccessibilityRating = (index: number) =>
-    setAccessibilityRating(index);
-
-  const [safetyRating, setSafetyRating] = useState(0);
-  const onSaveSafetyRating = (index: number) => setSafetyRating(index);
 
   return (
     <form className={cn('form')} onSubmit={handleSubmit(onSubmit)}>
@@ -95,7 +78,7 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
           <Controller
             name="viewRating"
             control={control}
-            defaultValue={5}
+            defaultValue={0}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating
@@ -139,7 +122,7 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
           <Controller
             name="facilityRating"
             control={control}
-            defaultValue={5}
+            defaultValue={0}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating
@@ -189,7 +172,7 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
           <Controller
             name="accessibilityRating"
             control={control}
-            defaultValue={5}
+            defaultValue={0}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating
@@ -236,7 +219,7 @@ const ReviewForm = ({ close }: ReviewFormProp) => {
           <Controller
             name="safetyRating"
             control={control}
-            defaultValue={5}
+            defaultValue={0}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating

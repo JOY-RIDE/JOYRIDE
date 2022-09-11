@@ -48,11 +48,11 @@ export function stringifyRidingSkill(skill: RidingSkill) {
 
 export function stringifyCourseDifficulty(difficulty: CourseDifficulty) {
   switch (difficulty) {
-    case '1':
+    case 1:
       return '하';
-    case '2':
+    case 2:
       return '중';
-    case '3':
+    case 3:
       return '상';
     default:
       throw new Error();

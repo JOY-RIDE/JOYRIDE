@@ -12,15 +12,10 @@ const cn = classNames.bind(styles);
 
 interface CourseItemProp {
   course: ServerIRoads;
-  name: string;
 }
 
-const CourseItem = memo(({ course, name }: CourseItemProp) => (
-  <Link
-    to={`/roads/${course.crsKorNm}`}
-    className={cn('link')}
-    state={{ name: name }}
-  >
+const CourseItem = memo(({ course }: CourseItemProp) => (
+  <Link to={`/roads/${course.crsKorNm}`} className={cn('link')}>
     <article className={cn('course')}>
       {/* 사진 있을시
                   <div className={cn('top')}>
@@ -38,7 +33,7 @@ const CourseItem = memo(({ course, name }: CourseItemProp) => (
         <p className={cn('info')}>
           <span className={cn('dstnc')}>{course.crsDstnc}km </span>
           <span className={cn('hour')}>
-            {stringifyCourseHours(course.crsTotlRqrmHour)}
+            {stringifyCourseHours(course.required_at)}
           </span>
         </p>
         <p className={cn('info2')}>
@@ -51,12 +46,12 @@ const CourseItem = memo(({ course, name }: CourseItemProp) => (
           ·
           <span className={cn('rate')}>
             <span className={cn('type')}>평점</span>{' '}
-            <span className={cn('value')}>4.5</span>
+            <span className={cn('value')}>{course.totalRate}</span>
           </span>
           ·
           <span className={cn('likes')}>
             <span className={cn('type')}>♥</span>{' '}
-            <span className={cn('value')}>12</span>
+            <span className={cn('value')}>{course.likeCount}</span>
           </span>
         </p>
       </div>
