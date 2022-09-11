@@ -1,0 +1,35 @@
+@use '../../../styles/variables.scss' as *;
+
+.course {
+  display: flex;
+  font-weight: 700;
+}
+
+.rank {
+  width: 3rem;
+  font-size: 1.8rem;
+  padding-top: 0.8rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.top {
+  font-size: 1.4rem;
+  line-height: 1.68rem;
+  .sigun {
+    color: $color-main;
+  }
+}
+
+.bottom {
+  font-size: 1.2rem;
+  line-height: 1.44rem;
+  color: $color-grey-600;
+  .value {
+    color: $color-main;
+  }
+}
