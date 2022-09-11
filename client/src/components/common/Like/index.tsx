@@ -18,11 +18,7 @@ const Like = ({ count }: likeProps) => {
   const [isLiked, setIsLiked] = useState(0);
   const [like, setLike] = useState(count);
   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
-  console.log(loggedInUser);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const navigate = useNavigate();
-  const currentPath = window.location.pathname;
-  console.log(currentPath);
 
   const handleLike = () => {
     if (loggedInUser === null) {

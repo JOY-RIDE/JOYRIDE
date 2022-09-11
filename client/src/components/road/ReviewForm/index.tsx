@@ -1,7 +1,8 @@
 import styles from './ReviewForm.module.scss';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
@@ -11,26 +12,28 @@ import ErrorMessage from 'components/common/ErrorMessage';
 import ReviewTitle from '../ReviewTitle';
 import { getReviewFormFieldErrorMessage } from 'utils/getErrorMessage';
 import { Rating } from '@mui/material';
+import { userIdState } from 'states/auth';
 
 const cn = classNames.bind(styles);
 
 interface ReviewForm {
-  total: string;
-  view: string;
-  facility: string;
-  accessibility: string;
-  safety: string;
-  viewRating: number;
-  facilityRating: number;
-  accessibilityRating: number;
-  safetyRating: number;
+  title: string | undefined;
+  user_id: number | null;
+  total_review: string;
+  scene_review: string;
+  facilities_review: string;
+  accessibility_review: string;
+  safety_review: string;
+  scene_rate: number;
+  facilities_rate: number;
+  accessibility_rate: number;
+  safety_rate: number;
 }
 interface ReviewFormProp {
-  close: () => void;
   createReview: (newReview: string) => void;
 }
 
-const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
+const ReviewForm = ({ createReview }: ReviewFormProp) => {
   const {
     register,
     control,
@@ -39,13 +42,15 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
     reset,
   } = useForm<ReviewForm>();
   const showToastMessage = useSetRecoilState(toastMessageState);
+  const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
+  const { roadId: crsNm } = useParams();
+
   const onSubmit: SubmitHandler<ReviewForm> = data => {
     // radio 숫자들 string으로 들어옴
     // const newReview =JSON.stringify(data);
+    data.user_id = loggedInUser;
+    data.title = crsNm;
     createReview(JSON.stringify(data));
-    console.log(data);
-    close();
-    showToastMessage('후기가 등록되었습니다.');
   };
 
   return (
@@ -55,7 +60,7 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
           <ReviewTitle content={'총평'}></ReviewTitle>
           <Controller
             control={control}
-            name="total"
+            name="total_review"
             rules={{ required: true }}
             render={({ field }) => (
               <TextArea
@@ -64,11 +69,11 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
               />
             )}
           />
-          {errors.total && (
+          {errors.total_review && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'total',
-                errors.total.type
+                errors.total_review.type
               )}
             />
           )}
@@ -76,7 +81,7 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
         <div className={cn('field')}>
           <ReviewTitle content={'경관'}></ReviewTitle>
           <Controller
-            name="viewRating"
+            name="scene_rate"
             control={control}
             defaultValue={0}
             rules={{ required: true }}
@@ -95,32 +100,35 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
               />
             )}
           />
-          {errors.viewRating && (
+          {errors.scene_rate && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
-                'viewRating',
-                errors.viewRating.type
+                'view',
+                errors.scene_rate.type
               )}
             />
           )}
           <Controller
             control={control}
-            name="view"
+            name="scene_review"
             rules={{ required: false }}
             render={({ field }) => (
               <TextArea placeholder="코스의 경관은 어땠나요?" {...field} />
             )}
           />
-          {errors.view && (
+          {errors.scene_review && (
             <ErrorMessage
-              message={getReviewFormFieldErrorMessage('view', errors.view.type)}
+              message={getReviewFormFieldErrorMessage(
+                'view',
+                errors.scene_review.type
+              )}
             />
           )}
         </div>
         <div className={cn('field')}>
           <ReviewTitle content={'편의시설'}></ReviewTitle>
           <Controller
-            name="facilityRating"
+            name="facilities_rate"
             control={control}
             defaultValue={0}
             rules={{ required: true }}
@@ -139,17 +147,17 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
               />
             )}
           />
-          {errors.facilityRating && (
+          {errors.facilities_rate && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'facilityRating',
-                errors.facilityRating.type
+                errors.facilities_rate.type
               )}
             />
           )}
           <Controller
             control={control}
-            name="facility"
+            name="facilities_review"
             rules={{ required: false }}
             render={({ field }) => (
               <TextArea
@@ -158,11 +166,11 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
               />
             )}
           />
-          {errors.facility && (
+          {errors.facilities_review && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'facility',
-                errors.facility.type
+                errors.facilities_review.type
               )}
             />
           )}
@@ -170,7 +178,7 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
         <div className={cn('field')}>
           <ReviewTitle content={'접근성'}></ReviewTitle>
           <Controller
-            name="accessibilityRating"
+            name="accessibility_rate"
             control={control}
             defaultValue={0}
             rules={{ required: true }}
@@ -189,27 +197,27 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
               />
             )}
           />
-          {errors.accessibilityRating && (
+          {errors.accessibility_rate && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'accessibilityRating',
-                errors.accessibilityRating.type
+                errors.accessibility_rate.type
               )}
             />
           )}
           <Controller
             control={control}
-            name="accessibility"
+            name="accessibility_review"
             rules={{ required: false }}
             render={({ field }) => (
               <TextArea placeholder="코스의 접근성은 어땠나요?" {...field} />
             )}
           />
-          {errors.accessibility && (
+          {errors.accessibility_review && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'accessibility',
-                errors.accessibility.type
+                errors.accessibility_review.type
               )}
             />
           )}
@@ -217,7 +225,7 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
         <div className={cn('field')}>
           <ReviewTitle content={'안전'}></ReviewTitle>
           <Controller
-            name="safetyRating"
+            name="safety_rate"
             control={control}
             defaultValue={0}
             rules={{ required: true }}
@@ -236,27 +244,27 @@ const ReviewForm = ({ close, createReview }: ReviewFormProp) => {
               />
             )}
           />
-          {errors.safetyRating && (
+          {errors.safety_rate && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'safetyRating',
-                errors.safetyRating.type
+                errors.safety_rate.type
               )}
             />
           )}
           <Controller
             control={control}
-            name="safety"
+            name="safety_review"
             rules={{ required: false }}
             render={({ field }) => (
               <TextArea placeholder="코스의 안전은 어땠나요?" {...field} />
             )}
           />
-          {errors.safety && (
+          {errors.safety_review && (
             <ErrorMessage
               message={getReviewFormFieldErrorMessage(
                 'safety',
-                errors.safety.type
+                errors.safety_review.type
               )}
             />
           )}

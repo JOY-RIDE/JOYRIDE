@@ -51,52 +51,60 @@ const ReviewItem = ({
           <p>{total_review}</p>
         </div>
       </div>
-      <div className={cn('each')}>
-        <div className={cn('header')}>
-          <div className={cn('left')}>
-            <span className={cn('field')}>경관</span>
-            <span className={cn('stars')}>{scene_rate}</span>
+      {scene_rate === 0 ? null : (
+        <div className={cn('each')}>
+          <div className={cn('header')}>
+            <div className={cn('left')}>
+              <span className={cn('field')}>경관</span>
+              <span className={cn('stars')}>{scene_rate}</span>
+            </div>
+          </div>
+          <div className={cn('content')}>
+            <p>{scene_review !== 'string' ? scene_review : null}</p>
           </div>
         </div>
-        <div className={cn('content')}>
-          <p>{scene_review !== 'string' ? scene_review : null}</p>
-        </div>
-      </div>
-      <div className={cn('each')}>
-        <div className={cn('header')}>
-          <div className={cn('left')}>
-            <span className={cn('field')}>편의시설</span>
-            <span className={cn('stars')}>{facilities_rate}</span>
+      )}
+      {facilities_rate === 0 ? null : (
+        <div className={cn('each')}>
+          <div className={cn('header')}>
+            <div className={cn('left')}>
+              <span className={cn('field')}>편의시설</span>
+              <span className={cn('stars')}>{facilities_rate}</span>
+            </div>
+          </div>
+          <div className={cn('content')}>
+            <p>{facilities_review !== 'string' ? facilities_review : null}</p>
           </div>
         </div>
-        <div className={cn('content')}>
-          <p>{facilities_review !== 'string' ? facilities_review : null}</p>
-        </div>
-      </div>
-      <div className={cn('each')}>
-        <div className={cn('header')}>
-          <div className={cn('left')}>
-            <span className={cn('field')}>접근성</span>
-            <span className={cn('stars')}>{accessibility_rate}</span>
+      )}
+      {accessibility_rate === 0 ? null : (
+        <div className={cn('each')}>
+          <div className={cn('header')}>
+            <div className={cn('left')}>
+              <span className={cn('field')}>접근성</span>
+              <span className={cn('stars')}>{accessibility_rate}</span>
+            </div>
+          </div>
+          <div className={cn('content')}>
+            <p>
+              {accessibility_review !== 'string' ? accessibility_review : null}
+            </p>
           </div>
         </div>
-        <div className={cn('content')}>
-          <p>
-            {accessibility_review !== 'string' ? accessibility_review : null}
-          </p>
-        </div>
-      </div>
-      <div className={cn('each')}>
-        <div className={cn('header')}>
-          <div className={cn('left')}>
-            <span className={cn('field')}>안전</span>
-            <span className={cn('stars')}>{safety_rate}</span>
+      )}
+      {safety_rate === 0 ? null : (
+        <div className={cn('each')}>
+          <div className={cn('header')}>
+            <div className={cn('left')}>
+              <span className={cn('field')}>안전</span>
+              <span className={cn('stars')}>{safety_rate}</span>
+            </div>
+          </div>
+          <div className={cn('content')}>
+            <p>{safety_review !== 'string' ? safety_review : null}</p>
           </div>
         </div>
-        <div className={cn('content')}>
-          <p>{safety_review !== 'string' ? safety_review : null}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

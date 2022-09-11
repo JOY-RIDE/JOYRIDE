@@ -12,7 +12,7 @@ export const courseAPI: CourseAPI = {
       data: { code },
     } = await axios.post('/courses/review', newReview, {
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
+        'Content-Type': 'application/json',
       },
     });
 

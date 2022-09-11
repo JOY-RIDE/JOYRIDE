@@ -6,11 +6,11 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 0.5rem;
-  //   overflow-x: scroll;
-  //   overflow-y: hidden;
-  //   -ms-overflow-style: none;
-  //   scrollbar-width: none;
-  //   &::-webkit-scrollbar {
-  //     display: none; /* Chrome , Safari , Opera */
-  //   }
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* Chrome , Safari , Opera */
+  }
 }

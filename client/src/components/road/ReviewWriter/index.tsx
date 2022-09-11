@@ -10,9 +10,7 @@ import Button from 'components/common/Button';
 import ReviewForm from '../ReviewForm';
 import useDialog from 'hooks/useDialog';
 import { toastMessageState } from 'states/common';
-import { useTheme } from '@emotion/react';
-import { Slide, Dialog, useMediaQuery } from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
+import { Dialog } from '@mui/material';
 import { HiX } from 'react-icons/hi';
 import { userIdState } from 'states/auth';
 import { courseAPI } from 'apis/courseAPI';
@@ -31,7 +29,7 @@ const ReviewWriter = () => {
     onSuccess: () => {
       showToastMessage('리뷰가 등록되었습니다.');
       handlePopupClose();
-      queryClient.invalidateQueries(['reviews']);
+      queryClient.invalidateQueries(['serverInfo']);
     },
     onError: (e: any) => {
       showToastMessage('리뷰 등록 중 문제가 발생했습니다.');
@@ -53,7 +51,6 @@ const ReviewWriter = () => {
         className={cn('review-writer')}
         fullScreen={isFullScreen}
         open={isOpen}
-        onClose={handlePopupClose}
         aria-labelledby="리뷰 작성"
         BackdropProps={{ style: { backgroundColor: 'rgba(0, 0, 0, 0.2)' } }}
         TransitionComponent={isFullScreen ? PopupSlide : undefined}
@@ -65,7 +62,7 @@ const ReviewWriter = () => {
           </button>
         </div>
         <div className={cn('review-main')}>
-          <ReviewForm close={handlePopupClose} createReview={createReview} />
+          <ReviewForm createReview={createReview} />
         </div>
       </Dialog>
     </>
