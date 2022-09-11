@@ -33,23 +33,22 @@ public class CourseProvider {
             // 좋아요 수 넣어주기와 코스 평점 넣어주기
             for (int i = 0; i < courseList.size(); i++) {
                 String courseTitle = courseList.get(i).getCrsKorNm();
+                // 코스 좋아요 수
                 int likeCount = retrieveCourseLikeCount(courseTitle);
                 courseList.get(i).setLikeCount(likeCount);
                 courseList.get(i).setImage(imageList.get(i));
                 // 코스 평점
                 List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseTitle);
-
                 double totalSum = 0;
+
                 for (int j = 0; j < getCourseReviewRes.size(); j ++) {
                     totalSum = totalSum + getCourseReviewRes.get(j).getTotal_rate();
                 }
+
                 double totalResult = totalSum/getCourseReviewRes.size();
                 totalResult = (Math.round(totalResult*10)/10.0);
-
                 courseList.get(i).setTotalRate(totalResult);
             }
-
-
             return courseList;
         }
         catch (Exception exception) {
@@ -68,6 +67,7 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
     // 코스 필터링 조회
     public List<GetCourseListRes> retrieveCourseList(GetFilteringCourseReq getFilteringCourseReq) throws BaseException {
         try {
@@ -128,8 +128,7 @@ public class CourseProvider {
             course.setSafetyAvg(safetyResult);
             course.setSceneAvg(sceneResult);
 
-
-            // 사진과 위 경도.
+            // 사진과 위도, 경도
             GetCourseRes courseTableInfo = courseDao.selectCourseByCourseId(title);
             course.setImage(courseTableInfo.getImage());
             course.setLatitude(courseTableInfo.getLatitude());
@@ -169,9 +168,7 @@ public class CourseProvider {
         }
     }
 
-    // 좋아요 조회
-    // 좋아요 있으면 1
-    // 없으면 0
+    // 좋아요 조회 있으면 1, 없으면 0
     public GetCourseLikeRes retrieveCourseLike(GetCourseLikeReq getCourseLikeReq) throws BaseException {
         try{
             String title = getCourseLikeReq.getTitle();
@@ -189,7 +186,4 @@ public class CourseProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
-
-
 }

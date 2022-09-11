@@ -91,11 +91,9 @@ public class CourseService {
         }
     }
 
-
     //리뷰 삭제 api
     public DeleteCourseReviewRes removeCourseReview(int courseReview_id) throws BaseException {
 
-        // 유저확인 로직 필요
         int existsCourseReview = courseDao.existsCourseReview(courseReview_id);
         if (existsCourseReview == 0) {
             throw new BaseException(COURSE_REVIEW_NOT_EXISTS);
@@ -115,42 +113,20 @@ public class CourseService {
 
     //코스 좋아요 생성
     public PostCourseLikeRes createCourseLike(PostCourseLikeReq postCourseLikeReq) throws BaseException {
-
-        // 유저확인 로직 필요
         try{
-
-            // 두개를 동시에 어떻게 할꼬...
-            // 데이터 베이스 status값 설정해주기
             int user_id = postCourseLikeReq.getUser_id();
             String title = postCourseLikeReq.getTitle();
 
             List<String> selectedTitle = courseDao.selectCourseByUserId(user_id);
-            // 있으면
+            // 코스 좋아요가 있으면
             if (selectedTitle.contains(title)) {
                 courseDao.selectCourseByUserId(user_id);
                 String message = "좋아요가 이미 존재합니다.";
                 return new PostCourseLikeRes(message);
             }
-
             courseDao.insertCourseLike(user_id, title);
             String message = "좋아요 등록 성공했습니다.";
             return new PostCourseLikeRes(message);
-//            else {
-//                // 이거를 동시에 두개 하기가 쉽지 않네
-//                // 삭제 api 랑 분리해서 만들자.
-//                int status = courseDao.selectCourseLikeStatus(user_id);
-//                if (status == 1) {
-//                    courseDao.updateCourseLikeToZero(user_id);
-//                    String message = "좋아요 삭제에 성공했습니다.";
-//                    return new PostCourseLikeRes(message);
-//                }
-//                else {
-//                    courseDao.updateCourseLikeToOne(user_id);
-//                    String message = "좋아요 등록 성공했습니다.";
-//                    return new PostCourseLikeRes(message);
-//                }
-//            }
-
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
