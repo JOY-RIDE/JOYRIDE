@@ -3,6 +3,7 @@ import { MeetupData } from 'types/meetup';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { stringifyMeetupPathDifficulty } from 'utils/stringify';
 
 const cn = classNames.bind(styles);
@@ -11,64 +12,70 @@ interface MeetupItemProp {
   meetup: MeetupData;
 }
 
-const MeetupItem = ({
-  meetup: {
-    id,
-    meetingDate,
-    localLocation,
-    title,
-    courseName,
-    pathDifficulty,
-    joinPeople,
-    maxPeople,
-    meetingImgUrl,
-    path,
-  },
-}: MeetupItemProp) => {
+const MeetupItem = ({ meetup }: MeetupItemProp) => {
+  const path = meetup.path;
   const pathLength = path.length;
   const to = path[pathLength - 1];
   const restPathString = path.slice(0, pathLength - 1).join(' → ');
   return (
-    <Link to={`/meetups/${id}`}>
+    <Link to={`/meetups/${meetup.id}`}>
       <li className={cn('container')}>
         <div className={cn('preview')}>
           <div className={cn('text')}>
             <header className={cn('header')}>
               <span className={cn('meeting-date')}>
-                {dayjs(meetingDate).format('M월 D일')}
+                {dayjs(meetup.meetingDate).format('M월 D일')}
               </span>
-
               <div className={cn('title-wrapper')}>
-                <span className={cn('location')}>{localLocation}</span>
-                <h2 className={cn('title')}>{title}</h2>
+                <span className={cn('location')}>{meetup.localLocation}</span>
+                <h2 className={cn('title')}>{meetup.title}</h2>
               </div>
             </header>
 
             <div className={cn('info-wrapper')}>
-              {courseName && (
-                <span className={cn('courseName')}>{courseName}</span>
-              )}
-
-              <div className={cn('info')}>
+              <div className={cn('info-top')}>
+                {meetup.courseName && (
+                  <span className={cn('course-name')}>{meetup.courseName}</span>
+                )}
                 <div className={cn('field')}>
-                  <label className={cn('label')}>난이도</label>
+                  <label className={cn('label')}>
+                    <span>난이도</span>
+                  </label>
                   <span className={cn('emphasize')}>
-                    {stringifyMeetupPathDifficulty(pathDifficulty)}
+                    {stringifyMeetupPathDifficulty(meetup.pathDifficulty)}
                   </span>
                 </div>
+              </div>
+
+              <div className={cn('info-bottom')}>
+                <div className={cn('field', 'gathering-place')}>
+                  <label className={cn('label')}>
+                    <HiOutlineLocationMarker />
+                    <span>집결지</span>
+                  </label>
+                  <span className={cn('emphasize')}>
+                    {meetup.gatheringPlace}
+                  </span>
+                </div>
+
                 <span className={cn('dot')}>·</span>
+
                 <div className={cn('field')}>
                   <label className={cn('label')}>인원</label>
                   <div className={cn('nums')}>
-                    <span className={cn('emphasize')}>{joinPeople}</span>/
-                    {maxPeople}명
+                    <span className={cn('emphasize')}>{meetup.joinPeople}</span>
+                    /{meetup.maxPeople}명
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <img className={cn('img')} src={meetingImgUrl} alt={title} />
+          <img
+            className={cn('img')}
+            src={meetup.meetingImgUrl}
+            alt={meetup.title}
+          />
         </div>
 
         <div className={cn('path')}>
