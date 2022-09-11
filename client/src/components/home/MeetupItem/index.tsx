@@ -42,7 +42,7 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                     <span>난이도</span>
                   </label>
                   <span
-                    className={cn('emphasize', {
+                    className={cn('emphasized', {
                       // high: meetup.pathDifficulty === 3,
                       // middle: meetup.pathDifficulty === 2,
                       // low: meetup.pathDifficulty === 1,
@@ -59,7 +59,7 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                     <HiOutlineLocationMarker />
                     <span>집결지</span>
                   </label>
-                  <span className={cn('emphasize')}>
+                  <span className={cn('emphasized')}>
                     {meetup.gatheringPlace}
                   </span>
                 </div>
@@ -69,7 +69,9 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                 <div className={cn('field')}>
                   <label className={cn('label')}>인원</label>
                   <div className={cn('nums')}>
-                    <span className={cn('emphasize')}>{meetup.joinPeople}</span>
+                    <span className={cn('emphasized')}>
+                      {meetup.joinPeople}
+                    </span>
                     /{meetup.maxPeople}명
                   </div>
                 </div>

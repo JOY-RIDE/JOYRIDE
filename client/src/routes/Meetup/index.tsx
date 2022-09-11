@@ -176,7 +176,7 @@ const Meetup = () => {
             </span>
           </div>
 
-          <div className={cn('field')}>
+          <div className={cn('field', 'bicycle-types')}>
             <label className={cn('label')}>자전거 종류</label>
             <ul className={cn('data')}>
               {meetup?.bicycleTypes.map((type: BicycleType) => (
@@ -237,6 +237,7 @@ const Meetup = () => {
         <p className={cn('content')}>{meetup?.content}</p>
       </section>
 
+      <h2 className={cn('subtitle')}>라이딩 코스</h2>
       <section className={cn('route-section')}>
         <MeetupRoute
           courseName={meetup?.courseName as MeetupCourseName}
