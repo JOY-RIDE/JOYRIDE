@@ -65,22 +65,6 @@ public class MeetController {
      * @param request
      * @return
      */
-//    @GetMapping("")
-//    public BaseResponse<List<MeetListRes>> getMeet(HttpServletRequest request) {
-//        try{
-//            return new BaseResponse<>(meetProvider.retrieveMeet());
-//        } catch (BaseException e) {
-//            return new BaseResponse<>(e.getStatus());
-//        }
-//    }
-
-    /**
-     * 4.2# 모임 리스트 조회 API
-     * [GET] /meets
-     *
-     * @param request
-     * @return
-     */
     @GetMapping("")
     public BaseResponse<List<MeetListRes>> getMeet(HttpServletRequest request,
                                                          @RequestParam(required = false) Integer age, @RequestParam(required = false) String bicycleTypes,

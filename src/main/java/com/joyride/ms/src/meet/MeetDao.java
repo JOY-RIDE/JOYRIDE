@@ -112,43 +112,6 @@ public class MeetDao {
         return 0;
     }
 
-//    public List<MeetListRes> selectMeet() {
-//        String selectMeetQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
-//                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
-//                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
-//                "group by m.id";
-//        String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
-//        return this.jdbcTemplate.query(selectMeetQuery,
-//                (rs, rowNum) ->
-//                        new MeetListRes(
-//                                rs.getInt("id"),
-//                                rs.getInt("user_id"),
-//                                rs.getString("course_name"),
-//                                rs.getString("title"),
-//                                rs.getString("local"),
-//                                rs.getInt("riding_skill"),
-//                                rs.getInt("path_difficulty"),
-//                                rs.getString("meeting_img_url"),
-//                                rs.getString("gender"),
-//                                rs.getInt("join_people"),
-//                                rs.getInt("max_people"),
-//                                Arrays.asList(rs.getString("path").split(",")),
-//                                rs.getInt("participation_fee"),
-//                                rs.getString("content"),
-//                                rs.getInt("min_year"),
-//                                rs.getInt("max_year"),
-//                                rs.getString("gathering_place"),
-//                                rs.getInt("status"),
-//                                rs.getString("meeting_date"),
-//                                rs.getString("due_date"),
-//                                rs.getString("created_at"),
-//                                this.jdbcTemplate.query(selectBicycleTypeQuery,
-//                                        (rs2,rowNum2) ->
-//                                                rs2.getString("bicycle_type")
-//                                        ,rs.getInt("id"))
-//                                ));
-//    }
-
     public MeetDetailRes selectMeetById(Integer meetId) {
         String selectMeetByIdQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +

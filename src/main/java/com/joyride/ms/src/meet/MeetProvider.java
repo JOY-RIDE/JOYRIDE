@@ -21,14 +21,6 @@ public class MeetProvider {
         this.meetDao = meetDao;
     }
 
-//    public List<MeetListRes> retrieveMeet() throws BaseException {
-//        try {
-//            return meetDao.selectMeet();
-//        } catch (Exception e) {
-//            throw new BaseException(DATABASE_ERROR);
-//        }
-//    }
-
     public MeetDetailRes retrieveMeetById(Integer meetId) throws BaseException {
         try {
             return meetDao.selectMeetById(meetId);
