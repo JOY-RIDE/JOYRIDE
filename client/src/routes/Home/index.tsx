@@ -22,6 +22,7 @@ const Home = () => {
     () => meetupAPI.getMeetupList(),
     {
       select: meetups =>
+        // TODO: 삭제
         getMeetupsOrderedBy(
           '-createdAt',
           meetups.filter(meetup => dayjs().isBefore(dayjs(meetup.dueDate)))
