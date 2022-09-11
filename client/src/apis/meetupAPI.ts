@@ -1,4 +1,8 @@
-import { MeetupData, MeetupDetail } from './../types/meetup';
+import {
+  MeetupData,
+  MeetupDetail,
+  MeetupFiltersState,
+} from './../types/meetup';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { joyrideAxios as axios } from './axios';
 import { faker } from '@faker-js/faker';
@@ -6,9 +10,11 @@ import { GENDERS, LOCATIONS } from 'utils/constants';
 import { CourseName } from 'types/course';
 import { fetchCourses } from './CrsAPI';
 import { uniqBy } from 'lodash';
+import { mapValues } from 'lodash';
+import qs from 'query-string';
 
 interface MeetupAPI {
-  getMeetupList: () => Promise<MeetupData[]>;
+  getMeetupList: (filters?: MeetupFiltersState) => Promise<MeetupData[]>;
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
@@ -16,31 +22,39 @@ interface MeetupAPI {
 }
 
 export const meetupAPI: MeetupAPI = {
-  async getMeetupList() {
+  async getMeetupList(filters = {}) {
+    const filtersWithValueOnly = mapValues(filters, 'value');
+    if (!filtersWithValueOnly['minNumOfParticipants'])
+      delete filtersWithValueOnly['minNumOfParticipants'];
+    if (!filtersWithValueOnly['maxNumOfParticipants'])
+      delete filtersWithValueOnly['maxNumOfParticipants'];
+    const stringifiedFilters = qs.stringify(filtersWithValueOnly, {
+      encode: false,
+    });
+    const query = stringifiedFilters && '?' + stringifiedFilters;
+
     const {
       data: { code, result },
-    } = await axios.get('/meets');
+    } = await axios.get('/meets' + query);
 
     if (code !== 1000) {
       throw new Error(code);
     }
-
     return result;
   },
 
-  async getMeetupDetail(meetupId: number) {
+  async getMeetupDetail(meetupId) {
     const {
       data: { code, result },
-    } = await axios.get(`/meets/${meetupId}`);
+    } = await axios.get('/meets/' + meetupId);
 
     if (code !== 1000) {
       throw new Error(code);
     }
-
     return result;
   },
 
-  async createMeetup(newMeetup: FormData) {
+  async createMeetup(newMeetup) {
     const {
       data: { code },
     } = await axios.post('/meets', newMeetup, {
@@ -54,10 +68,10 @@ export const meetupAPI: MeetupAPI = {
     }
   },
 
-  async joinMeetup(meetupId: number) {
+  async joinMeetup(meetupId) {
     const {
       data: { code },
-    } = await axios.post(`/meets/${meetupId}`);
+    } = await axios.post('/meets/' + meetupId);
 
     if (code !== 1000) {
       throw new Error(code);

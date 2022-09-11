@@ -22,7 +22,16 @@ import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';
 import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
-import { MeetupDetail } from 'types/meetup';
+import {
+  MeetupCourseName,
+  MeetupDetail,
+  MeetupGatheringPlace,
+  MeetupGender,
+  MeetupParticipant,
+  MeetupPath,
+  MeetupPathDifficulty,
+  MeetupRidingSkill,
+} from 'types/meetup';
 
 // const testPath = [
 //   '안합',
@@ -85,7 +94,7 @@ const Meetup = () => {
   const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetup } = useQuery<MeetupDetail>(
+  const { data: meetup, isLoading } = useQuery<MeetupDetail>(
     ['meetup', Number(meetupId)],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {
@@ -99,23 +108,23 @@ const Meetup = () => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []); // TODO: 리스트 스크롤 위치 기억
 
-  if (!meetup) return <Loading />;
-  const imgStyle = {
-    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.meetingImgUrl})`,
-  };
+  if (isLoading) return <Loading />;
 
+  const imgStyle = {
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup?.meetingImgUrl})`,
+  };
   console.log(meetup);
   return (
     <div className={cn('container')}>
       <div
         className={cn('img-wrapper', {
-          default: meetup.meetingImgUrl === MEETUP_DEFAULT_IMAGE,
+          default: meetup?.meetingImgUrl === MEETUP_DEFAULT_IMAGE,
         })}
         style={imgStyle}
       />
 
       <div className={cn('title-wrapper')}>
-        <h1 className={cn('title')}>{meetup.title}</h1>
+        <h1 className={cn('title')}>{meetup?.title}</h1>
         <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
           {/* TODO: active */}
           <BsBookmark />
@@ -126,11 +135,11 @@ const Meetup = () => {
       <div className={cn('leader')}>
         <img
           className={cn('leader__avatar')}
-          src={meetup.admin.profile_img_url}
-          alt={meetup.admin.nickname}
+          src={meetup?.admin.profile_img_url}
+          alt={meetup?.admin.nickname}
         />
-        <span className={cn('leader__nickname')}>{meetup.admin.nickname}</span>
-        <span className={cn('leader__manner')}>{meetup.admin.manner}°C</span>
+        <span className={cn('leader__nickname')}>{meetup?.admin.nickname}</span>
+        <span className={cn('leader__manner')}>{meetup?.admin.manner}°C</span>
       </div>
 
       <section className={cn('fields-section')}>
@@ -138,21 +147,21 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>지역</label>
             <span className={cn('data', 'emphasized')}>
-              {meetup.localLocation}
+              {meetup?.localLocation}
             </span>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>집결지</label>
             <span className={cn('data', 'emphasized')}>
-              {meetup.gatheringPlace}
+              {meetup?.gatheringPlace}
             </span>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>모임 일시</label>
             <span className={cn('data', 'emphasized')}>
-              {dayjs(meetup.meetingDate).format(DATE_FORMAT)}
+              {dayjs(meetup?.meetingDate).format(DATE_FORMAT)}
             </span>
           </div>
         </div>
@@ -161,14 +170,16 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>코스 난이도</label>
             <span className={cn('data', 'emphasized')}>
-              {stringifyMeetupPathDifficulty(meetup.pathDifficulty)}
+              {stringifyMeetupPathDifficulty(
+                meetup?.pathDifficulty as MeetupPathDifficulty
+              )}
             </span>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>자전거 종류</label>
             <ul className={cn('data')}>
-              {meetup.bicycleTypes.map((type: BicycleType) => (
+              {meetup?.bicycleTypes.map((type: BicycleType) => (
                 <li key={type} className={cn('emphasized')}>
                   {type}
                 </li>
@@ -181,24 +192,24 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>인원</label>
             <div className={cn('data')}>
-              <span className={cn('emphasized')}>{meetup.joinPeople}</span>/
-              {meetup.maxPeople}명
+              <span className={cn('emphasized')}>{meetup?.joinPeople}</span>/
+              {meetup?.maxPeople}명
             </div>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>성별</label>
             <span className={cn('data', 'emphasized')}>
-              {stringifyGender(meetup.gender)}
+              {stringifyGender(meetup?.gender as MeetupGender)}
             </span>
           </div>
 
           <div className={cn('field')}>
             <label className={cn('label')}>나이</label>
             <div className={cn('data')}>
-              <span className={cn('emphasized')}>{meetup.minBirthYear}</span>
+              <span className={cn('emphasized')}>{meetup?.minBirthYear}</span>
               년생 ~{' '}
-              <span className={cn('emphasized')}>{meetup.maxBirthYear}</span>
+              <span className={cn('emphasized')}>{meetup?.maxBirthYear}</span>
               년생
             </div>
           </div>
@@ -206,7 +217,7 @@ const Meetup = () => {
           <div className={cn('field')}>
             <label className={cn('label')}>라이딩 실력</label>
             <span className={cn('data', 'emphasized')}>
-              {stringifyRidingSkill(meetup.ridingSkill)}
+              {stringifyRidingSkill(meetup?.ridingSkill as MeetupRidingSkill)}
             </span>
           </div>
 
@@ -214,7 +225,7 @@ const Meetup = () => {
             <label className={cn('label')}>참가비</label>
             <div className={cn('data')}>
               <span className={cn('emphasized')}>
-                {meetup.participationFee.toLocaleString()}
+                {meetup?.participationFee.toLocaleString()}
               </span>
               원
             </div>
@@ -223,18 +234,21 @@ const Meetup = () => {
       </section>
 
       <section className={cn('content-section')}>
-        <p className={cn('content')}>{meetup.content}</p>
+        <p className={cn('content')}>{meetup?.content}</p>
       </section>
 
       <section className={cn('route-section')}>
-        <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
+        <MeetupRoute
+          courseName={meetup?.courseName as MeetupCourseName}
+          path={meetup?.path as MeetupPath}
+        />
       </section>
 
       {/* TODO: 아이콘 설명 */}
       <section className={cn('map-section')}>
         <MeetupPathMap
-          gatheringPlace={meetup.gatheringPlace}
-          path={meetup.path}
+          gatheringPlace={meetup?.gatheringPlace as MeetupGatheringPlace}
+          path={meetup?.path as MeetupPath}
         />
         <div className={cn('notice')}>
           <p>* 위 지도는 장소의 위치를 대략적으로 나타내고 있습니다.</p>
@@ -246,23 +260,25 @@ const Meetup = () => {
         <h2 className={cn('subtitle')}>
           참가 멤버
           <div className={cn('subtitle__num')}>
-            <span className={cn('current')}>{meetup.joinPeople}</span>/
-            {meetup.maxPeople}
+            <span className={cn('current')}>{meetup?.joinPeople}</span>/
+            {meetup?.maxPeople}
           </div>
         </h2>
-        {Boolean(meetup.joinPeople) && (
-          <MeetupParticipantList participants={meetup.participants} />
+        {!!meetup?.joinPeople && (
+          <MeetupParticipantList
+            participants={meetup?.participants as MeetupParticipant[]}
+          />
         )}
       </section>
 
-      <section className={cn('comments-section')}>
+      {/* <section className={cn('comments-section')}>
         <h2 className={cn('subtitle')}>
           댓글
           <span className={cn('subtitle__num')}>12</span>
         </h2>
-      </section>
+      </section> */}
 
-      <MeetupJoinBar {...getJoinBarProps(meetup, userId)} />
+      <MeetupJoinBar {...getJoinBarProps(meetup as MeetupDetail, userId)} />
     </div>
   );
 };

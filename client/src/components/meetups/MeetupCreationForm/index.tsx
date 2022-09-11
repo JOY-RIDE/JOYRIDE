@@ -111,17 +111,17 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
   });
 
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: courseNames, refetch } = useQuery<CourseName[]>(
-    ['courseNames'],
-    meetupAPI.getCourseNames,
-    {
-      enabled: false,
-      staleTime: 24 * 60 * 60 * 1000,
-      cacheTime: Infinity,
-      onError: () =>
-        showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
-    }
-  );
+  const {
+    data: courseNames,
+    refetch,
+    isLoading,
+  } = useQuery<CourseName[]>(['courseNames'], meetupAPI.getCourseNames, {
+    enabled: false,
+    staleTime: 24 * 60 * 60 * 1000,
+    cacheTime: Infinity,
+    onError: () =>
+      showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
+  });
 
   const imgFile = watch('meetingImgUrl');
   const dueDate = watch('dueDate');
@@ -402,7 +402,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
             name="courseName"
             render={({ field: { onChange, ...others } }) => (
               <Autocomplete
-                loading={!courseNames}
+                loading={isLoading}
                 loadingText="목록을 불러오고 있습니다"
                 noOptionsText="데이터가 존재하지 않습니다."
                 options={courseNames || []}

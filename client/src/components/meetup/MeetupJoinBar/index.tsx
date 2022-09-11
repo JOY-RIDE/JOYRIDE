@@ -46,6 +46,7 @@ const MeetupJoinBar = ({
     onSuccess: () => {
       showToastMessage('모임에 참가되었습니다. 즐거운 모임 되세요!');
       queryClient.invalidateQueries(['meetup', Number(meetupId)]);
+      queryClient.invalidateQueries(['meetups']);
     },
     onError: () => showToastMessage('모임 참가 중 문제가 발생했습니다.'),
   });

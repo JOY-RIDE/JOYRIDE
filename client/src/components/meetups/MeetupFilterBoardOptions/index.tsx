@@ -357,7 +357,7 @@ const MeetupFilterBoardOptions = () => {
           <CheckBox
             id={cn('participation-fee')}
             shape="square"
-            isChecked={Boolean(boardFilters.participationFee)}
+            isChecked={!!boardFilters.participationFee}
             onChange={toggleSpecificOption(IS_PARTICIPATION_FREE_PAYLOAD)}
           />
           <label htmlFor={cn('participation-fee')}>

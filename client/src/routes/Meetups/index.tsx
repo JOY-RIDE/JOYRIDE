@@ -18,39 +18,43 @@ import { useQuery } from '@tanstack/react-query';
 import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
 import { MeetupData } from 'types/meetup';
-import Paging from 'components/common/Paging';
-import { useSearchParams } from 'react-router-dom';
+import Pagination from 'components/meetups/Pagination';
+import NoResults from 'components/common/NoResults';
 
 const cn = classNames.bind(styles);
 
-const PAGE_LIMIT = 6;
+const ITEMS_LIMIT = 6;
 
 // TODO: 렌더링 확인
 const Meetups = () => {
   const userId = useRecoilValue(userIdState);
+  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(
+  //   Number(useSearchParams()[0].get('page')) || 1
+  // );
+  const itemsOffset = ITEMS_LIMIT * (page - 1);
   // TODO: useState로
   const order = useRecoilValue(meetupOrderState);
-  const filters = useRecoilValue(meetupFiltersState);
-  const [page, setPage] = useState(
-    Number(useSearchParams()[0].get('page')) || 1
-  );
-  const offset = PAGE_LIMIT * (page - 1);
 
+  const filters = useRecoilValue(meetupFiltersState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
-    meetupAPI.getMeetupList,
+  const { data: meetups, isLoading } = useQuery<MeetupData[]>(
+    ['meetups', filters],
+    () => meetupAPI.getMeetupList(filters),
     {
+      // TODO: order 디폴트 null?
+      select: meetups => getMeetupsOrderedBy(order.name, meetups),
       staleTime: 5 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
 
-  const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
-  useEffect(() => resetFilters, []);
+  const resetFilters = useResetRecoilState(meetupFiltersState);
+  useEffect(() => setPage(1), [filters, order.name]);
   useEffect(() => resetOrder, []);
+  useEffect(() => resetFilters, []);
 
   return (
     <div>
@@ -77,25 +81,23 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        {meetups ? (
-          // TODO: order 디폴트 null?
+        {isLoading ? (
+          <Loading />
+        ) : meetups?.length ? (
           <MeetupList
-            meetups={getMeetupsOrderedBy(
-              order.name,
-              meetups as MeetupData[]
-            ).slice(offset, offset + PAGE_LIMIT)}
+            meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          <Loading />
+          <NoResults />
         )}
       </div>
 
-      {meetups && (
-        <Paging
-          total={(meetups as MeetupData[]).length}
-          limit={PAGE_LIMIT}
-          page={page}
-          setPage={setPage}
+      {/* TODO: refactor */}
+      {!!meetups?.length && (
+        <Pagination
+          currentPage={page}
+          setCurrentPage={setPage}
+          lastPage={Math.ceil(meetups.length / ITEMS_LIMIT)}
         />
       )}
     </div>

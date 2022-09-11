@@ -45,7 +45,7 @@ export const authAPI = (() => {
   ) => {
     const {
       data: { code, result },
-    } = await axios.post(`/auth/signin${isAuto ? '/auto' : ''}`, {
+    } = await axios.post('/auth/signin' + (isAuto ? '/auto' : ''), {
       email,
       password,
     });

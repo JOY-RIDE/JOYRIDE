@@ -59,8 +59,7 @@ const LoginForm = () => {
   }) => {
     try {
       await authAPI.login(email, password, isAuto, setUserId);
-      // TODO
-      // navigate(nextURL || '/');
+      navigate(nextURL || '/');
     } catch (e: any) {
       showToastMessage(getLoginFailErrorMessage(e.message));
     }

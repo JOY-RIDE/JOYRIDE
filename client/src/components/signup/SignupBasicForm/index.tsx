@@ -78,7 +78,7 @@ const SignupBasicForm = () => {
               <AuthFormInput
                 type="email"
                 placeholder="이메일"
-                hasError={Boolean(errors.email)}
+                hasError={!!errors.email}
                 {...field}
               />
             )}
@@ -110,7 +110,7 @@ const SignupBasicForm = () => {
                 type="password"
                 placeholder="비밀번호"
                 helpText={!isSubmitted && '비밀번호 조건'}
-                hasError={Boolean(errors.password)}
+                hasError={!!errors.password}
                 {...field}
               />
             )}
@@ -140,7 +140,7 @@ const SignupBasicForm = () => {
               <AuthFormInput
                 type="password"
                 placeholder="비밀번호 확인"
-                hasError={Boolean(errors.passwordConfirm)}
+                hasError={!!errors.passwordConfirm}
                 {...field}
               />
             )}

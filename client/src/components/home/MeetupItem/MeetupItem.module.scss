@@ -15,6 +15,7 @@
   padding: 1.4rem 0 1.4rem 1.5rem;
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
   justify-content: space-between;
 }
 
@@ -28,7 +29,7 @@
   font-weight: 700;
   gap: 0.5rem;
   font-size: 1.4rem;
-  margin-top: 0.3rem;
+  margin-top: 0.4rem;
 
   & .location {
     color: $color-main;
@@ -42,34 +43,72 @@
 
 .info-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   color: $color-grey-600;
   font-weight: 700;
   gap: 0.5rem;
   font-size: 1.2rem;
-  margin-top: 1.2rem;
-
-  & .courseName {
-    background: #cef2e2;
-    color: $color-main;
-    padding: 0.3rem 0.6rem;
-    border-radius: 0.3rem;
-  }
-
-  & .info,
-  .field {
-    display: flex;
-    gap: 0.4rem;
-  }
 
   & .emphasize {
     color: $color-main;
   }
 }
 
+.info-top,
+.info-bottom,
+.field {
+  display: flex;
+  align-items: center;
+}
+
+.info-top {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  & .course-name {
+    background: #cef2e2;
+    color: $color-main;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+  }
+}
+
+.info-bottom,
+.field {
+  gap: 0.4rem;
+}
+
+.field {
+  //   &.path-difficulty {
+  //     & .high {
+  //       color: #f61deb;
+  //     }
+  //     & .middle {
+  //       color: #eb8900;
+  //     }
+  //     & .low {
+  //       color: #00a1eb;
+  //     }
+  // }
+
+  &.gathering-place {
+    & .label {
+      display: flex;
+      gap: 0.1rem;
+      align-items: center;
+
+      & svg {
+        color: $color-main;
+        font-size: 1.3rem;
+      }
+    }
+  }
+}
+
 .img {
   width: 30%;
   object-fit: cover;
+  aspect-ratio: 1/1;
 }
 
 .path {
