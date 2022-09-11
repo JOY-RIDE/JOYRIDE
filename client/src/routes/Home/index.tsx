@@ -13,7 +13,7 @@ import { getMeetupsOrderedBy } from 'utils/order';
 
 const cn = classNames.bind(styles);
 
-const MAX_NUM_OF_ITEMS = 3;
+const MAX_NUM_OF_ITEMS = 5;
 
 const Home = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -22,7 +22,7 @@ const Home = () => {
     () => meetupAPI.getMeetupList(),
     {
       select: meetups =>
-        // TODO: 삭제
+        // TODO: 정렬 삭제
         getMeetupsOrderedBy(
           '-createdAt',
           meetups.filter(meetup => dayjs().isBefore(dayjs(meetup.dueDate)))
