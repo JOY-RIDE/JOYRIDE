@@ -27,7 +27,9 @@ const MapOverview = ({ lat, lng }: mapProps) => {
       level: 6,
     };
     const map = new window.kakao.maps.Map(container, options);
+    map.relayout();
     map.setCenter(new window.kakao.maps.LatLng(lat, lng));
+    console.log(lat, lng);
   }, []);
 
   return (

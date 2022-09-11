@@ -43,6 +43,7 @@ const Roads = () => {
 
   let tmp = [...serverRoads];
   tmp.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+  console.log(tmp);
 
   const { filters: boardFilters } = useClientFilter(
     courseBoardFiltersState,
@@ -62,7 +63,6 @@ const Roads = () => {
     Number(useSearchParams()[0].get('page')) || 1
   );
   const offset = (page - 1) * LIMIT;
-  console.log(window.location.search);
 
   return (
     <section className={styles.roads}>
@@ -97,7 +97,6 @@ const Roads = () => {
                 <CourseItem course={road} />
               ))}
           </div>
-          {/* TODO url 페이지 파라미터 받아와서 처리 */}
           <Paging
             total={tmp.length}
             limit={LIMIT}

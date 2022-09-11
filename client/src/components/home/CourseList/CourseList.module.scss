@@ -1,0 +1,6 @@
+@use '../../../styles/variables.scss' as *;
+
+.courses {
+  display: flex;
+  flex-direction: column;
+}
