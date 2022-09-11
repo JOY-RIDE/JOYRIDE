@@ -18,12 +18,11 @@ import { useQuery } from '@tanstack/react-query';
 import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
 import { MeetupData } from 'types/meetup';
-import Paging from 'components/common/Paging';
-import { useSearchParams } from 'react-router-dom';
+import Pagination from 'components/meetups/Pagination';
 
 const cn = classNames.bind(styles);
 
-const PAGE_LIMIT = 6;
+const ITEMS_LIMIT = 6;
 
 // TODO: 렌더링 확인
 const Meetups = () => {
@@ -32,7 +31,7 @@ const Meetups = () => {
   // const [page, setPage] = useState(
   //   Number(useSearchParams()[0].get('page')) || 1
   // );
-  const offset = PAGE_LIMIT * (page - 1);
+  const itemsOffset = ITEMS_LIMIT * (page - 1);
   // TODO: useState로
   const order = useRecoilValue(meetupOrderState);
 
@@ -42,6 +41,7 @@ const Meetups = () => {
     ['meetups', filters],
     () => meetupAPI.getMeetupList(filters),
     {
+      // TODO: order 디폴트 null?
       select: meetups => getMeetupsOrderedBy(order.name, meetups),
       staleTime: 5 * 60 * 1000,
       cacheTime: Infinity,
@@ -51,6 +51,7 @@ const Meetups = () => {
 
   const resetOrder = useResetRecoilState(meetupOrderState);
   const resetFilters = useResetRecoilState(meetupFiltersState);
+  useEffect(() => setPage(1), [filters, order.name]);
   useEffect(() => resetOrder, []);
   useEffect(() => resetFilters, []);
 
@@ -80,22 +81,22 @@ const Meetups = () => {
 
       <div className={cn('meetups-wrapper')}>
         {meetups ? (
-          // TODO: order 디폴트 null?
-          <MeetupList meetups={meetups} />
+          <MeetupList
+            meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
+          />
         ) : (
-          // <MeetupList meetups={meetups.slice(offset, offset + PAGE_LIMIT)} />
+          // <MeetupList meetups={meetups} />
           <Loading />
         )}
       </div>
 
-      {/* {meetups && (
-        <Paging
-          total={meetups.length}
-          limit={PAGE_LIMIT}
-          page={page}
-          setPage={setPage}
+      {meetups && (
+        <Pagination
+          currentPage={page}
+          setCurrentPage={setPage}
+          lastPage={Math.ceil(meetups.length / ITEMS_LIMIT)}
         />
-      )} */}
+      )}
     </div>
   );
 };

@@ -16,7 +16,8 @@
       color: $color-grey-400;
     }
   }
-  a {
+  a,
+  span {
     display: inline-block;
     width: 3rem;
     height: 3rem;
@@ -37,3 +38,12 @@
 /* ul.pagination li:last-child {
   border: none;
 } */
+
+.pages {
+  display: flex;
+  gap: 0.5rem;
+
+  & span {
+    cursor: pointer;
+  }
+}
