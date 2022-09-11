@@ -34,11 +34,11 @@
   flex-direction: column;
   gap: 0.7rem;
   font-size: 1.4rem;
+}
 
-  & .field {
-    display: flex;
-    gap: 1.2rem;
-  }
+.field {
+  display: flex;
+  gap: 1.2rem;
 
   & .label {
     color: $color-grey-600;
@@ -48,6 +48,11 @@
   & .data {
     font-weight: 700;
     & span {
+      color: $color-grey-600;
+      font-weight: 500;
+    }
+
+    &.null {
       color: $color-grey-600;
       font-weight: 500;
     }

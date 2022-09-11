@@ -13,11 +13,12 @@ const Profile = () => {
   const {
     nickname,
     image,
+    manner,
     gender,
     birthYear,
     bicycleType,
     ridingSkill,
-    manner,
+    introduce,
   } = useRecoilValue(userProfileState) as UserProfile;
   return (
     <div className={cn('container')}>
@@ -55,6 +56,10 @@ const Profile = () => {
             <span className={cn('data')}>
               {stringifyRidingSkill(ridingSkill)}
             </span>
+          </div>
+          <div className={cn('field')}>
+            <label className={cn('label')}>상태 메세지</label>
+            <span className={cn('data', 'null')}>{introduce || '없음'}</span>
           </div>
         </div>
       </div>

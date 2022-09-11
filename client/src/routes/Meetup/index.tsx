@@ -164,6 +164,14 @@ const Meetup = () => {
               {dayjs(meetup?.meetingDate).format(DATE_FORMAT)}
             </span>
           </div>
+
+          <div className={cn('field')}>
+            <label className={cn('label')}>인원</label>
+            <div className={cn('data')}>
+              <span className={cn('emphasized')}>{meetup?.joinPeople}</span>/
+              {meetup?.maxPeople}명
+            </div>
+          </div>
         </div>
 
         <div className={cn('fields')}>
@@ -189,14 +197,6 @@ const Meetup = () => {
         </div>
 
         <div className={cn('fields')}>
-          <div className={cn('field')}>
-            <label className={cn('label')}>인원</label>
-            <div className={cn('data')}>
-              <span className={cn('emphasized')}>{meetup?.joinPeople}</span>/
-              {meetup?.maxPeople}명
-            </div>
-          </div>
-
           <div className={cn('field')}>
             <label className={cn('label')}>성별</label>
             <span className={cn('data', 'emphasized')}>
