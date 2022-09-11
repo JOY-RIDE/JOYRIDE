@@ -98,7 +98,7 @@ const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
           onXClick={handleRemove}
         />
       )}
-      {Boolean(
+      {!!(
         filters.minNumOfParticipants.value || filters.maxNumOfParticipants.value
       ) && (
         <FilterOptionChip

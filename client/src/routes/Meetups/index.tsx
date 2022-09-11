@@ -37,7 +37,7 @@ const Meetups = () => {
 
   const filters = useRecoilValue(meetupFiltersState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetups } = useQuery<MeetupData[]>(
+  const { data: meetups, isLoading } = useQuery<MeetupData[]>(
     ['meetups', filters],
     () => meetupAPI.getMeetupList(filters),
     {
@@ -80,17 +80,19 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        {meetups ? (
+        {isLoading ? (
+          <Loading />
+        ) : meetups?.length ? (
           <MeetupList
             meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          // <MeetupList meetups={meetups} />
-          <Loading />
+          <p>결과 없음</p>
         )}
       </div>
 
-      {meetups && (
+      {/* TODO: refactor */}
+      {!!meetups?.length && (
         <Pagination
           currentPage={page}
           setCurrentPage={setPage}

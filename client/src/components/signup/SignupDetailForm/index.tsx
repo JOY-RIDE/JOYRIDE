@@ -116,7 +116,7 @@ const SignupDetailForm = () => {
               <AuthFormInput
                 placeholder="닉네임"
                 helpText={!isSubmitted && '닉네임 조건'}
-                hasError={Boolean(errors.nickname)}
+                hasError={!!errors.nickname}
                 {...field}
               />
             )}
@@ -176,7 +176,7 @@ const SignupDetailForm = () => {
                 type="number"
                 placeholder="출생년도"
                 helpText={!isSubmitted && '출생년도 네자리'}
-                hasError={Boolean(errors.birthYear)}
+                hasError={!!errors.birthYear}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const input = e.target.value;
                   if (Number(input) < 0) {
@@ -270,7 +270,7 @@ const SignupDetailForm = () => {
               <AuthFormInput
                 placeholder="상태 메세지"
                 helpText={!isSubmitted && '상태 메세지 조건'}
-                hasError={Boolean(errors.introduce)}
+                hasError={!!errors.introduce}
                 {...field}
               />
             )}

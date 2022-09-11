@@ -7,7 +7,7 @@ const Modal = () => {
   const close = useResetRecoilState(modalContentState);
   return (
     <Dialog
-      open={Boolean(content)}
+      open={!!content}
       BackdropProps={{ style: { background: 'rgba(0,0,0,0.2)' } }}
       PaperProps={{
         style: {
