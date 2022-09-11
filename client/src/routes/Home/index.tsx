@@ -4,10 +4,14 @@ import classNames from 'classnames/bind';
 import { AiOutlineRight } from 'react-icons/ai';
 import { useSetRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
+import { ServerIRoads } from 'types/course';
+import { fetchCoursesFromServer } from 'apis/coursesAPI';
 import { MeetupData } from 'types/meetup';
 import { meetupAPI } from 'apis/meetupAPI';
 import { toastMessageState } from 'states/common';
 import dayjs from 'dayjs';
+import _ from 'lodash';
+import CourseList from 'components/home/CourseList';
 import MeetupList from 'components/home/MeetupList';
 import { getMeetupsOrderedBy } from 'utils/order';
 
@@ -17,6 +21,13 @@ const MAX_NUM_OF_ITEMS = 5;
 
 const Home = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
+  const { data: courses } = useQuery<ServerIRoads[]>(
+    ['serverCourses'],
+    fetchCoursesFromServer
+  );
+  const mainCourses = _.sortBy(courses, 'likeCount').reverse().slice(0, 3);
+  console.log(mainCourses);
+
   const { data: meetups } = useQuery<MeetupData[]>(
     ['meetups'],
     () => meetupAPI.getMeetupList(),
@@ -42,6 +53,7 @@ const Home = () => {
             더보기 <AiOutlineRight />
           </Link>
         </div>
+        {mainCourses && <CourseList courses={mainCourses} />}
       </section>
 
       <section className={cn('content')}>
