@@ -35,7 +35,7 @@ public class CourseProvider {
                 String courseTitle = courseList.get(i).getCrsKorNm();
                 int likeCount = retrieveCourseLikeCount(courseTitle);
                 courseList.get(i).setLikeCount(likeCount);
-
+                courseList.get(i).setImage(imageList.get(i));
                 // 코스 평점
                 List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseTitle);
 
