@@ -1,4 +1,4 @@
-import styles from '../../common/Paging/Paging.module.scss';
+import styles from './Pagination.module.scss';
 import classNames from 'classnames/bind';
 import { SetterOrUpdater } from 'recoil';
 
