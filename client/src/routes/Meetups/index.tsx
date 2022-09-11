@@ -28,29 +28,31 @@ const PAGE_LIMIT = 6;
 // TODO: 렌더링 확인
 const Meetups = () => {
   const userId = useRecoilValue(userIdState);
+  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(
+  //   Number(useSearchParams()[0].get('page')) || 1
+  // );
+  const offset = PAGE_LIMIT * (page - 1);
   // TODO: useState로
   const order = useRecoilValue(meetupOrderState);
-  const filters = useRecoilValue(meetupFiltersState);
-  const [page, setPage] = useState(
-    Number(useSearchParams()[0].get('page')) || 1
-  );
-  const offset = PAGE_LIMIT * (page - 1);
 
+  const filters = useRecoilValue(meetupFiltersState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
-    meetupAPI.getMeetupList,
+    ['meetups', filters],
+    () => meetupAPI.getMeetupList(filters),
     {
+      select: meetups => getMeetupsOrderedBy(order.name, meetups),
       staleTime: 5 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
 
-  const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
-  useEffect(() => resetFilters, []);
+  const resetFilters = useResetRecoilState(meetupFiltersState);
   useEffect(() => resetOrder, []);
+  useEffect(() => resetFilters, []);
 
   return (
     <div>
@@ -79,25 +81,21 @@ const Meetups = () => {
       <div className={cn('meetups-wrapper')}>
         {meetups ? (
           // TODO: order 디폴트 null?
-          <MeetupList
-            meetups={getMeetupsOrderedBy(
-              order.name,
-              meetups as MeetupData[]
-            ).slice(offset, offset + PAGE_LIMIT)}
-          />
+          <MeetupList meetups={meetups} />
         ) : (
+          // <MeetupList meetups={meetups.slice(offset, offset + PAGE_LIMIT)} />
           <Loading />
         )}
       </div>
 
-      {meetups && (
+      {/* {meetups && (
         <Paging
-          total={(meetups as MeetupData[]).length}
+          total={meetups.length}
           limit={PAGE_LIMIT}
           page={page}
           setPage={setPage}
         />
-      )}
+      )} */}
     </div>
   );
 };

@@ -20,7 +20,6 @@ const MeetupFilterBoard = ({ close }: MeetupFilterBoardProp) => {
     meetupBoardFiltersState,
     MEETUP_FILTERS_REDUCERS
   );
-  console.log(boardFilters);
 
   const showToastMessage = useSetRecoilState(toastMessageState);
   const setFilters = useSetRecoilState(meetupFiltersState);
