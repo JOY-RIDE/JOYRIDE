@@ -79,6 +79,18 @@
 }
 
 .field {
+  //   &.path-difficulty {
+  //     & .high {
+  //       color: #f61deb;
+  //     }
+  //     & .middle {
+  //       color: #eb8900;
+  //     }
+  //     & .low {
+  //       color: #00a1eb;
+  //     }
+  // }
+
   &.gathering-place {
     & .label {
       display: flex;

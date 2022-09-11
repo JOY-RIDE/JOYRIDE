@@ -37,11 +37,17 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                 {meetup.courseName && (
                   <span className={cn('course-name')}>{meetup.courseName}</span>
                 )}
-                <div className={cn('field')}>
+                <div className={cn('field', 'path-difficulty')}>
                   <label className={cn('label')}>
                     <span>난이도</span>
                   </label>
-                  <span className={cn('emphasize')}>
+                  <span
+                    className={cn('emphasize', {
+                      // high: meetup.pathDifficulty === 3,
+                      // middle: meetup.pathDifficulty === 2,
+                      // low: meetup.pathDifficulty === 1,
+                    })}
+                  >
                     {stringifyMeetupPathDifficulty(meetup.pathDifficulty)}
                   </span>
                 </div>
