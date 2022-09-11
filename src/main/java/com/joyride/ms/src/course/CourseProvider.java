@@ -28,6 +28,7 @@ public class CourseProvider {
 
             JSONArray courseArr = callApi.callCourseAPI();
             List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+            List<String> imageList = courseDao.selectCourseImage();
 
             // 좋아요 수 넣어주기와 코스 평점 넣어주기
             for (int i = 0; i < courseList.size(); i++) {
@@ -35,6 +36,7 @@ public class CourseProvider {
                 int likeCount = retrieveCourseLikeCount(courseTitle);
                 courseList.get(i).setLikeCount(likeCount);
 
+                // 코스 평점
                 List<GetCourseReviewRes> getCourseReviewRes = courseDao.selectCourseReviewByCourseId(courseTitle);
 
                 double totalSum = 0;

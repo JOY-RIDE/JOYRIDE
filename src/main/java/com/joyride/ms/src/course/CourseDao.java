@@ -50,6 +50,13 @@ public class CourseDao {
                 ));
     }
 
+    // 코스 이미지 조회
+    public List<String> selectCourseImage(){
+        String selectCourseImageQuery = "select course_img_url from course";
+        return this.jdbcTemplate.query(selectCourseImageQuery,
+                (rs,rowNum) -> (rs.getString("course_img_url")
+                ));
+    }
     // 해당 유저 아이디로 된 좋아요가 있는지 확인
     public int selectStatusByUserId(int user_id) {
         String selectCourseLikeStatusQuery = "select status from courselike where user_id = ?";
