@@ -18,8 +18,6 @@ public class CourseController {
     /**
      * 코스 api
      */
-
-    //일단은 이 URI를 거쳐서만 들어간다고 생각하고 코드 작성
     @GetMapping("")
     public BaseResponse<List<GetCourseListRes>> getCourseList(){
         try{
@@ -54,7 +52,6 @@ public class CourseController {
     }
 
     // 코스 필터링 api
-    // Post로 할지 아니면 Pathvariable로 받을지
     @PostMapping("/filter")
     public BaseResponse<List<GetCourseListRes>> GetFilteringCourse(@RequestBody GetFilteringCourseReq getFilteringCourseReq){
         try{
@@ -77,6 +74,7 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
     // 리뷰 전체 조회 api
     @GetMapping("/review/{title}")
     public BaseResponse<List<GetCourseReviewRes>> GetCourseReview(@PathVariable("title") String title){
@@ -115,15 +113,10 @@ public class CourseController {
         }
     }
 
-
-
     /**
      * 좋아요 api
      */
     // 리뷰 종아요 api
-    // 요청: 좋아요할 코스의 아이디와 좋아요하는 유저 아이디 필요
-    // @PathVariable로 하는게 맞을까? RequestBody로 하는게 맞을까?
-    // 응답:
     @PostMapping("/like")
     public BaseResponse<PostCourseLikeRes> PostCourseLike(@RequestBody PostCourseLikeReq postCourseLikeReq) {
         try{

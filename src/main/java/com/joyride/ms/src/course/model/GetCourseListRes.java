@@ -34,11 +34,7 @@ public class GetCourseListRes {
     //tour_point 둘 중 뭐지?
     private String crsTourInfo;
 
-    //    @Lob
     private String travelerinfo;
-
-    //total_rate
-    //private double total_rate;
 
     //거리 distance
     private double crsDstnc;
@@ -52,11 +48,6 @@ public class GetCourseListRes {
     //소요시간
     private double required_at;
 
-    //LocalDateTime?
-//    private String created_at;
-//
-//    private String updated_at;
-
     private int likeCount;
 
     private double totalRate;
@@ -69,20 +60,15 @@ public class GetCourseListRes {
         getCourseListRes.setId(id);
         getCourseListRes.setCrsKorNm(crsKorNm);
 //        getCourseListRes.setImage(image);
-        //courseInfo.setTotal_rate(total_rate);
         getCourseListRes.setCrsContents(crsContents);
         getCourseListRes.setCrsSummary(crsSummary);
         getCourseListRes.setCrsTourInfo(crsTourInfo);
         getCourseListRes.setTravelerinfo(travelerinfo);
 //        getCourseListRes.setTotal_rate(total_rate);
         getCourseListRes.setCrsDstnc(crsDstnc);
-//        getCourseListRes.setCrsTotlRqrmHour(crsTotlRqrmHour);
         getCourseListRes.setCrsLevel(crsLevel);
         getCourseListRes.setSigun(sigun);
         getCourseListRes.setRequired_at(required_at);
-//        getCourseListRes.setCreated_at(created_at);
-//        getCourseListRes.setUpdated_at(updated_at);
-
 
         return getCourseListRes;
     }

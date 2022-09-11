@@ -9,9 +9,7 @@ import lombok.*;
 public class CourseReview {
 
     private int id;
-
     private int user_id;
-
     private int course_id;
 
     private double  total_rate;

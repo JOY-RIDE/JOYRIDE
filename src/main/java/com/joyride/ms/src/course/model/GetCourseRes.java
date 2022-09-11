@@ -31,11 +31,7 @@ public class GetCourseRes {
     //tour_point 둘 중 뭐지?
     private String crsTourInfo;
 
-    //    @Lob
     private String travelerinfo;
-
-    //total_rate
-    //private double total_rate;
 
     //거리 distance
     private double crsDstnc;
@@ -54,11 +50,6 @@ public class GetCourseRes {
 
     private String updated_at;
 
-    // 이 클래스를 확장해서 디테일에서 보여줄 부분들 추가
-
-    // 좋아요 누른 유저들
-//    private List<Integer> userIdList;
-
     private int isLike;
 
     private String latitude;
@@ -66,7 +57,6 @@ public class GetCourseRes {
     private String longitude;
 
     // 리뷰
-
     private List<GetCourseReviewRes> getCourseReviewRes;
 
     private double totalAvg;
@@ -86,19 +76,15 @@ public class GetCourseRes {
         getCourseRes.setId(id);
         getCourseRes.setCrsKorNm(crsKorNm);
 //        getCourseRes.setImage(image);
-        //courseInfo.setTotal_rate(total_rate);
         getCourseRes.setCrsContents(crsContents);
         getCourseRes.setCrsSummary(crsSummary);
         getCourseRes.setCrsTourInfo(crsTourInfo);
         getCourseRes.setTravelerinfo(travelerinfo);
 //        getCourseRes.setTotal_rate(total_rate);
         getCourseRes.setCrsDstnc(crsDstnc);
-//        getCourseRes.setCrsTotlRqrmHour(crsTotlRqrmHour);
         getCourseRes.setCrsLevel(crsLevel);
         getCourseRes.setSigun(sigun);
         getCourseRes.setRequired_at(required_at);
-//        getCourseRes.setCreated_at(created_at);
-//        getCourseRes.setUpdated_at(updated_at);
 
 
         return getCourseRes;
