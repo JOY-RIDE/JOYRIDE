@@ -2,6 +2,7 @@ package com.joyride.ms.src.meet;
 
 import com.joyride.ms.src.meet.dto.MeetCreateReq;
 import com.joyride.ms.src.meet.dto.MeetDetailRes;
+import com.joyride.ms.src.meet.dto.MeetFilterReq;
 import com.joyride.ms.src.meet.dto.MeetListRes;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.src.user.model.UserDetail;
@@ -111,43 +112,6 @@ public class MeetDao {
         return 0;
     }
 
-    public List<MeetListRes> selectMeet() {
-        String selectMeetQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
-                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
-                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id\n" +
-                "group by m.id";
-        String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
-        return this.jdbcTemplate.query(selectMeetQuery,
-                (rs, rowNum) ->
-                        new MeetListRes(
-                                rs.getInt("id"),
-                                rs.getInt("user_id"),
-                                rs.getString("course_name"),
-                                rs.getString("title"),
-                                rs.getString("local"),
-                                rs.getInt("riding_skill"),
-                                rs.getInt("path_difficulty"),
-                                rs.getString("meeting_img_url"),
-                                rs.getString("gender"),
-                                rs.getInt("join_people"),
-                                rs.getInt("max_people"),
-                                Arrays.asList(rs.getString("path").split(",")),
-                                rs.getInt("participation_fee"),
-                                rs.getString("content"),
-                                rs.getInt("min_year"),
-                                rs.getInt("max_year"),
-                                rs.getString("gathering_place"),
-                                rs.getInt("status"),
-                                rs.getString("meeting_date"),
-                                rs.getString("due_date"),
-                                rs.getString("created_at"),
-                                this.jdbcTemplate.query(selectBicycleTypeQuery,
-                                        (rs2,rowNum2) ->
-                                                rs2.getString("bicycle_type")
-                                        ,rs.getInt("id"))
-                                ));
-    }
-
     public MeetDetailRes selectMeetById(Integer meetId) {
         String selectMeetByIdQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
@@ -205,6 +169,46 @@ public class MeetDao {
                         meetId);
     }
 
+    public List<MeetListRes> selectMeetByFilter(MeetFilterReq meetFilterReq) {
+        StringBuffer selectMeetFilterQuery = new StringBuffer();
+        selectMeetFilterQuery.append("select DISTINCT m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
+                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id Join meet_bicycletype as b ON m.id = b.meet_id where 1=1 group by b.id");
+
+        selectMeetFilterQuery = meetFilter(selectMeetFilterQuery,meetFilterReq);
+        String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
+
+        return this.jdbcTemplate.query(selectMeetFilterQuery.toString(),
+                (rs, rowNum) ->
+                        new MeetListRes(
+                                rs.getInt("id"),
+                                rs.getInt("user_id"),
+                                rs.getString("course_name"),
+                                rs.getString("title"),
+                                rs.getString("local"),
+                                rs.getInt("riding_skill"),
+                                rs.getInt("path_difficulty"),
+                                rs.getString("meeting_img_url"),
+                                rs.getString("gender"),
+                                rs.getInt("join_people"),
+                                rs.getInt("max_people"),
+                                Arrays.asList(rs.getString("path").split(",")),
+                                rs.getInt("participation_fee"),
+                                rs.getString("content"),
+                                rs.getInt("min_year"),
+                                rs.getInt("max_year"),
+                                rs.getString("gathering_place"),
+                                rs.getInt("status"),
+                                rs.getString("meeting_date"),
+                                rs.getString("due_date"),
+                                rs.getString("created_at"),
+                                this.jdbcTemplate.query(selectBicycleTypeQuery,
+                                        (rs2,rowNum2) ->
+                                                rs2.getString("bicycle_type")
+                                        ,rs.getInt("id"))
+                        ));
+    }
+
     public void deleteMeetJoin(Integer userId, Integer meetId) {
         String deleteMeetJoinQuery = "delete from meet_join where user_id = ? and meet_id = ?";
         Object[] deleteMeetJoinParam = new Object[]{userId, meetId};
@@ -215,5 +219,58 @@ public class MeetDao {
         String deleteMeetQuery = "update meet set status = 0 where id = ?";
         Integer deleteMeetParam = meetId;
         this.jdbcTemplate.update(deleteMeetQuery, deleteMeetParam);
+    }
+
+    public StringBuffer meetFilter(StringBuffer selectMeetFilterQuery,MeetFilterReq meetFilterReq) {
+        if (meetFilterReq.getAge() != null) {
+            switch (meetFilterReq.getAge()) {
+                case 1:
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 18 YEAR), '%Y') ");
+                    break;
+                case 2:
+                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 19 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 28 YEAR), '%Y') ");
+                    break;
+                case 3:
+                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 29 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 38 YEAR), '%Y') ");
+                    break;
+                case 4:
+                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 39 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 48 YEAR), '%Y') ");
+                    break;
+                case 5:
+                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 49 YEAR), '%Y') ");
+                    break;
+            }
+        }
+        if(meetFilterReq.getBicycleTypes() != null) {
+            selectMeetFilterQuery.insert(381,"AND b.bicycle_type = '"+ meetFilterReq.getBicycleTypes()+"' ");
+        }
+        if(meetFilterReq.getGender() != null) {
+            selectMeetFilterQuery.insert(381, "AND gender = '"+ meetFilterReq.getGender()+"' ");
+        }
+        if(meetFilterReq.getLocation() != null) {
+            selectMeetFilterQuery.insert(381, "AND local = '"+ meetFilterReq.getLocation()+"' ");
+        }
+        if(meetFilterReq.getMaxNumOfParticipants() != null) {
+            selectMeetFilterQuery.insert(381, "AND max_people <= "+ meetFilterReq.getMaxNumOfParticipants()+" ");
+        }
+        if(meetFilterReq.getMinNumOfParticipants() != null) {
+            selectMeetFilterQuery.insert(381, "AND max_people >= "+ meetFilterReq.getMinNumOfParticipants()+" ");
+        }
+        if(meetFilterReq.getParticipationFee() != null) {
+            if(meetFilterReq.getParticipationFee() == 0){
+                selectMeetFilterQuery.insert(381,"AND participation_fee = 0 ");
+
+            }
+            else{
+                selectMeetFilterQuery.insert(381,"AND participation_fee != 0 ");
+            }
+        }
+        if(meetFilterReq.getPathDifficulty() != null) {
+            selectMeetFilterQuery.insert(381, "AND path_difficulty = " + meetFilterReq.getPathDifficulty() +" ");
+        }
+        if(meetFilterReq.getRidingSkill() != null) {
+            selectMeetFilterQuery.insert(381, "AND riding_skill = " + meetFilterReq.getRidingSkill() +" ");
+        }
+        return selectMeetFilterQuery;
     }
 }
