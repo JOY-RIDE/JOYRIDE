@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { userIdState } from 'states/auth';
 import { authAPI } from 'apis/authAPI';
@@ -46,12 +46,23 @@ const theme = createTheme({
   },
 });
 
+interface locationProps {
+  state: {
+    lat: number;
+    lng: number;
+  };
+}
+
 const App = () => {
   const setUserId = useSetRecoilState(userIdState);
   const { silentRefresh } = authAPI;
   useEffect(() => {
     silentRefresh(setUserId);
   }, []);
+
+  const location = useLocation() as locationProps;
+  const lat = location.state?.lat;
+  const lng = location.state?.lng;
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,7 +74,10 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="roads" element={<Roads />} />
             <Route path="roads/:roadId" element={<Road />} />
-            <Route path="roads/:roadId/map" element={<MapDetail />} />
+            <Route
+              path="roads/:roadId/map"
+              element={<MapDetail lat={lat} lng={lng} />}
+            />
             <Route path="meetups" element={<Meetups />} />
             <Route path="meetups/:meetupId" element={<Meetup />} />
             <Route path="search" element={<Search />} />

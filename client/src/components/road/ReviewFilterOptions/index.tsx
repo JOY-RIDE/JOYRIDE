@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styles from './ReviewFilterOptions.module.scss';
 import classNames from 'classnames/bind';
 
@@ -10,9 +11,9 @@ interface CommonProps {
 }
 
 const ReviewFilterOptions = ({ content, rating, isChosen }: CommonProps) => {
+  const [currentFilter, setcurrentFilter] = useState('전체');
   const onClickFilter = () => {
-    isChosen = !isChosen;
-    console.log(isChosen);
+    setcurrentFilter(content);
   };
 
   return (

@@ -5,7 +5,7 @@ const cn = classNames.bind(styles);
 
 interface CrsInfoProps {
   label: string;
-  content: string | undefined;
+  content: string | number | undefined;
 }
 
 const CrsInfo = ({ label, content }: CrsInfoProps) => {

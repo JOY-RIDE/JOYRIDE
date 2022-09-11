@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { fetchCourseInfo, fetchCourseFromServer } from '../../apis/CrsAPI';
+import { fetchCourseInfo, fetchCourseFromServer } from '../../apis/coursesAPI';
 import styles from './Road.module.scss';
 import classNames from 'classnames/bind';
 import Loading from 'components/common/Loading';
@@ -30,11 +30,17 @@ interface RouteState {
 
 const Road = () => {
   const { roadId: crsNm } = useParams();
+  const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
 
   const { isLoading: isDurunubiLoading, data: durunubiData } = useQuery<IRoad>(
     ['info', crsNm],
     () => fetchCourseInfo(crsNm)
   );
+
+  const { isLoading: isServerLoading, data: serverData } =
+    useQuery<ServerIRoad>(['serverInfo', crsNm], () =>
+      fetchCourseFromServer(crsNm)
+    );
 
   //   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   //   const { isLoading: isServerLoading, data: serverData } =
@@ -80,25 +86,33 @@ const Road = () => {
                 <CrsInfo
                   label="난이도"
                   content={
-                    durunubiData?.crsLevel == '1'
+                    durunubiData?.crsLevel == 1
                       ? '하'
-                      : durunubiData?.crsLevel == '2'
+                      : durunubiData?.crsLevel == 2
                       ? '중'
                       : '상'
                   }
                 ></CrsInfo>
               </div>
               <div className={cn('info-bottom')}>
-                <CrsInfo label="좋아요" content="12"></CrsInfo>
+                <CrsInfo
+                  label="좋아요"
+                  content={serverData?.likeCount}
+                ></CrsInfo>
                 <span className={cn('disc')}>·</span>
-                <CrsInfo label="평점" content="4.5"></CrsInfo>
+                <CrsInfo label="평점" content={serverData?.totalAvg}></CrsInfo>
               </div>
             </div>
             <div className={cn('right')}>
-              <Like />
+              <Like count={serverData?.likeCount} />
             </div>
           </div>
-          <MapOverview />
+
+          <MapOverview
+            lat={Number(serverData?.latitude)}
+            lng={Number(serverData?.longitude)}
+          />
+
           <PageTitle size="sm">코스 소개</PageTitle>
           <div className={cn('desc')}>
             <CrsDesc
@@ -115,20 +129,47 @@ const Road = () => {
             ></CrsDesc>
           </div>
           <PageTitle size="sm">코스 사진</PageTitle>
+          <img
+            src={serverData?.image}
+            alt="코스사진"
+            width="342px"
+            height="auto"
+          />
           <div className={cn('review-title')}>
             <PageTitle size="sm">코스 후기</PageTitle>
             <span className={cn('cnt')}>12</span>
           </div>
-          <ReviewWriter />
+          {loggedInUser ? <ReviewWriter /> : null}
           <div className={cn('review-summary')}>
             <span>전체평점</span>
-            <span className={cn('rating-summary')}>4.5</span>
+            <span className={cn('rating-summary')}>{serverData?.totalAvg}</span>
             <span>/5</span>
           </div>
-          <ReviewFilter />
+          {serverData?.totalAvg === 0 ? null : (
+            <ReviewFilter
+              view={serverData?.sceneAvg}
+              facilities={serverData?.facilitiesAvg}
+              accessibility={serverData?.accessibilityAvg}
+              safety={serverData?.safetyAvg}
+            />
+          )}
           <div className={cn('review-container')}>
-            {[1, 2].map(idx => (
-              <ReviewItem key={idx} />
+            {serverData?.getCourseReviewRes.map(review => (
+              <ReviewItem
+                key={review.id}
+                nickName={review.nickName}
+                created_at={review.created_at}
+                total_rate={review.total_rate}
+                total_review={review.total_review}
+                scene_rate={review.scene_rate}
+                scene_review={review.scene_review}
+                facilities_rate={review.facilities_rate}
+                facilities_review={review.facilities_review}
+                accessibility_rate={review.accessibility_rate}
+                accessibility_review={review.accessibility_review}
+                safety_rate={review.safety_rate}
+                safety_review={review.safety_review}
+              />
             ))}
           </div>
           <PageTitle size="sm">관련 모임</PageTitle>

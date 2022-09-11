@@ -77,9 +77,7 @@ const CourseFilterBoardOptions = () => {
               type="default"
               filtersKey="pathDifficulty"
               value={difficulty}
-              content={
-                difficulty === '1' ? '하' : difficulty === '2' ? '중' : '상'
-              }
+              content={difficulty === 1 ? '하' : difficulty === 2 ? '중' : '상'}
               isActive={difficulty === boardFilters.pathDifficulty?.value}
               onTextClick={handleChoose}
               onXClick={handleRemove}

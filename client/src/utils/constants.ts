@@ -69,7 +69,7 @@ export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<MeetupPathDifficulty>[] = [
   { value: 3, content: stringifyMeetupPathDifficulty(3) },
 ];
 
-export const COURSE_DIFFICULTY: CourseDifficulty[] = ['1', '2', '3'];
+export const COURSE_DIFFICULTY: CourseDifficulty[] = [1, 2, 3];
 
 interface MeetupOrderOption extends MeetupOrderState {
   sign?: string;
@@ -91,10 +91,10 @@ interface CourseOrderOption extends CourseOrderState {
 }
 export const COURSE_ORDER_OPTIONS: CourseOrderOption[] = [
   { name: 'crsKorNm', content: '가나다순' },
-  { name: 'crsTotlRqrmHour', content: '짧은 시간순', sign: '△' },
-  { name: '-crsTotlRqrmHour', content: '긴 시간순', sign: '▽' },
+  { name: 'required_at', content: '짧은 시간순', sign: '△' },
+  { name: '-required_at', content: '긴 시간순', sign: '▽' },
   { name: 'crsDstnc', content: '짧은 거리순', sign: '△' },
   { name: '-crsDstnc', content: '긴 거리순', sign: '▽' },
   { name: 'likeCount', content: '좋아요순', sign: '▽' },
-  { name: 'rating', content: '평점순', sign: '▽' },
+  { name: 'totalRate', content: '평점순', sign: '▽' },
 ];
