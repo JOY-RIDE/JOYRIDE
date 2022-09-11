@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
 import { fetchCourses, fetchCoursesFromServer } from '../../apis/coursesAPI';
-import queryString from 'query-string';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
@@ -16,7 +16,6 @@ import Paging from 'components/common/Paging';
 import _ from 'lodash';
 import { COURSE_ORDER_OPTIONS } from 'utils/constants';
 import {
-  CoursePageState,
   courseFiltersState,
   courseOrderState,
   courseBoardFiltersState,
@@ -59,7 +58,9 @@ const Roads = () => {
   //   console.log(order.name);
 
   const LIMIT = 5;
-  const [page, setPage] = useRecoilState(CoursePageState);
+  const [page, setPage] = useState(
+    Number(useSearchParams()[0].get('page')) || 1
+  );
   const offset = (page - 1) * LIMIT;
   console.log(window.location.search);
 

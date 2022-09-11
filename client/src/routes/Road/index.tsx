@@ -41,7 +41,6 @@ const Road = () => {
     useQuery<ServerIRoad>(['serverInfo', crsNm], () =>
       fetchCourseFromServer(crsNm)
     );
-  console.log(serverData);
 
   //   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   //   const { isLoading: isServerLoading, data: serverData } =

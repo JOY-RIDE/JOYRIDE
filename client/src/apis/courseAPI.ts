@@ -3,7 +3,6 @@ import { ServerIRoad } from '../types/course';
 
 interface CourseAPI {
   createReview: (newReview: string) => Promise<void>;
-  getReviewList: (crsNm: string) => Promise<ServerIRoad[]>;
 }
 
 export const courseAPI: CourseAPI = {
@@ -19,17 +18,5 @@ export const courseAPI: CourseAPI = {
     if (code !== 1000) {
       throw new Error(code);
     }
-  },
-
-  async getReviewList(crsNm: string) {
-    const {
-      data: { code, result },
-    } = await axios.get(`/courses/review/${crsNm}`);
-
-    if (code !== 1000) {
-      throw new Error(code);
-    }
-
-    return result;
   },
 };
