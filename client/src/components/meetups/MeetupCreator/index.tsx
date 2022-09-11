@@ -19,7 +19,7 @@ const MeetupCreator = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
 
   const queryClient = useQueryClient();
-  const mutation = useMutation(meetupAPI.createMeetup, {
+  const { mutate } = useMutation(meetupAPI.createMeetup, {
     onSuccess: () => {
       showToastMessage('모임이 등록되었습니다.');
       handlePopupClose();
@@ -34,7 +34,7 @@ const MeetupCreator = () => {
     },
   });
 
-  const createMeetup = (newMeetup: FormData) => mutation.mutate(newMeetup);
+  const createMeetup = (newMeetup: FormData) => mutate(newMeetup);
 
   return (
     <>

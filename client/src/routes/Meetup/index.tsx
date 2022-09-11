@@ -22,6 +22,7 @@ import Loading from 'components/common/Loading';
 import { userIdState } from 'states/auth';
 import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
+import { MeetupDetail } from 'types/meetup';
 
 // const testPath = [
 //   '안합',
@@ -34,6 +35,47 @@ import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
 //   '성산북단',
 // ];
 
+function getJoinBarProps(meetup: MeetupDetail, userId: number | null) {
+  const DEFAULT_BAR_CONTENT =
+    dayjs(meetup.dueDate).format(DATE_FORMAT) + ' 모집 마감';
+  const DEFAULT_BUTTON_CONTENT = '참가하기';
+
+  if (dayjs().isAfter(dayjs(meetup.dueDate)))
+    return {
+      disabled: true,
+      barContent: '마감된 모임입니다',
+      buttonContent: DEFAULT_BUTTON_CONTENT,
+    };
+  if (meetup.status === 0)
+    return {
+      disabled: true,
+      barContent: '닫힌 모임입니다',
+      buttonContent: DEFAULT_BUTTON_CONTENT,
+    };
+
+  if (
+    meetup.participants.find(participant => participant.id === userId) ||
+    meetup.admin.id === userId
+  )
+    return {
+      disabled: true,
+      barContent: DEFAULT_BAR_CONTENT,
+      buttonContent: '참가중',
+    };
+  if (meetup.participants.length === meetup.maxPeople)
+    return {
+      disabled: true,
+      barContent: DEFAULT_BAR_CONTENT,
+      buttonContent: '인원 초과',
+    };
+
+  return {
+    disabled: false,
+    barContent: DEFAULT_BAR_CONTENT,
+    buttonContent: DEFAULT_BUTTON_CONTENT,
+  };
+}
+
 const cn = classNames.bind(styles);
 
 const DATE_FORMAT = 'M월 D일 a h:mm';
@@ -43,10 +85,12 @@ const Meetup = () => {
   const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetup } = useQuery(
+  const { data: meetup } = useQuery<MeetupDetail>(
     ['meetup', Number(meetupId)],
     () => meetupAPI.getMeetupDetail(Number(meetupId)),
     {
+      staleTime: 60 * 1000,
+      cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
@@ -200,7 +244,7 @@ const Meetup = () => {
 
       <section className={cn('participants-section')}>
         <h2 className={cn('subtitle')}>
-          참여 중인 인원
+          참가 멤버
           <div className={cn('subtitle__num')}>
             <span className={cn('current')}>{meetup.joinPeople}</span>/
             {meetup.maxPeople}
@@ -218,7 +262,7 @@ const Meetup = () => {
         </h2>
       </section>
 
-      <MeetupJoinBar dueDate={dayjs(meetup.dueDate).format(DATE_FORMAT)} />
+      <MeetupJoinBar {...getJoinBarProps(meetup, userId)} />
     </div>
   );
 };

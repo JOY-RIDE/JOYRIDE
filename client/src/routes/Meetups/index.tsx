@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import MeetupFilterChoices from 'components/meetups/MeetupFilterChoices';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { meetupFiltersState, meetupOrderState } from 'states/meetup';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import MeetupFilterBoard from 'components/meetups/MeetupFilterBoard';
 import ContentToggleButton from 'components/common/ContentToggleButton';
 import { MEETUP_ORDER_OPTIONS } from 'utils/constants';
@@ -18,22 +18,34 @@ import { useQuery } from '@tanstack/react-query';
 import Loading from 'components/common/Loading';
 import { toastMessageState } from 'states/common';
 import { MeetupData } from 'types/meetup';
+import Paging from 'components/common/Paging';
+import { useSearchParams } from 'react-router-dom';
 
 const cn = classNames.bind(styles);
 
-// TODO: pagination, 렌더링 확인
+const PAGE_LIMIT = 6;
+
+// TODO: 렌더링 확인
 const Meetups = () => {
   const userId = useRecoilValue(userIdState);
+  // TODO: useState로
   const order = useRecoilValue(meetupOrderState);
   const filters = useRecoilValue(meetupFiltersState);
+  const [page, setPage] = useState(
+    Number(useSearchParams()[0].get('page')) || 1
+  );
+  const offset = PAGE_LIMIT * (page - 1);
+
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const {
-    data: meetups,
-    isLoading,
-    status,
-  } = useQuery(['meetups'], meetupAPI.getMeetupList, {
-    onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
-  });
+  const { data: meetups } = useQuery<MeetupData[]>(
+    ['meetups'],
+    meetupAPI.getMeetupList,
+    {
+      staleTime: 5 * 60 * 1000,
+      cacheTime: Infinity,
+      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
+    }
+  );
 
   const resetFilters = useResetRecoilState(meetupFiltersState);
   const resetOrder = useResetRecoilState(meetupOrderState);
@@ -65,15 +77,27 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        {isLoading ? (
-          <Loading />
-        ) : (
+        {meetups ? (
           // TODO: order 디폴트 null?
           <MeetupList
-            meetups={getMeetupsOrderedBy(order.name, meetups as MeetupData[])}
+            meetups={getMeetupsOrderedBy(
+              order.name,
+              meetups as MeetupData[]
+            ).slice(offset, offset + PAGE_LIMIT)}
           />
+        ) : (
+          <Loading />
         )}
       </div>
+
+      {meetups && (
+        <Paging
+          total={(meetups as MeetupData[]).length}
+          limit={PAGE_LIMIT}
+          page={page}
+          setPage={setPage}
+        />
+      )}
     </div>
   );
 };

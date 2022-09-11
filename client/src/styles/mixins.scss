@@ -1,5 +1,10 @@
 @use './variables.scss' as *;
 
+@mixin disableButton {
+  background: $color-grey-300;
+  color: $color-grey-500;
+}
+
 /* Media queries */
 @mixin for-commonMobile-down {
   @media (max-width: 374px) {

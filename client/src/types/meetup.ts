@@ -56,6 +56,7 @@ export interface MeetupData extends Omit<NewMeetup, 'meetingImgUrl' | 'path'> {
   joinPeople: number;
 }
 export interface MeetupDetail extends MeetupData {
+  status: number;
   admin: MeetupParticipant;
   participants: MeetupParticipant[];
 }

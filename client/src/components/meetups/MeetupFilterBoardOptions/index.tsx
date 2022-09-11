@@ -44,10 +44,7 @@ const MeetupFilterBoardOptions = () => {
       value: min,
       content: `${min}`,
     });
-  }, [
-    boardFilters.minNumOfParticipants.value,
-    boardFilters.maxNumOfParticipants.value,
-  ]);
+  }, [boardFilters.minNumOfParticipants.value]);
 
   const toggleSpecificOption = useCallback(
     (payload: FiltersReducerPayload) => () => handleToggle(payload),
