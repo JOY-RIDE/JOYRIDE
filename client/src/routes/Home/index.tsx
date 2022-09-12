@@ -35,7 +35,10 @@ const Home = () => {
         // TODO: 정렬 삭제
         getMeetupsOrderedBy(
           '-createdAt',
-          meetups.filter(meetup => dayjs().isBefore(dayjs(meetup.dueDate)))
+          meetups.filter(
+            meetup =>
+              dayjs().isBefore(dayjs(meetup.dueDate)) && meetup.status !== 0
+          )
         ).slice(0, 3),
       staleTime: 10 * 60 * 1000,
       cacheTime: Infinity,

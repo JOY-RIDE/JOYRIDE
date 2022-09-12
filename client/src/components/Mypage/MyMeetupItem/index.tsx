@@ -15,13 +15,15 @@ import Confirm from 'components/common/Confirm';
 
 const cn = classNames.bind(styles);
 
-interface MyMeetupItemProp {
-  meetup: MeetupData;
-}
-
 const MyMeetupItem = ({
-  meetup: { id, title, gatheringPlace, meetingDate, courseName, path, status },
-}: MyMeetupItemProp) => {
+  id,
+  title,
+  gatheringPlace,
+  meetingDate,
+  courseName,
+  path,
+  status,
+}: MeetupData) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
   const { mutate } = useMutation(meetupAPI.closeMeetup, {
@@ -60,7 +62,7 @@ const MyMeetupItem = ({
 
       <button
         className={cn('close-btn', {
-          hidden: dayjs().isAfter(dayjs(meetingDate)) || !status,
+          hidden: dayjs().isAfter(dayjs(meetingDate)) || status === 0,
         })}
         onClick={handleCloseClick}
         disabled={!status}

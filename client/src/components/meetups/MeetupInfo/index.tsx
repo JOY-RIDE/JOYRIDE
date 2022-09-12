@@ -18,7 +18,9 @@ const MeetupInfo = (props: MeetupData) => (
             {dayjs(props.meetingDate).format('M월 D일')}
           </span>
           <span className={cn('due-date')}>
-            {dayjs(props.dueDate).diff(dayjs(), 'd')}일 뒤 모집 마감
+            {dayjs().isBefore(dayjs(props.dueDate)) && props.status !== 0
+              ? dayjs(props.dueDate).diff(dayjs(), 'd') + '일 뒤 모집 마감'
+              : '모집 종료'}
           </span>
         </div>
         <h2 className={cn('title')}>{props.title}</h2>

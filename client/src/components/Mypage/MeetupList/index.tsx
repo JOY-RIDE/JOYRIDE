@@ -10,7 +10,7 @@ interface MeetupListProps {
 const MeetupList = ({ meetups, ItemComponent }: MeetupListProps) => (
   <ul className={styles.wrapper}>
     {meetups &&
-      meetups.map(meetup => <ItemComponent key={meetup.id} meetup={meetup} />)}
+      meetups.map(meetup => <ItemComponent key={meetup.id} {...meetup} />)}
   </ul>
 );
 
