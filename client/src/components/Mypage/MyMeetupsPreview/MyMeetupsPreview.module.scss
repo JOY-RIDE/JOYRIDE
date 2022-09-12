@@ -11,3 +11,15 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.more {
+  color: $color-grey-500;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 1.4rem;
+
+  & svg {
+    font-size: 1.2rem;
+  }
+}

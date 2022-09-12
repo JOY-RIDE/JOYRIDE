@@ -7,6 +7,8 @@ import styles from '../MyMeetupsPreview/MyMeetupsPreview.module.scss';
 import MeetupList from '../MeetupList';
 import SectionTitle from '../SectionTitle';
 import classNames from 'classnames/bind';
+import { AiOutlineRight } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const cn = classNames.bind(styles);
 
@@ -26,6 +28,10 @@ const JoinedMeetupsPreview = () => {
     <section className={cn('wrapper')}>
       <header className={cn('header')}>
         <SectionTitle title="참가한 모임" count={meetups?.length} />
+        <Link to="meetups/join" className={cn('more')}>
+          <span>더보기</span>
+          <AiOutlineRight />
+        </Link>
       </header>
       {meetups && <MeetupList meetups={meetups.slice(0, 3)} />}
     </section>
