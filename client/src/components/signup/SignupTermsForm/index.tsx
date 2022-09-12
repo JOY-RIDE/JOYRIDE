@@ -2,7 +2,7 @@ import { FormEvent, useEffect } from 'react';
 import { useCheckBox } from 'hooks/useCheckBox';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
-import { useSignupStepControls } from 'routes/AuthPage/Signup';
+import { useSignupStepControls } from 'routes/Auth/Signup';
 import CheckBox from 'components/common/CheckBox';
 import TextArea from 'components/common/TextArea';
 import { privacyTerm, serviceTerm } from './terms';

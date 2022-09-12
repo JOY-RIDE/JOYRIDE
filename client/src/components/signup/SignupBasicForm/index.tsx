@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
 import { useSetRecoilState } from 'recoil';
-import { useSignupStepControls } from 'routes/AuthPage/Signup';
+import { useSignupStepControls } from 'routes/Auth/Signup';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';

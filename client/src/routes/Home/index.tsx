@@ -27,6 +27,7 @@ const Home = () => {
   console.log(mainCourses);
 
   const { data: meetups } = useQuery<MeetupData[]>(
+    // TODO
     ['meetups'],
     () => meetupAPI.getMeetupList(),
     {

@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useSignupStepControls } from 'routes/AuthPage/Signup';
+import { useSignupStepControls } from 'routes/Auth/Signup';
 import { authAPI } from 'apis/authAPI';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
