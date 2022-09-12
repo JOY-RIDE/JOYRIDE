@@ -89,7 +89,7 @@ const Meetups = () => {
             meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          <NoResults />
+          <NoResults content="검색 결과가 없습니다." />
         )}
       </div>
 

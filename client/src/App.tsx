@@ -26,6 +26,9 @@ import Signup from 'routes/AuthPage/Signup';
 import FindEmail from 'routes/AuthPage/FindEmail';
 import ResetPassword from 'routes/AuthPage/ResetPassword';
 import MyPage from 'routes/Mypage';
+import MyMeetups from 'routes/Mypage/MyMeetups';
+import JoinedMeetups from 'routes/Mypage/JoinedMeetups';
+import BookmarkedMeetups from 'routes/Mypage/BookmarkedMeetups';
 
 const Error = lazy(() => import('routes/Error'));
 
@@ -91,10 +94,13 @@ const App = () => {
             <Route element={<PrivateRoute />}>
               <Route path="mypage">
                 <Route index element={<MyPage />} />
-                <Route path="meetups/admin" element={<MyPage />} />
-                <Route path="meetups/join" element={<MyPage />} />
+                <Route path="meetups/admin" element={<MyMeetups />} />
+                <Route path="meetups/join" element={<JoinedMeetups />} />
                 <Route path="like/courses" element={<MyPage />} />
-                <Route path="bookmark/meetups" element={<MyPage />} />
+                <Route
+                  path="bookmark/meetups"
+                  element={<BookmarkedMeetups />}
+                />
               </Route>
             </Route>
 
