@@ -7,7 +7,8 @@ import MeetupList from 'components/Mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
 import { FiPlusCircle } from 'react-icons/fi';
-import Empty from 'components/common/Empty';
+import Empty from 'components/Mypage/Empty';
+import { useEffect } from 'react';
 
 const MyMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -19,6 +20,10 @@ const MyMeetups = () => {
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
+
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, []);
 
   return (
     <>

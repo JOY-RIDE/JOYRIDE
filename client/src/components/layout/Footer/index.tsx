@@ -16,7 +16,7 @@ const Footer = () => {
         <img className={cn('logo')} src={JOYRDIE_LOGO_GREEN_IMAGE} alt="로고" />
         <h3 className={cn('brand')}>JOYRIDE 조이라이드</h3>
         <div className={cn('links')}>
-          <a
+          {/* <a
             className={cn('link')}
             href="
         https://eight-profit-b8e.notion.site/JoyRide-387ba8a71ce34dadb1ea48c15ee79533"
@@ -24,15 +24,16 @@ const Footer = () => {
             rel="noreferrer"
           >
             About Us
-          </a>
-          <a
+          </a> */}
+          {/* <a
             className={cn('link')}
             href="https://github.com/JOY-RIDE/JOYRIDE"
             target="_blank"
             rel="noreferrer"
           >
             GitHub Repository
-          </a>
+          </a>  */}
+          <p>Copyright 2022. JOYRIDE All rights reserved.</p>
         </div>
       </Container>
     </footer>

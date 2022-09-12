@@ -1,4 +1,4 @@
-import styles from '../NoResults/NoResults.module.scss';
+import styles from './Empty.module.scss';
 import classNames from 'classnames/bind';
 import { ReactElement } from 'react';
 

@@ -6,8 +6,9 @@ import { meetupAPI } from 'apis/meetupAPI';
 import MeetupList from 'components/Mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
-import Empty from 'components/common/Empty';
+import Empty from 'components/Mypage/Empty';
 import { BiBookmarkPlus } from 'react-icons/bi';
+import { useEffect } from 'react';
 
 const BookmarkedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -19,6 +20,10 @@ const BookmarkedMeetups = () => {
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
+
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, []);
 
   return (
     <>
