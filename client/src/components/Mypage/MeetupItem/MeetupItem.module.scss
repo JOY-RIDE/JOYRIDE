@@ -1,0 +1,66 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  padding: 1.5rem 0;
+  font-size: 1.4rem;
+
+  & + .container {
+    border-top: $border-grey;
+  }
+}
+
+.title {
+  font-size: 1.6rem;
+  color: $color-grey-800;
+  margin-bottom: 1rem;
+}
+
+.meeting {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+
+  & .place {
+    display: flex;
+    gap: 0.1rem;
+    align-items: center;
+    color: $color-main;
+  }
+
+  & .date {
+    color: $color-grey-500;
+  }
+}
+
+.route {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.course-name {
+  background: #cef2e2;
+  color: $color-main;
+  font-weight: 700;
+  border-radius: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  flex-shrink: 0;
+}
+
+.path {
+  color: $color-grey-600;
+  display: flex;
+}
+
+.rest-path {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.to {
+  flex-shrink: 0;
+  white-space: pre;
+}
