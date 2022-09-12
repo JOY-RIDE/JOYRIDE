@@ -164,6 +164,14 @@ const Meetup = () => {
               {dayjs(meetup?.meetingDate).format(DATE_FORMAT)}
             </span>
           </div>
+
+          <div className={cn('field')}>
+            <label className={cn('label')}>인원</label>
+            <div className={cn('data')}>
+              <span className={cn('emphasized')}>{meetup?.joinPeople}</span>/
+              {meetup?.maxPeople}명
+            </div>
+          </div>
         </div>
 
         <div className={cn('fields')}>
@@ -176,7 +184,7 @@ const Meetup = () => {
             </span>
           </div>
 
-          <div className={cn('field')}>
+          <div className={cn('field', 'bicycle-types')}>
             <label className={cn('label')}>자전거 종류</label>
             <ul className={cn('data')}>
               {meetup?.bicycleTypes.map((type: BicycleType) => (
@@ -189,14 +197,6 @@ const Meetup = () => {
         </div>
 
         <div className={cn('fields')}>
-          <div className={cn('field')}>
-            <label className={cn('label')}>인원</label>
-            <div className={cn('data')}>
-              <span className={cn('emphasized')}>{meetup?.joinPeople}</span>/
-              {meetup?.maxPeople}명
-            </div>
-          </div>
-
           <div className={cn('field')}>
             <label className={cn('label')}>성별</label>
             <span className={cn('data', 'emphasized')}>
@@ -237,6 +237,7 @@ const Meetup = () => {
         <p className={cn('content')}>{meetup?.content}</p>
       </section>
 
+      <h2 className={cn('subtitle')}>라이딩 코스</h2>
       <section className={cn('route-section')}>
         <MeetupRoute
           courseName={meetup?.courseName as MeetupCourseName}

@@ -1,0 +1,60 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  align-items: center;
+}
+
+.img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+}
+
+.nickname-wrapper {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  & a {
+    color: $color-grey-600;
+  }
+}
+
+.nickname {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.details {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  font-size: 1.4rem;
+}
+
+.field {
+  display: flex;
+  gap: 1.2rem;
+
+  & .label {
+    color: $color-grey-600;
+    width: 6.5rem;
+  }
+
+  & .data {
+    font-weight: 700;
+    & span {
+      color: $color-grey-600;
+      font-weight: 500;
+    }
+
+    &.null {
+      color: $color-grey-600;
+      font-weight: 500;
+    }
+  }
+}

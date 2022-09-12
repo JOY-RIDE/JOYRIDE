@@ -22,11 +22,14 @@ import Search from 'routes/Search';
 import AuthPage from 'routes/AuthPage';
 import PublicOnlyRoute from 'components/common/PublicOnlyRoute';
 import Modal from 'components/common/Modal';
+import Signup from 'routes/AuthPage/Signup';
+import FindEmail from 'routes/AuthPage/FindEmail';
+import ResetPassword from 'routes/AuthPage/ResetPassword';
+import MyPage from 'routes/Mypage';
+import MyMeetups from 'routes/Mypage/MyMeetups';
+import JoinedMeetups from 'routes/Mypage/JoinedMeetups';
+import BookmarkedMeetups from 'routes/Mypage/BookmarkedMeetups';
 
-const Signup = lazy(() => import('routes/AuthPage/Signup'));
-const FindEmail = lazy(() => import('routes/AuthPage/FindEmail'));
-const ResetPassword = lazy(() => import('routes/AuthPage/ResetPassword'));
-const Mypage = lazy(() => import('routes/Mypage'));
 const Error = lazy(() => import('routes/Error'));
 
 declare module '@emotion/react' {
@@ -72,18 +75,33 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="roads" element={<Roads />} />
-            <Route path="roads/:roadId" element={<Road />} />
-            <Route
-              path="roads/:roadId/map"
-              element={<MapDetail lat={lat} lng={lng} />}
-            />
-            <Route path="meetups" element={<Meetups />} />
-            <Route path="meetups/:meetupId" element={<Meetup />} />
+
+            <Route path="roads">
+              <Route index element={<Roads />} />
+              <Route path=":roadId">
+                <Route index element={<Road />} />
+                <Route path="map" element={<MapDetail lat={lat} lng={lng} />} />
+              </Route>
+            </Route>
+
+            <Route path="meetups">
+              <Route index element={<Meetups />} />
+              <Route path=":meetupId" element={<Meetup />} />
+            </Route>
+
             <Route path="search" element={<Search />} />
 
             <Route element={<PrivateRoute />}>
-              <Route path="mypage" element={<Mypage />} />
+              <Route path="mypage">
+                <Route index element={<MyPage />} />
+                <Route path="meetups/admin" element={<MyMeetups />} />
+                <Route path="meetups/join" element={<JoinedMeetups />} />
+                <Route path="like/courses" element={<MyPage />} />
+                <Route
+                  path="bookmark/meetups"
+                  element={<BookmarkedMeetups />}
+                />
+              </Route>
             </Route>
 
             <Route element={<PublicOnlyRoute />}>
@@ -94,9 +112,9 @@ const App = () => {
                 <Route path="reset_password" element={<ResetPassword />} />
               </Route>
             </Route>
-          </Route>
 
-          <Route path="*" element={<Error />} />
+            <Route path="*" element={<Error />} />
+          </Route>
         </Routes>
         <Modal />
         <Toast />

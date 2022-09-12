@@ -44,6 +44,7 @@ const Meetups = () => {
     {
       // TODO: order 디폴트 null?
       select: meetups => getMeetupsOrderedBy(order.name, meetups),
+      keepPreviousData: true,
       staleTime: 5 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
@@ -57,7 +58,7 @@ const Meetups = () => {
   useEffect(() => resetFilters, []);
 
   return (
-    <div>
+    <div className={cn('container')}>
       <header className={cn('header')}>
         <PageTitle size="md">자전거 모임</PageTitle>
         {userId && <MeetupCreator />}
@@ -88,7 +89,7 @@ const Meetups = () => {
             meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          <NoResults />
+          <NoResults content="검색 결과가 없습니다." />
         )}
       </div>
 

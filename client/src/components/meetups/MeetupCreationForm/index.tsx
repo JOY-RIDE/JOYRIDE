@@ -349,6 +349,57 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           )}
         </div>
 
+        <div className={cn('field', 'maxNumOfParticipants')}>
+          <label className={cn('label')}>
+            <h4>인원</h4>
+          </label>
+          <div className={cn('option')}>
+            <div className={cn('regulator')}>
+              <PlusMinusButton
+                color="white"
+                size="md"
+                label="인원 감소 버튼"
+                action="decrease"
+                onDecrease={handleMaxNumOfParticipantsDecrease}
+              />
+              <Controller
+                control={control}
+                name="maxNumOfParticipants"
+                rules={{ min: 1, max: 99 }}
+                render={({ field: { onChange, ...others } }) => (
+                  <input
+                    type="number"
+                    className={cn('number')}
+                    onChange={e => {
+                      const input = Number(e.target.value);
+                      if (input <= 0) return onChange(0);
+                      e.target.value = '';
+                      return onChange(input > 99 ? 99 : input);
+                    }}
+                    {...others}
+                  />
+                )}
+              />
+              <PlusMinusButton
+                color="white"
+                size="md"
+                label="인원 증가 버튼"
+                action="increase"
+                onIncrease={handleMaxNumOfParticipantsIncrease}
+              />
+            </div>
+            <span>명</span>
+          </div>
+          {errors.maxNumOfParticipants && (
+            <ErrorMessage
+              message={getMeetupCreationFormFieldErrorMessage(
+                'maxNumOfParticipants',
+                errors.maxNumOfParticipants.type
+              )}
+            />
+          )}
+        </div>
+
         <div className={cn('field', 'path')}>
           <label className={cn('label')}>
             <h4>코스</h4>
@@ -498,57 +549,6 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
               message={getMeetupCreationFormFieldErrorMessage(
                 'bicycleTypes',
                 errors.bicycleTypes.type as string
-              )}
-            />
-          )}
-        </div>
-
-        <div className={cn('field', 'maxNumOfParticipants')}>
-          <label className={cn('label')}>
-            <h4>인원</h4>
-          </label>
-          <div className={cn('option')}>
-            <div className={cn('regulator')}>
-              <PlusMinusButton
-                color="white"
-                size="md"
-                label="인원 감소 버튼"
-                action="decrease"
-                onDecrease={handleMaxNumOfParticipantsDecrease}
-              />
-              <Controller
-                control={control}
-                name="maxNumOfParticipants"
-                rules={{ min: 1, max: 99 }}
-                render={({ field: { onChange, ...others } }) => (
-                  <input
-                    type="number"
-                    className={cn('number')}
-                    onChange={e => {
-                      const input = Number(e.target.value);
-                      if (input <= 0) return onChange(0);
-                      e.target.value = '';
-                      return onChange(input > 99 ? 99 : input);
-                    }}
-                    {...others}
-                  />
-                )}
-              />
-              <PlusMinusButton
-                color="white"
-                size="md"
-                label="인원 증가 버튼"
-                action="increase"
-                onIncrease={handleMaxNumOfParticipantsIncrease}
-              />
-            </div>
-            <span>명</span>
-          </div>
-          {errors.maxNumOfParticipants && (
-            <ErrorMessage
-              message={getMeetupCreationFormFieldErrorMessage(
-                'maxNumOfParticipants',
-                errors.maxNumOfParticipants.type
               )}
             />
           )}

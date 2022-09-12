@@ -9,6 +9,7 @@ import { MeetupData } from 'types/meetup';
 
 const cn = classNames.bind(styles);
 
+// TODO: rename
 const MeetupSummary = (props: MeetupData) => (
   <div className={cn('container')}>
     <div className={cn('text')}>

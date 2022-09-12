@@ -1,0 +1,12 @@
+@use '../../../styles/variables.scss' as *;
+
+.title {
+  display: flex;
+  gap: 0.8rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+
+  & span {
+    color: $color-grey-500;
+  }
+}

@@ -21,9 +21,7 @@ const FindEmail = () => {
   return (
     <div className={cn('wrapper')}>
       <BsQuestionCircle />
-
       <h1 className={cn('title')}>가입한 이메일을 잊어버리셨나요?</h1>
-
       <p className={cn('info')}>
         <a
           className={cn('email')}

@@ -56,8 +56,13 @@ const Header = () => {
             <GiHamburgerMenu />
           </button>
 
-          <Link to="/" aria-label="메인 페이지 링크 버튼" onClick={closeMenu}>
-            <img className={cn('logo')} src={JOYRDIE_LOGO_IMAGE} alt="로고" />
+          <Link
+            to="/"
+            className={cn('logo')}
+            aria-label="메인 페이지 링크 버튼"
+            onClick={closeMenu}
+          >
+            <img src={JOYRDIE_LOGO_IMAGE} alt="로고" />
           </Link>
 
           {userProfile ? (

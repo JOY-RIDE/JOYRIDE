@@ -15,9 +15,14 @@ import qs from 'query-string';
 
 interface MeetupAPI {
   getMeetupList: (filters?: MeetupFiltersState) => Promise<MeetupData[]>;
+  getMyMeetupList: () => Promise<MeetupData[]>;
+  getJoinedMeetupList: () => Promise<MeetupData[]>;
+  getBookmarkedMeetupList: () => Promise<MeetupData[]>;
+
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
+
   getCourseNames: () => Promise<CourseName[]>;
 }
 
@@ -36,6 +41,39 @@ export const meetupAPI: MeetupAPI = {
     const {
       data: { code, result },
     } = await axios.get('/meets' + query);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+    return result;
+  },
+
+  async getMyMeetupList() {
+    const {
+      data: { code, result },
+    } = await axios.get('/meets');
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+    return result;
+  },
+
+  async getJoinedMeetupList() {
+    const {
+      data: { code, result },
+    } = await axios.get('/meets');
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+    return result;
+  },
+
+  async getBookmarkedMeetupList() {
+    const {
+      data: { code, result },
+    } = await axios.get('/meets');
 
     if (code !== 1000) {
       throw new Error(code);

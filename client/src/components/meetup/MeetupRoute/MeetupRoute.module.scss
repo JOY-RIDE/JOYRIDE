@@ -8,6 +8,7 @@
 
   &.long {
     padding-top: 2.5rem;
+    margin-top: 3rem;
   }
 }
 
@@ -29,9 +30,9 @@
   }
 
   & svg {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     position: absolute;
-    top: -1.2em;
+    top: -1.1em;
     right: -0.5em;
     color: $color-grey-600;
   }

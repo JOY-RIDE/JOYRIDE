@@ -9,6 +9,7 @@ interface MeetupRoutePreviewProps {
   path: MeetupPath;
 }
 
+// TODO: rename
 const MeetupRoutePreview = ({ courseName, path }: MeetupRoutePreviewProps) => {
   const pathLength = path.length;
   // const from = path[0];
