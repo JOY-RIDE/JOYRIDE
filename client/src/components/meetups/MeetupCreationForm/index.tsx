@@ -113,10 +113,10 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const {
     data: courseNames,
-    refetch,
+    // refetch,
     isLoading,
   } = useQuery<CourseName[]>(['courseNames'], meetupAPI.getCourseNames, {
-    enabled: false,
+    // enabled: false,
     staleTime: 12 * 60 * 60 * 1000,
     cacheTime: 12 * 60 * 60 * 1000,
     onError: () =>
@@ -457,7 +457,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
                 loadingText="목록을 불러오고 있습니다"
                 noOptionsText="데이터가 존재하지 않습니다."
                 options={courseNames || []}
-                onOpen={() => refetch()}
+                // onOpen={() => refetch()}
                 onChange={(_, value) => onChange(value)}
                 renderInput={params => (
                   <div ref={params.InputProps.ref}>
