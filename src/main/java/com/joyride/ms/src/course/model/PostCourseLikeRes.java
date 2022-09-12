@@ -7,5 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostCourseLikeRes {
+
     private String message;
+    private int likeId;
 }
