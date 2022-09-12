@@ -16,7 +16,6 @@ const MyMeetupsPreview = () => {
     ['meetups'],
     meetupAPI.getMyMeetupList,
     {
-      select: meetups => meetups.slice(0, 3),
       staleTime: 24 * 60 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
@@ -28,7 +27,7 @@ const MyMeetupsPreview = () => {
       <header className={cn('header')}>
         <SectionTitle title="내가 만든 모임" count={meetups?.length} />
       </header>
-      {meetups && <MeetupList meetups={meetups} />}
+      {meetups && <MeetupList meetups={meetups.slice(0, 3)} />}
     </section>
   );
 };

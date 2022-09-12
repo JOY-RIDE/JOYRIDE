@@ -7,6 +7,10 @@
   & + .container {
     border-top: $border-grey;
   }
+
+  &:hover {
+    background: $color-grey-100;
+  }
 }
 
 .title {

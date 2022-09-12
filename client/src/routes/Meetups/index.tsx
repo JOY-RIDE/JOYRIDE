@@ -44,6 +44,7 @@ const Meetups = () => {
     {
       // TODO: order 디폴트 null?
       select: meetups => getMeetupsOrderedBy(order.name, meetups),
+      keepPreviousData: true,
       staleTime: 5 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
