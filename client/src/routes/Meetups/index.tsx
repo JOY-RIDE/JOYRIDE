@@ -38,14 +38,14 @@ const Meetups = () => {
 
   const filters = useRecoilValue(meetupFiltersState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetups, isLoading } = useQuery<MeetupData[]>(
+  const { data: meetups } = useQuery<MeetupData[]>(
     ['meetups', filters],
     () => meetupAPI.getMeetupList(filters),
     {
       // TODO: order 디폴트 null?
       select: meetups => getMeetupsOrderedBy(order.name, meetups),
       keepPreviousData: true,
-      staleTime: 5 * 60 * 1000,
+      staleTime: 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
@@ -82,14 +82,14 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        {isLoading ? (
+        {!meetups ? (
           <Loading />
-        ) : meetups?.length ? (
+        ) : meetups.length ? (
           <MeetupList
             meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          <NoResults content="검색 결과가 없습니다." />
+          <NoResults />
         )}
       </div>
 

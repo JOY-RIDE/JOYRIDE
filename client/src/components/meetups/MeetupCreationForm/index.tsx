@@ -117,8 +117,8 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     isLoading,
   } = useQuery<CourseName[]>(['courseNames'], meetupAPI.getCourseNames, {
     enabled: false,
-    staleTime: 24 * 60 * 60 * 1000,
-    cacheTime: Infinity,
+    staleTime: 12 * 60 * 60 * 1000,
+    cacheTime: 12 * 60 * 60 * 1000,
     onError: () =>
       showToastMessage('자전거길 목록 로딩 중 문제가 발생했습니다.'),
   });

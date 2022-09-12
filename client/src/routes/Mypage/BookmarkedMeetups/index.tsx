@@ -5,17 +5,17 @@ import { useQuery } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
 import MeetupList from 'components/Mypage/MeetupList';
 import Loading from 'components/common/Loading';
-import NoResults from 'components/common/NoResults';
 import PageTitle from 'components/common/PageTitle';
+import Empty from 'components/common/Empty';
+import { BiBookmarkPlus } from 'react-icons/bi';
 
 const BookmarkedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetups, isLoading } = useQuery<MeetupData[]>(
+  const { data: meetups } = useQuery<MeetupData[]>(
     ['meetups'],
     meetupAPI.getBookmarkedMeetupList,
     {
-      staleTime: 24 * 60 * 60 * 1000,
-      cacheTime: Infinity,
+      staleTime: 60 * 1000,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
@@ -23,12 +23,15 @@ const BookmarkedMeetups = () => {
   return (
     <>
       <PageTitle size="md">북마크한 모임</PageTitle>
-      {isLoading ? (
+      {!meetups ? (
         <Loading />
-      ) : meetups?.length ? (
+      ) : meetups.length ? (
         <MeetupList meetups={meetups} />
       ) : (
-        <NoResults content="관심 있는 모임을 북마크 해보세요." />
+        <Empty
+          Icon={<BiBookmarkPlus />}
+          content="관심 있는 모임을 북마크 해보세요."
+        />
       )}
     </>
   );
