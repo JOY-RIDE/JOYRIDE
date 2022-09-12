@@ -1,4 +1,4 @@
-import styles from './AskMeetupJoin.module.scss';
+import styles from './Confirm.module.scss';
 import classNames from 'classnames/bind';
 import { useResetRecoilState } from 'recoil';
 import { modalContentState } from 'states/common';
@@ -6,25 +6,26 @@ import Button from 'components/common/Button';
 
 const cn = classNames.bind(styles);
 
-interface AskMeetupJoinProp {
-  joinMeetup: () => void;
+interface ConfirmProps {
+  question: string;
+  onConfirm: () => void;
 }
 
-const AskMeetupJoin = ({ joinMeetup }: AskMeetupJoinProp) => {
+const Confirm = ({ question, onConfirm }: ConfirmProps) => {
   const close = useResetRecoilState(modalContentState);
-  const handleYesClick = () => {
-    joinMeetup();
+  const handleConfirmClick = () => {
+    onConfirm();
     close();
   };
   return (
     <div className={cn('container')}>
-      <h1 className={cn('title')}>모임에 참가할까요?</h1>
+      <h1 className={cn('title')}>{question}</h1>
       <div className={cn('btns')}>
         <Button
           type="button"
           color="whiteGrey"
           size="md"
-          content="다음에 할게요"
+          content="아니요"
           onClick={close}
         />
         <Button
@@ -32,11 +33,11 @@ const AskMeetupJoin = ({ joinMeetup }: AskMeetupJoinProp) => {
           color="main"
           size="md"
           content="네"
-          onClick={handleYesClick}
+          onClick={handleConfirmClick}
         />
       </div>
     </div>
   );
 };
 
-export default AskMeetupJoin;
+export default Confirm;

@@ -23,6 +23,8 @@ interface MeetupAPI {
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
 
+  closeMeetup: (meetupId: number) => Promise<void>;
+
   getCourseNames: () => Promise<CourseName[]>;
 }
 
@@ -110,6 +112,16 @@ export const meetupAPI: MeetupAPI = {
     const {
       data: { code },
     } = await axios.post('/meets/' + meetupId);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
+  async closeMeetup(meetupId) {
+    const {
+      data: { code },
+    } = await axios.patch('/meets/' + meetupId);
 
     if (code !== 1000) {
       throw new Error(code);

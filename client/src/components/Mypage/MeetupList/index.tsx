@@ -1,15 +1,16 @@
+import { ComponentGetter } from 'types/callback';
 import { MeetupData } from 'types/meetup';
-import MeetupItem from '../MeetupItem';
 import styles from './MeetupList.module.scss';
 
-interface MeetupListProp {
+interface MeetupListProps {
   meetups: MeetupData[];
+  ItemComponent: ComponentGetter;
 }
 
-const MeetupList = ({ meetups }: MeetupListProp) => (
+const MeetupList = ({ meetups, ItemComponent }: MeetupListProps) => (
   <ul className={styles.wrapper}>
     {meetups &&
-      meetups.map(meetup => <MeetupItem key={meetup.id} meetup={meetup} />)}
+      meetups.map(meetup => <ItemComponent key={meetup.id} meetup={meetup} />)}
   </ul>
 );
 

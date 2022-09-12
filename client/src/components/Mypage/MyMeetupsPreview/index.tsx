@@ -9,13 +9,14 @@ import SectionTitle from '../SectionTitle';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { AiOutlineRight } from 'react-icons/ai';
+import MyMeetupItem from '../MyMeetupItem';
 
 const cn = classNames.bind(styles);
 
 const MyMeetupsPreview = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
+    ['myMeetups'],
     meetupAPI.getMyMeetupList,
     {
       select: meetups => meetups.slice(0, 3),
@@ -33,7 +34,7 @@ const MyMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {meetups && <MeetupList meetups={meetups} />}
+      {meetups && <MeetupList meetups={meetups} ItemComponent={MyMeetupItem} />}
     </section>
   );
 };

@@ -9,11 +9,12 @@ import PageTitle from 'components/common/PageTitle';
 import { FiPlusCircle } from 'react-icons/fi';
 import Empty from 'components/Mypage/Empty';
 import { useEffect } from 'react';
+import MyMeetupItem from 'components/Mypage/MyMeetupItem';
 
 const MyMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
+    ['myMeetups'],
     meetupAPI.getMyMeetupList,
     {
       staleTime: 60 * 1000,
@@ -31,7 +32,7 @@ const MyMeetups = () => {
       {!meetups ? (
         <Loading />
       ) : meetups.length ? (
-        <MeetupList meetups={meetups} />
+        <MeetupList meetups={meetups} ItemComponent={MyMeetupItem} />
       ) : (
         <Empty Icon={<FiPlusCircle />} content="원하는 모임을 만들어 보세요." />
       )}

@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { userIdState } from 'states/auth';
 import AskLogin from 'components/common/AskLogin';
 import { useParams } from 'react-router-dom';
-import AskMeetupJoin from '../AskMeetupJoin';
+import Confirm from 'components/common/Confirm';
 
 // function getMeetupJoinFailErrorMessage(code: string) {
 //   switch (code) {
@@ -57,7 +57,7 @@ const MeetupJoinBar = ({
       showModal(<AskLogin />);
       return;
     }
-    showModal(<AskMeetupJoin joinMeetup={joinMeetup} />);
+    showModal(<Confirm question="모임에 참가할까요?" onConfirm={joinMeetup} />);
   };
 
   return (

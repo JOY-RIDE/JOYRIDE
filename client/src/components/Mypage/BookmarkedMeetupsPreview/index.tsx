@@ -15,7 +15,7 @@ const cn = classNames.bind(styles);
 const BookmarkedMeetupsPreview = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
+    ['bookmarkedMeetups'],
     meetupAPI.getBookmarkedMeetupList,
     {
       select: meetups => meetups.slice(0, 3),
@@ -33,7 +33,7 @@ const BookmarkedMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {meetups && <MeetupList meetups={meetups} />}
+      {/* {meetups && <MeetupList meetups={meetups} ItemComponent={MyMeetupItem} />} */}
     </section>
   );
 };

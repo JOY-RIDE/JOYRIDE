@@ -15,7 +15,7 @@ const cn = classNames.bind(styles);
 const JoinedMeetupsPreview = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
+    ['joinedMeetups'],
     meetupAPI.getJoinedMeetupList,
     {
       select: meetups => meetups.slice(0, 3),
@@ -33,7 +33,7 @@ const JoinedMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {meetups && <MeetupList meetups={meetups} />}
+      {/* {meetups && <MeetupList meetups={meetups} ItemComponent={MyMeetupItem} />} */}
     </section>
   );
 };

@@ -53,10 +53,10 @@ export interface MeetupData extends Omit<NewMeetup, 'meetingImgUrl' | 'path'> {
   id: MeetupID;
   meetingImgUrl: MeetupImage;
   path: MeetupPath;
+  status: number;
   joinPeople: number;
 }
 export interface MeetupDetail extends MeetupData {
-  status: number;
   admin: MeetupParticipant;
   participants: MeetupParticipant[];
 }

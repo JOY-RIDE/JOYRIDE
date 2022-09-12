@@ -40,16 +40,16 @@ function getJoinBarProps(meetup: MeetupDetail, userId: number | null) {
     dayjs(meetup.dueDate).format(DATE_FORMAT) + ' 모집 마감';
   const DEFAULT_BUTTON_CONTENT = '참가하기';
 
-  if (dayjs().isAfter(dayjs(meetup.dueDate)))
-    return {
-      disabled: true,
-      barContent: '마감된 모임입니다',
-      buttonContent: DEFAULT_BUTTON_CONTENT,
-    };
   if (meetup.status === 0)
     return {
       disabled: true,
-      barContent: '닫힌 모임입니다',
+      barContent: '모임장에 의해 닫힌 모임입니다',
+      buttonContent: DEFAULT_BUTTON_CONTENT,
+    };
+  if (dayjs().isAfter(dayjs(meetup.dueDate)))
+    return {
+      disabled: true,
+      barContent: '모집이 마감된 모임입니다',
       buttonContent: DEFAULT_BUTTON_CONTENT,
     };
 

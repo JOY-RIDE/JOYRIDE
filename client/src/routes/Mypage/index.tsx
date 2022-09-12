@@ -23,8 +23,8 @@ const MyPage = () => (
       </header>
     </section>
     <MyMeetupsPreview />
-    <JoinedMeetupsPreview />
-    <BookmarkedMeetupsPreview />
+    {/* <JoinedMeetupsPreview />
+    <BookmarkedMeetupsPreview /> */}
   </div>
 );
 
