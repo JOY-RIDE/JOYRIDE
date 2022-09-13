@@ -1,21 +1,19 @@
-import styles from './JoinedMeetupItem.module.scss';
+import styles from './BookmarkedMeetupItem.module.scss';
 import { MeetupData } from 'types/meetup';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
-import { ImExit } from 'react-icons/im';
+import { BsBookmarkFill } from 'react-icons/bs';
 import MeetupRoute from '../MeetupRoute';
 import { meetupAPI } from 'apis/meetupAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
-import { modalContentState, toastMessageState } from 'states/common';
-import { ClickHandler } from 'types/callback';
-import Confirm from 'components/common/Confirm';
+import { toastMessageState } from 'states/common';
 
 const cn = classNames.bind(styles);
 
-const JoinedMeetupItem = ({
+const BookmarkedMeetupItem = ({
   id,
   title,
   gatheringPlace,
@@ -25,18 +23,14 @@ const JoinedMeetupItem = ({
 }: MeetupData) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(meetupAPI.exitMeetup, {
+  const { mutate } = useMutation(meetupAPI.cancelMeetupBookmark, {
     onSuccess: () => {
-      showToastMessage('모임을 탈퇴했습니다.');
+      showToastMessage('북마크를 해제했습니다.');
       queryClient.invalidateQueries(['meetups']);
     },
-    onError: () => showToastMessage('모임 탈퇴 중 문제가 발생했습니다.'),
+    onError: () => showToastMessage('북마크 해제 중 문제가 발생했습니다.'),
   });
-
-  const showModal = useSetRecoilState(modalContentState);
-  const exitMeetup = () => mutate(id);
-  const handleExitClick: ClickHandler<HTMLButtonElement> = () =>
-    showModal(<Confirm question="모임을 탈퇴할까요?" onConfirm={exitMeetup} />);
+  const cancelBookmark = () => mutate(id);
 
   /* TODO: 없어지는지 확인 */
   return (
@@ -55,16 +49,11 @@ const JoinedMeetupItem = ({
         <MeetupRoute courseName={courseName} path={path} />
       </Link>
 
-      <button
-        className={cn('exit-btn', {
-          hidden: dayjs().isAfter(dayjs(meetingDate)),
-        })}
-        onClick={handleExitClick}
-      >
-        {<ImExit />}모임 탈퇴
+      <button className={cn('cancel-btn')} onClick={cancelBookmark}>
+        {<BsBookmarkFill />}
       </button>
     </li>
   );
 };
 
-export default JoinedMeetupItem;
+export default BookmarkedMeetupItem;

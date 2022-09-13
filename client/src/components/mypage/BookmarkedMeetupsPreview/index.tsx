@@ -9,6 +9,7 @@ import SectionTitle from '../SectionTitle';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { AiOutlineRight } from 'react-icons/ai';
+import BookmarkedMeetupItem from '../BookmarkedMeetupItem';
 
 const cn = classNames.bind(styles);
 
@@ -32,7 +33,13 @@ const BookmarkedMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {/* {meetups && <MeetupList meetups={meetups.slice(0, 3)} ItemComponent={MyMeetupItem} />} */}
+
+      {meetups && (
+        <MeetupList
+          meetups={meetups.slice(0, 3)}
+          ItemComponent={BookmarkedMeetupItem}
+        />
+      )}
     </section>
   );
 };

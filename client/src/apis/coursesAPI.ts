@@ -1,6 +1,6 @@
 // const BASE_URL = 'http://localhost:3000';
 const BASE_URL = `https://apis.data.go.kr/B551011/Durunubi/courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=${process.env.REACT_APP_TOUR_API_KEY}&brdDiv=DNBW`;
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URL = process.env.REACT_APP_JOYRIDE_API_URL;
 
 function getTotalCount() {
   return fetch(`${BASE_URL}&_type=json`)

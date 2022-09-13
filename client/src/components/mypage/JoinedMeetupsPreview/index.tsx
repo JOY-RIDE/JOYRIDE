@@ -33,6 +33,7 @@ const JoinedMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
+
       {meetups && (
         <MeetupList
           meetups={meetups.slice(0, 3)}
