@@ -16,6 +16,24 @@ export function fetchCourses() {
     .then(json => json.response.body.items.item);
 }
 
+export function fetchFilteredCourses(
+  level: string | undefined,
+  sigun: string | undefined
+) {
+  return fetch(`${SERVER_URL}/courses/filter`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      level: `${level}`,
+      sigun: `${sigun}`,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => json.result);
+}
+
 export function fetchCourseInfo(courseNm: string | undefined) {
   return fetch(`${BASE_URL}&crsKorNm=${courseNm}&_type=json`)
     .then(response => response.json())

@@ -83,7 +83,7 @@ const ReviewForm = ({ createReview }: ReviewFormProp) => {
           <Controller
             name="scene_rate"
             control={control}
-            defaultValue={0}
+            defaultValue={5}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating
@@ -130,7 +130,7 @@ const ReviewForm = ({ createReview }: ReviewFormProp) => {
           <Controller
             name="facilities_rate"
             control={control}
-            defaultValue={0}
+            defaultValue={5}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating
@@ -180,7 +180,7 @@ const ReviewForm = ({ createReview }: ReviewFormProp) => {
           <Controller
             name="accessibility_rate"
             control={control}
-            defaultValue={0}
+            defaultValue={5}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating
@@ -227,7 +227,7 @@ const ReviewForm = ({ createReview }: ReviewFormProp) => {
           <Controller
             name="safety_rate"
             control={control}
-            defaultValue={0}
+            defaultValue={5}
             rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <Rating

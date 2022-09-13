@@ -18,6 +18,7 @@ interface likeProps {
 const Like = ({ count }: likeProps) => {
   const [isLiked, setIsLiked] = useState(0);
   const [like, setLike] = useState(count);
+  const [likeId, setLikeId] = useState(0);
   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { roadId: crsNm } = useParams();
@@ -45,11 +46,14 @@ const Like = ({ count }: likeProps) => {
             title: crsNm,
             user_id: loggedInUser,
           })
-          .then(response => console.log(response)) // 성공 핸들링
+          .then(response => setLikeId(response.data.result.likeId)) // 성공 핸들링
           .catch(error => console.log(error));
       } else {
         setIsLiked(0);
-        setLike(prev => prev! - 1);
+        axios
+          .delete(`/courses/like/${likeId}`)
+          .then(response => console.log(response)) // 성공 핸들링
+          .catch(error => console.log(error));
       }
     }
   };

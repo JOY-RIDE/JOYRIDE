@@ -1,6 +1,11 @@
+import { useRecoilState } from 'recoil';
+import { useQueryClient } from '@tanstack/react-query';
 import styles from './ReviewItem.module.scss';
 import classNames from 'classnames/bind';
+import { userIdState } from 'states/auth';
+import { joyrideAxios as axios } from '../../../apis/axios';
 import { MdOutlineStar, MdOutlineStarHalf } from 'react-icons/md';
+import { FaStar, FaStarHalf } from 'react-icons/fa';
 
 const cn = classNames.bind(styles);
 
@@ -10,7 +15,7 @@ export interface CourseReview {
   created_at: string;
   facilities_rate: number;
   facilities_review: string | null;
-  //   id: number;
+  id: number;
   nickName: string;
   safety_rate: number;
   safety_review: string | null;
@@ -20,10 +25,12 @@ export interface CourseReview {
   total_rate: number;
   total_review: string;
   //   updated_at: string;
-  //   user_id: number;
+  user_id: number;
 }
 
 const ReviewItem = ({
+  id,
+  user_id,
   nickName,
   created_at,
   total_rate,
@@ -37,15 +44,47 @@ const ReviewItem = ({
   safety_rate,
   safety_review,
 }: CourseReview) => {
+  const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
+
+  const queryClient = useQueryClient();
+
+  const handleReviewDelete = () => {
+    axios
+      .delete(`/courses/review/${id}`)
+      .then(response => console.log(response)) // 성공 핸들링
+      .catch(error => console.log(error));
+    queryClient.invalidateQueries(['serverInfo']);
+  };
+
+  const handleRateToStars = (rate: number) => {
+    if (Number.isInteger(rate)) {
+      var arr = [...Array(rate)].map((v, i) => i);
+    } else {
+      const intVal = Math.floor(rate);
+      var arr = [...Array(intVal)].map((v, i) => i);
+    }
+    return arr;
+  };
+
   return (
     <div className={styles.review}>
       <div className={cn('each')}>
         <div className={cn('header')}>
           <div className={cn('left')}>
-            <span>{nickName}</span>
-            {/* <span className={cn('stars')}>{total_rate}</span> */}
+            <span className={cn('nickname')}>{nickName}</span>
+            <span className={cn('stars')}>
+              {handleRateToStars(Math.floor(total_rate)).map(idx => (
+                <MdOutlineStar key={idx} />
+              ))}
+              {Number.isInteger(total_rate) ? null : <MdOutlineStarHalf />}
+            </span>
           </div>
-          <span className={cn('created-at')}>{created_at.split(' ')[0]}</span>
+          <div className={cn('right')}>
+            <p className={cn('created-at')}>{created_at.split(' ')[0]}</p>
+            {user_id === loggedInUser ? (
+              <button onClick={handleReviewDelete}>삭제</button>
+            ) : null}
+          </div>
         </div>
         <div className={cn('content')}>
           <p>{total_review}</p>
@@ -56,7 +95,12 @@ const ReviewItem = ({
           <div className={cn('header')}>
             <div className={cn('left')}>
               <span className={cn('field')}>경관</span>
-              <span className={cn('stars')}>{scene_rate}</span>
+              <span className={cn('stars')}>
+                {handleRateToStars(Math.floor(scene_rate)).map(idx => (
+                  <MdOutlineStar key={idx} />
+                ))}
+                {Number.isInteger(scene_rate) ? null : <MdOutlineStarHalf />}
+              </span>
             </div>
           </div>
           <div className={cn('content')}>
@@ -69,7 +113,14 @@ const ReviewItem = ({
           <div className={cn('header')}>
             <div className={cn('left')}>
               <span className={cn('field')}>편의시설</span>
-              <span className={cn('stars')}>{facilities_rate}</span>
+              <span className={cn('stars')}>
+                {handleRateToStars(Math.floor(facilities_rate)).map(idx => (
+                  <MdOutlineStar key={idx} />
+                ))}
+                {Number.isInteger(facilities_rate) ? null : (
+                  <MdOutlineStarHalf />
+                )}
+              </span>
             </div>
           </div>
           <div className={cn('content')}>
@@ -82,7 +133,14 @@ const ReviewItem = ({
           <div className={cn('header')}>
             <div className={cn('left')}>
               <span className={cn('field')}>접근성</span>
-              <span className={cn('stars')}>{accessibility_rate}</span>
+              <span className={cn('stars')}>
+                {handleRateToStars(Math.floor(accessibility_rate)).map(idx => (
+                  <MdOutlineStar key={idx} />
+                ))}
+                {Number.isInteger(accessibility_rate) ? null : (
+                  <MdOutlineStarHalf />
+                )}
+              </span>
             </div>
           </div>
           <div className={cn('content')}>
@@ -97,7 +155,12 @@ const ReviewItem = ({
           <div className={cn('header')}>
             <div className={cn('left')}>
               <span className={cn('field')}>안전</span>
-              <span className={cn('stars')}>{safety_rate}</span>
+              <span className={cn('stars')}>
+                {handleRateToStars(Math.floor(safety_rate)).map(idx => (
+                  <MdOutlineStar key={idx} />
+                ))}
+                {Number.isInteger(safety_rate) ? null : <MdOutlineStarHalf />}
+              </span>
             </div>
           </div>
           <div className={cn('content')}>

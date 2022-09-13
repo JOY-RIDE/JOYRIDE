@@ -3,15 +3,15 @@
 .course {
   margin-bottom: 2rem;
   border: $border-grey;
-  border-top: 5px solid $color-main; // 사진 없을 시
+  //   border-top: 5px solid $color-main; // 사진 없을 시
   border-radius: 0.3rem;
   font-weight: 700;
   overflow: hidden;
   .top {
     height: 0;
     position: relative;
-    padding-top: 50%;
-    // border-bottom: 5px solid $color-main; 사진 있을 시
+    padding-top: 65%;
+    border-bottom: 5px solid $color-main; // 사진 있을 시
     .image {
       position: absolute;
       top: 0;

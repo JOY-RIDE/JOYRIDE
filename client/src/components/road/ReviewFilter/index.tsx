@@ -65,7 +65,6 @@ const ReviewFilter = ({
   const onThrottleDragMove = throttle(onDragMove, delay);
 
   return (
-    // TODO 마우스 드래그 좌우 스크롤
     <ul
       className={styles.reviewFilter}
       ref={scrollRef}

@@ -18,7 +18,8 @@
 
 .filter-order {
   display: flex;
-  justify-content: space-between;
+  //   justify-content: space-between;
+  justify-content: flex-end;
   margin-bottom: 1.5rem;
   @include for-tablet-landscape-up {
     margin-bottom: 1rem;
