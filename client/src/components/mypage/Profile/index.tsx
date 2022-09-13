@@ -26,7 +26,7 @@ const Profile = () => {
       <div className={cn('text')}>
         <div className={cn('nickname-wrapper')}>
           <h1 className={cn('nickname')}>{nickname}</h1>
-          <Link to="#" aria-label="정보 수정 링크 버튼">
+          <Link to="modify_profile" aria-label="정보 수정 링크 버튼">
             <BiPencil />
           </Link>
         </div>

@@ -70,6 +70,10 @@ const Roads = () => {
   useEffect(() => resetOrder, []);
   //   console.log(order.name);
 
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, []);
+
   const LIMIT = 5;
   const [page, setPage] = useState(
     Number(useSearchParams()[0].get('page')) || 1

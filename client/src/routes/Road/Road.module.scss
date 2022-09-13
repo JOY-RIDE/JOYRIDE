@@ -35,6 +35,15 @@
   margin-top: 0.5rem;
 }
 
+.copyright {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  font-weight: 500;
+  color: $color-grey-600;
+}
+
 .review-title {
   display: flex;
   .cnt {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
@@ -58,6 +58,10 @@ const Road = () => {
     ['filteredReviews', crsNm, currentFilter],
     () => fetchFilteredReviews(crsNm, currentFilter)
   );
+
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, []);
 
   //   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   //   const { isLoading: isServerLoading, data: serverData } =
@@ -143,12 +147,17 @@ const Road = () => {
             ></CrsDesc>
           </div>
           <PageTitle size="sm">코스 사진</PageTitle>
-          <img
-            src={serverData?.image}
-            alt="코스사진"
-            width="342px"
-            height="auto"
-          />
+          <div>
+            <img
+              src={serverData?.image}
+              alt="코스사진"
+              width="342px"
+              height="auto"
+            />
+            <p className={cn('copyright')}>
+              <span>ⓒ한국관광공사 사진갤러리</span>
+            </p>
+          </div>
           <div className={cn('review-title')}>
             <PageTitle size="sm">코스 후기</PageTitle>
             <span className={cn('cnt')}>12</span>

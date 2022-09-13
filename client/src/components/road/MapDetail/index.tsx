@@ -252,6 +252,10 @@ const MapDetail = ({ lat, lng }: mapProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, []);
+
   const navigate = useNavigate();
   const onClickGoBack = () => {
     navigate(-1);
