@@ -1,4 +1,4 @@
-import styles from './MeetupPath.module.scss';
+import styles from './MeetupRoute.module.scss';
 import classNames from 'classnames/bind';
 import { MeetupCourseName, MeetupPath } from 'types/meetup';
 
