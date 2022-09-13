@@ -19,7 +19,6 @@ const MyMeetupsPreview = () => {
     ['meetups', 'admin'],
     meetupAPI.getMyMeetupList,
     {
-      select: meetups => meetups.slice(0, 3),
       staleTime: 60 * 1000,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
@@ -34,7 +33,12 @@ const MyMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {meetups && <MeetupList meetups={meetups} ItemComponent={MyMeetupItem} />}
+      {meetups && (
+        <MeetupList
+          meetups={meetups.slice(0, 3)}
+          ItemComponent={MyMeetupItem}
+        />
+      )}
     </section>
   );
 };
