@@ -62,6 +62,7 @@ const MyMeetupItem = ({
           hidden: dayjs().isAfter(dayjs(meetingDate)) || status === 0,
         })}
         onClick={handleCloseClick}
+        disabled={!status}
       >
         {<EventBusyIcon />}모임 닫기
       </button>
