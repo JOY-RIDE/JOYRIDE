@@ -15,16 +15,15 @@ interface CourseItemProp {
 }
 
 const CourseItem = memo(({ course }: CourseItemProp) => (
-  <Link to={`/roads/${course.crsKorNm}`} className={cn('link')}>
+  <Link
+    to={`/roads/${course.crsKorNm}`}
+    className={cn('link')}
+    state={{ lat: course.latitude, lng: course.longitude }}
+  >
     <article className={cn('course')}>
-      {/* 사진 있을시
-                  <div className={cn('top')}>
-                    <img
-                      className={cn('image')}
-                      src="https://images.unsplash.com/photo-1559235270-2df4dcfb4eca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop"
-                      alt="cycling"
-                    />
-                  </div> */}
+      <div className={cn('top')}>
+        <img className={cn('image')} src={course.image} alt="코스 이미지" />
+      </div>
       <div className={cn('bottom')}>
         <p className={cn('title')}>
           <span className={cn('sigun')}>{course.sigun}</span>{' '}

@@ -47,7 +47,7 @@ const Accordion = styled((props: AccordionProps) => (
 // }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
+  padding: theme.spacing(0),
   borderTop: '6px solid #22b573',
 }));
 
@@ -79,7 +79,7 @@ const CourseList = ({ courses }: CourseListProp) => {
             <CourseItem key={course.id} course={course} index={index} />
           </AccordionSummary>
           <AccordionDetails>
-            <div>{course.crsSummary}</div>
+            <img src={course.image} width="100%" height="auto" alt="" />
           </AccordionDetails>
         </Accordion>
       ))}

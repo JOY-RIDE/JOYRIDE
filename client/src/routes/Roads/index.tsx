@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilState, useResetRecoilState, useRecoilValue } from 'recoil';
-import { fetchCourses, fetchCoursesFromServer } from '../../apis/coursesAPI';
+import {
+  fetchCourses,
+  fetchCoursesFromServer,
+  fetchFilteredCourses,
+} from '../../apis/coursesAPI';
 import styles from './Roads.module.scss';
 import classNames from 'classnames/bind';
 import PageTitle from 'components/common/PageTitle';
@@ -43,13 +47,21 @@ const Roads = () => {
 
   let tmp = [...serverRoads];
   tmp.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
-  console.log(tmp);
 
   const { filters: boardFilters } = useClientFilter(
     courseBoardFiltersState,
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES
   );
+  console.log(boardFilters);
+  const filterLocation = boardFilters?.location?.value;
+  const filterLevel = boardFilters?.pathDifficulty?.value;
+
+  //   const { data: filteredData } = useQuery<ServerIRoads[]>(
+  //     ['filteredCourses', filterLevel, filterLocation],
+  //     () => fetchFilteredCourses(filterLevel, filterLocation)
+  //   );
+  //   console.log(filteredData);
 
   const order = useRecoilValue(courseOrderState);
   const resetFilters = useResetRecoilState(courseFiltersState);
@@ -73,7 +85,7 @@ const Roads = () => {
           <PageTitle size="md">자전거 코스</PageTitle>
           <div className={cn('filter-order')}>
             {/* @ts-ignore */}
-            <ContentToggleButton title="필터" Content={<CourseFilterBoard />} />
+            {/* <ContentToggleButton title="필터" Content={<CourseFilterBoard />} /> */}
             <ContentToggleButton
               title={order.content}
               Content={
@@ -91,11 +103,21 @@ const Roads = () => {
           <CourseFilterChoices />
 
           <div className={cn('contents')}>
+            {/* {boardFilters ? (
+              <>
+                {filteredData?.slice(offset, offset + LIMIT).map(road => (
+                  <CourseItem course={road} />
+                ))}
+              </>
+            ) : (
+              <> */}
             {getCoursesOrderedBy(order.name, tmp)
               .slice(offset, offset + LIMIT)
               .map(road => (
                 <CourseItem course={road} />
               ))}
+            {/* </>
+            )} */}
           </div>
           <Paging
             total={tmp.length}

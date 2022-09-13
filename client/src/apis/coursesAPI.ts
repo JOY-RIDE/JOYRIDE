@@ -1,6 +1,6 @@
 // const BASE_URL = 'http://localhost:3000';
 const BASE_URL = `https://apis.data.go.kr/B551011/Durunubi/courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=${process.env.REACT_APP_TOUR_API_KEY}&brdDiv=DNBW`;
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URL = process.env.REACT_APP_JOYRIDE_API_URL;
 
 function getTotalCount() {
   return fetch(`${BASE_URL}&_type=json`)
@@ -13,6 +13,24 @@ export function fetchCourses() {
   return fetch(`${BASE_URL}&numOfRows=114&_type=json`)
     .then(response => response.json())
     .then(json => json.response.body.items.item);
+}
+
+export function fetchFilteredCourses(
+  level: string | undefined,
+  sigun: string | undefined
+) {
+  return fetch(`${SERVER_URL}/courses/filter`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      level: `${level}`,
+      sigun: `${sigun}`,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => json.result);
 }
 
 export function fetchCourseInfo(courseNm: string | undefined) {

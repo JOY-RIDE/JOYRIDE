@@ -30,3 +30,8 @@ export const courseOrderState = atom<CourseOrderState>({
   key: 'courseOrder',
   default: { name: 'crsKorNm', content: '가나다순' },
 });
+
+export const reviewFilterState = atom({
+  key: 'reviewFilter',
+  default: '전체',
+});

@@ -25,6 +25,8 @@ export interface ServerIRoads extends IRoad {
   image: string;
   likeCount: number;
   totalRate: number;
+  latitude: string;
+  longitude: string;
 }
 
 export interface ServerIRoad {
@@ -70,6 +72,34 @@ export interface ServerIRoad {
   totalAvg: number;
   travelerinfo: string;
   updated_at: string;
+}
+
+export interface ICourseReview {
+  accessibility_rate: number;
+  accessibility_review: string;
+  created_at: string;
+  facilities_rate: number;
+  facilities_review: string;
+  id: number;
+  nickName: string;
+  safety_rate: number;
+  safety_review: string;
+  scene_rate: number;
+  scene_review: string;
+  title: string;
+  total_rate: number;
+  total_review: string;
+  updated_at: string;
+  user_id: number;
+}
+
+export interface ICourseFilteredReview {
+  created_at: string;
+  filterRate: number;
+  filterReview: string;
+  id: number;
+  nickName: string;
+  user_id: number;
 }
 
 export type CourseFiltersKey = 'location' | 'pathDifficulty' | 'isCycle';

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { reviewFilterState } from 'states/course';
 import styles from './ReviewFilterOptions.module.scss';
 import classNames from 'classnames/bind';
 
@@ -11,9 +13,12 @@ interface CommonProps {
 }
 
 const ReviewFilterOptions = ({ content, rating, isChosen }: CommonProps) => {
-  const [currentFilter, setcurrentFilter] = useState('전체');
+  const [currentFilter, setCurrentFilter] = useRecoilState(reviewFilterState);
+  const [isActive, setIsActive] = useState(isChosen);
+
   const onClickFilter = () => {
-    setcurrentFilter(content);
+    setCurrentFilter(content);
+    // setIsActive(!isActive);
   };
 
   return (
