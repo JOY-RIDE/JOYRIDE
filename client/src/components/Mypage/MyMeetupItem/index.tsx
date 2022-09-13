@@ -30,19 +30,16 @@ const MyMeetupItem = ({
     onSuccess: () => {
       showToastMessage('모임을 닫았습니다.');
       queryClient.invalidateQueries(['meetups']);
-      queryClient.invalidateQueries(['myMeetups']);
     },
     onError: () => showToastMessage('모임 닫기 중 문제가 발생했습니다.'),
   });
 
   const showModal = useSetRecoilState(modalContentState);
   const closeMeetup = () => mutate(id);
-  const handleCloseClick: ClickHandler<HTMLButtonElement> = e => {
-    e.stopPropagation();
+  const handleCloseClick: ClickHandler<HTMLButtonElement> = () =>
     showModal(
       <Confirm question="모임을 닫으시겠어요?" onConfirm={closeMeetup} />
     );
-  };
 
   return (
     <li className={cn('container')}>
@@ -65,7 +62,6 @@ const MyMeetupItem = ({
           hidden: dayjs().isAfter(dayjs(meetingDate)) || status === 0,
         })}
         onClick={handleCloseClick}
-        disabled={!status}
       >
         {<EventBusyIcon />}모임 닫기
       </button>

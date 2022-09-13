@@ -24,11 +24,10 @@ const Home = () => {
     fetchCoursesFromServer
   );
   const mainCourses = _.sortBy(courses, 'likeCount').reverse().slice(0, 3);
-  console.log(mainCourses);
 
   const { data: meetups } = useQuery<MeetupData[]>(
     // TODO
-    ['meetups'],
+    ['meetups', {}],
     () => meetupAPI.getMeetupList(),
     {
       select: meetups =>

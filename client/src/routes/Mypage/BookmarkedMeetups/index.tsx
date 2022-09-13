@@ -6,14 +6,14 @@ import { meetupAPI } from 'apis/meetupAPI';
 // import MeetupList from 'components/Mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
-import Empty from 'components/Mypage/Empty';
+import Empty from 'components/mypage/Empty';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { useEffect } from 'react';
 
 const BookmarkedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['bookmarkedMeetups'],
+    ['meetups', 'bookmark'],
     meetupAPI.getBookmarkedMeetupList,
     {
       staleTime: 60 * 1000,

@@ -1,12 +1,7 @@
 import axios from 'axios';
 
-const JOYRIDE_BASE_URL =
-  process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_JOYRIDE_API_URL
-    : 'http://localhost:3000';
-
 export const joyrideAxios = axios.create({
-  baseURL: JOYRIDE_BASE_URL,
+  baseURL: process.env.REACT_APP_JOYRIDE_API_URL,
   withCredentials: true,
 });
 
