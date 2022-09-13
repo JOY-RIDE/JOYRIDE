@@ -122,12 +122,15 @@ public class CourseDao {
     /**
      * 코스 좋아요
      */
-    public void insertCourseLike(int user_id, String title){
+    public int insertCourseLike(int user_id, String title){
 
         String createCourseLikeQuery = "insert into courselike (user_id, course_id) VALUES (?,?)";
 
         Object[] createCourseLikeParams = new Object[]{user_id, title};
         this.jdbcTemplate.update(createCourseLikeQuery, createCourseLikeParams);
+
+        String lastInsertIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInsertIdQuery,int.class);
     }
 
     //좋아요 삭제
@@ -147,7 +150,7 @@ public class CourseDao {
                 existsCourseLikeParams);
     }
 
-    public List<String> selectCourseByUserId(int user_id) {
+    public List<String>selectCourseByUserId(int user_id) {
         String selectCourseByUserIdQuery = "select course_id from courselike where user_id = ?";
         int selectCourseByUserIdParams = user_id;
         return this.jdbcTemplate.query(selectCourseByUserIdQuery,

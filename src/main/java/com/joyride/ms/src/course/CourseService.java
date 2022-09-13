@@ -120,13 +120,13 @@ public class CourseService {
             List<String> selectedTitle = courseDao.selectCourseByUserId(user_id);
             // 코스 좋아요가 있으면
             if (selectedTitle.contains(title)) {
-                courseDao.selectCourseByUserId(user_id);
                 String message = "좋아요가 이미 존재합니다.";
-                return new PostCourseLikeRes(message);
+                int id = -1;
+                return new PostCourseLikeRes(message, id);
             }
-            courseDao.insertCourseLike(user_id, title);
+            int likeId = courseDao.insertCourseLike(user_id, title);
             String message = "좋아요 등록 성공했습니다.";
-            return new PostCourseLikeRes(message);
+            return new PostCourseLikeRes(message, likeId);
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
