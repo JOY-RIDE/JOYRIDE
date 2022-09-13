@@ -16,7 +16,7 @@ import static com.joyride.ms.util.BaseResponseStatus.DATABASE_ERROR;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetCourseListRes {
+public class GetCourseListRes implements Comparable<GetCourseListRes> {
 
     //응답 값
     private String id;
@@ -52,6 +52,10 @@ public class GetCourseListRes {
 
     private double totalRate;
 
+    @Override
+    public int compareTo(GetCourseListRes o) {
+        return this.crsKorNm.compareTo(o.crsKorNm);
+    }
     //==생성 메서드==//
     public static GetCourseListRes createGetCourseListRes(String id, String crsKorNm, String crsContents, String crsSummary, String crsTourInfo,
                                                            String travelerinfo, double crsDstnc, int crsLevel, String sigun,

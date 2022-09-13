@@ -28,6 +28,7 @@ public class CourseProvider {
 
             JSONArray courseArr = callApi.callCourseAPI();
             List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+            Collections.sort(courseList);
             List<String> imageList = courseDao.selectCourseImage();
 
             // 좋아요 수 넣어주기와 코스 평점 넣어주기
@@ -48,6 +49,33 @@ public class CourseProvider {
                 double totalResult = totalSum/getCourseReviewRes.size();
                 totalResult = (Math.round(totalResult*10)/10.0);
                 courseList.get(i).setTotalRate(totalResult);
+            }
+            return courseList;
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<GetCourseListRes> retrieveCourseList(int user_id) throws BaseException {
+        try {
+
+            JSONArray courseArr = callApi.callCourseAPI();
+            List<GetCourseListRes> courseList = GetCourseListRes.createCourseList(courseArr);
+            Collections.sort(courseList);
+            List<String> imageList = courseDao.selectCourseImage();
+            List<String> titleList = courseDao.selectCourseTitle(user_id);
+            // 좋아요 수 넣어주기와 코스 평점 넣어주기
+            for (int i = 0; i < courseList.size(); i++) {
+                if (titleList.contains(courseList.get(i).getCrsKorNm())) {
+                    courseList.get(i).setImage(imageList.get(i));
+                }
+                else {
+                    courseList.remove(i);
+                    imageList.remove(i);
+                    i = i - 1;
+                }
             }
             return courseList;
         }

@@ -62,6 +62,17 @@ public class CourseController {
         }
     }
 
+    // 좋아요한 코스 조회 api
+    @GetMapping("/{user_id}/like")
+    public BaseResponse<List<GetCourseListRes>> getLikedCourse(@PathVariable("user_id") int user_id){
+        try{
+            List<GetCourseListRes> getCourseListRes = courseProvider.retrieveCourseList(user_id);
+            return new BaseResponse<>(getCourseListRes);
+        } catch(BaseException exception){
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
     // 리뷰작성 api
     @PostMapping("/review")
     public BaseResponse<PostCourseReviewRes> PostCourseReview(@RequestBody PostCourseReviewReq postCourseReviewReq){
@@ -137,7 +148,6 @@ public class CourseController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
-
 
     //코스 종아요 취소 api
     @DeleteMapping("/like/{courseLike_id}")

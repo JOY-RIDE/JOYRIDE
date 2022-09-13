@@ -30,10 +30,19 @@ public class CourseDao {
     }
 
     // 코스 이미지 조회
-    public List<String> selectCourseImage(){
+    public List<String>selectCourseImage(){
         String selectCourseImageQuery = "select course_img_url from course";
         return this.jdbcTemplate.query(selectCourseImageQuery,
                 (rs,rowNum) -> (rs.getString("course_img_url")));
+    }
+
+    // 코스 타이틀 조회
+    public List<String> selectCourseTitle(int user_id){
+        String selectCourseTitleQuery = "select course_id from courselike where user_id = ?";
+        int selectCourseTitle = user_id;
+        return this.jdbcTemplate.query(selectCourseTitleQuery,
+                (rs,rowNum) -> (rs.getString("course_id")
+                ), selectCourseTitle);
     }
 
     // 코스 이미지, 위도, 경도 가져오기
