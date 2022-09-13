@@ -9,7 +9,7 @@ interface MeetupListProp {
 const MeetupList = ({ meetups }: MeetupListProp) => (
   <section className={styles.meetups}>
     {meetups.map(meetup => (
-      <MeetupItem key={meetup.id} meetup={meetup} />
+      <MeetupItem key={meetup.id} {...meetup} />
     ))}
   </section>
 );

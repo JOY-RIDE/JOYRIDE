@@ -4,15 +4,10 @@ import { BsExclamationCircle } from 'react-icons/bs';
 
 const cn = classNames.bind(styles);
 
-interface NoResultsProp {
-  content: string;
-}
-
-// TODO: refactor
-const NoResults = ({ content }: NoResultsProp) => (
+const NoResults = () => (
   <div className={cn('wrapper')}>
     <BsExclamationCircle />
-    <h1 className={cn('title')}>{content}</h1>
+    <h1 className={cn('title')}>검색 결과가 없습니다.</h1>
   </div>
 );
 

@@ -24,17 +24,20 @@ const Home = () => {
     fetchCoursesFromServer
   );
   const mainCourses = _.sortBy(courses, 'likeCount').reverse().slice(0, 3);
-  console.log(mainCourses);
 
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
+    // TODO
+    ['meetups', {}],
     () => meetupAPI.getMeetupList(),
     {
       select: meetups =>
         // TODO: 정렬 삭제
         getMeetupsOrderedBy(
           '-createdAt',
-          meetups.filter(meetup => dayjs().isBefore(dayjs(meetup.dueDate)))
+          meetups.filter(
+            meetup =>
+              dayjs().isBefore(dayjs(meetup.dueDate)) && meetup.status !== 0
+          )
         ).slice(0, 3),
       staleTime: 10 * 60 * 1000,
       cacheTime: Infinity,

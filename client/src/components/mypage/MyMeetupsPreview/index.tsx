@@ -9,17 +9,17 @@ import SectionTitle from '../SectionTitle';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { AiOutlineRight } from 'react-icons/ai';
+import MyMeetupItem from '../MyMeetupItem';
 
 const cn = classNames.bind(styles);
 
 const MyMeetupsPreview = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['meetups'],
+    ['meetups', 'admin'],
     meetupAPI.getMyMeetupList,
     {
-      staleTime: 24 * 60 * 60 * 1000,
-      cacheTime: Infinity,
+      staleTime: 60 * 1000,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
@@ -33,7 +33,12 @@ const MyMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {meetups && <MeetupList meetups={meetups.slice(0, 3)} />}
+      {meetups && (
+        <MeetupList
+          meetups={meetups.slice(0, 3)}
+          ItemComponent={MyMeetupItem}
+        />
+      )}
     </section>
   );
 };

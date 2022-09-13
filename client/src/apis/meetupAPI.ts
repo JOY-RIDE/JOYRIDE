@@ -9,9 +9,8 @@ import { faker } from '@faker-js/faker';
 import { GENDERS, LOCATIONS } from 'utils/constants';
 import { CourseName } from 'types/course';
 import { fetchCourses } from './coursesAPI';
-import { uniqBy } from 'lodash';
-import { mapValues } from 'lodash';
-import qs from 'query-string';
+import { mapValues, uniqBy } from 'lodash';
+import QueryString from 'qs';
 
 interface MeetupAPI {
   getMeetupList: (filters?: MeetupFiltersState) => Promise<MeetupData[]>;
@@ -23,6 +22,8 @@ interface MeetupAPI {
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
 
+  closeMeetup: (meetupId: number) => Promise<void>;
+
   getCourseNames: () => Promise<CourseName[]>;
 }
 
@@ -33,14 +34,13 @@ export const meetupAPI: MeetupAPI = {
       delete filtersWithValueOnly['minNumOfParticipants'];
     if (!filtersWithValueOnly['maxNumOfParticipants'])
       delete filtersWithValueOnly['maxNumOfParticipants'];
-    const stringifiedFilters = qs.stringify(filtersWithValueOnly, {
+    const query = QueryString.stringify(filtersWithValueOnly, {
       encode: false,
     });
-    const query = stringifiedFilters && '?' + stringifiedFilters;
 
     const {
       data: { code, result },
-    } = await axios.get('/meets' + query);
+    } = await axios.get('/meets' + (query && '?' + query));
 
     if (code !== 1000) {
       throw new Error(code);
@@ -110,6 +110,16 @@ export const meetupAPI: MeetupAPI = {
     const {
       data: { code },
     } = await axios.post('/meets/' + meetupId);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
+  async closeMeetup(meetupId) {
+    const {
+      data: { code },
+    } = await axios.patch('/meets/' + meetupId);
 
     if (code !== 1000) {
       throw new Error(code);

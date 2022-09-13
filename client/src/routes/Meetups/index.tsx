@@ -20,6 +20,7 @@ import { toastMessageState } from 'states/common';
 import { MeetupData } from 'types/meetup';
 import Pagination from 'components/meetups/Pagination';
 import NoResults from 'components/common/NoResults';
+import { useSearchParams } from 'react-router-dom';
 
 const cn = classNames.bind(styles);
 
@@ -27,33 +28,37 @@ const ITEMS_LIMIT = 6;
 
 // TODO: 렌더링 확인
 const Meetups = () => {
+  // const isMounted = useRef(false);
   const userId = useRecoilValue(userIdState);
   const [page, setPage] = useState(1);
   // const [page, setPage] = useState(
   //   Number(useSearchParams()[0].get('page')) || 1
   // );
   const itemsOffset = ITEMS_LIMIT * (page - 1);
+
   // TODO: useState로
   const order = useRecoilValue(meetupOrderState);
-
   const filters = useRecoilValue(meetupFiltersState);
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { data: meetups, isLoading } = useQuery<MeetupData[]>(
+  const { data: meetups } = useQuery<MeetupData[]>(
     ['meetups', filters],
     () => meetupAPI.getMeetupList(filters),
     {
       // TODO: order 디폴트 null?
       select: meetups => getMeetupsOrderedBy(order.name, meetups),
-      keepPreviousData: true,
       staleTime: 5 * 60 * 1000,
-      cacheTime: Infinity,
+      // keepPreviousData: true,
       onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
     }
   );
 
+  useEffect(() => setPage(1), [filters, order.name]);
+  useEffect(() => {
+    window.scrollY && window.scrollTo({ top: 0 });
+  }, [page]);
+
   const resetOrder = useResetRecoilState(meetupOrderState);
   const resetFilters = useResetRecoilState(meetupFiltersState);
-  useEffect(() => setPage(1), [filters, order.name]);
   useEffect(() => resetOrder, []);
   useEffect(() => resetFilters, []);
 
@@ -82,14 +87,14 @@ const Meetups = () => {
       <MeetupFilterChoices />
 
       <div className={cn('meetups-wrapper')}>
-        {isLoading ? (
+        {!meetups ? (
           <Loading />
-        ) : meetups?.length ? (
+        ) : meetups.length ? (
           <MeetupList
             meetups={meetups.slice(itemsOffset, itemsOffset + ITEMS_LIMIT)}
           />
         ) : (
-          <NoResults content="검색 결과가 없습니다." />
+          <NoResults />
         )}
       </div>
 

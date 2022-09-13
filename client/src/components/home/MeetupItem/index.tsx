@@ -8,34 +8,30 @@ import { stringifyMeetupPathDifficulty } from 'utils/stringify';
 
 const cn = classNames.bind(styles);
 
-interface MeetupItemProp {
-  meetup: MeetupData;
-}
-
-const MeetupItem = ({ meetup }: MeetupItemProp) => {
-  const path = meetup.path;
+const MeetupItem = (props: MeetupData) => {
+  const path = props.path;
   const pathLength = path.length;
   const to = path[pathLength - 1];
   const restPathString = path.slice(0, pathLength - 1).join(' → ');
   return (
-    <Link to={`/meetups/${meetup.id}`}>
+    <Link to={`/meetups/${props.id}`}>
       <li className={cn('container')}>
         <div className={cn('preview')}>
           <div className={cn('text')}>
             <header className={cn('header')}>
               <span className={cn('meeting-date')}>
-                {dayjs(meetup.meetingDate).format('M월 D일')}
+                {dayjs(props.meetingDate).format('M월 D일')}
               </span>
               <div className={cn('title-wrapper')}>
-                <span className={cn('location')}>{meetup.localLocation}</span>
-                <h2 className={cn('title')}>{meetup.title}</h2>
+                <span className={cn('location')}>{props.localLocation}</span>
+                <h2 className={cn('title')}>{props.title}</h2>
               </div>
             </header>
 
             <div className={cn('info-wrapper')}>
               <div className={cn('info-top')}>
-                {meetup.courseName && (
-                  <span className={cn('course-name')}>{meetup.courseName}</span>
+                {props.courseName && (
+                  <span className={cn('course-name')}>{props.courseName}</span>
                 )}
                 <div className={cn('field', 'path-difficulty')}>
                   <label className={cn('label')}>
@@ -43,12 +39,12 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                   </label>
                   <span
                     className={cn('emphasized', {
-                      // high: meetup.pathDifficulty === 3,
-                      // middle: meetup.pathDifficulty === 2,
-                      // low: meetup.pathDifficulty === 1,
+                      // high: props.pathDifficulty === 3,
+                      // middle: props.pathDifficulty === 2,
+                      // low: props.pathDifficulty === 1,
                     })}
                   >
-                    {stringifyMeetupPathDifficulty(meetup.pathDifficulty)}
+                    {stringifyMeetupPathDifficulty(props.pathDifficulty)}
                   </span>
                 </div>
               </div>
@@ -60,7 +56,7 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                     <span>집결지</span>
                   </label>
                   <span className={cn('emphasized')}>
-                    {meetup.gatheringPlace}
+                    {props.gatheringPlace}
                   </span>
                 </div>
 
@@ -69,10 +65,8 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
                 <div className={cn('field')}>
                   <label className={cn('label')}>인원</label>
                   <div className={cn('nums')}>
-                    <span className={cn('emphasized')}>
-                      {meetup.joinPeople}
-                    </span>
-                    /{meetup.maxPeople}명
+                    <span className={cn('emphasized')}>{props.joinPeople}</span>
+                    /{props.maxPeople}명
                   </div>
                 </div>
               </div>
@@ -81,8 +75,8 @@ const MeetupItem = ({ meetup }: MeetupItemProp) => {
 
           <img
             className={cn('img')}
-            src={meetup.meetingImgUrl}
-            alt={meetup.title}
+            src={props.meetingImgUrl}
+            alt={props.title}
           />
         </div>
 

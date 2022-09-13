@@ -1,0 +1,68 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  font-size: 1.4rem;
+
+  & + .container {
+    border-top: $border-grey;
+  }
+
+  & a:hover {
+    & .title {
+      color: $color-main;
+    }
+  }
+}
+
+.title {
+  font-size: 1.6rem;
+  color: $color-grey-800;
+  margin-bottom: 1rem;
+}
+
+.meeting {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  & .place {
+    display: flex;
+    gap: 0.1rem;
+    align-items: center;
+    color: $color-main;
+  }
+
+  & .date {
+    color: $color-grey-500;
+  }
+}
+
+.close-btn {
+  align-self: flex-start;
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  background: $color-grey-400;
+  color: white;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.3rem;
+  transition: all 0.1s ease-in-out;
+
+  &.hidden {
+    display: none;
+  }
+
+  &:hover {
+    background: $color-grey-500;
+  }
+
+  & svg {
+    font-size: 1.4rem;
+  }
+}

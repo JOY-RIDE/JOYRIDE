@@ -2,15 +2,14 @@ import {
   stringifyMeetupPathDifficulty,
   stringifyRidingSkill,
 } from 'utils/stringify';
-import styles from './MeetupSummary.module.scss';
+import styles from './MeetupInfo.module.scss';
 import classNames from 'classnames/bind';
 import dayjs from 'dayjs';
 import { MeetupData } from 'types/meetup';
 
 const cn = classNames.bind(styles);
 
-// TODO: rename
-const MeetupSummary = (props: MeetupData) => (
+const MeetupInfo = (props: MeetupData) => (
   <div className={cn('container')}>
     <div className={cn('text')}>
       <header className={cn('header')}>
@@ -19,7 +18,9 @@ const MeetupSummary = (props: MeetupData) => (
             {dayjs(props.meetingDate).format('M월 D일')}
           </span>
           <span className={cn('due-date')}>
-            {dayjs(props.dueDate).diff(dayjs(), 'd')}일 뒤 모집 마감
+            {dayjs().isBefore(dayjs(props.dueDate)) && props.status !== 0
+              ? dayjs(props.dueDate).diff(dayjs(), 'd') + '일 뒤 모집 마감'
+              : '모집 종료'}
           </span>
         </div>
         <h2 className={cn('title')}>{props.title}</h2>
@@ -71,4 +72,4 @@ const MeetupSummary = (props: MeetupData) => (
   </div>
 );
 
-export default MeetupSummary;
+export default MeetupInfo;
