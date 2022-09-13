@@ -1,8 +1,8 @@
 import { joyrideAxios as axios } from './axios';
-import { ServerIRoad } from '../types/course';
 
 interface CourseAPI {
   createReview: (newReview: string) => Promise<void>;
+  getLikedCourseList: (userId: number) => Promise<any[]>;
 }
 
 export const courseAPI: CourseAPI = {
@@ -18,5 +18,16 @@ export const courseAPI: CourseAPI = {
     if (code !== 1000) {
       throw new Error(code);
     }
+  },
+
+  async getLikedCourseList(userId) {
+    const {
+      data: { code, result },
+    } = await axios.get(`/courses/${userId}/like`);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+    return result;
   },
 };

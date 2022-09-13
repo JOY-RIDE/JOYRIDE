@@ -3,13 +3,13 @@ import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { useQuery } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
-import MeetupList from 'components/mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
 import Empty from 'components/mypage/Empty';
 import { RiRidingLine } from 'react-icons/ri';
 import { useEffect } from 'react';
 import JoinedMeetupItem from 'components/mypage/JoinedMeetupItem';
+import ItemList from 'components/mypage/ItemList';
 
 const JoinedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -32,7 +32,7 @@ const JoinedMeetups = () => {
       {!meetups ? (
         <Loading />
       ) : meetups.length ? (
-        <MeetupList meetups={meetups} ItemComponent={JoinedMeetupItem} />
+        <ItemList items={meetups} ItemComponent={JoinedMeetupItem} />
       ) : (
         <Empty
           Icon={<RiRidingLine />}

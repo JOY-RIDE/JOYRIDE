@@ -40,6 +40,7 @@ import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { CourseName } from 'types/course';
 import { Autocomplete } from '@mui/material';
+import { getCourseNames } from 'apis/coursesAPI';
 
 const cn = classNames.bind(styles);
 
@@ -115,7 +116,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
     data: courseNames,
     // refetch,
     isLoading,
-  } = useQuery<CourseName[]>(['courseNames'], meetupAPI.getCourseNames, {
+  } = useQuery<CourseName[]>(['courseNames'], getCourseNames, {
     // enabled: false,
     staleTime: 12 * 60 * 60 * 1000,
     cacheTime: 12 * 60 * 60 * 1000,

@@ -4,12 +4,12 @@ import { toastMessageState } from 'states/common';
 import { useQuery } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
 import styles from '../MyMeetupsPreview/MyMeetupsPreview.module.scss';
-import MeetupList from '../MeetupList';
 import SectionTitle from '../SectionTitle';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { AiOutlineRight } from 'react-icons/ai';
 import BookmarkedMeetupItem from '../BookmarkedMeetupItem';
+import ItemList from '../ItemList';
 
 const cn = classNames.bind(styles);
 
@@ -35,8 +35,8 @@ const BookmarkedMeetupsPreview = () => {
       </header>
 
       {meetups && (
-        <MeetupList
-          meetups={meetups.slice(0, 3)}
+        <ItemList
+          items={meetups.slice(0, 3)}
           ItemComponent={BookmarkedMeetupItem}
         />
       )}

@@ -26,7 +26,7 @@ const BookmarkedMeetupItem = ({
   const { mutate } = useMutation(meetupAPI.cancelMeetupBookmark, {
     onSuccess: () => {
       showToastMessage('북마크를 해제했습니다.');
-      queryClient.invalidateQueries(['meetups']);
+      queryClient.invalidateQueries(['meetups', 'bookmark']);
     },
     onError: () => showToastMessage('북마크 해제 중 문제가 발생했습니다.'),
   });

@@ -3,13 +3,13 @@ import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { useQuery } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
-import MeetupList from 'components/mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
 import Empty from 'components/mypage/Empty';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { useEffect } from 'react';
 import BookmarkedMeetupItem from 'components/mypage/BookmarkedMeetupItem';
+import ItemList from 'components/mypage/ItemList';
 
 const BookmarkedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -32,7 +32,7 @@ const BookmarkedMeetups = () => {
       {!meetups ? (
         <Loading />
       ) : meetups.length ? (
-        <MeetupList meetups={meetups} ItemComponent={BookmarkedMeetupItem} />
+        <ItemList items={meetups} ItemComponent={BookmarkedMeetupItem} />
       ) : (
         <Empty
           Icon={<BiBookmarkPlus />}
