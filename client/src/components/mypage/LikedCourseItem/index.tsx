@@ -9,7 +9,7 @@ import { HiHeart } from 'react-icons/hi';
 
 const cn = classNames.bind(styles);
 
-const LikedCourseItem = ({ id, sigun, crsKorNm, image, crsSummary }: any) => {
+const LikedCourseItem = ({ crsKorNm, image, crsContents }: any) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
   // const { mutate } = useMutation(courseAPI.cancelCourseLike, {
@@ -25,9 +25,13 @@ const LikedCourseItem = ({ id, sigun, crsKorNm, image, crsSummary }: any) => {
     <li className={cn('container')}>
       <Link to={`/roads/${crsKorNm}`}>
         <h1 className={cn('title')}>{crsKorNm}</h1>
+        <p className={cn('content')}>{crsContents}</p>
       </Link>
 
-      <button className={cn('cancel-btn')}>{<HiHeart />}</button>
+      <img className={cn('img')} src={image} alt={crsKorNm} />
+      <button className={cn('cancel-btn')} aria-label="코스 좋아요 취소 버튼">
+        <HiHeart />
+      </button>
     </li>
   );
 };

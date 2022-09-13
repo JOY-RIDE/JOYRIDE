@@ -5,6 +5,7 @@
   justify-content: center;
   gap: 3rem;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .img {
@@ -20,6 +21,9 @@
 
   & a {
     color: $color-grey-600;
+    &:hover {
+      color: $color-main;
+    }
   }
 }
 

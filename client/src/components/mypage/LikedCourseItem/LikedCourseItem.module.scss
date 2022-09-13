@@ -1,7 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
 .container {
+  position: relative;
   display: flex;
+  gap: 2rem;
   justify-content: space-between;
   padding: 1.5rem 0;
   font-size: 1.4rem;
@@ -23,32 +25,31 @@
   margin-bottom: 1rem;
 }
 
-.meeting {
-  display: flex;
-  gap: 0.7rem;
-  align-items: center;
-  margin-bottom: 1rem;
+.content {
+  color: $color-grey-600;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
 
-  & .place {
-    display: flex;
-    gap: 0.1rem;
-    align-items: center;
-    color: $color-main;
-  }
-
-  & .date {
-    color: $color-grey-500;
-  }
+.img {
+  width: min(30%, 15rem);
+  object-fit: cover;
+  border: 1px solid $color-grey-300;
+  border-radius: 0.3rem;
 }
 
 .cancel-btn {
-  align-self: flex-start;
-  flex-shrink: 0;
-  font-size: 1.7rem;
-  color: $color-grey-400;
+  position: absolute;
+  top: 1em;
+  right: 0.5rem;
+  font-size: 1.8rem;
+  color: $color-red;
   transition: all 0.1s ease-in-out;
 
   &:hover {
-    color: $color-grey-500;
+    transform: scale(1.15);
   }
 }

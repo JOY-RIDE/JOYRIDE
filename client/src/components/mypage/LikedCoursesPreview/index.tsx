@@ -29,7 +29,7 @@ const LikedCoursesPreview = () => {
     <section className={cn('wrapper')}>
       <header className={cn('header')}>
         <SectionTitle title="좋아요 표시한 코스" count={courses?.length} />
-        <Link to="like/courses" className={cn('more')}>
+        <Link to="courses/like" className={cn('more')}>
           <span>더보기</span>
           <AiOutlineRight />
         </Link>

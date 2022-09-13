@@ -28,7 +28,7 @@ const BookmarkedMeetupsPreview = () => {
     <section className={cn('wrapper')}>
       <header className={cn('header')}>
         <SectionTitle title="북마크한 모임" count={meetups?.length} />
-        <Link to="bookmark/meetups" className={cn('more')}>
+        <Link to="meetups/bookmark" className={cn('more')}>
           <span>더보기</span>
           <AiOutlineRight />
         </Link>

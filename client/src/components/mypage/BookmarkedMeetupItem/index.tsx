@@ -49,8 +49,12 @@ const BookmarkedMeetupItem = ({
         <MeetupRoute courseName={courseName} path={path} />
       </Link>
 
-      <button className={cn('cancel-btn')} onClick={cancelBookmark}>
-        {<BsBookmarkFill />}
+      <button
+        className={cn('cancel-btn')}
+        aria-label="모임 북마크 취소 버튼"
+        onClick={cancelBookmark}
+      >
+        <BsBookmarkFill />
       </button>
     </li>
   );

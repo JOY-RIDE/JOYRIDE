@@ -2,6 +2,7 @@
 
 .container {
   display: flex;
+  gap: 2rem;
   justify-content: space-between;
   padding: 1.5rem 0;
   font-size: 1.4rem;
@@ -46,9 +47,4 @@
   flex-shrink: 0;
   font-size: 1.7rem;
   color: $color-grey-400;
-  transition: all 0.1s ease-in-out;
-
-  &:hover {
-    color: $color-grey-500;
-  }
 }
