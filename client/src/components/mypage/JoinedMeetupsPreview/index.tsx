@@ -9,6 +9,7 @@ import SectionTitle from '../SectionTitle';
 import classNames from 'classnames/bind';
 import { AiOutlineRight } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import JoinedMeetupItem from '../JoinedMeetupItem';
 
 const cn = classNames.bind(styles);
 
@@ -32,7 +33,12 @@ const JoinedMeetupsPreview = () => {
           <AiOutlineRight />
         </Link>
       </header>
-      {/* {meetups && <MeetupList meetups={meetups.slice(0, 3)} ItemComponent={MyMeetupItem} />} */}
+      {meetups && (
+        <MeetupList
+          meetups={meetups.slice(0, 3)}
+          ItemComponent={JoinedMeetupItem}
+        />
+      )}
     </section>
   );
 };

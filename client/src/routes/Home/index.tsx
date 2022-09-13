@@ -14,6 +14,7 @@ import _ from 'lodash';
 import CourseList from 'components/home/CourseList';
 import MeetupList from 'components/home/MeetupList';
 import { getMeetupsOrderedBy } from 'utils/order';
+import { MEETUP_FILTERS_INITIAL_STATE } from 'states/meetup';
 
 const cn = classNames.bind(styles);
 
@@ -27,7 +28,7 @@ const Home = () => {
 
   const { data: meetups } = useQuery<MeetupData[]>(
     // TODO
-    ['meetups', {}],
+    ['meetups', MEETUP_FILTERS_INITIAL_STATE],
     () => meetupAPI.getMeetupList(),
     {
       select: meetups =>
