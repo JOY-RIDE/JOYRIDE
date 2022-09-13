@@ -42,24 +42,9 @@
   }
 }
 
-.close-btn {
+.cancel-btn {
   align-self: flex-start;
   flex-shrink: 0;
-  font-size: 1.3rem;
-  display: flex;
-  gap: 0.3rem;
-  align-items: center;
-  background: $color-grey-400;
-  color: white;
-  padding: 0.4rem 0.5rem;
-  border-radius: 0.3rem;
-  transition: all 0.1s ease-in-out;
-
-  &.hidden {
-    display: none;
-  }
-
-  & svg {
-    font-size: 1.4rem;
-  }
+  font-size: 1.7rem;
+  color: $color-grey-400;
 }

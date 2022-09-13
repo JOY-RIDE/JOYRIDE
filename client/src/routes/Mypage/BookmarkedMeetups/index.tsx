@@ -3,12 +3,13 @@ import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { useQuery } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
-// import MeetupList from 'components/Mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
 import Empty from 'components/mypage/Empty';
 import { BiBookmarkPlus } from 'react-icons/bi';
 import { useEffect } from 'react';
+import BookmarkedMeetupItem from 'components/mypage/BookmarkedMeetupItem';
+import ItemList from 'components/mypage/ItemList';
 
 const BookmarkedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -28,16 +29,16 @@ const BookmarkedMeetups = () => {
   return (
     <>
       <PageTitle size="md">북마크한 모임</PageTitle>
-      {/* {!meetups ? (
+      {!meetups ? (
         <Loading />
       ) : meetups.length ? (
-        // <MeetupList meetups={meetups} />
+        <ItemList items={meetups} ItemComponent={BookmarkedMeetupItem} />
       ) : (
         <Empty
           Icon={<BiBookmarkPlus />}
           content="관심 있는 모임을 북마크 해보세요."
         />
-      )} */}
+      )}
     </>
   );
 };

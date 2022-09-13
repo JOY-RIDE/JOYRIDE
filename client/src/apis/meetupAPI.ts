@@ -3,13 +3,11 @@ import {
   MeetupDetail,
   MeetupFiltersState,
 } from './../types/meetup';
-import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
+// import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { joyrideAxios as axios } from './axios';
-import { faker } from '@faker-js/faker';
-import { GENDERS, LOCATIONS } from 'utils/constants';
-import { CourseName } from 'types/course';
-import { fetchCourses } from './coursesAPI';
-import { mapValues, uniqBy } from 'lodash';
+// import { faker } from '@faker-js/faker';
+// import { GENDERS, LOCATIONS } from 'utils/constants';
+import { mapValues } from 'lodash';
 import QueryString from 'qs';
 
 interface MeetupAPI {
@@ -21,10 +19,11 @@ interface MeetupAPI {
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
+  bookmarkMeetup: (meetupId: number) => Promise<void>;
 
   closeMeetup: (meetupId: number) => Promise<void>;
-
-  getCourseNames: () => Promise<CourseName[]>;
+  exitMeetup: (meetupId: number) => Promise<void>;
+  cancelMeetupBookmark: (meetupId: number) => Promise<void>;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -116,6 +115,17 @@ export const meetupAPI: MeetupAPI = {
     }
   },
 
+  // TODO
+  async bookmarkMeetup(meetupId) {
+    const {
+      data: { code },
+    } = await axios.post('/meets/' + meetupId);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
   async closeMeetup(meetupId) {
     const {
       data: { code },
@@ -126,11 +136,24 @@ export const meetupAPI: MeetupAPI = {
     }
   },
 
-  async getCourseNames() {
-    let courses = await fetchCourses();
-    courses = uniqBy(courses, 'crsKorNm');
-    const courseNames = courses.map((course: any) => course.crsKorNm);
-    return courseNames.sort();
+  async exitMeetup(meetupId) {
+    const {
+      data: { code },
+    } = await axios.delete('/meets/join/' + meetupId);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
+  async cancelMeetupBookmark(meetupId) {
+    const {
+      data: { code },
+    } = await axios.delete('/meets/join/' + meetupId);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
   },
 };
 

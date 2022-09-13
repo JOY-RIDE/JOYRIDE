@@ -29,6 +29,7 @@ import MyPage from 'routes/Mypage';
 import MyMeetups from 'routes/Mypage/MyMeetups';
 import JoinedMeetups from 'routes/Mypage/JoinedMeetups';
 import BookmarkedMeetups from 'routes/Mypage/BookmarkedMeetups';
+import LikedCourses from 'routes/Mypage/LikedCourses';
 
 const Error = lazy(() => import('routes/Error'));
 
@@ -94,11 +95,11 @@ const App = () => {
             <Route element={<PrivateRoute />}>
               <Route path="mypage">
                 <Route index element={<MyPage />} />
+                <Route path="courses/like" element={<LikedCourses />} />
                 <Route path="meetups/admin" element={<MyMeetups />} />
                 <Route path="meetups/join" element={<JoinedMeetups />} />
-                <Route path="like/courses" element={<MyPage />} />
                 <Route
-                  path="bookmark/meetups"
+                  path="meetups/bookmark"
                   element={<BookmarkedMeetups />}
                 />
               </Route>

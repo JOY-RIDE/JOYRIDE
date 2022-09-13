@@ -1,6 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
 .container {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
   padding: 1.5rem 0;
   font-size: 1.4rem;
 
@@ -8,8 +11,10 @@
     border-top: $border-grey;
   }
 
-  &:hover {
-    background: $color-grey-100;
+  & a:hover {
+    & .title {
+      color: $color-main;
+    }
   }
 }
 
@@ -23,7 +28,7 @@
   display: flex;
   gap: 0.7rem;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 
   & .place {
     display: flex;
@@ -37,34 +42,24 @@
   }
 }
 
-.route {
+.exit-btn {
+  align-self: flex-start;
+  flex-shrink: 0;
+  font-size: 1.3rem;
   display: flex;
-  gap: 0.6rem;
+  gap: 0.3rem;
   align-items: center;
-}
-
-.course-name {
-  background: #cef2e2;
-  color: $color-main;
-  font-weight: 700;
+  background: $color-grey-400;
+  color: white;
+  padding: 0.4rem 0.5rem;
   border-radius: 0.3rem;
-  padding: 0.3rem 0.6rem;
-  flex-shrink: 0;
-}
+  transition: all 0.1s ease-in-out;
 
-.path {
-  color: $color-grey-600;
-  display: flex;
-}
+  &.hidden {
+    display: none;
+  }
 
-.rest-path {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-}
-
-.to {
-  flex-shrink: 0;
-  white-space: pre;
+  & svg {
+    font-size: 1.4rem;
+  }
 }

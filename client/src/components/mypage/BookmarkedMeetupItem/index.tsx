@@ -1,46 +1,38 @@
-import styles from './MeetupItem.module.scss';
+import styles from './BookmarkedMeetupItem.module.scss';
 import { MeetupData } from 'types/meetup';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { BsBookmarkFill } from 'react-icons/bs';
 import MeetupRoute from '../MeetupRoute';
 import { meetupAPI } from 'apis/meetupAPI';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
-import { modalContentState, toastMessageState } from 'states/common';
-import { ClickHandler } from 'types/callback';
-import Confirm from 'components/common/Confirm';
+import { toastMessageState } from 'states/common';
 
 const cn = classNames.bind(styles);
 
-const MyMeetupItem = ({
+const BookmarkedMeetupItem = ({
   id,
   title,
   gatheringPlace,
   meetingDate,
   courseName,
   path,
-  status,
 }: MeetupData) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(meetupAPI.closeMeetup, {
+  const { mutate } = useMutation(meetupAPI.cancelMeetupBookmark, {
     onSuccess: () => {
-      showToastMessage('모임을 닫았습니다.');
-      queryClient.invalidateQueries(['meetups']);
+      showToastMessage('북마크를 해제했습니다.');
+      queryClient.invalidateQueries(['meetups', 'bookmark']);
     },
-    onError: () => showToastMessage('모임 닫기 중 문제가 발생했습니다.'),
+    onError: () => showToastMessage('북마크 해제 중 문제가 발생했습니다.'),
   });
+  const cancelBookmark = () => mutate(id);
 
-  const showModal = useSetRecoilState(modalContentState);
-  const closeMeetup = () => mutate(id);
-  const handleCloseClick: ClickHandler<HTMLButtonElement> = () =>
-    showModal(
-      <Confirm question="모임을 닫으시겠어요?" onConfirm={closeMeetup} />
-    );
-
+  /* TODO: 없어지는지 확인 */
   return (
     <li className={cn('container')}>
       <Link to={`/meetups/${id}`}>
@@ -58,15 +50,14 @@ const MyMeetupItem = ({
       </Link>
 
       <button
-        className={cn('close-btn', {
-          hidden: dayjs().isAfter(dayjs(meetingDate)) || status === 0,
-        })}
-        onClick={handleCloseClick}
+        className={cn('cancel-btn')}
+        aria-label="모임 북마크 취소 버튼"
+        onClick={cancelBookmark}
       >
-        {<EventBusyIcon />}모임 닫기
+        <BsBookmarkFill />
       </button>
     </li>
   );
 };
 
-export default MyMeetupItem;
+export default BookmarkedMeetupItem;
