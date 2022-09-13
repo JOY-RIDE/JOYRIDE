@@ -10,11 +10,9 @@ import { GENDERS, LOCATIONS } from 'utils/constants';
 import { CourseName } from 'types/course';
 import { fetchCourses } from './coursesAPI';
 import { uniqBy } from 'lodash';
-import { mapValues } from 'lodash';
-import qs from 'query-string';
 
 interface MeetupAPI {
-  getMeetupList: (filters?: MeetupFiltersState) => Promise<MeetupData[]>;
+  getMeetupList: (query?: string) => Promise<MeetupData[]>;
   getMyMeetupList: () => Promise<MeetupData[]>;
   getJoinedMeetupList: () => Promise<MeetupData[]>;
   getBookmarkedMeetupList: () => Promise<MeetupData[]>;
@@ -29,17 +27,7 @@ interface MeetupAPI {
 }
 
 export const meetupAPI: MeetupAPI = {
-  async getMeetupList(filters = {}) {
-    const filtersWithValueOnly = mapValues(filters, 'value');
-    if (!filtersWithValueOnly['minNumOfParticipants'])
-      delete filtersWithValueOnly['minNumOfParticipants'];
-    if (!filtersWithValueOnly['maxNumOfParticipants'])
-      delete filtersWithValueOnly['maxNumOfParticipants'];
-    const stringifiedFilters = qs.stringify(filtersWithValueOnly, {
-      encode: false,
-    });
-    const query = stringifiedFilters && '?' + stringifiedFilters;
-
+  async getMeetupList(query = '') {
     const {
       data: { code, result },
     } = await axios.get('/meets' + query);

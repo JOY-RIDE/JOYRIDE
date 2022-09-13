@@ -1,10 +1,10 @@
-import Profile from 'components/Mypage/Profile';
+import Profile from 'components/mypage/Profile';
 import styles from './Mypage.module.scss';
 import classNames from 'classnames/bind';
-import MyMeetupsPreview from 'components/Mypage/MyMeetupsPreview';
-import BookmarkedMeetupsPreview from 'components/Mypage/BookmarkedMeetupsPreview';
-import JoinedMeetupsPreview from 'components/Mypage/JoinedMeetupsPreview';
-import SectionTitle from 'components/Mypage/SectionTitle';
+import MyMeetupsPreview from 'components/mypage/MyMeetupsPreview';
+import BookmarkedMeetupsPreview from 'components/mypage/BookmarkedMeetupsPreview';
+import JoinedMeetupsPreview from 'components/mypage/JoinedMeetupsPreview';
+import SectionTitle from 'components/mypage/SectionTitle';
 import { Link } from 'react-router-dom';
 import { AiOutlineRight } from 'react-icons/ai';
 
@@ -23,8 +23,8 @@ const MyPage = () => (
       </header>
     </section>
     <MyMeetupsPreview />
-    {/* <JoinedMeetupsPreview />
-    <BookmarkedMeetupsPreview /> */}
+    <JoinedMeetupsPreview />
+    <BookmarkedMeetupsPreview />
   </div>
 );
 

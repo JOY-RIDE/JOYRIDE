@@ -3,18 +3,18 @@ import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { useQuery } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
-import MeetupList from 'components/Mypage/MeetupList';
+import MeetupList from 'components/mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
 import { FiPlusCircle } from 'react-icons/fi';
-import Empty from 'components/Mypage/Empty';
+import Empty from 'components/mypage/Empty';
 import { useEffect } from 'react';
-import MyMeetupItem from 'components/Mypage/MyMeetupItem';
+import MyMeetupItem from 'components/mypage/MyMeetupItem';
 
 const MyMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['myMeetups'],
+    ['meetups', 'admin'],
     meetupAPI.getMyMeetupList,
     {
       staleTime: 60 * 1000,

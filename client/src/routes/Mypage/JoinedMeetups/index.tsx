@@ -6,14 +6,14 @@ import { meetupAPI } from 'apis/meetupAPI';
 // import MeetupList from 'components/Mypage/MeetupList';
 import Loading from 'components/common/Loading';
 import PageTitle from 'components/common/PageTitle';
-import Empty from 'components/Mypage/Empty';
+import Empty from 'components/mypage/Empty';
 import { RiRidingLine } from 'react-icons/ri';
 import { useEffect } from 'react';
 
 const JoinedMeetups = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: meetups } = useQuery<MeetupData[]>(
-    ['joinedMeetups'],
+    ['meetups', 'join'],
     meetupAPI.getJoinedMeetupList,
     {
       staleTime: 60 * 1000,
