@@ -162,7 +162,7 @@ const Road = () => {
             <PageTitle size="sm">코스 후기</PageTitle>
             <span className={cn('cnt')}>12</span>
           </div>
-          {loggedInUser ? <ReviewWriter /> : <AskLogin />}
+          {loggedInUser ? <ReviewWriter /> : null}
           <div className={cn('review-summary')}>
             <span>전체평점</span>
             <span className={cn('rating-summary')}>{serverData?.totalAvg}</span>
