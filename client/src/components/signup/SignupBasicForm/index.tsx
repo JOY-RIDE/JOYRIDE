@@ -42,9 +42,13 @@ const SignupBasicForm = () => {
       await authAPI.checkIfEmailExists(email);
       return true;
     } catch (e: any) {
-      setError('email', {
-        type: e.message === '2017' ? 'duplicated' : 'etc',
-      });
+      setError(
+        'email',
+        {
+          type: e.message === '2017' ? 'duplicated' : 'etc',
+        },
+        { shouldFocus: true }
+      );
       return false;
     }
   };

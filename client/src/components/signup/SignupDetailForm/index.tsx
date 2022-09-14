@@ -54,9 +54,13 @@ const SignupDetailForm = () => {
       await authAPI.checkIfNicknameExists(nickname);
       return true;
     } catch (e: any) {
-      setError('nickname', {
-        type: e.message === '2032' ? 'duplicated' : 'etc',
-      });
+      setError(
+        'nickname',
+        {
+          type: e.message === '2032' ? 'duplicated' : 'etc',
+        },
+        { shouldFocus: true }
+      );
       return false;
     }
   };
