@@ -27,6 +27,7 @@ export interface NewUser {
 export interface UserProfile {
   nickname: string;
   image: string;
+  profileImgUrl: string;
   gender: Gender;
   birthYear: number;
   bicycleType: BicycleType;

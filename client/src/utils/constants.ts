@@ -71,6 +71,14 @@ export const LOCATIONS: Location[] = [
   '경남',
   '제주',
 ];
+export const BICYCLE_TYPES: BicycleType[] = [
+  '따릉이',
+  'MTB',
+  '로드바이크',
+  '하이브리드',
+  '미니벨로',
+  '기타',
+];
 export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<MeetupPathDifficulty>[] = [
   { value: 1, content: stringifyMeetupPathDifficulty(1) },
   { value: 2, content: stringifyMeetupPathDifficulty(2) },

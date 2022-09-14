@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './CourseList.module.scss';
 import { ServerIRoads } from 'types/course';
 import CourseItem from '../CourseItem';
@@ -80,7 +81,9 @@ const CourseList = ({ courses }: CourseListProp) => {
             <CourseItem course={course} index={index} />
           </AccordionSummary>
           <AccordionDetails>
-            <img src={course.image} width="100%" height="auto" alt="" />
+            <Link to={`/roads/${course.crsKorNm}`}>
+              <img src={course.image} width="100%" height="auto" alt="" />
+            </Link>
           </AccordionDetails>
         </Accordion>
       ))}
