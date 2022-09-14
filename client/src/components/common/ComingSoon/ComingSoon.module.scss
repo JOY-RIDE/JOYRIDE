@@ -1,0 +1,17 @@
+@use '../../../styles/variables.scss' as *;
+
+.wrapper {
+  margin-top: 6rem;
+  text-align: center;
+
+  & > svg {
+    font-size: 7rem;
+    color: $color-main;
+  }
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-top: 2rem;
+}

@@ -1,5 +1,5 @@
 import { useMatch } from 'react-router-dom';
-import Container from 'components/common/Container';
+import Container from 'components/layout/Container';
 import styles from './Footer.module.scss';
 import classNames from 'classnames/bind';
 import { JOYRDIE_LOGO_GREEN_IMAGE } from 'utils/urls';

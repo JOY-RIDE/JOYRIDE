@@ -4,9 +4,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
   color: $color-grey-600;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-top: 5rem;
 
   & button:disabled {
@@ -16,7 +16,7 @@
 
 .pages {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .page {

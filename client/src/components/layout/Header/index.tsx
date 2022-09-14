@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { userProfileState, userIdState } from 'states/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import Container from 'components/common/Container';
+import Container from 'components/layout/Container';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 // import { FaRegUserCircle } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
