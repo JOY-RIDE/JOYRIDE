@@ -58,11 +58,11 @@ const Roads = () => {
   const filterLocation = boardFilters?.location?.value;
   const filterLevel = boardFilters?.pathDifficulty?.value;
 
-  const { data: filteredData } = useQuery<ServerIRoads[]>(
-    ['filteredCourses', filterLevel, filterLocation],
-    () => fetchFilteredCourses(filterLevel, filterLocation)
-  );
-  console.log(filteredData);
+  //   const { data: filteredData } = useQuery<ServerIRoads[]>(
+  //     ['filteredCourses', filterLevel, filterLocation],
+  //     () => fetchFilteredCourses(filterLevel, filterLocation)
+  //   );
+  //   console.log(filteredData);
 
   const order = useRecoilValue(courseOrderState);
   const resetFilters = useResetRecoilState(courseFiltersState);
@@ -90,7 +90,7 @@ const Roads = () => {
           <PageTitle size="md">자전거 코스</PageTitle>
           <div className={cn('filter-order')}>
             {/* @ts-ignore */}
-            <ContentToggleButton title="필터" Content={<CourseFilterBoard />} />
+            {/* <ContentToggleButton title="필터" Content={<CourseFilterBoard />} /> */}
             <ContentToggleButton
               title={order.content}
               Content={
@@ -105,7 +105,7 @@ const Roads = () => {
               }
             />
           </div>
-          <CourseFilterChoices />
+          {/* <CourseFilterChoices /> */}
 
           <div className={cn('contents')}>
             {/* {boardFilters ? (
