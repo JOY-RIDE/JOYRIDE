@@ -200,14 +200,13 @@ public class CourseProvider {
     public GetCourseLikeRes retrieveCourseLike(GetCourseLikeReq getCourseLikeReq) throws BaseException {
         try{
             String title = getCourseLikeReq.getTitle();
-            int id = getCourseLikeReq.getUser_id();
-            List<String> selectedTitle = courseDao.selectCourseByUserId(id);
-            System.out.println("selectedTitle = " + selectedTitle);
-            if (selectedTitle.contains(title)) {
-                return  new GetCourseLikeRes(1);
+            int user_id = getCourseLikeReq.getUser_id();
+            int courseId = courseDao.existsCourseLike(title, user_id);
+            if (courseId == 0) {
+                return new GetCourseLikeRes(0);
             }
 
-            return  new GetCourseLikeRes(0);
+            return new GetCourseLikeRes(1);
         }
         catch (Exception exception) {
             exception.printStackTrace();

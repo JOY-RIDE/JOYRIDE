@@ -143,17 +143,17 @@ public class CourseDao {
     }
 
     //좋아요 삭제
-    public void deleteCourseLike(int courseLike_id){
+    public void deleteCourseLike(String title, int user_id){
         // 이 부분 체크
-        String deleteByCourseLikeIdQuery = "delete from courselike where id = ?";
-        int deleteByCourseLikeIdParams = courseLike_id;
+        String deleteByCourseLikeIdQuery = "delete from courselike where course_id = ? and user_id = ?";
+        Object[] deleteCourseLikeParams = new Object[]{title, user_id};
 
-        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteByCourseLikeIdParams);
+        this.jdbcTemplate.update(deleteByCourseLikeIdQuery, deleteCourseLikeParams);
     }
 
-    public int existsCourseLike(int courseLike_id) {
-        String existsCourseLikeQuery = "select exists(select id from courselike where id = ?)";
-        int existsCourseLikeParams = courseLike_id;
+    public int existsCourseLike(String title, int user_id) {
+        String existsCourseLikeQuery = "select exists(select id from courselike where course_id = ? and user_id = ?)";
+        Object[] existsCourseLikeParams = new Object[]{title, user_id};
         return this.jdbcTemplate.queryForObject(existsCourseLikeQuery,
                 int.class,
                 existsCourseLikeParams);

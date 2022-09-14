@@ -134,15 +134,15 @@ public class CourseService {
     }
 
     //코스 좋아요 삭제
-    public DeleteCourseLikeRes removeCourseLike(int courseLike_id) throws BaseException {
+    public DeleteCourseLikeRes removeCourseLike(String title , int user_id) throws BaseException {
 
         // 유저확인 로직 필요
-        int existsCourseLike = courseDao.existsCourseLike(courseLike_id);
+        int existsCourseLike = courseDao.existsCourseLike(title, user_id);
         if (existsCourseLike == 0) {
             throw new BaseException(COURSE_LIKE_NOT_EXISTS);
         }
         try{
-            courseDao.deleteCourseLike(courseLike_id);
+            courseDao.deleteCourseLike(title, user_id);
             String message = "좋아요 삭제에 성공했습니다.";
             return new DeleteCourseLikeRes(message);
         } catch (Exception exception) {
