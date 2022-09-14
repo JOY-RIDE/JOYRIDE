@@ -35,27 +35,29 @@ const BookmarkedMeetupItem = ({
   /* TODO: 없어지는지 확인 */
   return (
     <li className={cn('container')}>
-      <Link to={`/meetups/${id}`}>
-        <h1 className={cn('title')}>{title}</h1>
-        <div className={cn('meeting')}>
-          <div className={cn('place')}>
-            <HiOutlineLocationMarker />
-            <span>{gatheringPlace}</span>
+      <div className={cn('top')}>
+        <Link to={`/meetups/${id}`}>
+          <h1 className={cn('title')}>{title}</h1>
+          <div className={cn('meeting')}>
+            <div className={cn('place')}>
+              <HiOutlineLocationMarker />
+              <span>{gatheringPlace}</span>
+            </div>
+            <span className={cn('date')}>
+              {dayjs(meetingDate).format('M월 D일')}
+            </span>
           </div>
-          <span className={cn('date')}>
-            {dayjs(meetingDate).format('M월 D일')}
-          </span>
-        </div>
-        <MeetupRoute courseName={courseName} path={path} />
-      </Link>
+        </Link>
 
-      <button
-        className={cn('cancel-btn')}
-        aria-label="모임 북마크 취소 버튼"
-        onClick={cancelBookmark}
-      >
-        <BsBookmarkFill />
-      </button>
+        <button
+          className={cn('cancel-btn')}
+          aria-label="모임 북마크 취소 버튼"
+          onClick={cancelBookmark}
+        >
+          <BsBookmarkFill />
+        </button>
+      </div>
+      <MeetupRoute courseName={courseName} path={path} />
     </li>
   );
 };
