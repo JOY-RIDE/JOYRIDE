@@ -61,14 +61,14 @@ const ModifierForm = () => {
   const onSubmit: SubmitHandler<ModifierForm> = data => {
     console.log(data);
     // let newProfile = JSON.stringify(data);
-    // const formData = new FormData();
-    // if (imgFile?.length) {
-    //   formData.append('image', imgFile[0]);
-    //   axios
-    //     .patch('/users/profile-img', imgFile[0])
-    //     .then(response => console.log(response)) // 성공 핸들링
-    //     .catch(error => console.log(error));
-    // }
+    const formData = new FormData();
+    if (imgFile?.length) {
+      formData.append('image', imgFile[0]);
+    }
+    axios
+      .patch('/users/profile-img', { 'profile-img': formData })
+      .then(response => console.log(response)) // 성공 핸들링
+      .catch(error => console.log(error));
   };
 
   const handleUserDelete = () => {
@@ -100,11 +100,7 @@ const ModifierForm = () => {
               name="nickname"
               rules={{ required: true }}
               render={({ field }) => (
-                <TextArea
-                  placeholder="닉네임을 입력하세요."
-                  defaultValue={userProfile.nickname}
-                  {...field}
-                />
+                <TextArea placeholder="닉네임을 입력하세요." {...field} />
               )}
             />
             {errors.nickname && (
@@ -122,7 +118,6 @@ const ModifierForm = () => {
               <Controller
                 control={control}
                 name="bicycleType"
-                defaultValue={userProfile.bicycleType}
                 rules={{ required: true }}
                 render={({ field: { value, ...others } }) => (
                   <>
@@ -193,7 +188,6 @@ const ModifierForm = () => {
               render={({ field }) => (
                 <TextArea
                   placeholder="상태 메세지를 입력하세요(선택)"
-                  defaultValue={userProfile.introduce}
                   {...field}
                 />
               )}
