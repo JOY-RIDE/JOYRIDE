@@ -42,7 +42,7 @@ const Home = () => {
         ).slice(0, 3),
       staleTime: 10 * 60 * 1000,
       cacheTime: Infinity,
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
+      onError: () => showToastMessage('페이지 로딩 중 문제가 발생했습니다.'),
     }
   );
 

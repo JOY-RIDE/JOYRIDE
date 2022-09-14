@@ -34,7 +34,7 @@ const AskLogin = () => {
       </div>
       <ul className={cn('providers')}>
         {/* TODO */}
-        <li>
+        {/* <li>
           <SocialLoginButton
             href="#"
             provider="네이버"
@@ -47,7 +47,7 @@ const AskLogin = () => {
             provider="카카오"
             imgSRC={socialLogin_kakao}
           />
-        </li>
+        </li> */}
         <li>
           <SocialLoginButton
             href="http://localhost:9001/oauth2/authorization/google"
