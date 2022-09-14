@@ -118,7 +118,7 @@ const Header = () => {
               >
                 자전거 모임
               </Link>
-              <form
+              {/* <form
                 className={cn('form', 'menus')}
                 onSubmit={handleSubmit(onValid)}
               >
@@ -128,7 +128,7 @@ const Header = () => {
                   placeholder="궁금한 내용을 검색해 보세요!"
                 />
                 <AiOutlineSearch className={cn('icon')} />
-              </form>
+              </form> */}
             </div>
           </Container>
         </motion.div>
