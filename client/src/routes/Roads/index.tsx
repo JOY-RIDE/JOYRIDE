@@ -53,7 +53,7 @@ const Roads = () => {
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES
   );
-  console.log(boardFilters);
+  //   console.log(boardFilters);
 
   const filterLocation = boardFilters?.location?.value;
   const filterLevel = boardFilters?.pathDifficulty?.value;
