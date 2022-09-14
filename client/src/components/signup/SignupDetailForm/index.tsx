@@ -87,7 +87,6 @@ const SignupDetailForm = () => {
       introduce: introduce || null,
       isTermsEnable: true,
     };
-    console.log(newUser);
 
     try {
       await authAPI.signup(newUser);

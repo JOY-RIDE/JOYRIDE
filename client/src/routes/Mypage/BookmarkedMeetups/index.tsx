@@ -36,7 +36,7 @@ const BookmarkedMeetups = () => {
       ) : (
         <Empty
           Icon={<BiBookmarkPlus />}
-          content="관심 있는 모임을 북마크 해보세요."
+          content="관심 있는 모임들을 북마크 하세요."
         />
       )}
     </>
