@@ -15,26 +15,30 @@ interface MeetupRouteProps {
 }
 
 const MeetupRoute = ({ courseName, path }: MeetupRouteProps) => (
-  <div className={cn('container', { long: courseName })}>
+  <>
     {courseName && (
-      <Link to={`/roads/${courseName}`} target="_blank">
-        <span className={cn('course')}>
-          {courseName}
-          <TbLayersLinked />
-        </span>
+      <Link
+        to={`/roads/${courseName}`}
+        className={cn('course')}
+        target="_blank"
+      >
+        {courseName}
+        <TbLayersLinked />
       </Link>
     )}
-    <ul className={cn('path')}>
-      {path.map((stop, index) => (
-        <Fragment key={index}>
-          {index > 0 && <BsArrowRight />}
-          <li>
-            <Chip size="md" content={stop} isActive isDeletable={false} />
-          </li>
-        </Fragment>
-      ))}
-    </ul>
-  </div>
+    <div className={cn('container')}>
+      <ul className={cn('path')}>
+        {path.map((stop, index) => (
+          <Fragment key={index}>
+            {index > 0 && <BsArrowRight />}
+            <li>
+              <Chip size="md" content={stop} isActive isDeletable={false} />
+            </li>
+          </Fragment>
+        ))}
+      </ul>
+    </div>
+  </>
 );
 
 export default MeetupRoute;

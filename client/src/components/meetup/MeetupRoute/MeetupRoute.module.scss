@@ -1,41 +1,28 @@
 @use '../../../styles/variables.scss' as *;
 
-.container {
-  border: 1px dashed #aeaeae;
-  border-radius: 2rem;
-  padding: 1.5rem 3rem;
-  position: relative;
+.course {
+  color: $color-grey-700;
+  border: 1px solid $color-grey-700;
+  border-radius: 0.2rem;
+  padding: 0.5rem 1.5rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+  width: max-content;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
 
-  &.long {
-    padding-top: 2.5rem;
-    margin-top: 3rem;
+  & svg {
+    font-size: 1.7rem;
   }
 }
 
-.course {
-  color: $color-main;
-  background: #cef2e2;
-  padding: 0.5rem 0.7rem;
-  border-radius: 0.2rem;
-  font-weight: 700;
-  font-size: 1.4rem;
-  position: absolute;
-  top: -1em;
-  right: 50%;
-  transform: translateX(50%);
-  width: max-content;
-
-  &:hover {
-    text-decoration: underline;
-  }
-
-  & svg {
-    font-size: 1.6rem;
-    position: absolute;
-    top: -1.1em;
-    right: -0.5em;
-    color: $color-grey-600;
-  }
+.container {
+  border: 1px dashed #aeaeae;
+  border-radius: 2rem;
+  padding: 1.2rem 3rem;
 }
 
 .path {
