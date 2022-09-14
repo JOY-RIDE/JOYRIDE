@@ -97,6 +97,18 @@ public class MeetDao {
         return this.jdbcTemplate.queryForObject(checkMeetStatusQuery, int.class, checkMeetStatusParam);
     }
 
+    public int checkMeetGender(String gender, Integer meetId) {
+        String checkMeetGenderQuery = "select exists(select id from meet where gender in (?,'mixed') and id = ?)";
+        Object[] checkMeetGenderParam = new Object[]{gender,meetId};
+        return this.jdbcTemplate.queryForObject(checkMeetGenderQuery, int.class, checkMeetGenderParam);
+    }
+
+    public int checkMeetBirth(Integer birthYear, Integer meetId) {
+        String checkMeetBirthQuery = "select exists(select meet.id from meet where "+ birthYear+ " >= min_year and "+ birthYear+" <= max_year and id=?)";
+        Integer checkMeetBirthParam = meetId;
+        return this.jdbcTemplate.queryForObject(checkMeetBirthQuery, int.class, checkMeetBirthParam);
+    }
+
     public int checkMeetFull(Integer meetId) {
         String checkMeetMaxPeopleQuery = "select max_people from meet where id = ?";
         Integer checkMeetMaxPeopleParam = meetId;

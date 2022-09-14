@@ -114,7 +114,11 @@ public class MeetController {
             if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
                 return new BaseResponse<>(BaseResponseStatus.POST_USER_EXISTS_JOIN);
             }
-            else if (meetProvider.checkMeetFull(meetId) == 1){
+            if (meetProvider.checkMeetGender(userId,meetId) == 0)
+                return new BaseResponse<>(USER_GENDER_INVALID_JOIN);
+            if (meetProvider.checkMeetBirth(userId,meetId) == 0)
+                return new BaseResponse<>(USER_BIRTH_INVALID_JOIN);
+            if (meetProvider.checkMeetFull(meetId) == 1){
                 return new BaseResponse<>(MEET_FULL);
             }
             else {

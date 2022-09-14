@@ -3,6 +3,7 @@ package com.joyride.ms.src.meet;
 import com.joyride.ms.src.meet.dto.MeetDetailRes;
 import com.joyride.ms.src.meet.dto.MeetFilterReq;
 import com.joyride.ms.src.meet.dto.MeetListRes;
+import com.joyride.ms.src.user.UserDao;
 import com.joyride.ms.util.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,11 @@ import static com.joyride.ms.util.BaseResponseStatus.*;
 public class MeetProvider {
 
     private final MeetDao meetDao;
+    private final UserDao userDao;
 
-    public MeetProvider(MeetDao meetDao) {
+    public MeetProvider(MeetDao meetDao, UserDao userDao) {
         this.meetDao = meetDao;
+        this.userDao = userDao;
     }
 
     public MeetDetailRes retrieveMeetById(Integer meetId) throws BaseException {
@@ -69,6 +72,30 @@ public class MeetProvider {
     public int checkMeetFull(Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetFull(meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkMeetGender(Integer userId, Integer meetId) throws BaseException {
+        try {
+            String gender = userDao.selectById(userId).getGender();
+            if (gender.isEmpty() != true)
+                return meetDao.checkMeetGender(gender,meetId);
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkMeetBirth(Integer userId, Integer meetId) throws BaseException {
+        try {
+            Integer birthYear = userDao.selectById(userId).getBirthYear();
+            if(birthYear != null)
+                return meetDao.checkMeetBirth(birthYear,meetId);
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
