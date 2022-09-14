@@ -1,24 +1,18 @@
 @use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
-$form-side-padding: 2.5rem;
-
 .form {
-  padding: 0 $form-side-padding 4rem $form-side-padding;
+  padding-bottom: 4rem;
   margin-top: 7.5rem;
-  overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
 }
 
 .img-wrapper {
-  width: calc(100% + 2 * $form-side-padding);
-  right: $form-side-padding;
   height: 20rem;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  position: relative;
 }
 
 #img {
@@ -57,6 +51,7 @@ $form-side-padding: 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  padding: 0 2.5rem;
 }
 
 .field {
