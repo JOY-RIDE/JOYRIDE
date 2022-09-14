@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider, userProvider, authenticationManagerBuilder.getObject()),
                         UsernamePasswordAuthenticationFilter.class);
 
-        http.cors().and()
+        http.cors().configurationSource(corsConfigurationSource()).and()
                 .csrf().disable() // 세션 사용 안하므로
                 // exception handling 새로 만든 클래스로
                 .exceptionHandling()
