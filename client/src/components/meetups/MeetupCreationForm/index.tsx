@@ -246,27 +246,20 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>지역</h4>
           </label>
-          <ul className={cn('options')}>
-            <Controller
-              control={control}
-              name="location"
-              render={({ field: { value, ...others } }) => (
-                <>
-                  {LOCATIONS.map((location: Location) => (
-                    <li key={location} className={cn('col')}>
-                      <SelectButton
-                        type="radio"
-                        value={location}
-                        content={location}
-                        isSelected={value === location}
-                        {...others}
-                      />
-                    </li>
-                  ))}
-                </>
-              )}
-            />
-          </ul>
+          <Controller
+            control={control}
+            name="location"
+            render={({ field }) => (
+              <SelectList
+                options={LOCATIONS.map(location => ({
+                  value: location,
+                  content: location,
+                }))}
+                label="지역"
+                {...field}
+              />
+            )}
+          />
         </div>
 
         <div className={cn('field')}>

@@ -22,7 +22,8 @@ import { range } from 'lodash';
 
 export const MAIN_COLOR = '#22b573';
 
-export const GENDERS: Gender[] = ['m', 'f']; // TODO: 삭제
+export const GENDERS: Gender[] = ['m', 'f'];
+// TODO
 export const GENDER_OPTIONS: Option<Gender>[] = [
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
@@ -41,6 +42,7 @@ export const BICYCLE_TYPE_OPTIONS: Option<BicycleType>[] = [
   { value: '따릉이', content: '따릉이' },
   { value: 'MTB', content: 'MTB' },
   { value: '로드바이크', content: '로드바이크' },
+  { value: '그래블', content: '그래블' },
   { value: '하이브리드', content: '하이브리드' },
   { value: '미니벨로', content: '미니벨로' },
   { value: '기타', content: '기타' },

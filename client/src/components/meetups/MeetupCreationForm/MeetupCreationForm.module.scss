@@ -6,6 +6,7 @@ $form-side-padding: 2.5rem;
 .form {
   padding: 0 $form-side-padding 4rem $form-side-padding;
   margin-top: 7.5rem;
+  overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
 }
