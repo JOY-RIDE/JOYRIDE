@@ -36,10 +36,14 @@ export function stringifyAge(age: Age) {
 export function stringifyRidingSkill(skill: RidingSkill) {
   switch (skill) {
     case 1:
-      return '초급';
+      return '일반인/입문자';
     case 2:
-      return '중급';
+      return '초급';
     case 3:
+      return '중급';
+    case 4:
+      return '중상급';
+    case 5:
       return '고급';
     default:
       throw new Error();

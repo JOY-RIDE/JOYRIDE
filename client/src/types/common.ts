@@ -31,7 +31,7 @@ export type BicycleType =
   | '하이브리드'
   | '미니벨로'
   | '기타';
-export type RidingSkill = 1 | 2 | 3;
+export type RidingSkill = 1 | 2 | 3 | 4 | 5;
 
 export interface FiltersReducerPayload {
   key: string;

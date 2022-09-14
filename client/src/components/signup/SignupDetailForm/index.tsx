@@ -19,6 +19,7 @@ import {
 } from 'utils/constants';
 import { BicycleType, Gender, Option, RidingSkill } from 'types/common';
 import { ChangeEvent } from 'react';
+import RidingSkills from 'components/common/RidingSkills';
 
 const cn = classNames.bind(styles);
 
@@ -230,9 +231,10 @@ const SignupDetailForm = () => {
           )}
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'riding-skill')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>라이딩 실력</h4>
+            <RidingSkills placement="left" />
           </label>
           <ul className={cn('row')}>
             <Controller
@@ -258,7 +260,7 @@ const SignupDetailForm = () => {
           </ul>
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'introduce')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>상태 메세지</h4>
             <span className={cn('guide')}>(선택)</span>
