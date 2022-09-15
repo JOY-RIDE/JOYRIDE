@@ -2,12 +2,13 @@
 
 .container {
   display: flex;
-  gap: 1rem;
+  gap: 0 1rem;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   font-size: 1.3rem;
   color: $color-grey-700;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
 }
 
 .col {

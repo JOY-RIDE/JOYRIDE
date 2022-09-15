@@ -23,7 +23,7 @@ const BookmarkedMeetupItem = ({
 }: MeetupData) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(meetupAPI.cancelMeetupBookmark, {
+  const { mutate } = useMutation(meetupAPI.toggleMeetupBookmark, {
     onSuccess: () => {
       showToastMessage('북마크를 해제했습니다.');
       queryClient.invalidateQueries(['meetups', 'bookmark']);

@@ -38,7 +38,6 @@ const JoinedMeetupItem = ({
   const handleExitClick: ClickHandler<HTMLButtonElement> = () =>
     showModal(<Confirm question="모임을 탈퇴할까요?" onConfirm={exitMeetup} />);
 
-  /* TODO: 없어지는지 확인 */
   return (
     <li className={cn('container')}>
       <div className={cn('top')}>
