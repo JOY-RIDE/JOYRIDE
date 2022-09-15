@@ -7,6 +7,7 @@ import com.joyride.ms.src.user.UserDao;
 import com.joyride.ms.util.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class MeetProvider {
         this.meetDao = meetDao;
         this.userDao = userDao;
     }
-
+    @Transactional(readOnly = true)
     public MeetDetailRes retrieveMeetById(Integer meetId) throws BaseException {
         try {
             return meetDao.selectMeetById(meetId);
@@ -32,7 +33,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<MeetListRes> retrieveMeetByFilter(MeetFilterReq meetFilterReq) throws BaseException {
         try {
             return meetDao.selectMeetByFilter(meetFilterReq);
@@ -41,7 +42,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<MeetListRes> retrieveMeetByHost(Integer userId) throws BaseException {
         try {
             return meetDao.selectMeetByHost(userId);
@@ -50,7 +51,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<MeetListRes> retrieveMeetByJoin(Integer userId) throws BaseException {
         try {
             return meetDao.selectMeetByJoin(userId);
@@ -59,7 +60,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<MeetListRes> retrieveMeetByBookMark(Integer userId) throws BaseException {
         try {
             return meetDao.selectMeetByBookMark(userId);
@@ -68,7 +69,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetJoinById(Integer userId ,Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetJoinById(userId, meetId);
@@ -77,7 +78,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetById(Integer userId ,Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetById(userId, meetId);
@@ -86,7 +87,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetStatus(Integer meetId) throws BaseException {
         try {
              return meetDao.checkMeetStatus(meetId);
@@ -95,7 +96,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetFull(Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetFull(meetId);
@@ -104,7 +105,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetGender(Integer userId, Integer meetId) throws BaseException {
         try {
             String gender = userDao.selectById(userId).getGender();
@@ -116,7 +117,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetBirth(Integer userId, Integer meetId) throws BaseException {
         try {
             Integer birthYear = userDao.selectById(userId).getBirthYear();
@@ -128,7 +129,7 @@ public class MeetProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
-
+    @Transactional(readOnly = true)
     public int checkMeetBookMark(Integer userId, Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetBookMark(userId,meetId);
