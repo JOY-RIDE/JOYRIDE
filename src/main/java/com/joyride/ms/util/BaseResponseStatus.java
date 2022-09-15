@@ -63,6 +63,7 @@ public enum BaseResponseStatus {
     MEET_FULL(false,2037,"정원이 다 찬 모임입니다."),
     USER_BIRTH_INVALID_JOIN(false,2038,"참가 제한 연령입니다."),
     USER_GENDER_INVALID_JOIN(false,2039,"참가 제한 성별입니다."),
+    MEET_BOOKMARKED(false,2040,"북마크한 모임입니다."),
 
 
 

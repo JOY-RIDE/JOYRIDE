@@ -219,7 +219,6 @@ public class MeetController {
         try {
             if(meetProvider.checkMeetBookMark(userId,meetId) != 1) {
                 meetService.createMeetBookMark(userId,meetId);
-                return new BaseResponse<>("생성완료");
             }
             else {
                 meetService.removeMeetBookMark(userId,meetId);
@@ -242,6 +241,26 @@ public class MeetController {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try{
             return new BaseResponse<>(meetProvider.retrieveMeetByBookMark(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.3 북마크한 모임 조회 API
+     * [GET] /meets/bookmark/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/bookmark/{meetId}")
+    public BaseResponse<String> checkMeetBookMark(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            if(meetProvider.checkMeetBookMark(userId,meetId) != 1) {
+                return new BaseResponse<>("북마크 하지 않은 모임입니다");
+            }
+            return new BaseResponse<>(MEET_BOOKMARKED);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
