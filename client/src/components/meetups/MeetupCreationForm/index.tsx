@@ -41,6 +41,7 @@ import { toastMessageState } from 'states/common';
 import { CourseName } from 'types/course';
 import { Autocomplete } from '@mui/material';
 import { getCourseNames } from 'apis/coursesAPI';
+import RidingSkills from 'components/common/RidingSkills';
 
 const cn = classNames.bind(styles);
 
@@ -502,7 +503,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'bicycle-types')}>
           <label className={cn('label')}>
             <h4>자전거 종류</h4>
             <span className={cn('guide')}>(다중 선택 가능)</span>
@@ -636,9 +637,10 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           )}
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'riding-skill')}>
           <label className={cn('label')}>
             <h4>라이딩 실력</h4>
+            <RidingSkills placement="right" />
           </label>
           <ul className={cn('options')}>
             <Controller

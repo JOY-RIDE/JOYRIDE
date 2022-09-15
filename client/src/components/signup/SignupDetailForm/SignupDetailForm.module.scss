@@ -26,19 +26,6 @@
   }
 }
 
-.row {
-  $row-gap: 1.2rem;
-
-  display: flex;
-  gap: $row-gap;
-  flex-wrap: wrap;
-
-  & .col {
-    flex-grow: 1;
-    min-width: calc((100% - 2 * $row-gap) / 3);
-  }
-}
-
 .riding-skill {
   & .label {
     justify-content: space-between;
@@ -51,6 +38,19 @@
 .introduce {
   & .label {
     gap: 0.5rem;
+  }
+}
+
+.row {
+  $row-gap: 1.2rem;
+
+  display: flex;
+  gap: $row-gap;
+  flex-wrap: wrap;
+
+  & .col {
+    flex-grow: 1;
+    min-width: calc((100% - 2 * $row-gap) / 3);
   }
 }
 

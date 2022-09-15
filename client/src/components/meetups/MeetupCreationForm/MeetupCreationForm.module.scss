@@ -74,6 +74,14 @@
   }
 }
 
+.riding-skill {
+  & .label {
+    & svg {
+      font-size: 2rem;
+    }
+  }
+}
+
 .options {
   $options-gap: 1.2rem;
 

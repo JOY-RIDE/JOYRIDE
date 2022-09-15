@@ -32,6 +32,7 @@ import LikedCourses from 'routes/Mypage/LikedCourses';
 import ModifyProfile from 'routes/Mypage/ModifyProfile';
 import ErrorBoundary from 'components/common/ErrorBoundary';
 import Auth from 'routes/Auth';
+import ComingSoon from 'components/common/ComingSoon';
 
 declare module '@emotion/react' {
   export interface Theme extends MuiTheme {}
@@ -76,50 +77,54 @@ const App = () => {
       <Suspense fallback={<div />}>
         <Routes>
           <Route path="/" element={<Layout />}>
-            {/* <Route element={<ErrorBoundary />}> */}
-            <Route index element={<Home />} />
+            <Route element={<ErrorBoundary />}>
+              <Route index element={<Home />} />
 
-            <Route path="roads">
-              <Route index element={<Roads />} />
-              <Route path=":roadId">
-                <Route index element={<Road />} />
-                <Route path="map" element={<MapDetail lat={lat} lng={lng} />} />
+              <Route path="roads">
+                <Route index element={<Roads />} />
+                <Route path=":roadId">
+                  <Route index element={<Road />} />
+                  <Route
+                    path="map"
+                    element={<MapDetail lat={lat} lng={lng} />}
+                  />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="meetups">
-              <Route index element={<Meetups />} />
-              <Route path=":meetupId" element={<Meetup />} />
-            </Route>
-
-            <Route path="search" element={<Search />} />
-
-            <Route element={<PrivateRoute />}>
-              <Route path="mypage">
-                <Route index element={<MyPage />} />
-                <Route path="modify_profile" element={<ModifyProfile />} />
-                <Route path="courses/like" element={<LikedCourses />} />
-                <Route path="meetups/admin" element={<MyMeetups />} />
-                <Route path="meetups/join" element={<JoinedMeetups />} />
-                <Route
-                  path="meetups/bookmark"
-                  element={<BookmarkedMeetups />}
-                />
+              <Route path="meetups">
+                <Route index element={<Meetups />} />
+                <Route path=":meetupId" element={<Meetup />} />
               </Route>
-            </Route>
 
-            <Route element={<PublicOnlyRoute />}>
-              <Route path="auth" element={<Auth />}>
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
-                <Route path="find_email" element={<FindEmail />} />
-                <Route path="reset_password" element={<ResetPassword />} />
+              <Route path="search" element={<Search />} />
+
+              <Route element={<PrivateRoute />}>
+                <Route path="mypage">
+                  <Route index element={<MyPage />} />
+                  <Route path="modify_profile" element={<ModifyProfile />} />
+                  <Route path="courses/like" element={<LikedCourses />} />
+                  <Route path="meetups/admin" element={<MyMeetups />} />
+                  <Route path="meetups/join" element={<JoinedMeetups />} />
+                  <Route
+                    path="meetups/bookmark"
+                    element={<BookmarkedMeetups />}
+                  />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="*" element={<Error404 />} />
+              <Route element={<PublicOnlyRoute />}>
+                <Route path="auth" element={<Auth />}>
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                  <Route path="find_email" element={<FindEmail />} />
+                  <Route path="reset_password" element={<ComingSoon />} />
+                  {/* <Route path="reset_password" element={<ResetPassword />} /> */}
+                </Route>
+              </Route>
+
+              <Route path="*" element={<Error404 />} />
+            </Route>
           </Route>
-          {/* </Route> */}
         </Routes>
         <Modal />
         <Toast />
