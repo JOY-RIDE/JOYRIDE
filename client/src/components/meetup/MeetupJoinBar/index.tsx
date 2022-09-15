@@ -10,32 +10,36 @@ import AskLogin from 'components/common/AskLogin';
 import { useParams } from 'react-router-dom';
 import Confirm from 'components/common/Confirm';
 
-// function getMeetupJoinFailErrorMessage(code: string) {
-//   switch (code) {
-//     case '2033':
-//       return '이미 참여 중인 모임입니다.';
-//     case '2036':
-//       return '종료된 모임입니다.'; // TODO
-//     case '2037':
-//       return '정원이 꽉 찬 모임입니다.';
-//     default:
-//       return '모임 참가 중 문제가 발생했습니다.';
-//   }
-// }
+function getMeetupJoinFailErrorMessage(code: string) {
+  switch (code) {
+    case '2033':
+      return '이미 참여 중인 모임입니다.';
+    case '2036':
+      return '종료된 모임입니다.'; // TODO
+    case '2037':
+      return '정원이 꽉 찬 모임입니다.';
+    default:
+      return '모임 참가 중 문제가 발생했습니다.';
+  }
+}
 
 const cn = classNames.bind(styles);
 
-interface MeetupJoinBarProp {
+interface MeetupJoinBarProps {
   disabled: boolean;
   barContent: string;
   buttonContent: string;
+  isBookmarked: boolean | undefined;
+  onBookmarkClick: () => void;
 }
 
 const MeetupJoinBar = ({
   disabled,
   barContent,
   buttonContent,
-}: MeetupJoinBarProp) => {
+  isBookmarked,
+  onBookmarkClick,
+}: MeetupJoinBarProps) => {
   const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
   const showModal = useSetRecoilState(modalContentState);
@@ -48,7 +52,8 @@ const MeetupJoinBar = ({
       queryClient.invalidateQueries(['meetup', Number(meetupId)]);
       queryClient.invalidateQueries(['meetups']);
     },
-    onError: () => showToastMessage('모임 참가 중 문제가 발생했습니다.'),
+    onError: (e: any) =>
+      showToastMessage(getMeetupJoinFailErrorMessage(e.code)),
   });
   const joinMeetup = () => mutate(Number(meetupId));
 
@@ -63,10 +68,12 @@ const MeetupJoinBar = ({
   return (
     <div className={cn('container')}>
       <div>
-        <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
-          {/* TODO: active */}
-          <BsBookmark />
-          {/* <BsBookmarkFill/> */}
+        <button
+          className={cn('bookmark-btn', { active: isBookmarked })}
+          aria-label="모임 북마크 버튼"
+          onClick={onBookmarkClick}
+        >
+          {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
         </button>
         <p>{barContent}</p>
       </div>

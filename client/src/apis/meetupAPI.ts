@@ -17,13 +17,14 @@ interface MeetupAPI {
   getBookmarkedMeetupList: () => Promise<MeetupData[]>;
 
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
+  getIsMeetupBookmarked: (meetupId: number) => Promise<boolean>;
+
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
-  bookmarkMeetup: (meetupId: number) => Promise<void>;
+  toggleMeetupBookmark: (meetupId: number) => Promise<void>;
 
   closeMeetup: (meetupId: number) => Promise<void>;
   exitMeetup: (meetupId: number) => Promise<void>;
-  cancelMeetupBookmark: (meetupId: number) => Promise<void>;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -50,7 +51,7 @@ export const meetupAPI: MeetupAPI = {
   async getMyMeetupList() {
     const {
       data: { code, result },
-    } = await axios.get('/meets');
+    } = await axios.get('/meets/host');
 
     if (code !== 1000) {
       throw new Error(code);
@@ -61,7 +62,7 @@ export const meetupAPI: MeetupAPI = {
   async getJoinedMeetupList() {
     const {
       data: { code, result },
-    } = await axios.get('/meets');
+    } = await axios.get('/meets/join');
 
     if (code !== 1000) {
       throw new Error(code);
@@ -72,7 +73,7 @@ export const meetupAPI: MeetupAPI = {
   async getBookmarkedMeetupList() {
     const {
       data: { code, result },
-    } = await axios.get('/meets');
+    } = await axios.get('/meets/bookmark');
 
     if (code !== 1000) {
       throw new Error(code);
@@ -89,6 +90,17 @@ export const meetupAPI: MeetupAPI = {
       throw new Error(code);
     }
     return result;
+  },
+
+  async getIsMeetupBookmarked(meetupId) {
+    const {
+      data: { code },
+    } = await axios.get('/meets/bookmark/' + meetupId);
+
+    if (!(code === 1000 || code === 2040)) {
+      throw new Error(code);
+    }
+    return code !== 1000;
   },
 
   async createMeetup(newMeetup) {
@@ -115,11 +127,10 @@ export const meetupAPI: MeetupAPI = {
     }
   },
 
-  // TODO
-  async bookmarkMeetup(meetupId) {
+  async toggleMeetupBookmark(meetupId) {
     const {
       data: { code },
-    } = await axios.post('/meets/' + meetupId);
+    } = await axios.post('/meets/bookmark/' + meetupId);
 
     if (code !== 1000) {
       throw new Error(code);
@@ -137,16 +148,6 @@ export const meetupAPI: MeetupAPI = {
   },
 
   async exitMeetup(meetupId) {
-    const {
-      data: { code },
-    } = await axios.delete('/meets/join/' + meetupId);
-
-    if (code !== 1000) {
-      throw new Error(code);
-    }
-  },
-
-  async cancelMeetupBookmark(meetupId) {
     const {
       data: { code },
     } = await axios.delete('/meets/join/' + meetupId);

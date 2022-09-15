@@ -23,16 +23,15 @@ const BookmarkedMeetupItem = ({
 }: MeetupData) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(meetupAPI.cancelMeetupBookmark, {
+  const { mutate } = useMutation(meetupAPI.toggleMeetupBookmark, {
     onSuccess: () => {
-      showToastMessage('북마크를 해제했습니다.');
+      showToastMessage('북마크를 삭제했습니다.');
       queryClient.invalidateQueries(['meetups', 'bookmark']);
     },
-    onError: () => showToastMessage('북마크 해제 중 문제가 발생했습니다.'),
+    onError: () => showToastMessage('북마크 삭제 중 문제가 발생했습니다.'),
   });
-  const cancelBookmark = () => mutate(id);
+  const handleDeleteClick = () => mutate(id);
 
-  /* TODO: 없어지는지 확인 */
   return (
     <li className={cn('container')}>
       <div className={cn('top')}>
@@ -50,9 +49,9 @@ const BookmarkedMeetupItem = ({
         </Link>
 
         <button
-          className={cn('cancel-btn')}
-          aria-label="모임 북마크 취소 버튼"
-          onClick={cancelBookmark}
+          className={cn('delete-btn')}
+          aria-label="모임 북마크 삭제 버튼"
+          onClick={handleDeleteClick}
         >
           <BsBookmarkFill />
         </button>

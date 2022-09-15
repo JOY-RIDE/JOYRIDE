@@ -1,3 +1,4 @@
+import { CourseName } from './../types/course';
 import { joyrideAxios as axios } from './axios';
 
 const BASE_URL = process.env.REACT_APP_JOYRIDE_API_URL;
@@ -5,6 +6,7 @@ const BASE_URL = process.env.REACT_APP_JOYRIDE_API_URL;
 interface CourseAPI {
   createReview: (newReview: string) => Promise<void>;
   getLikedCourseList: (userId: number) => Promise<any[]>;
+  cancelCourseLike: (courseName: CourseName, userId: number) => Promise<void>;
 }
 
 export const courseAPI: CourseAPI = {
@@ -31,6 +33,16 @@ export const courseAPI: CourseAPI = {
       throw new Error(code);
     }
     return result;
+  },
+
+  async cancelCourseLike(courseName, userId) {
+    const {
+      data: { code },
+    } = await axios.delete(`/courses/like/${courseName}/${userId}`);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
   },
 };
 

@@ -31,14 +31,12 @@ const Home = () => {
     () => meetupAPI.getMeetupList(),
     {
       select: meetups =>
-        // TODO: 정렬 삭제
-        getMeetupsOrderedBy(
-          '-createdAt',
-          meetups.filter(
+        meetups
+          .filter(
             meetup =>
               dayjs().isBefore(dayjs(meetup.dueDate)) && meetup.status !== 0
           )
-        ).slice(0, 3),
+          .slice(0, 3),
       staleTime: 10 * 60 * 1000,
       cacheTime: Infinity,
       onError: () => showToastMessage('페이지 로딩 중 문제가 발생했습니다.'),

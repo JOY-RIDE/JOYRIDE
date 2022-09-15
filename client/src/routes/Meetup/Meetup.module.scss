@@ -44,6 +44,10 @@
 .bookmark-btn {
   font-size: 2rem;
   color: $color-grey-600;
+
+  &.active {
+    color: $color-main;
+  }
 }
 
 .leader {

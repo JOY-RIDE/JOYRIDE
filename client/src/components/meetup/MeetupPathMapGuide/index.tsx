@@ -1,7 +1,7 @@
 import { FINISH_MARKER_IMAGE, START_MARKER_IMAGE } from 'utils/urls';
 import meetup_stop from 'assets/icons/meetup_stop.svg';
 import meetup_gatheringPlace from 'assets/icons/meetup_gatheringPlace.svg';
-import styles from './MeetupPathMap.module.scss';
+import styles from './MeetupPathMapGuide.module.scss';
 import classNames from 'classnames/bind';
 
 const cn = classNames.bind(styles);
