@@ -163,7 +163,7 @@ public class MeetController {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
             if (meetProvider.checkMeetById(userId,meetId) == 1) {
-                meetService.removeMeetBy(meetId);
+                meetService.removeMeetById(meetId);
                 return new BaseResponse<>(BaseResponseStatus.SUCCESS);
             }
             return new BaseResponse<>(DELETE_USER_NOT_EXISTS_MEET);
@@ -201,6 +201,47 @@ public class MeetController {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try{
             return new BaseResponse<>(meetProvider.retrieveMeetByJoin(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.1 모임 북마크 API
+     * [POST] /meets/bookmark/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/bookmark/{meetId}")
+    public BaseResponse<String> postMeetBookMark(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if(meetProvider.checkMeetBookMark(userId,meetId) != 1) {
+                meetService.createMeetBookMark(userId,meetId);
+                return new BaseResponse<>("생성완료");
+            }
+            else {
+                meetService.removeMeetBookMark(userId,meetId);
+            }
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.2 북마크한 모임 조회 API
+     * [GET] /meets/bookmark
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/bookmark")
+    public BaseResponse<List<MeetListRes>> getMeetBookMark(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            return new BaseResponse<>(meetProvider.retrieveMeetByBookMark(userId));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

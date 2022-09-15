@@ -41,6 +41,16 @@ public class MeetService {
     }
 
     @Transactional
+    public void createMeetBookMark(Integer userId,Integer meetId) throws BaseException {
+        try {
+            meetDao.insertMeetBookMark(userId, meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
     public void removeMeetJoinById(Integer userId,Integer meetId) throws BaseException {
         try {
             meetDao.deleteMeetJoin(userId, meetId);
@@ -51,9 +61,19 @@ public class MeetService {
     }
 
     @Transactional
-    public void removeMeetBy(Integer meetId) throws BaseException {
+    public void removeMeetById(Integer meetId) throws BaseException {
         try {
             meetDao.deleteMeet(meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public void removeMeetBookMark(Integer userId,Integer meetId) throws BaseException {
+        try {
+            meetDao.deleteMeetBookMark(userId, meetId);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);

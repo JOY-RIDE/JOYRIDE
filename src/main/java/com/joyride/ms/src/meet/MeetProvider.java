@@ -60,6 +60,15 @@ public class MeetProvider {
         }
     }
 
+    public List<MeetListRes> retrieveMeetByBookMark(Integer userId) throws BaseException {
+        try {
+            return meetDao.selectMeetByBookMark(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public int checkMeetJoinById(Integer userId ,Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetJoinById(userId, meetId);
@@ -114,6 +123,15 @@ public class MeetProvider {
             if(birthYear != null)
                 return meetDao.checkMeetBirth(birthYear,meetId);
             return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public int checkMeetBookMark(Integer userId, Integer meetId) throws BaseException {
+        try {
+            return meetDao.checkMeetBookMark(userId,meetId);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);
