@@ -103,6 +103,7 @@ const App = () => {
                   <Route index element={<MyPage />} />
                   <Route path="modify_profile" element={<ModifyProfile />} />
                   <Route path="courses/like" element={<LikedCourses />} />
+                  {/* TODO: host */}
                   <Route path="meetups/admin" element={<MyMeetups />} />
                   <Route path="meetups/join" element={<JoinedMeetups />} />
                   <Route

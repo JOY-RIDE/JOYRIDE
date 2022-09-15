@@ -24,6 +24,7 @@ import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
 import { MeetupDetail } from 'types/meetup';
 import Loading from 'components/common/Loading';
 import RidingSkills from 'components/common/RidingSkills';
+import MeetupPathMapGuide from 'components/meetup/MeetupPathMapGuide';
 
 // const testPath = [
 //   '안합',
@@ -233,8 +234,8 @@ const Meetup = () => {
         <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
       </section>
 
-      {/* TODO: 아이콘 설명 */}
       <section className={cn('map-section')}>
+        <MeetupPathMapGuide />
         <MeetupPathMap
           gatheringPlace={meetup.gatheringPlace}
           path={meetup.path}

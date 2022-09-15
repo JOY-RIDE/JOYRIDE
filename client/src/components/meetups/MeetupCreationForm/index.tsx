@@ -16,7 +16,7 @@ import {
   MEETUP_PATH_DIFFICULTY_OPTIONS,
   RIDING_SKILL_OPTIONS,
 } from 'utils/constants';
-import { BicycleType, Location, Option, RidingSkill } from 'types/common';
+import { BicycleType, Option, RidingSkill } from 'types/common';
 import SelectButton from 'components/common/SelectButton';
 import { ChangeEvent, forwardRef, KeyboardEvent, ReactNode } from 'react';
 import Button from 'components/common/Button';
@@ -35,7 +35,6 @@ import dayjs from 'dayjs';
 import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { useQuery } from '@tanstack/react-query';
-import { meetupAPI } from 'apis/meetupAPI';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import { CourseName } from 'types/course';
@@ -415,7 +414,6 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
               </Fragment>
             ))}
           </ul>
-          {/* TODO: 모바일 폰트 크기 설정 */}
           <Controller
             control={control}
             name="path"
