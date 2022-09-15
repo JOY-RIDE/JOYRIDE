@@ -25,17 +25,21 @@ function getMeetupJoinFailErrorMessage(code: string) {
 
 const cn = classNames.bind(styles);
 
-interface MeetupJoinBarProp {
+interface MeetupJoinBarProps {
   disabled: boolean;
   barContent: string;
   buttonContent: string;
+  isBookmarked: boolean | undefined;
+  onBookmarkClick: () => void;
 }
 
 const MeetupJoinBar = ({
   disabled,
   barContent,
   buttonContent,
-}: MeetupJoinBarProp) => {
+  isBookmarked,
+  onBookmarkClick,
+}: MeetupJoinBarProps) => {
   const { meetupId } = useParams();
   const userId = useRecoilValue(userIdState);
   const showModal = useSetRecoilState(modalContentState);
@@ -64,10 +68,12 @@ const MeetupJoinBar = ({
   return (
     <div className={cn('container')}>
       <div>
-        <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
-          {/* TODO: active */}
-          <BsBookmark />
-          {/* <BsBookmarkFill/> */}
+        <button
+          className={cn('bookmark-btn', { active: isBookmarked })}
+          aria-label="모임 북마크 버튼"
+          onClick={onBookmarkClick}
+        >
+          {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
         </button>
         <p>{barContent}</p>
       </div>

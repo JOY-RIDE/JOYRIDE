@@ -16,8 +16,8 @@ import { MEETUP_DEFAULT_IMAGE } from 'utils/urls';
 import { useEffect } from 'react';
 import { BicycleType } from 'types/common';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
-import { toastMessageState } from 'states/common';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { modalContentState, toastMessageState } from 'states/common';
 import { userIdState } from 'states/auth';
 import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
@@ -25,6 +25,7 @@ import { MeetupDetail } from 'types/meetup';
 import Loading from 'components/common/Loading';
 import RidingSkills from 'components/common/RidingSkills';
 import MeetupPathMapGuide from 'components/meetup/MeetupPathMapGuide';
+import AskLogin from 'components/common/AskLogin';
 
 // const testPath = [
 //   '안합',
@@ -37,7 +38,7 @@ import MeetupPathMapGuide from 'components/meetup/MeetupPathMapGuide';
 //   '성산북단',
 // ];
 
-function getJoinBarProps(meetup: MeetupDetail, userId: number | null) {
+function getJoinBarButtonProps(meetup: MeetupDetail, userId: number | null) {
   const DEFAULT_BAR_CONTENT =
     dayjs(meetup.dueDate).format(DATE_FORMAT) + ' 모집 마감';
   const DEFAULT_BUTTON_CONTENT = '참가하기';
@@ -95,6 +96,39 @@ const Meetup = () => {
     }
   );
 
+  const queryClient = useQueryClient();
+  const { data: isBookmarked } = useQuery<boolean>(
+    ['meetup', Number(meetupId), 'isBookmarked'],
+    () => meetupAPI.getIsMeetupBookmarked(Number(meetupId)),
+    {
+      enabled: !!userId,
+      onError: () => showToastMessage('페이지 로딩 중 문제가 발생했습니다.'),
+    }
+  );
+  const { mutate } = useMutation(meetupAPI.toggleMeetupBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        'meetup',
+        Number(meetupId),
+        'isBookmarked',
+      ]);
+      queryClient.invalidateQueries(['meetups', 'bookmark']);
+    },
+    onError: () =>
+      showToastMessage(
+        `모임 북마크 ${isBookmarked ? '삭제' : ''}중 문제가 발생했습니다.`
+      ),
+  });
+
+  const displayModal = useSetRecoilState(modalContentState);
+  const handleBookmarkClick = () => {
+    if (!userId) {
+      displayModal(<AskLogin />);
+      return;
+    }
+    mutate(Number(meetupId));
+  };
+
   useEffect(() => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []); // TODO: 리스트 스크롤 위치 기억
@@ -104,7 +138,6 @@ const Meetup = () => {
   const imgStyle = {
     backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(255,255,255,0.9)), url(${meetup.meetingImgUrl})`,
   };
-  console.log(meetup);
   return (
     <div className={cn('container')}>
       <div
@@ -116,10 +149,12 @@ const Meetup = () => {
 
       <div className={cn('title-wrapper')}>
         <h1 className={cn('title')}>{meetup.title}</h1>
-        <button className={cn('bookmark-btn')} aria-label="모임 북마크 버튼">
-          {/* TODO: active */}
-          <BsBookmark />
-          {/* <BsBookmarkFill/> */}
+        <button
+          className={cn('bookmark-btn', { active: isBookmarked })}
+          aria-label="모임 북마크 버튼"
+          onClick={handleBookmarkClick}
+        >
+          {isBookmarked ? <BsBookmarkFill /> : <BsBookmark />}
         </button>
       </div>
 
@@ -266,7 +301,11 @@ const Meetup = () => {
         </h2>
       </section> */}
 
-      <MeetupJoinBar {...getJoinBarProps(meetup, userId)} />
+      <MeetupJoinBar
+        {...getJoinBarButtonProps(meetup, userId)}
+        isBookmarked={isBookmarked}
+        onBookmarkClick={handleBookmarkClick}
+      />
     </div>
   );
 };

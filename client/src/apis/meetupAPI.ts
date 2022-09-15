@@ -17,7 +17,7 @@ interface MeetupAPI {
   getBookmarkedMeetupList: () => Promise<MeetupData[]>;
 
   getMeetupDetail: (meetupId: number) => Promise<MeetupDetail>;
-  getIsMeetupBookmarked: (meetupId: number) => Promise<any>;
+  getIsMeetupBookmarked: (meetupId: number) => Promise<boolean>;
 
   createMeetup: (newMeetup: FormData) => Promise<void>;
   joinMeetup: (meetupId: number) => Promise<void>;
@@ -94,14 +94,13 @@ export const meetupAPI: MeetupAPI = {
 
   async getIsMeetupBookmarked(meetupId) {
     const {
-      data: { code, result },
+      data: { code },
     } = await axios.get('/meets/bookmark/' + meetupId);
 
-    console.log(code, result);
-    if (code !== 1000) {
+    if (!(code === 1000 || code === 2040)) {
       throw new Error(code);
     }
-    return result;
+    return code !== 1000;
   },
 
   async createMeetup(newMeetup) {
@@ -128,12 +127,10 @@ export const meetupAPI: MeetupAPI = {
     }
   },
 
-  // TODO
   async toggleMeetupBookmark(meetupId) {
     const {
-      data: { code, result },
+      data: { code },
     } = await axios.post('/meets/bookmark/' + meetupId);
-    console.log(code, result);
 
     if (code !== 1000) {
       throw new Error(code);

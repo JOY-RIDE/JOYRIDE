@@ -4,6 +4,10 @@
 .bookmark-btn {
   font-size: 2.4rem;
   color: $color-grey-600;
+
+  &.active {
+    color: $color-main;
+  }
 }
 
 .container {
