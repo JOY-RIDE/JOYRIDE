@@ -4,8 +4,7 @@ type SignupFormField =
   | 'passwordConfirm'
   | 'nickname'
   | 'birthYear'
-  | 'bicycleType'
-  | 'introduce';
+  | 'bicycleType';
 export function getSignupFormFieldErrorMessage(
   field: SignupFormField,
   errorType: string
@@ -32,8 +31,8 @@ export function getSignupFormFieldErrorMessage(
           return '8자 이상이어야 합니다';
         case 'maxLength':
           return '16자를 초과하였습니다';
-        // case 'pattern':
-        //   return '영문 대/소문자, 숫자, 특수문자를 포함해야 합니다';
+        case 'pattern':
+          return '영문 대/소문자, 숫자, 특수문자를 포함해야 합니다';
         default:
           throw new Error();
       }
@@ -81,15 +80,6 @@ export function getSignupFormFieldErrorMessage(
       switch (errorType) {
         case 'required':
           return '필수 항목입니다';
-        default:
-          throw new Error();
-      }
-    }
-
-    case 'introduce': {
-      switch (errorType) {
-        case 'maxLength':
-          return '30자를 초과하였습니다';
         default:
           throw new Error();
       }

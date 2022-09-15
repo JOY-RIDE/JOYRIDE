@@ -1,0 +1,30 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: $color-grey-700;
+  margin-bottom: 0.2rem;
+}
+
+.col {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.mark {
+  & img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  & .line {
+    width: 2rem;
+    height: 0.2rem;
+    background: $color-main;
+  }
+}

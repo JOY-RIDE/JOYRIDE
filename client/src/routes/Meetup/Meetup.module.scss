@@ -66,6 +66,7 @@
   & .leader__manner {
     color: $color-main;
     margin-left: 1rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -87,7 +88,7 @@
   margin: 0.8rem 0;
 
   & .label {
-    width: 9.1rem;
+    width: 10rem;
     flex-shrink: 0;
   }
 
@@ -98,13 +99,25 @@
 
   & .emphasized {
     color: $color-main;
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 
 .bicycle-types {
   & ul {
     flex-wrap: wrap;
+  }
+}
+
+.riding-skill {
+  & .label {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    & svg {
+      font-size: 1.7rem;
+    }
   }
 }
 
@@ -134,18 +147,16 @@
 }
 
 .route-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .map-section {
   & .notice {
-    margin-top: 0.5em;
-    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
     color: $color-grey-500;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    align-items: flex-end;
+    line-height: 1.5rem;
+    text-align: right;
   }
 }
 

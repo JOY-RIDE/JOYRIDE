@@ -61,7 +61,7 @@ const MeetupPathMap = ({ gatheringPlace, path }: MeetupPathMapProp) => {
           attachOverlay(latLng, gatheringPlace);
         } catch (e) {
           if (e instanceof TypeError) return;
-          else throw new Error(); // TODO
+          else throw new Error();
         }
       },
       { size: 1 }

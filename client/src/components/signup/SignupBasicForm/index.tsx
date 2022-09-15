@@ -108,13 +108,15 @@ const SignupBasicForm = () => {
               required: true,
               minLength: 8,
               maxLength: 16,
-              // pattern: REGEX.password,
+              pattern: REGEX.password,
             }}
             render={({ field }) => (
               <AuthFormInput
                 type="password"
                 placeholder="비밀번호"
-                helpText={!isSubmitted && '8~16자 사이'}
+                helpText={
+                  !isSubmitted && '8~16자의 영문 대/소문자+숫자+특수문자'
+                }
                 hasError={!!errors.password}
                 {...field}
               />

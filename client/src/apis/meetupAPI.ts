@@ -83,7 +83,7 @@ export const meetupAPI: MeetupAPI = {
   async getMeetupDetail(meetupId) {
     const {
       data: { code, result },
-    } = await axios.get('/meets/' + meetupId);
+    } = await axios.get('/meets/detail/' + meetupId);
 
     if (code !== 1000) {
       throw new Error(code);

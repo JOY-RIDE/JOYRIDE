@@ -23,6 +23,8 @@ import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
 import { MeetupDetail } from 'types/meetup';
 import Loading from 'components/common/Loading';
+import RidingSkills from 'components/common/RidingSkills';
+import MeetupPathMapGuide from 'components/meetup/MeetupPathMapGuide';
 
 // const testPath = [
 //   '안합',
@@ -201,8 +203,11 @@ const Meetup = () => {
             </div>
           </div>
 
-          <div className={cn('field')}>
-            <label className={cn('label')}>라이딩 실력</label>
+          <div className={cn('field', 'riding-skill')}>
+            <label className={cn('label')}>
+              라이딩 실력
+              <RidingSkills placement="right" />
+            </label>
             <span className={cn('data', 'emphasized')}>
               {stringifyRidingSkill(meetup.ridingSkill)}
             </span>
@@ -229,8 +234,8 @@ const Meetup = () => {
         <MeetupRoute courseName={meetup.courseName} path={meetup.path} />
       </section>
 
-      {/* TODO: 아이콘 설명 */}
       <section className={cn('map-section')}>
+        <MeetupPathMapGuide />
         <MeetupPathMap
           gatheringPlace={meetup.gatheringPlace}
           path={meetup.path}

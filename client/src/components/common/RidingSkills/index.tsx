@@ -6,7 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import classNames from 'classnames/bind';
-import { IoMdInformationCircleOutline } from 'react-icons/io';
+import { MdHelpOutline } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import { stringifyRidingSkill } from 'utils/stringify';
 import styles from './RidingSkills.module.scss';
 
@@ -27,9 +28,9 @@ interface RidingSkillsProp {
 const RidingSkills = ({ placement }: RidingSkillsProp) => {
   return (
     <div className={cn('wrapper')}>
-      <button type="button" className={cn('btn')}>
-        <IoMdInformationCircleOutline />
-      </button>
+      <Link to="#" className={cn('btn')}>
+        <MdHelpOutline />
+      </Link>
 
       <div className={cn('container', placement)}>
         <p>* 실력 판단이 어려울 경우 참고해 주세요.</p>
@@ -45,7 +46,6 @@ const RidingSkills = ({ placement }: RidingSkillsProp) => {
                 <TableCell align="center">FTP/kg (체중당 파워)</TableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
               {skills.map(skill => (
                 <TableRow

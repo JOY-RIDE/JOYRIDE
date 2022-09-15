@@ -27,7 +27,6 @@ const Home = () => {
   const mainCourses = _.sortBy(courses, 'likeCount').reverse().slice(0, 3);
 
   const { data: meetups } = useQuery<MeetupData[]>(
-    // TODO
     ['meetups', MEETUP_FILTERS_INITIAL_STATE],
     () => meetupAPI.getMeetupList(),
     {

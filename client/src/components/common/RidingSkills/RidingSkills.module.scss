@@ -5,7 +5,7 @@
 }
 
 .btn {
-  color: $color-main;
+  color: $color-grey-500;
   &:focus {
     & + .container {
       display: block;
