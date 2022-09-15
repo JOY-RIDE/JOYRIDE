@@ -25,10 +25,10 @@ const BookmarkedMeetupItem = ({
   const queryClient = useQueryClient();
   const { mutate } = useMutation(meetupAPI.toggleMeetupBookmark, {
     onSuccess: () => {
-      showToastMessage('모임 북마크를 삭제했습니다.');
+      showToastMessage('북마크를 삭제했습니다.');
       queryClient.invalidateQueries(['meetups', 'bookmark']);
     },
-    onError: () => showToastMessage('모임 북마크 삭제 중 문제가 발생했습니다.'),
+    onError: () => showToastMessage('북마크 삭제 중 문제가 발생했습니다.'),
   });
   const handleDeleteClick = () => mutate(id);
 
