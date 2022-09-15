@@ -84,12 +84,12 @@ public class MeetController {
 
     /**
      * 4.3 모임 세부 조회 API
-     * [GET] /meets/:meetId
+     * [GET] /meets/detail/:meetId
      *
      * @param request
      * @return
      */
-    @GetMapping("{meetId}")
+    @GetMapping("/detail/{meetId}")
     public BaseResponse<MeetDetailRes> getMeetDetail(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         try{
             return new BaseResponse<>(meetProvider.retrieveMeetById(meetId));
@@ -114,7 +114,11 @@ public class MeetController {
             if (meetProvider.checkMeetJoinById(userId,meetId) == 1) {
                 return new BaseResponse<>(BaseResponseStatus.POST_USER_EXISTS_JOIN);
             }
-            else if (meetProvider.checkMeetFull(meetId) == 1){
+            if (meetProvider.checkMeetGender(userId,meetId) == 0)
+                return new BaseResponse<>(USER_GENDER_INVALID_JOIN);
+            if (meetProvider.checkMeetBirth(userId,meetId) == 0)
+                return new BaseResponse<>(USER_BIRTH_INVALID_JOIN);
+            if (meetProvider.checkMeetFull(meetId) == 1){
                 return new BaseResponse<>(MEET_FULL);
             }
             else {
@@ -159,10 +163,104 @@ public class MeetController {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
             if (meetProvider.checkMeetById(userId,meetId) == 1) {
-                meetService.removeMeetBy(meetId);
+                meetService.removeMeetById(meetId);
                 return new BaseResponse<>(BaseResponseStatus.SUCCESS);
             }
             return new BaseResponse<>(DELETE_USER_NOT_EXISTS_MEET);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.7 생성한 모임 조회 API
+     * [GET] /meets/host
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/host")
+    public BaseResponse<List<MeetListRes>> getMeetHost(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            return new BaseResponse<>(meetProvider.retrieveMeetByHost(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.8 참가한 모임 조회 API
+     * [GET] /meets/join
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/join")
+    public BaseResponse<List<MeetListRes>> getMeetJoin(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            return new BaseResponse<>(meetProvider.retrieveMeetByJoin(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.1 모임 북마크 API
+     * [POST] /meets/bookmark/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/bookmark/{meetId}")
+    public BaseResponse<String> postMeetBookMark(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            if(meetProvider.checkMeetBookMark(userId,meetId) != 1) {
+                meetService.createMeetBookMark(userId,meetId);
+            }
+            else {
+                meetService.removeMeetBookMark(userId,meetId);
+            }
+            return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.2 북마크한 모임 조회 API
+     * [GET] /meets/bookmark
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/bookmark")
+    public BaseResponse<List<MeetListRes>> getMeetBookMark(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            return new BaseResponse<>(meetProvider.retrieveMeetByBookMark(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.3 북마크한 모임 조회 API
+     * [GET] /meets/bookmark/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/bookmark/{meetId}")
+    public BaseResponse<String> checkMeetBookMark(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            if(meetProvider.checkMeetBookMark(userId,meetId) != 1) {
+                return new BaseResponse<>("북마크 하지 않은 모임입니다");
+            }
+            return new BaseResponse<>(MEET_BOOKMARKED);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
