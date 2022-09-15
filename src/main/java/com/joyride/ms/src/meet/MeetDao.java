@@ -199,7 +199,7 @@ public class MeetDao {
         StringBuffer selectMeetFilterQuery = new StringBuffer();
         selectMeetFilterQuery.append("select DISTINCT m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
-                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id Join meet_bicycletype as b ON m.id = b.meet_id where 1=1 group by b.id");
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id Join meet_bicycletype as b ON m.id = b.meet_id where 1=1 group by b.id order by b.id DESC");
 
         selectMeetFilterQuery = meetFilter(selectMeetFilterQuery,meetFilterReq);
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
@@ -238,7 +238,7 @@ public class MeetDao {
     public List<MeetListRes> selectMeetByHost(Integer userId) {
         String selectMeetByHostQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
-                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id where m.user_id = ? group by m.id";
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id where m.user_id = ? group by m.id order by m.id DESC";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
 
         return this.jdbcTemplate.query(selectMeetByHostQuery,
@@ -275,7 +275,7 @@ public class MeetDao {
     public List<MeetListRes> selectMeetByJoin(Integer userId) {
         String selectMeetByHostQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
-                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id where j.user_id = ? group by m.id";
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id where j.user_id = ? group by m.id order by m.id DESC";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
 
         return this.jdbcTemplate.query(selectMeetByHostQuery,
@@ -312,7 +312,7 @@ public class MeetDao {
     public List<MeetListRes> selectMeetByBookMark(Integer userId) {
         String selectMeetByHostQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
-                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id join  meet_bookmark as b on m.id = b.meet_id where b.user_id = ?  group by m.id";
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id join  meet_bookmark as b on m.id = b.meet_id where b.user_id = ?  group by m.id order by m.id DESC";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
 
         return this.jdbcTemplate.query(selectMeetByHostQuery,
