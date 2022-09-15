@@ -18,7 +18,7 @@ const JoinedMeetups = () => {
     meetupAPI.getJoinedMeetupList,
     {
       staleTime: 60 * 1000,
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
+      onError: () => showToastMessage('페이지 로딩 중 문제가 발생했습니다.'),
     }
   );
 

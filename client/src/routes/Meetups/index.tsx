@@ -48,7 +48,7 @@ const Meetups = () => {
       select: meetups => getMeetupsOrderedBy(order.name, meetups),
       staleTime: 5 * 60 * 1000,
       // keepPreviousData: true,
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
+      onError: () => showToastMessage('페이지 로딩 중 문제가 발생했습니다.'),
     }
   );
 

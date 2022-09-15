@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './CourseList.module.scss';
 import { ServerIRoads } from 'types/course';
 import CourseItem from '../CourseItem';
@@ -66,6 +67,7 @@ const CourseList = ({ courses }: CourseListProp) => {
     <ul className={styles.courses}>
       {courses.map((course, index) => (
         <Accordion
+          key={course.id}
           expanded={expanded === `panel${index + 1}`}
           onChange={handleChange(`panel${index + 1}`)}
         >
@@ -76,10 +78,12 @@ const CourseList = ({ courses }: CourseListProp) => {
             aria-controls={`panel${index + 1}d-content`}
             id={`panel${index + 1}d-header`}
           >
-            <CourseItem key={course.id} course={course} index={index} />
+            <CourseItem course={course} index={index} />
           </AccordionSummary>
           <AccordionDetails>
-            <img src={course.image} width="100%" height="auto" alt="" />
+            <Link to={`/roads/${course.crsKorNm}`}>
+              <img src={course.image} width="100%" height="auto" alt="" />
+            </Link>
           </AccordionDetails>
         </Accordion>
       ))}

@@ -18,6 +18,7 @@ import PlusMinusButton from 'components/common/PlusMinusButton';
 import useClientFilter from 'hooks/useClientFilter';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import FilterOptionChip from 'components/common/FilterOptionChip';
+import RidingSkills from 'components/common/RidingSkills';
 
 const cn = classNames.bind(styles);
 
@@ -240,9 +241,10 @@ const MeetupFilterBoardOptions = () => {
         </ul>
       </div>
 
-      <div className={cn('filter')}>
+      <div className={cn('filter', 'riding-skill')}>
         <label className={cn('label')}>
           <h4>라이딩 실력</h4>
+          <RidingSkills placement="right" />
         </label>
         <ul className={cn('options')}>
           <FilterOptionChip

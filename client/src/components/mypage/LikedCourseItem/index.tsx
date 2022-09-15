@@ -25,7 +25,7 @@ const LikedCourseItem = ({ crsKorNm, image, crsContents }: any) => {
     <li className={cn('container')}>
       <Link to={`/roads/${crsKorNm}`}>
         <h1 className={cn('title')}>{crsKorNm}</h1>
-        <p className={cn('content')}>{crsContents}</p>
+        <p className={cn('content')}>{crsContents.replaceAll('<br>', ' ')}</p>
       </Link>
 
       <img className={cn('img')} src={image} alt={crsKorNm} />

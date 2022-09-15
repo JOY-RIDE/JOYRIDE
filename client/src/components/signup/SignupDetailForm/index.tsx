@@ -19,6 +19,7 @@ import {
 } from 'utils/constants';
 import { BicycleType, Gender, Option, RidingSkill } from 'types/common';
 import { ChangeEvent } from 'react';
+import RidingSkills from 'components/common/RidingSkills';
 
 const cn = classNames.bind(styles);
 
@@ -28,7 +29,7 @@ interface SignupDetailForm {
   birthYear: string;
   bicycleType: BicycleType;
   ridingSkill: RidingSkill;
-  introduce: string;
+  // introduce: string;
 }
 
 const SignupDetailForm = () => {
@@ -44,7 +45,7 @@ const SignupDetailForm = () => {
       birthYear: '',
       bicycleType: '따릉이',
       ridingSkill: 1,
-      introduce: '',
+      // introduce: '',
     },
     // reValidateMode: 'onBlur',
   });
@@ -54,9 +55,13 @@ const SignupDetailForm = () => {
       await authAPI.checkIfNicknameExists(nickname);
       return true;
     } catch (e: any) {
-      setError('nickname', {
-        type: e.message === '2032' ? 'duplicated' : 'etc',
-      });
+      setError(
+        'nickname',
+        {
+          type: e.message === '2032' ? 'duplicated' : 'etc',
+        },
+        { shouldFocus: true }
+      );
       return false;
     }
   };
@@ -71,7 +76,7 @@ const SignupDetailForm = () => {
     birthYear,
     bicycleType,
     ridingSkill,
-    introduce,
+    // introduce,
   }) => {
     const isNicknameValid = await validateNickname(nickname);
     if (!isNicknameValid) return;
@@ -84,10 +89,9 @@ const SignupDetailForm = () => {
       birthYear: Number(birthYear),
       bicycleType,
       bicycleCareer: Number(ridingSkill),
-      introduce: introduce || null,
+      // introduce: introduce || null,
       isTermsEnable: true,
     };
-    console.log(newUser);
 
     try {
       await authAPI.signup(newUser);
@@ -115,7 +119,7 @@ const SignupDetailForm = () => {
             render={({ field }) => (
               <AuthFormInput
                 placeholder="닉네임"
-                helpText={!isSubmitted && '닉네임 조건'}
+                helpText={!isSubmitted && '10자 이하'}
                 hasError={!!errors.nickname}
                 {...field}
               />
@@ -227,9 +231,10 @@ const SignupDetailForm = () => {
           )}
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'riding-skill')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>라이딩 실력</h4>
+            <RidingSkills placement="left" />
           </label>
           <ul className={cn('row')}>
             <Controller
@@ -255,7 +260,7 @@ const SignupDetailForm = () => {
           </ul>
         </div>
 
-        <div className={cn('field')}>
+        {/* <div className={cn('field', 'introduce')}>
           <label className={cn('label')}>
             <h4 className={cn('title')}>상태 메세지</h4>
             <span className={cn('guide')}>(선택)</span>
@@ -269,7 +274,7 @@ const SignupDetailForm = () => {
             render={({ field }) => (
               <AuthFormInput
                 placeholder="상태 메세지"
-                helpText={!isSubmitted && '상태 메세지 조건'}
+                helpText={!isSubmitted && '30자 이하'}
                 hasError={!!errors.introduce}
                 {...field}
               />
@@ -283,7 +288,7 @@ const SignupDetailForm = () => {
               )}
             />
           )}
-        </div>
+        </div> */}
       </div>
 
       <div className={cn('btns')}>

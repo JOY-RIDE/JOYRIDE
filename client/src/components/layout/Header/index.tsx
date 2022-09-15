@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { userProfileState, userIdState } from 'states/auth';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import Container from 'components/common/Container';
+import Container from 'components/layout/Container';
 import { FiLogIn, FiLogOut } from 'react-icons/fi';
 // import { FaRegUserCircle } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
@@ -118,7 +118,7 @@ const Header = () => {
               >
                 자전거 모임
               </Link>
-              <form
+              {/* <form
                 className={cn('form', 'menus')}
                 onSubmit={handleSubmit(onValid)}
               >
@@ -128,7 +128,7 @@ const Header = () => {
                   placeholder="궁금한 내용을 검색해 보세요!"
                 />
                 <AiOutlineSearch className={cn('icon')} />
-              </form>
+              </form> */}
             </div>
           </Container>
         </motion.div>

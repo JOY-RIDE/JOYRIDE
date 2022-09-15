@@ -42,9 +42,13 @@ const SignupBasicForm = () => {
       await authAPI.checkIfEmailExists(email);
       return true;
     } catch (e: any) {
-      setError('email', {
-        type: e.message === '2017' ? 'duplicated' : 'etc',
-      });
+      setError(
+        'email',
+        {
+          type: e.message === '2017' ? 'duplicated' : 'etc',
+        },
+        { shouldFocus: true }
+      );
       return false;
     }
   };
@@ -103,13 +107,14 @@ const SignupBasicForm = () => {
             rules={{
               required: true,
               minLength: 8,
-              pattern: REGEX.password,
+              maxLength: 16,
+              // pattern: REGEX.password,
             }}
             render={({ field }) => (
               <AuthFormInput
                 type="password"
                 placeholder="비밀번호"
-                helpText={!isSubmitted && '비밀번호 조건'}
+                helpText={!isSubmitted && '8~16자 사이'}
                 hasError={!!errors.password}
                 {...field}
               />

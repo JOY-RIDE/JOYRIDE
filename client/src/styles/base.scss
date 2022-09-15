@@ -36,6 +36,11 @@ button {
   color: inherit;
 }
 
+input {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
 input[type='number'] {
   -moz-appearance: textfield;
   &::-webkit-outer-spin-button,

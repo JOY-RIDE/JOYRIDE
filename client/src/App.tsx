@@ -19,7 +19,6 @@ import { MAIN_COLOR } from 'utils/constants';
 import { Theme as MuiTheme } from '@mui/material/styles';
 import PrivateRoute from 'components/common/PrivateRoute';
 import Search from 'routes/Search';
-import AuthPage from 'routes/Auth';
 import PublicOnlyRoute from 'components/common/PublicOnlyRoute';
 import Modal from 'components/common/Modal';
 import Signup from 'routes/Auth/Signup';
@@ -31,8 +30,9 @@ import JoinedMeetups from 'routes/Mypage/JoinedMeetups';
 import BookmarkedMeetups from 'routes/Mypage/BookmarkedMeetups';
 import LikedCourses from 'routes/Mypage/LikedCourses';
 import ModifyProfile from 'routes/Mypage/ModifyProfile';
-
-const Error = lazy(() => import('routes/Error'));
+import ErrorBoundary from 'components/common/ErrorBoundary';
+import Auth from 'routes/Auth';
+import ComingSoon from 'components/common/ComingSoon';
 
 declare module '@emotion/react' {
   export interface Theme extends MuiTheme {}
@@ -58,6 +58,8 @@ interface locationProps {
   };
 }
 
+const Error404 = lazy(() => import('components/common/Error404'));
+
 const App = () => {
   const setUserId = useSetRecoilState(userIdState);
   const { silentRefresh } = authAPI;
@@ -71,58 +73,62 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {/*<ErrorBoundary> */}
       {/* TODO: Suspense 배치 */}
       <Suspense fallback={<div />}>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route element={<ErrorBoundary />}>
+              <Route index element={<Home />} />
 
-            <Route path="roads">
-              <Route index element={<Roads />} />
-              <Route path=":roadId">
-                <Route index element={<Road />} />
-                <Route path="map" element={<MapDetail lat={lat} lng={lng} />} />
+              <Route path="roads">
+                <Route index element={<Roads />} />
+                <Route path=":roadId">
+                  <Route index element={<Road />} />
+                  <Route
+                    path="map"
+                    element={<MapDetail lat={lat} lng={lng} />}
+                  />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="meetups">
-              <Route index element={<Meetups />} />
-              <Route path=":meetupId" element={<Meetup />} />
-            </Route>
-
-            <Route path="search" element={<Search />} />
-
-            <Route element={<PrivateRoute />}>
-              <Route path="mypage">
-                <Route index element={<MyPage />} />
-                <Route path="modify_profile" element={<ModifyProfile />} />
-                <Route path="courses/like" element={<LikedCourses />} />
-                <Route path="meetups/admin" element={<MyMeetups />} />
-                <Route path="meetups/join" element={<JoinedMeetups />} />
-                <Route
-                  path="meetups/bookmark"
-                  element={<BookmarkedMeetups />}
-                />
+              <Route path="meetups">
+                <Route index element={<Meetups />} />
+                <Route path=":meetupId" element={<Meetup />} />
               </Route>
-            </Route>
 
-            <Route element={<PublicOnlyRoute />}>
-              <Route path="auth" element={<AuthPage />}>
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
-                <Route path="find_email" element={<FindEmail />} />
-                <Route path="reset_password" element={<ResetPassword />} />
+              <Route path="search" element={<Search />} />
+
+              <Route element={<PrivateRoute />}>
+                <Route path="mypage">
+                  <Route index element={<MyPage />} />
+                  <Route path="modify_profile" element={<ModifyProfile />} />
+                  <Route path="courses/like" element={<LikedCourses />} />
+                  <Route path="meetups/admin" element={<MyMeetups />} />
+                  <Route path="meetups/join" element={<JoinedMeetups />} />
+                  <Route
+                    path="meetups/bookmark"
+                    element={<BookmarkedMeetups />}
+                  />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="*" element={<Error />} />
+              <Route element={<PublicOnlyRoute />}>
+                <Route path="auth" element={<Auth />}>
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                  <Route path="find_email" element={<FindEmail />} />
+                  <Route path="reset_password" element={<ComingSoon />} />
+                  {/* <Route path="reset_password" element={<ResetPassword />} /> */}
+                </Route>
+              </Route>
+
+              <Route path="*" element={<Error404 />} />
+            </Route>
           </Route>
         </Routes>
         <Modal />
         <Toast />
       </Suspense>
-      {/* </ErrorBoundary> */}
     </ThemeProvider>
   );
 };

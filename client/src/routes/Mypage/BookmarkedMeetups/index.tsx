@@ -18,7 +18,7 @@ const BookmarkedMeetups = () => {
     meetupAPI.getBookmarkedMeetupList,
     {
       staleTime: 60 * 1000,
-      onError: () => showToastMessage('로딩 중 문제가 발생했습니다.'),
+      onError: () => showToastMessage('페이지 로딩 중 문제가 발생했습니다.'),
     }
   );
 
@@ -36,7 +36,7 @@ const BookmarkedMeetups = () => {
       ) : (
         <Empty
           Icon={<BiBookmarkPlus />}
-          content="관심 있는 모임을 북마크 해보세요."
+          content="관심 있는 모임들을 북마크 하세요."
         />
       )}
     </>

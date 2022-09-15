@@ -7,28 +7,29 @@
 
 .toggle-btn {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
   color: $color-grey-600;
 
   & span {
     font-weight: 600;
+    font-size: 1.5rem;
   }
 
   & svg {
     color: $color-grey-500;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
-  // @include for-tablet-landscape-up {
-  //   gap: 0.5rem;
-  //   & span {
-  //     font-size: 1.6rem;
-  //   }
-  //   & svg {
-  //     font-size: 1.4rem;
-  //   }
-  // }
+  @include for-tablet-landscape-up {
+    gap: 0.5rem;
+    & span {
+      font-size: 1.6rem;
+    }
+    & svg {
+      font-size: 1.4rem;
+    }
+  }
 }
 
 .content-container {

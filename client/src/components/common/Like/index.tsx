@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi';
@@ -22,6 +23,7 @@ const Like = ({ count }: likeProps) => {
   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { roadId: crsNm } = useParams();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     axios
@@ -51,10 +53,11 @@ const Like = ({ count }: likeProps) => {
       } else {
         setIsLiked(0);
         axios
-          .delete(`/courses/like/${likeId}`)
+          .delete(`/courses/like/${crsNm}/${loggedInUser}`)
           .then(response => console.log(response)) // 성공 핸들링
           .catch(error => console.log(error));
       }
+      queryClient.invalidateQueries(['serverInfo']);
     }
   };
   return (

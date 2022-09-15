@@ -20,13 +20,14 @@ export interface NewUser {
   birthYear: number;
   bicycleType: BicycleType;
   bicycleCareer: number;
-  introduce: string | null;
+  // introduce: string | null;
   isTermsEnable: boolean;
 }
 
 export interface UserProfile {
   nickname: string;
   image: string;
+  profileImgUrl: string;
   gender: Gender;
   birthYear: number;
   bicycleType: BicycleType;

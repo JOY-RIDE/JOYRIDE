@@ -150,11 +150,11 @@ public class CourseController {
     }
 
     //코스 종아요 취소 api
-    @DeleteMapping("/like/{courseLike_id}")
-    public BaseResponse<DeleteCourseLikeRes> PatchCourseReviewStatus(@PathVariable("courseLike_id") int courseLike_id){
+    @DeleteMapping("/like/{title}/{user_id}")
+    public BaseResponse<DeleteCourseLikeRes> DeleteCourseLike(@PathVariable("title") String title, @PathVariable("user_id") int user_id){
         try{
             // 유저 확인 로직 필요
-            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(courseLike_id);
+            DeleteCourseLikeRes deleteCourseReviewRes = courseService.removeCourseLike(title, user_id);
             return new BaseResponse<>(deleteCourseReviewRes);
         } catch(BaseException exception){
             return new BaseResponse<>((exception.getStatus()));

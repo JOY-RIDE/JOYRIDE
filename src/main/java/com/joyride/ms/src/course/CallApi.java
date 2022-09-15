@@ -95,11 +95,10 @@ public class CallApi {
             urlBuilder.append("&" + URLEncoder.encode("MobileOS","UTF-8") + "=" + URLEncoder.encode("ETC", "UTF-8")); /*IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC*/
             urlBuilder.append("&" + URLEncoder.encode("MobileApp","UTF-8") + "=" + URLEncoder.encode("joyride", "UTF-8")); /*서비스명=어플명*/
             urlBuilder.append("&" + URLEncoder.encode("crsLevel","UTF-8") + "=" + URLEncoder.encode(level, "UTF-8")); /*코스 난이도(1:하/2:중/3:상)*/
+            urlBuilder.append("&" + URLEncoder.encode("brdDiv","UTF-8") + "=" + URLEncoder.encode("DNBW", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("_type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
 
             URL url = new URL(urlBuilder.toString());
-            System.out.println("url = " + url);
-
             BufferedReader bf;
             bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             result = bf.readLine();
