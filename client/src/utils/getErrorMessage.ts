@@ -30,8 +30,10 @@ export function getSignupFormFieldErrorMessage(
           return '필수 항목입니다';
         case 'minLength':
           return '8자 이상이어야 합니다';
-        case 'pattern':
-          return '~를 포함해야 합니다';
+        case 'maxLength':
+          return '16자를 초과하였습니다';
+        // case 'pattern':
+        //   return '영문 대/소문자, 숫자, 특수문자를 포함해야 합니다';
         default:
           throw new Error();
       }
