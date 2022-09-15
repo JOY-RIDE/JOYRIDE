@@ -42,6 +42,15 @@ public class MeetProvider {
         }
     }
 
+    public List<MeetListRes> retrieveMeetByHost(Integer userId) throws BaseException {
+        try {
+            return meetDao.selectMeetByHost(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public int checkMeetJoinById(Integer userId ,Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetJoinById(userId, meetId);

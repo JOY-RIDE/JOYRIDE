@@ -84,12 +84,12 @@ public class MeetController {
 
     /**
      * 4.3 모임 세부 조회 API
-     * [GET] /meets/:meetId
+     * [GET] /meets/detail/:meetId
      *
      * @param request
      * @return
      */
-    @GetMapping("{meetId}")
+    @GetMapping("/detail/{meetId}")
     public BaseResponse<MeetDetailRes> getMeetDetail(HttpServletRequest request, @PathVariable("meetId") Integer meetId) {
         try{
             return new BaseResponse<>(meetProvider.retrieveMeetById(meetId));
@@ -172,4 +172,20 @@ public class MeetController {
         }
     }
 
+    /**
+     * 4.7 생성한 모임 조회 API
+     * [GET] /meets/host
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/host")
+    public BaseResponse<List<MeetListRes>> getMeetHost(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            return new BaseResponse<>(meetProvider.retrieveMeetByHost(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
 }
