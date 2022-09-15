@@ -15,9 +15,13 @@ const LikedCourseItem = ({ crsKorNm, image, crsContents }: any) => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const queryClient = useQueryClient();
   const cancelCourseLike = async () => {
-    await courseAPI.cancelCourseLike(crsKorNm, userId);
-    showToastMessage('좋아요를 취소했습니다.');
-    queryClient.invalidateQueries(['serverInfo', 'like']);
+    try {
+      await courseAPI.cancelCourseLike(crsKorNm, userId);
+      showToastMessage('좋아요를 취소했습니다.');
+      queryClient.invalidateQueries(['serverInfo', 'like']);
+    } catch (e: any) {
+      showToastMessage('좋아요 취소 중 문제가 발생했습니다.');
+    }
   };
 
   return (

@@ -35,11 +35,14 @@ export const courseAPI: CourseAPI = {
     return result;
   },
 
-  // TODO
   async cancelCourseLike(courseName, userId) {
     const {
       data: { code },
     } = await axios.delete(`/courses/like/${courseName}/${userId}`);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
   },
 };
 

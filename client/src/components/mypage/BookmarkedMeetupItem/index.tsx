@@ -32,7 +32,6 @@ const BookmarkedMeetupItem = ({
   });
   const handleDeleteClick = () => mutate(id);
 
-  /* TODO: 없어지는지 확인 */
   return (
     <li className={cn('container')}>
       <div className={cn('top')}>
