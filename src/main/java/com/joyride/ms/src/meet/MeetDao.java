@@ -80,8 +80,8 @@ public class MeetDao {
     }
 
     public int checkMeetJoinById(Integer userId,Integer meetId) {
-        String checkJoinByIdQuery = "select exists(select id from meet_join where user_id = ? and meet_id = ?)";
-        Object[] checkJoinByIdParams = new Object[]{userId, meetId};
+        String checkJoinByIdQuery = "select exists(select meet_join.id from meet_join join meet on meet_join.meet_id = meet.id where meet_join.user_id = ? and meet_join.meet_id = ? or meet.id = ?)";
+        Object[] checkJoinByIdParams = new Object[]{userId, meetId, meetId};
         return this.jdbcTemplate.queryForObject(checkJoinByIdQuery, int.class, checkJoinByIdParams);
     }
 
@@ -119,7 +119,7 @@ public class MeetDao {
         Integer maxPeople = this.jdbcTemplate.queryForObject(checkMeetMaxPeopleQuery, int.class, checkMeetMaxPeopleParam);
         Integer joinPeople = this.jdbcTemplate.queryForObject(checkMeetJoinPeopleQuery, int.class, checkMeetJoinPeopleParam);
 
-        if (maxPeople == joinPeople)
+        if (maxPeople == joinPeople+1)
             return 1;
         return 0;
     }
@@ -225,6 +225,43 @@ public class MeetDao {
         String selectMeetByHostQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
                 "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
                 "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id where m.user_id = ? group by m.id";
+        String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
+
+        return this.jdbcTemplate.query(selectMeetByHostQuery,
+                (rs, rowNum) ->
+                        new MeetListRes(
+                                rs.getInt("id"),
+                                rs.getInt("user_id"),
+                                rs.getString("course_name"),
+                                rs.getString("title"),
+                                rs.getString("local"),
+                                rs.getInt("riding_skill"),
+                                rs.getInt("path_difficulty"),
+                                rs.getString("meeting_img_url"),
+                                rs.getString("gender"),
+                                rs.getInt("join_people"),
+                                rs.getInt("max_people"),
+                                Arrays.asList(rs.getString("path").split(",")),
+                                rs.getInt("participation_fee"),
+                                rs.getString("content"),
+                                rs.getInt("min_year"),
+                                rs.getInt("max_year"),
+                                rs.getString("gathering_place"),
+                                rs.getInt("status"),
+                                rs.getString("meeting_date"),
+                                rs.getString("due_date"),
+                                rs.getString("created_at"),
+                                this.jdbcTemplate.query(selectBicycleTypeQuery,
+                                        (rs2,rowNum2) ->
+                                                rs2.getString("bicycle_type")
+                                        ,rs.getInt("id"))
+                        ),userId);
+    }
+
+    public List<MeetListRes> selectMeetByJoin(Integer userId) {
+        String selectMeetByHostQuery = "select m.id, m.user_id, course_name, title, local, riding_skill, path_difficulty, meeting_img_url," +
+                "gender, count(j.id) as join_people, max_people,path, participation_fee, content, min_year,max_year,gathering_place,status, meeting_date," +
+                "due_date, created_at from meet as m left JOIN meet_join as j ON m.id = j.meet_id where j.user_id = ? group by m.id";
         String selectBicycleTypeQuery = "select bicycle_type from meet_bicycletype where meet_id = ?";
 
         return this.jdbcTemplate.query(selectMeetByHostQuery,

@@ -51,6 +51,15 @@ public class MeetProvider {
         }
     }
 
+    public List<MeetListRes> retrieveMeetByJoin(Integer userId) throws BaseException {
+        try {
+            return meetDao.selectMeetByJoin(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public int checkMeetJoinById(Integer userId ,Integer meetId) throws BaseException {
         try {
             return meetDao.checkMeetJoinById(userId, meetId);
@@ -111,13 +120,4 @@ public class MeetProvider {
         }
     }
 
-    public int checkFilterNull(Integer age,String bicycleTypes,String gender,Integer participationFee,String location,Integer maxNumOfParticipants,Integer minNumOfParticipants,Integer pathDifficulty,Integer ridingSkill) {
-        if (age == null && bicycleTypes == null && gender == null && participationFee == null && location == null && maxNumOfParticipants == null &&
-        minNumOfParticipants == null && pathDifficulty == null && ridingSkill == null) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
-    }
 }

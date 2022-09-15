@@ -188,4 +188,22 @@ public class MeetController {
             return new BaseResponse<>(e.getStatus());
         }
     }
+
+    /**
+     * 4.8 참가한 모임 조회 API
+     * [GET] /meets/join
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/join")
+    public BaseResponse<List<MeetListRes>> getMeetJoin(HttpServletRequest request) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try{
+            return new BaseResponse<>(meetProvider.retrieveMeetByJoin(userId));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
 }
