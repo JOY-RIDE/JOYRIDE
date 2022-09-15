@@ -29,7 +29,6 @@ interface SignupDetailForm {
   birthYear: string;
   bicycleType: BicycleType;
   ridingSkill: RidingSkill;
-  // introduce: string;
 }
 
 const SignupDetailForm = () => {
@@ -45,7 +44,6 @@ const SignupDetailForm = () => {
       birthYear: '',
       bicycleType: '따릉이',
       ridingSkill: 1,
-      // introduce: '',
     },
     // reValidateMode: 'onBlur',
   });
@@ -76,7 +74,6 @@ const SignupDetailForm = () => {
     birthYear,
     bicycleType,
     ridingSkill,
-    // introduce,
   }) => {
     const isNicknameValid = await validateNickname(nickname);
     if (!isNicknameValid) return;
@@ -89,7 +86,6 @@ const SignupDetailForm = () => {
       birthYear: Number(birthYear),
       bicycleType,
       bicycleCareer: Number(ridingSkill),
-      // introduce: introduce || null,
       isTermsEnable: true,
     };
 
@@ -259,36 +255,6 @@ const SignupDetailForm = () => {
             />
           </ul>
         </div>
-
-        {/* <div className={cn('field', 'introduce')}>
-          <label className={cn('label')}>
-            <h4 className={cn('title')}>상태 메세지</h4>
-            <span className={cn('guide')}>(선택)</span>
-          </label>
-          <Controller
-            control={control}
-            name="introduce"
-            rules={{
-              maxLength: 30,
-            }}
-            render={({ field }) => (
-              <AuthFormInput
-                placeholder="상태 메세지"
-                helpText={!isSubmitted && '30자 이하'}
-                hasError={!!errors.introduce}
-                {...field}
-              />
-            )}
-          />
-          {errors.introduce && (
-            <ErrorMessage
-              message={getSignupFormFieldErrorMessage(
-                'introduce',
-                errors.introduce.type
-              )}
-            />
-          )}
-        </div> */}
       </div>
 
       <div className={cn('btns')}>
