@@ -66,6 +66,7 @@
   & .leader__manner {
     color: $color-main;
     margin-left: 1rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -87,7 +88,7 @@
   margin: 0.8rem 0;
 
   & .label {
-    width: 9.1rem;
+    width: 10rem;
     flex-shrink: 0;
   }
 
@@ -98,13 +99,25 @@
 
   & .emphasized {
     color: $color-main;
-    font-weight: 700;
+    font-weight: 600;
   }
 }
 
 .bicycle-types {
   & ul {
     flex-wrap: wrap;
+  }
+}
+
+.riding-skill {
+  & .label {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+    & svg {
+      font-size: 1.7rem;
+    }
   }
 }
 

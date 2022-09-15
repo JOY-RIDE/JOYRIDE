@@ -23,6 +23,7 @@ import MeetupJoinBar from 'components/meetup/MeetupJoinBar';
 import MeetupParticipantList from 'components/meetup/MeetupParticipantList';
 import { MeetupDetail } from 'types/meetup';
 import Loading from 'components/common/Loading';
+import RidingSkills from 'components/common/RidingSkills';
 
 // const testPath = [
 //   '안합',
@@ -201,8 +202,11 @@ const Meetup = () => {
             </div>
           </div>
 
-          <div className={cn('field')}>
-            <label className={cn('label')}>라이딩 실력</label>
+          <div className={cn('field', 'riding-skill')}>
+            <label className={cn('label')}>
+              라이딩 실력
+              <RidingSkills placement="right" />
+            </label>
             <span className={cn('data', 'emphasized')}>
               {stringifyRidingSkill(meetup.ridingSkill)}
             </span>
