@@ -41,6 +41,7 @@ import { toastMessageState } from 'states/common';
 import { CourseName } from 'types/course';
 import { Autocomplete } from '@mui/material';
 import { getCourseNames } from 'apis/coursesAPI';
+import RidingSkills from 'components/common/RidingSkills';
 
 const cn = classNames.bind(styles);
 
@@ -246,27 +247,20 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           <label className={cn('label')}>
             <h4>지역</h4>
           </label>
-          <ul className={cn('options')}>
-            <Controller
-              control={control}
-              name="location"
-              render={({ field: { value, ...others } }) => (
-                <>
-                  {LOCATIONS.map((location: Location) => (
-                    <li key={location} className={cn('col')}>
-                      <SelectButton
-                        type="radio"
-                        value={location}
-                        content={location}
-                        isSelected={value === location}
-                        {...others}
-                      />
-                    </li>
-                  ))}
-                </>
-              )}
-            />
-          </ul>
+          <Controller
+            control={control}
+            name="location"
+            render={({ field }) => (
+              <SelectList
+                options={LOCATIONS.map(location => ({
+                  value: location,
+                  content: location,
+                }))}
+                label="지역"
+                {...field}
+              />
+            )}
+          />
         </div>
 
         <div className={cn('field')}>
@@ -428,7 +422,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
             rules={{ validate: path => path.length >= 2 }}
             render={({ field: { value, onChange, ...others } }) => (
               <TextInput
-                placeholder="장소 입력 후 쉼표(,) 키를 눌러 등록하세요. (ex: 잠수교,)"
+                placeholder="장소명 입력 후 쉼표(,) 키를 눌러 등록하세요."
                 onKeyDown={handlePathAdd}
                 {...others}
               />
@@ -509,7 +503,7 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           </ul>
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'bicycle-types')}>
           <label className={cn('label')}>
             <h4>자전거 종류</h4>
             <span className={cn('guide')}>(다중 선택 가능)</span>
@@ -643,9 +637,10 @@ const MeetupCreationForm = ({ createMeetup }: MeetupCreationFormProp) => {
           )}
         </div>
 
-        <div className={cn('field')}>
+        <div className={cn('field', 'riding-skill')}>
           <label className={cn('label')}>
             <h4>라이딩 실력</h4>
+            <RidingSkills placement="right" />
           </label>
           <ul className={cn('options')}>
             <Controller

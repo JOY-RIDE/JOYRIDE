@@ -26,6 +26,14 @@
   }
 }
 
+.riding-skill {
+  & .label {
+    & svg {
+      font-size: 1.6rem;
+    }
+  }
+}
+
 .options,
 .option {
   display: flex;

@@ -1,4 +1,4 @@
-import styles from './MeetupItem.module.scss';
+import styles from './MyMeetupItem.module.scss';
 import { MeetupData } from 'types/meetup';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
@@ -43,28 +43,30 @@ const MyMeetupItem = ({
 
   return (
     <li className={cn('container')}>
-      <Link to={`/meetups/${id}`}>
-        <h1 className={cn('title')}>{title}</h1>
-        <div className={cn('meeting')}>
-          <div className={cn('place')}>
-            <HiOutlineLocationMarker />
-            <span>{gatheringPlace}</span>
+      <div className={cn('top')}>
+        <Link to={`/meetups/${id}`}>
+          <h1 className={cn('title')}>{title}</h1>
+          <div className={cn('meeting')}>
+            <div className={cn('place')}>
+              <HiOutlineLocationMarker />
+              <span>{gatheringPlace}</span>
+            </div>
+            <span className={cn('date')}>
+              {dayjs(meetingDate).format('M월 D일')}
+            </span>
           </div>
-          <span className={cn('date')}>
-            {dayjs(meetingDate).format('M월 D일')}
-          </span>
-        </div>
-        <MeetupRoute courseName={courseName} path={path} />
-      </Link>
+        </Link>
 
-      <button
-        className={cn('close-btn', {
-          hidden: dayjs().isAfter(dayjs(meetingDate)) || status === 0,
-        })}
-        onClick={handleCloseClick}
-      >
-        {<EventBusyIcon />}모임 닫기
-      </button>
+        <button
+          className={cn('close-btn', {
+            hidden: dayjs().isAfter(dayjs(meetingDate)) || status === 0,
+          })}
+          onClick={handleCloseClick}
+        >
+          {<EventBusyIcon />}모임 닫기
+        </button>
+      </div>
+      <MeetupRoute courseName={courseName} path={path} />
     </li>
   );
 };

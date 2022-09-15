@@ -22,7 +22,8 @@ import { range } from 'lodash';
 
 export const MAIN_COLOR = '#22b573';
 
-export const GENDERS: Gender[] = ['m', 'f']; // TODO: 삭제
+export const GENDERS: Gender[] = ['m', 'f'];
+// TODO
 export const GENDER_OPTIONS: Option<Gender>[] = [
   { value: 'm', content: stringifyGender('m') },
   { value: 'f', content: stringifyGender('f') },
@@ -31,28 +32,50 @@ export const MEETUP_GENDER_OPTIONS: Option<MeetupGender>[] = [
   { value: 'mixed', content: stringifyGender('mixed') },
   ...GENDER_OPTIONS,
 ];
+
 export const BIRTH_YEAR_OPTIONS: Option<number>[] = range(
   new Date().getFullYear(),
   1919,
   -1
 ).map(year => ({ value: year, content: `${year}` }));
 export const AGES: Age[] = [1, 2, 3, 4, 5];
+
+export const BICYCLE_TYPES: BicycleType[] = [
+  '따릉이',
+  'MTB',
+  '로드바이크',
+  '그래블',
+  '하이브리드',
+  '미니벨로',
+  '기타',
+];
 export const BICYCLE_TYPE_OPTIONS: Option<BicycleType>[] = [
   { value: '따릉이', content: '따릉이' },
   { value: 'MTB', content: 'MTB' },
   { value: '로드바이크', content: '로드바이크' },
+  { value: '그래블', content: '그래블' },
   { value: '하이브리드', content: '하이브리드' },
   { value: '미니벨로', content: '미니벨로' },
   { value: '기타', content: '기타' },
 ];
+
 export const RIDING_SKILL_OPTIONS: Option<RidingSkill>[] = [
   { value: 1, content: stringifyRidingSkill(1) },
   { value: 2, content: stringifyRidingSkill(2) },
   { value: 3, content: stringifyRidingSkill(3) },
+  { value: 4, content: stringifyRidingSkill(4) },
+  { value: 5, content: stringifyRidingSkill(5) },
 ];
+
 export const LOCATIONS: Location[] = [
   '서울',
+  '부산',
+  '대구',
   '인천',
+  '광주',
+  '대전',
+  '울산',
+  '세종',
   '경기',
   '강원',
   '충북',
@@ -63,14 +86,7 @@ export const LOCATIONS: Location[] = [
   '경남',
   '제주',
 ];
-export const BICYCLE_TYPES: BicycleType[] = [
-  '따릉이',
-  'MTB',
-  '로드바이크',
-  '하이브리드',
-  '미니벨로',
-  '기타',
-];
+
 export const MEETUP_PATH_DIFFICULTY_OPTIONS: Option<MeetupPathDifficulty>[] = [
   { value: 1, content: stringifyMeetupPathDifficulty(1) },
   { value: 2, content: stringifyMeetupPathDifficulty(2) },

@@ -1,23 +1,18 @@
 @use '../../../styles/mixins.scss' as *;
 @use '../../../styles/variables.scss' as *;
 
-$form-side-padding: 2.5rem;
-
 .form {
-  padding: 0 $form-side-padding 4rem $form-side-padding;
+  padding-bottom: 4rem;
   margin-top: 7.5rem;
   overflow-y: scroll;
   position: relative;
 }
 
 .img-wrapper {
-  width: calc(100% + 2 * $form-side-padding);
-  right: $form-side-padding;
   height: 20rem;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  position: relative;
 }
 
 #img {
@@ -48,7 +43,6 @@ $form-side-padding: 2.5rem;
   font-weight: 700;
   font-size: 2.4rem;
   padding: 1rem;
-  // padding-left: 0.5rem;
   margin-top: 1rem;
 }
 
@@ -56,6 +50,7 @@ $form-side-padding: 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  padding: 0 2.5rem;
 }
 
 .field {
@@ -76,6 +71,14 @@ $form-side-padding: 2.5rem;
   & .guide {
     font-size: 1.4rem;
     color: $color-grey-500;
+  }
+}
+
+.riding-skill {
+  & .label {
+    & svg {
+      font-size: 2rem;
+    }
   }
 }
 
@@ -112,12 +115,6 @@ $form-side-padding: 2.5rem;
 }
 
 .path {
-  // & input {
-  //   font-size: 1.2rem;
-  //   @include for-tablet-portrait-up {
-  //     font-size: 1.6rem;
-  //   }
-
   & .stops {
     display: flex;
     gap: 0.6rem 0.5rem;
@@ -175,7 +172,6 @@ $form-side-padding: 2.5rem;
 
 .number {
   flex-grow: 1;
-  font-size: 1.8rem;
   text-align: center;
 }
 

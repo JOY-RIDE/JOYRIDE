@@ -20,7 +20,7 @@ export interface NewUser {
   birthYear: number;
   bicycleType: BicycleType;
   bicycleCareer: number;
-  introduce: string | null;
+  // introduce: string | null;
   isTermsEnable: boolean;
 }
 

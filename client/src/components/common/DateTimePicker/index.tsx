@@ -130,6 +130,7 @@ const DateTimePicker = forwardRef<DatePicker, DateTimePickerProps>(
         fixedHeight
         closeOnScroll
         showPopperArrow={false}
+        onFocus={e => e.target.blur()}
         disabledKeyboardNavigation
         {...others}
       />

@@ -1,19 +1,27 @@
 @use '../../../styles/variables.scss' as *;
 
 .container {
-  display: flex;
-  gap: 2rem;
-  justify-content: space-between;
   padding: 1.5rem 0;
   font-size: 1.4rem;
 
   & + .container {
     border-top: $border-grey;
   }
+}
 
-  & a:hover {
-    & .title {
-      color: $color-main;
+.top {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  & a {
+    flex-grow: 1;
+    &:hover {
+      & .title {
+        color: $color-main;
+      }
     }
   }
 }
@@ -22,13 +30,13 @@
   font-size: 1.6rem;
   color: $color-grey-800;
   margin-bottom: 1rem;
+  word-break: break-all;
 }
 
 .meeting {
   display: flex;
   gap: 0.7rem;
   align-items: center;
-  margin-bottom: 1rem;
 
   & .place {
     display: flex;
@@ -43,7 +51,6 @@
 }
 
 .exit-btn {
-  align-self: flex-start;
   flex-shrink: 0;
   font-size: 1.3rem;
   display: flex;
@@ -53,7 +60,6 @@
   color: white;
   padding: 0.4rem 0.5rem;
   border-radius: 0.3rem;
-  transition: all 0.1s ease-in-out;
 
   &.hidden {
     display: none;

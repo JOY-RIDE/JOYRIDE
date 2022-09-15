@@ -78,6 +78,11 @@
   gap: 0.4rem;
 }
 
+.info-bottom {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 // .field {
 //   &.path-difficulty {
 //     & .high {

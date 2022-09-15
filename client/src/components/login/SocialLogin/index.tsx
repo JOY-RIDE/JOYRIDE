@@ -14,7 +14,7 @@ const SocialLogin = () => (
     </div>
     <ul className={cn('providers')}>
       {/* TODO */}
-      <li>
+      {/* <li>
         <SocialLoginButton
           href="#"
           provider="네이버"
@@ -27,10 +27,10 @@ const SocialLogin = () => (
           provider="카카오"
           imgSRC={socialLogin_kakao}
         />
-      </li>
+      </li> */}
       <li>
         <SocialLoginButton
-          href="http://localhost:9001/oauth2/authorization/google"
+          href="http://prod.joyride.site:9001/oauth2/authorization/google"
           provider="구글"
           imgSRC={socialLogin_google}
         />

@@ -5,13 +5,17 @@
   text-align: center;
 
   & > svg {
-    font-size: 6rem;
+    font-size: 7rem;
     color: $color-main;
   }
 }
 
 .title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 2rem 0;
+}
+
+.content {
   font-size: 1.8rem;
-  font-weight: 500;
-  margin-top: 1.5rem;
 }
