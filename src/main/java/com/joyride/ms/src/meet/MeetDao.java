@@ -368,19 +368,19 @@ public class MeetDao {
         if (meetFilterReq.getAge() != null) {
             switch (meetFilterReq.getAge()) {
                 case 1:
-                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 18 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) >=  DATE_FORMAT(DATE_SUB(now(), INTERVAL 18 YEAR), '%Y')");
                     break;
                 case 2:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 19 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 28 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 19 YEAR), '%Y') AND CAST(max_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 28 YEAR), '%Y') ");
                     break;
                 case 3:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 29 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 38 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 29 YEAR), '%Y') AND CAST(max_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 38 YEAR), '%Y') ");
                     break;
                 case 4:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 39 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 48 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 39 YEAR), '%Y') AND CAST(max_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 48 YEAR), '%Y') ");
                     break;
                 case 5:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 49 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 49 YEAR), '%Y') ");
                     break;
             }
         }
