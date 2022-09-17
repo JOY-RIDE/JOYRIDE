@@ -1,9 +1,6 @@
 package com.joyride.ms.src.meet;
 
-import com.joyride.ms.src.meet.dto.MeetCreateReq;
-import com.joyride.ms.src.meet.dto.MeetDetailRes;
-import com.joyride.ms.src.meet.dto.MeetFilterReq;
-import com.joyride.ms.src.meet.dto.MeetListRes;
+import com.joyride.ms.src.meet.dto.*;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.src.user.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +81,26 @@ public class MeetDao {
         Object[] insertMeetJoinParams = new Object[]{userId, meetId};
 
         this.jdbcTemplate.update(insertMeetJoinQuery, insertMeetJoinParams);
+    }
+
+    public int insertMeetComment(Integer userId, MeetCommentCreateReq meetCommentCreateReq) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String insertMeetCommentQuery = "insert into meet_comment (user_id, meet_id,content) values (?,?,?)";
+
+        this.jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement pstmt = con.prepareStatement(insertMeetCommentQuery,
+                        new String[]{"id"});
+                pstmt.setInt(1, userId);
+                pstmt.setInt(2, meetCommentCreateReq.getMeetId());
+                pstmt.setString(3, meetCommentCreateReq.getContent());
+                return pstmt;
+            }
+        }, keyHolder);
+        Integer commentId = Objects.requireNonNull(keyHolder.getKey()).intValue();
+
+        return commentId;
     }
 
     public int checkMeetJoinById(Integer userId,Integer meetId) {
@@ -364,23 +381,29 @@ public class MeetDao {
         this.jdbcTemplate.update(deleteMeetBookMarkQuery, deleteMeetBookMarkParam);
     }
 
+    public void deleteMeetComment(Integer userId, Integer commentId) {
+        String deleteMeetCommentQuery = "delete from meet_comment  where id = ? and user_id = ?";
+        Object[] deleteMeetCommentParam = new Object[]{commentId, userId};
+        this.jdbcTemplate.update(deleteMeetCommentQuery, deleteMeetCommentParam);
+    }
+
     public StringBuffer meetFilter(StringBuffer selectMeetFilterQuery,MeetFilterReq meetFilterReq) {
         if (meetFilterReq.getAge() != null) {
             switch (meetFilterReq.getAge()) {
                 case 1:
-                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 18 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) >=  DATE_FORMAT(DATE_SUB(now(), INTERVAL 18 YEAR), '%Y')");
                     break;
                 case 2:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 19 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 28 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 19 YEAR), '%Y') AND CAST(max_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 28 YEAR), '%Y') ");
                     break;
                 case 3:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 29 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 38 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 29 YEAR), '%Y') AND CAST(max_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 38 YEAR), '%Y') ");
                     break;
                 case 4:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 39 YEAR), '%Y') AND CAST(min_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 48 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 39 YEAR), '%Y') AND CAST(max_year AS char) >= DATE_FORMAT(DATE_SUB(now(), INTERVAL 48 YEAR), '%Y') ");
                     break;
                 case 5:
-                    selectMeetFilterQuery.insert(381,"AND CAST(max_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 49 YEAR), '%Y') ");
+                    selectMeetFilterQuery.insert(381,"AND CAST(min_year AS char) <= DATE_FORMAT(DATE_SUB(now(), INTERVAL 49 YEAR), '%Y') ");
                     break;
             }
         }

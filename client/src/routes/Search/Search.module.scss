@@ -1,0 +1,49 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+  padding: 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-main;
+  position: relative;
+}
+
+.input {
+  color: black;
+  font-size: 1.6rem;
+  font-weight: 500;
+  border: $border-main-1;
+  font-size: 2rem;
+  width: 100%;
+  padding: 1rem 1.6rem;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: $color-main;
+  }
+}
+
+.icon {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  font-size: 2.4rem;
+}
+
+.title {
+  font-size: 2rem;
+  line-height: 2.4rem;
+  font-weight: 700;
+  span {
+    color: $color-grey-500;
+  }
+  margin-bottom: 2rem;
+}

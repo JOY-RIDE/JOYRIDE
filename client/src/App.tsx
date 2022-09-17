@@ -24,6 +24,7 @@ import Modal from 'components/common/Modal';
 import Signup from 'routes/Auth/Signup';
 import FindEmail from 'routes/Auth/FindEmail';
 import ResetPassword from 'routes/Auth/ResetPassword';
+import DeleteAccount from 'routes/Auth/DeleteAccount';
 import MyPage from 'routes/Mypage';
 import MyMeetups from 'routes/Mypage/MyMeetups';
 import JoinedMeetups from 'routes/Mypage/JoinedMeetups';
@@ -122,6 +123,8 @@ const App = () => {
                   {/* <Route path="reset_password" element={<ResetPassword />} /> */}
                 </Route>
               </Route>
+
+              <Route path="delete_account" element={<DeleteAccount />} />
 
               <Route path="*" element={<Error404 />} />
             </Route>

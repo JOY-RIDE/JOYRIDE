@@ -83,32 +83,32 @@ const Roads = () => {
 
   return (
     <section className={styles.roads}>
-      {isServerLoading ? (
-        <Loading />
-      ) : (
-        <div className={cn('container')}>
-          <PageTitle size="md">자전거 코스</PageTitle>
-          <div className={cn('filter-order')}>
-            {/* @ts-ignore */}
-            {/* <ContentToggleButton title="필터" Content={<CourseFilterBoard />} /> */}
-            <ContentToggleButton
-              title={order.content}
-              Content={
+      <div className={cn('container')}>
+        <PageTitle size="md">자전거 코스</PageTitle>
+        <div className={cn('filter-order')}>
+          {/* @ts-ignore */}
+          {/* <ContentToggleButton title="필터" Content={<CourseFilterBoard />} /> */}
+          <ContentToggleButton
+            title={order.content}
+            Content={
+              // TODO
+              // @ts-ignore
+              <OrderList
+                options={COURSE_ORDER_OPTIONS}
                 // TODO
                 // @ts-ignore
-                <OrderList
-                  options={COURSE_ORDER_OPTIONS}
-                  // TODO
-                  // @ts-ignore
-                  recoilState={courseOrderState}
-                />
-              }
-            />
-          </div>
-          {/* <CourseFilterChoices /> */}
-
-          <div className={cn('contents')}>
-            {/* {boardFilters ? (
+                recoilState={courseOrderState}
+              />
+            }
+          />
+        </div>
+        {/* <CourseFilterChoices /> */}
+        {isServerLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <div className={cn('contents')}>
+              {/* {boardFilters ? (
               <>
                 {filteredData?.slice(offset, offset + LIMIT).map(road => (
                   <CourseItem course={road} />
@@ -116,22 +116,23 @@ const Roads = () => {
               </>
             ) : (
               <> */}
-            {getCoursesOrderedBy(order.name, tmp)
-              .slice(offset, offset + LIMIT)
-              .map(road => (
-                <CourseItem course={road} />
-              ))}
-            {/* </>
+              {getCoursesOrderedBy(order.name, tmp)
+                .slice(offset, offset + LIMIT)
+                .map(road => (
+                  <CourseItem course={road} />
+                ))}
+              {/* </>
             )} */}
-          </div>
-          <Paging
-            total={tmp.length}
-            limit={LIMIT}
-            page={page}
-            setPage={setPage}
-          />
-        </div>
-      )}
+            </div>
+            <Paging
+              total={tmp.length}
+              limit={LIMIT}
+              page={page}
+              setPage={setPage}
+            />
+          </>
+        )}
+      </div>
     </section>
   );
 };
