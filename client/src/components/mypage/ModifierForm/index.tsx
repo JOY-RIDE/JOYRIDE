@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames/bind';
@@ -31,6 +31,7 @@ interface ModifierForm {
 const ModifierForm = () => {
   const userProfile = useRecoilValue(userProfileState) as UserProfile;
   //   console.log(userProfile);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -51,22 +52,24 @@ const ModifierForm = () => {
   const imgFile = watch('profileImgUrl');
   const imgURL = imgFile?.length
     ? URL.createObjectURL(imgFile[0])
-    : USER_DEFAULT_IMAGE;
-
-  const handleFileChange = (event: any): void => {
-    const newImg = event?.target.files[0];
-    userProfile.image = newImg;
-  };
+    : userProfile.profileImgUrl;
 
   const onSubmit: SubmitHandler<ModifierForm> = data => {
-    console.log(data);
-    // let newProfile = JSON.stringify(data);
-    const formData = new FormData();
+    const imgData = new FormData();
     if (imgFile?.length) {
-      formData.append('image', imgFile[0]);
+      imgData.append('profile-img', imgFile[0]);
     }
+
+    let newProfile = { ...data };
+    delete newProfile.profileImgUrl;
+
     axios
-      .patch('/users/profile-img', { 'profile-img': formData })
+      .patch('/users/profile-img', imgData)
+      .then(response => console.log(response)) // 성공 핸들링
+      .catch(error => console.log(error));
+
+    axios
+      .patch('/users/profile', JSON.stringify(newProfile))
       .then(response => console.log(response)) // 성공 핸들링
       .catch(error => console.log(error));
   };
