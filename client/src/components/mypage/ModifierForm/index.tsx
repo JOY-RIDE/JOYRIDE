@@ -214,9 +214,9 @@ const ModifierForm = () => {
           ></Button>
         </div>
       </form>
-      <Link to="/mypage" className={cn('link')}>
+      {/* <Link to="/delete_account" className={cn('link')}>
         회원 탈퇴
-      </Link>
+      </Link> */}
     </>
   );
 };

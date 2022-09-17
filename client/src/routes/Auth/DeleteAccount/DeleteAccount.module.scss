@@ -1,0 +1,21 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  padding: 0;
+}
+
+.header {
+  padding: 1.6rem 1.4rem;
+  height: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $color-grey-300;
+  font-size: 2rem;
+  line-height: 2.4rem;
+  font-weight: 700;
+  .icon {
+    font-size: 1.8rem;
+    color: $color-grey-500;
+  }
+}

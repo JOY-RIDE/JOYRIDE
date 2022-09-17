@@ -11,7 +11,6 @@ const cn = classNames.bind(styles);
 
 const ModifyProfile = () => {
   const userProfile = useRecoilValue(userProfileState) as UserProfile;
-  console.log(userProfile);
 
   const navigate = useNavigate();
   const onClickClose = () => {
