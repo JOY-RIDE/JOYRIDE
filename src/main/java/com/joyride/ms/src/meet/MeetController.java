@@ -265,16 +265,34 @@ public class MeetController {
 
     /**
      * 4.9.4 모임 댓글 생성 API
-     * [POST] /meets/comment/:meetId
+     * [POST] /meets/comment
      *
      * @param request
      * @return
      */
-    @PostMapping("/comment/{meetId}")
+    @PostMapping("/comment")
     public BaseResponse<Integer> postMeetComment(HttpServletRequest request, @RequestBody MeetCommentCreateReq meetCommentCreateReq) {
         Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
         try {
             return new BaseResponse<>(meetService.createMeetComment(userId,meetCommentCreateReq));
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.4 모임 댓글 삭제 API
+     * [DELETE] /meets/comment/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/comment/{commentId}")
+    public BaseResponse<String> deleteMeetComment(HttpServletRequest request, @PathVariable("commentId") Integer commentId) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            meetService.removeMeetComment(userId,commentId);
+            return new BaseResponse<>(SUCCESS);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }

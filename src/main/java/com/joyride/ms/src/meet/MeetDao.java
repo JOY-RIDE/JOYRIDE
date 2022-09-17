@@ -381,6 +381,12 @@ public class MeetDao {
         this.jdbcTemplate.update(deleteMeetBookMarkQuery, deleteMeetBookMarkParam);
     }
 
+    public void deleteMeetComment(Integer userId, Integer commentId) {
+        String deleteMeetCommentQuery = "delete from meet_comment  where id = ? and user_id = ?";
+        Object[] deleteMeetCommentParam = new Object[]{commentId, userId};
+        this.jdbcTemplate.update(deleteMeetCommentQuery, deleteMeetCommentParam);
+    }
+
     public StringBuffer meetFilter(StringBuffer selectMeetFilterQuery,MeetFilterReq meetFilterReq) {
         if (meetFilterReq.getAge() != null) {
             switch (meetFilterReq.getAge()) {

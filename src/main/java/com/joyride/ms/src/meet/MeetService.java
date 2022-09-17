@@ -90,4 +90,14 @@ public class MeetService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    @Transactional
+    public void removeMeetComment(Integer userId, Integer commentId) throws BaseException {
+        try {
+            meetDao.deleteMeetComment(userId, commentId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }
