@@ -118,7 +118,7 @@ const Header = () => {
               >
                 자전거 모임
               </Link>
-              {/* <form
+              <form
                 className={cn('form', 'menus')}
                 onSubmit={handleSubmit(onValid)}
               >
@@ -127,8 +127,10 @@ const Header = () => {
                   className={cn('input')}
                   placeholder="궁금한 내용을 검색해 보세요!"
                 />
-                <AiOutlineSearch className={cn('icon')} />
-              </form> */}
+                <button type="submit" className={cn('icon')}>
+                  <AiOutlineSearch />
+                </button>
+              </form>
             </div>
           </Container>
         </motion.div>

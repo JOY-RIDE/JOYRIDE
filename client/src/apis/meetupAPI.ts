@@ -10,6 +10,8 @@ import { joyrideAxios as axios } from './axios';
 import { mapValues } from 'lodash';
 import QueryString from 'qs';
 
+const SERVER_URL = process.env.REACT_APP_JOYRIDE_API_URL;
+
 interface MeetupAPI {
   getMeetupList: (filters?: MeetupFiltersState) => Promise<MeetupData[]>;
   getMyMeetupList: () => Promise<MeetupData[]>;
@@ -157,6 +159,12 @@ export const meetupAPI: MeetupAPI = {
     }
   },
 };
+
+export function fetchMeetups() {
+  return fetch(`${SERVER_URL}/meets`)
+    .then(response => response.json())
+    .then(json => json.result);
+}
 
 // Mock
 // const mockMeetups: Meetup[] = Array.from({ length: 10 }, (_, index) => ({

@@ -160,7 +160,9 @@ const Road = () => {
           </div>
           <div className={cn('review-title')}>
             <PageTitle size="sm">코스 후기</PageTitle>
-            <span className={cn('cnt')}>12</span>
+            <span className={cn('cnt')}>
+              {serverData?.getCourseReviewRes.length}
+            </span>
           </div>
           {loggedInUser ? <ReviewWriter /> : null}
           <div className={cn('review-summary')}>
