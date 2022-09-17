@@ -1,5 +1,6 @@
 package com.joyride.ms.src.meet;
 
+import com.joyride.ms.src.meet.dto.MeetCommentCreateReq;
 import com.joyride.ms.src.meet.dto.MeetCreateReq;
 import com.joyride.ms.util.BaseException;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,16 @@ public class MeetService {
     public void createMeetBookMark(Integer userId,Integer meetId) throws BaseException {
         try {
             meetDao.insertMeetBookMark(userId, meetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    @Transactional
+    public int createMeetComment(Integer userId, MeetCommentCreateReq meetCommentCreateReq) throws BaseException {
+        try {
+            return meetDao.insertMeetComment(userId, meetCommentCreateReq);
         } catch (Exception e) {
             e.printStackTrace();
             throw new BaseException(DATABASE_ERROR);

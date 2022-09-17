@@ -1,9 +1,6 @@
 package com.joyride.ms.src.meet;
 
-import com.joyride.ms.src.meet.dto.MeetCreateReq;
-import com.joyride.ms.src.meet.dto.MeetDetailRes;
-import com.joyride.ms.src.meet.dto.MeetFilterReq;
-import com.joyride.ms.src.meet.dto.MeetListRes;
+import com.joyride.ms.src.meet.dto.*;
 import com.joyride.ms.src.s3.AwsS3Service;
 import com.joyride.ms.util.BaseException;
 import com.joyride.ms.util.BaseResponse;
@@ -261,6 +258,23 @@ public class MeetController {
                 return new BaseResponse<>("북마크 하지 않은 모임입니다");
             }
             return new BaseResponse<>(MEET_BOOKMARKED);
+        } catch (BaseException e) {
+            return new BaseResponse<>(e.getStatus());
+        }
+    }
+
+    /**
+     * 4.9.4 모임 댓글 생성 API
+     * [POST] /meets/comment/:meetId
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/comment/{meetId}")
+    public BaseResponse<Integer> postMeetComment(HttpServletRequest request, @RequestBody MeetCommentCreateReq meetCommentCreateReq) {
+        Integer userId = Integer.parseInt(request.getAttribute("user_id").toString());
+        try {
+            return new BaseResponse<>(meetService.createMeetComment(userId,meetCommentCreateReq));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
