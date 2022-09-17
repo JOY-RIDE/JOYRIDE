@@ -1,9 +1,6 @@
 package com.joyride.ms.src.meet;
 
-import com.joyride.ms.src.meet.dto.MeetCreateReq;
-import com.joyride.ms.src.meet.dto.MeetDetailRes;
-import com.joyride.ms.src.meet.dto.MeetFilterReq;
-import com.joyride.ms.src.meet.dto.MeetListRes;
+import com.joyride.ms.src.meet.dto.*;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.src.user.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +81,26 @@ public class MeetDao {
         Object[] insertMeetJoinParams = new Object[]{userId, meetId};
 
         this.jdbcTemplate.update(insertMeetJoinQuery, insertMeetJoinParams);
+    }
+
+    public int insertMeetComment(Integer userId, MeetCommentCreateReq meetCommentCreateReq) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String insertMeetCommentQuery = "insert into meet_comment (user_id, meet_id,content) values (?,?,?)";
+
+        this.jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement pstmt = con.prepareStatement(insertMeetCommentQuery,
+                        new String[]{"id"});
+                pstmt.setInt(1, userId);
+                pstmt.setInt(2, meetCommentCreateReq.getMeetId());
+                pstmt.setString(3, meetCommentCreateReq.getContent());
+                return pstmt;
+            }
+        }, keyHolder);
+        Integer commentId = Objects.requireNonNull(keyHolder.getKey()).intValue();
+
+        return commentId;
     }
 
     public int checkMeetJoinById(Integer userId,Integer meetId) {
@@ -362,6 +379,12 @@ public class MeetDao {
         String deleteMeetBookMarkQuery = "delete from meet_bookmark  where user_id = ? and meet_id = ?";
         Object[] deleteMeetBookMarkParam = new Object[]{userId, meetId};
         this.jdbcTemplate.update(deleteMeetBookMarkQuery, deleteMeetBookMarkParam);
+    }
+
+    public void deleteMeetComment(Integer userId, Integer commentId) {
+        String deleteMeetCommentQuery = "delete from meet_comment  where id = ? and user_id = ?";
+        Object[] deleteMeetCommentParam = new Object[]{commentId, userId};
+        this.jdbcTemplate.update(deleteMeetCommentQuery, deleteMeetCommentParam);
     }
 
     public StringBuffer meetFilter(StringBuffer selectMeetFilterQuery,MeetFilterReq meetFilterReq) {
