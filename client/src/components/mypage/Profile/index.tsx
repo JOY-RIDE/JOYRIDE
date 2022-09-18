@@ -59,9 +59,7 @@ const Profile = () => {
           </div>
           <div className={cn('field')}>
             <label className={cn('label')}>자전거 종류</label>
-            <span className={cn('data')}>
-              {bicycleType ? bicycleType : '없음'}
-            </span>
+            <span className={cn('data')}>{bicycleType || '없음'}</span>
           </div>
           <div className={cn('field')}>
             <label className={cn('label')}>라이딩 실력</label>

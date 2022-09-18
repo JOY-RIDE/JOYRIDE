@@ -1,4 +1,4 @@
-import styles from './MeetupParticipantList.module.scss';
+import styles from './MeetupCommentList.module.scss';
 import classNames from 'classnames/bind';
 import { useRecoilValue } from 'recoil';
 import { userIdState } from 'states/auth';
