@@ -11,13 +11,12 @@ import { useParams } from 'react-router-dom';
 import Confirm from 'components/common/Confirm';
 
 function getMeetupJoinFailErrorMessage(code: string) {
+  console.log(code);
   switch (code) {
-    case '2033':
-      return '이미 참여 중인 모임입니다.';
-    case '2036':
-      return '종료된 모임입니다.'; // TODO
-    case '2037':
-      return '정원이 꽉 찬 모임입니다.';
+    case '2038':
+      return '참가 가능한 연령이 아닙니다.';
+    case '2039':
+      return '참가 가능한 성별이 아닙니다.';
     default:
       return '모임 참가 중 문제가 발생했습니다.';
   }
@@ -53,7 +52,7 @@ const MeetupJoinBar = ({
       queryClient.invalidateQueries(['meetups']);
     },
     onError: (e: any) =>
-      showToastMessage(getMeetupJoinFailErrorMessage(e.code)),
+      showToastMessage(getMeetupJoinFailErrorMessage(e.message)),
   });
   const joinMeetup = () => mutate(Number(meetupId));
 

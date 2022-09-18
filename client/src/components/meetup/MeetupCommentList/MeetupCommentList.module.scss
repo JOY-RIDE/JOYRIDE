@@ -1,0 +1,41 @@
+@use '../../../styles/variables.scss' as *;
+
+.comment {
+  padding: 1.5rem;
+  font-size: 1.4rem;
+  border: $border-grey;
+  border-radius: 0.3rem;
+}
+
+.top {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.top__data {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  & .nickname {
+    color: $color-grey-800;
+  }
+
+  & .avatar {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.createdAt {
+  color: $color-grey-500;
+}
+
+.content {
+  color: $color-grey-800;
+  line-height: 1.5;
+}

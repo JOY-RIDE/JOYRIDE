@@ -24,7 +24,7 @@ const Login = () => (
         </Link>
       </div>
     </div>
-    <SocialLogin />
+    {/* <SocialLogin /> */}
   </>
 );
 

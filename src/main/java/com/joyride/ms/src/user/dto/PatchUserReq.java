@@ -12,10 +12,8 @@ import javax.validation.constraints.Size;
 public class PatchUserReq {
     @Size(max=10, message = "닉네임은 10자 이하여야 합니다.")
     private String nickname;
-    @Size(min=1, max=5,message="성별 형식이 틀렸습니다")
-    private String gender;
-    private Integer birthYear;
-    private String introduce;
     private String bicycleType;
     private Integer bicycleCareer;
+    private String introduce;
+
 }

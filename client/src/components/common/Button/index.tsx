@@ -7,7 +7,7 @@ const cn = classNames.bind(styles);
 
 interface CommonProps {
   color: 'main' | 'whiteGrey' | 'whiteMain';
-  size: 'md' | 'lg';
+  size: 'md' | 'lg' | 'xl';
   content: string;
 }
 type ConditionalProps =

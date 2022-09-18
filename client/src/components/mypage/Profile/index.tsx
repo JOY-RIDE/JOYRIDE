@@ -20,15 +20,16 @@ const Profile = () => {
     ridingSkill,
     introduce,
   } = useRecoilValue(userProfileState) as UserProfile;
+  const User = useRecoilValue(userProfileState) as UserProfile;
   return (
     <div className={cn('container')}>
       <img className={cn('img')} src={image} alt={nickname} />
       <div className={cn('text')}>
         <div className={cn('nickname-wrapper')}>
           <h1 className={cn('nickname')}>{nickname}</h1>
-          <Link to="modify_profile" aria-label="정보 수정 링크 버튼">
+          {/* <Link to="modify_profile" aria-label="정보 수정 링크 버튼">
             <BiPencil />
-          </Link>
+          </Link> */}
         </div>
 
         <div className={cn('details')}>
@@ -38,29 +39,37 @@ const Profile = () => {
           </div>
           <div className={cn('field')}>
             <label className={cn('label')}>성별</label>
-            <span className={cn('data')}>{stringifyGender(gender)}</span>
+            <span className={cn('data')}>
+              {gender ? stringifyGender(gender) : '없음'}
+            </span>
           </div>
           <div className={cn('field', 'age')}>
             <label className={cn('label')}>나이</label>
             <div className={cn('data')}>
-              {new Date().getFullYear() - birthYear + 1}세{' '}
-              <span>({birthYear}년)</span>
+              {birthYear ? (
+                <>
+                  {new Date().getFullYear() - birthYear + 1}세{' '}
+                  <span>({birthYear}년)</span>
+                </>
+              ) : (
+                '없음'
+              )}
             </div>
           </div>
           <div className={cn('field')}>
             <label className={cn('label')}>자전거 종류</label>
-            <span className={cn('data')}>{bicycleType}</span>
+            <span className={cn('data')}>{bicycleType || '없음'}</span>
           </div>
           <div className={cn('field')}>
             <label className={cn('label')}>라이딩 실력</label>
             <span className={cn('data')}>
-              {stringifyRidingSkill(ridingSkill)}
+              {ridingSkill ? stringifyRidingSkill(ridingSkill) : '없음'}
             </span>
           </div>
-          <div className={cn('field')}>
+          {/* <div className={cn('field')}>
             <label className={cn('label')}>상태 메세지</label>
             <span className={cn('data', 'null')}>{introduce || '없음'}</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

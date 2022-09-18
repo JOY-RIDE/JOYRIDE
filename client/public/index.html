@@ -2,8 +2,11 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <link
+      rel="icon"
+      href="https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/joyride/favicon.ico"
+    />
+    <!-- <link
       rel="apple-touch-icon"
       sizes="57x57"
       href="%PUBLIC_URL%/apple-icon-57x57.png"
@@ -71,18 +74,26 @@
       type="image/png"
       sizes="16x16"
       href="%PUBLIC_URL%/favicon-16x16.png"
-    />
+    /> -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <meta name="msapplication-TileColor" content="#22b573" />
-    <meta
+    <!-- <meta
       name="msapplication-TileImage"
       content="%PUBLIC_URL%/ms-icon-144x144.png"
-    />
+    /> -->
     <meta name="theme-color" content="#22b573" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
+    <meta
       name="description"
       content="자전거 코스 정보부터 맞춤형 모임까지, 내게 필요한 자전거 라이딩 서비스"
+    />
+    <meta
+      property="og:image"
+      content="https://bucket-joyride.s3.ap-northeast-2.amazonaws.com/joyride/og_image.png"
     />
     <script
       type="text/javascript"

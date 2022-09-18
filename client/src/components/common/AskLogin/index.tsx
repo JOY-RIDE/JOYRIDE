@@ -29,12 +29,12 @@ const AskLogin = () => {
         </Link>
       </div>
 
-      <div className={cn('divider')}>
+      {/* <div className={cn('divider')}>
         <span>또는</span>
       </div>
-      <ul className={cn('providers')}>
-        {/* TODO */}
-        {/* <li>
+      <ul className={cn('providers')}> */}
+      {/* TODO */}
+      {/* <li>
           <SocialLoginButton
             href="#"
             provider="네이버"
@@ -47,15 +47,20 @@ const AskLogin = () => {
             provider="카카오"
             imgSRC={socialLogin_kakao}
           />
+<<<<<<< HEAD
         </li> */}
+      {/* <li>
+=======
+        </li>
         <li>
+>>>>>>> develop
           <SocialLoginButton
-            href="http://localhost:9001/oauth2/authorization/google"
+            href="https://prod.joyride.site/oauth2/authorization/google"
             provider="구글"
             imgSRC={socialLogin_google}
           />
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 };

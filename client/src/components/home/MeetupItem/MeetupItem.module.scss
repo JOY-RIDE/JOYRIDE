@@ -33,6 +33,7 @@
 
   & .location {
     color: $color-main;
+    flex-shrink: 0;
   }
 
   & .title {

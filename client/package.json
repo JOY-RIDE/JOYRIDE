@@ -40,7 +40,7 @@
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
-  "proxy": "http://prod.joyride.site:9001",
+  "proxy": "https://prod.joyride.site",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -67,6 +67,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.4.0",
+    "@types/": "react-navigation/native",
     "@types/react-transition-group": "^4.4.5"
   }
 }
