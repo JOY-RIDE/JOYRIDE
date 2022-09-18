@@ -22,7 +22,7 @@ const SignupForms = ({ step, totalSteps }: SignupFormsProps) => (
           이미 계정이 있으신가요?
         </Link>
       </div>
-      <SocialLogin />
+      {/* <SocialLogin /> */}
     </div>
     <div className={cn('form-wrapper', { expand: step === 2 })}>
       <SignupBasicForm />
