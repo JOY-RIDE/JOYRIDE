@@ -30,7 +30,7 @@ const SocialLogin = () => (
       </li> */}
       <li>
         <SocialLoginButton
-          href="http://prod.joyride.site:9001/oauth2/authorization/google"
+          href="http://localhost:9001/oauth2/authorization/google"
           provider="구글"
           imgSRC={socialLogin_google}
         />
