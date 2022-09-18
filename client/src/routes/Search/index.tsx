@@ -52,9 +52,6 @@ const Search = () => {
       meetup.content.includes(keyword!)
   );
 
-  console.log(courses);
-  console.log(meetups);
-
   return (
     <div className={styles.container}>
       <form className={cn('form', 'menus')} onSubmit={handleSubmit(onValid)}>

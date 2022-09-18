@@ -296,14 +296,14 @@ const Meetup = () => {
         )}
       </section>
 
-      <section className={cn('comments-section')}>
+      {/* <section className={cn('comments-section')}>
         <h2 className={cn('subtitle')}>
           댓글
           <span className={cn('subtitle__num')}>12</span>
-        </h2>
-        {/* <MeetupCommentList comments={meetup.comments} /> */}
-        <MeetupCommentCreationForm meetupId={meetup.id} />
-      </section>
+        </h2> */}
+      {/* <MeetupCommentList comments={meetup.comments} /> */}
+      {/* <MeetupCommentCreationForm meetupId={meetup.id} />
+      </section> */}
 
       <MeetupJoinBar
         {...getJoinBarButtonProps(meetup, userId)}

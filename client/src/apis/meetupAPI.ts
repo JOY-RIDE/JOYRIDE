@@ -32,7 +32,7 @@ interface MeetupAPI {
     meetId: number;
     content: string;
   }) => Promise<void>;
-  deleteComment: (commentID: number) => Promise<void>;
+  deleteComment: (commentId: number) => Promise<void>;
 }
 
 export const meetupAPI: MeetupAPI = {
