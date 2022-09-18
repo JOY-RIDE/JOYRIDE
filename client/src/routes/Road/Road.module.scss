@@ -3,7 +3,7 @@
 .road {
   display: flex;
   flex-direction: column;
-  max-width: 34.5rem;
+  max-width: 40rem;
   margin: 0 auto;
   padding-top: 0.6rem;
   position: relative;
@@ -44,7 +44,7 @@
   color: $color-grey-600;
 }
 
-.review-title {
+.title {
   display: flex;
   .cnt {
     margin-top: 4.5rem;

@@ -40,13 +40,15 @@ const ReviewWriter = () => {
 
   return (
     <>
-      <Button
-        type="button"
-        color="whiteMain"
-        size="lg"
-        content="후기 쓰기"
-        onClick={handlePopupOpen}
-      ></Button>
+      <div className={cn('wrapper')}>
+        <Button
+          type="button"
+          color="whiteMain"
+          size="xl"
+          content="후기 쓰기"
+          onClick={handlePopupOpen}
+        ></Button>
+      </div>
       <Dialog
         className={cn('review-writer')}
         fullScreen={isFullScreen}
