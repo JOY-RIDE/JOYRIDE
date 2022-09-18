@@ -13,7 +13,6 @@ const FindEmail = () => {
   const navigate = useNavigate();
   const showToastMessage = useSetRecoilState(toastMessageState);
   const handleGoBackClick = () => navigate(-1);
-  // TODO
   const handleEmailCopyClick = () =>
     navigator.clipboard
       .writeText(JOYRIDE_EMAIL)
