@@ -1,0 +1,6 @@
+@use '../../../styles/mixins.scss' as *;
+
+.meetups {
+  display: inline-grid;
+  gap: 2rem;
+}
