@@ -1,20 +1,25 @@
 import React, { ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import styles from './ModifierForm.module.scss';
 import { userProfileState } from 'states/auth';
 import { UserProfile } from 'types/auth';
-import { toastMessageState } from 'states/common';
+import useRecoilCacheRefresh from 'hooks/useRecoilCacheRefresh';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
 import SelectButton from 'components/common/SelectButton';
+import AuthFormInput from 'components/common/AuthFormInput';
 import { getModifierFormFieldErrorMessage } from 'utils/getErrorMessage';
-import { BICYCLE_TYPES, RIDING_SKILL_OPTIONS } from 'utils/constants';
-import { Option, BicycleType, RidingSkill } from 'types/common';
-import { USER_DEFAULT_IMAGE } from 'utils/urls';
+import {
+  BIRTH_YEAR_OPTIONS,
+  GENDER_OPTIONS,
+  BICYCLE_TYPES,
+  RIDING_SKILL_OPTIONS,
+} from 'utils/constants';
+import { Option, Gender, BicycleType, RidingSkill } from 'types/common';
 import { joyrideAxios as axios } from '../../../apis/axios';
 
 const cn = classNames.bind(styles);
@@ -22,29 +27,35 @@ const cn = classNames.bind(styles);
 interface ModifierForm {
   image: string;
   profileImgUrl?: FileList;
+  gender: Gender;
+  birthYear: number;
   nickname: string;
-  BicycleCareer: number;
+  bicycleCareer: number;
   bicycleType: string;
   introduce: string;
 }
 
 const ModifierForm = () => {
   const userProfile = useRecoilValue(userProfileState) as UserProfile;
+  const userProfileCacheRefresher = useRecoilCacheRefresh(userProfileState);
+  //   const refresh = useRecoilRefresher_UNSTABLE(userProfileState);
   const navigate = useNavigate();
 
   const {
     register,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitted },
     handleSubmit,
     reset,
     watch,
   } = useForm<ModifierForm>({
     defaultValues: {
       nickname: `${userProfile.nickname}`,
-      BicycleCareer: userProfile.ridingSkill,
+      gender: `${userProfile.gender}`,
+      birthYear: userProfile.birthYear,
+      bicycleCareer: userProfile.ridingSkill,
       bicycleType: `${userProfile.bicycleType}`,
-      introduce: '',
+      introduce: `${userProfile.introduce}`,
     },
   });
 
@@ -63,10 +74,12 @@ const ModifierForm = () => {
     delete newProfile.profileImgUrl;
     console.log(newProfile);
 
-    axios
-      .patch('/users/profile-img', imgData)
-      .then(response => console.log(response)) // 성공 핸들링
-      .catch(error => console.log(error));
+    if (imgFile?.length) {
+      axios
+        .patch('/users/profile-img', imgData)
+        .then(response => console.log(response)) // 성공 핸들링
+        .catch(error => console.log(error));
+    }
 
     axios
       .patch('/users/profile', JSON.stringify(newProfile), {
@@ -76,6 +89,10 @@ const ModifierForm = () => {
       })
       .then(response => console.log(response)) // 성공 핸들링
       .catch(error => console.log(error));
+
+    userProfileCacheRefresher();
+    // window.location.replace('/mypage');
+    navigate('/mypage');
   };
 
   const handleUserDelete = () => {
@@ -120,6 +137,75 @@ const ModifierForm = () => {
             )}
           </div>
           <div className={cn('field')}>
+            <h3 className={cn('label')}>성별</h3>
+            <ul className={cn('row')}>
+              <Controller
+                control={control}
+                name="gender"
+                render={({ field: { value, ...others } }) => (
+                  <>
+                    {GENDER_OPTIONS.map((option: Option<Gender>) => (
+                      <li key={option.value} className={cn('col')}>
+                        <SelectButton
+                          type="radio"
+                          size="lg"
+                          value={option.value}
+                          content={option.content}
+                          isSelected={value === option.value}
+                          {...others}
+                        />
+                      </li>
+                    ))}
+                  </>
+                )}
+              />
+              {errors.gender && (
+                <ErrorMessage
+                  message={getModifierFormFieldErrorMessage(
+                    'gender',
+                    errors.gender.type
+                  )}
+                />
+              )}
+            </ul>
+          </div>
+          <div className={cn('field')}>
+            <h3 className={cn('label')}>출생년도</h3>
+            <Controller
+              control={control}
+              name="birthYear"
+              rules={{
+                required: true,
+                min: 1920,
+                max: new Date().getFullYear(),
+              }}
+              render={({ field: { onChange, ...others } }) => (
+                <AuthFormInput
+                  type="number"
+                  placeholder="출생년도"
+                  helpText={!isSubmitted && '출생년도 네자리'}
+                  hasError={!!errors.birthYear}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    const input = e.target.value;
+                    if (Number(input) < 0) {
+                      return onChange('');
+                    }
+                    return onChange(input);
+                  }}
+                  {...others}
+                />
+              )}
+            />
+            {errors.birthYear && (
+              <ErrorMessage
+                message={getModifierFormFieldErrorMessage(
+                  'birthYear',
+                  errors.birthYear.type
+                )}
+              />
+            )}
+          </div>
+          <div className={cn('field')}>
             <h3 className={cn('label')}>자전거 종류</h3>
             <ul className={cn('options')}>
               <Controller
@@ -157,7 +243,7 @@ const ModifierForm = () => {
             <ul className={cn('row')}>
               <Controller
                 control={control}
-                name="BicycleCareer"
+                name="bicycleCareer"
                 rules={{ required: true }}
                 render={({ field: { value, ...others } }) => (
                   <>
@@ -176,11 +262,11 @@ const ModifierForm = () => {
                   </>
                 )}
               />
-              {errors.BicycleCareer && (
+              {errors.bicycleCareer && (
                 <ErrorMessage
                   message={getModifierFormFieldErrorMessage(
-                    'BicycleCareer',
-                    errors.BicycleCareer.type
+                    'bicycleCareer',
+                    errors.bicycleCareer.type
                   )}
                 />
               )}
