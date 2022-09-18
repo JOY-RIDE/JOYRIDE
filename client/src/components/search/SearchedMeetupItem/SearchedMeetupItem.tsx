@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
-import MeetupRoute from '../../meetups/MeetupRoute';
+import MeetupRoute from 'components/mypage/MeetupRoute';
 
 const cn = classNames.bind(styles);
 
