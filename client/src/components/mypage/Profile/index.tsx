@@ -21,7 +21,6 @@ const Profile = () => {
     introduce,
   } = useRecoilValue(userProfileState) as UserProfile;
   const User = useRecoilValue(userProfileState) as UserProfile;
-  console.log(User);
   return (
     <div className={cn('container')}>
       <img className={cn('img')} src={image} alt={nickname} />
