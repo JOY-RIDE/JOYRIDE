@@ -23,14 +23,13 @@ interface ModifierForm {
   image: string;
   profileImgUrl?: FileList;
   nickname: string;
-  ridingSkill: string;
+  Bicyclecareer: number;
   bicycleType: string;
   introduce: string;
 }
 
 const ModifierForm = () => {
   const userProfile = useRecoilValue(userProfileState) as UserProfile;
-  //   console.log(userProfile);
   const navigate = useNavigate();
 
   const {
@@ -43,7 +42,7 @@ const ModifierForm = () => {
   } = useForm<ModifierForm>({
     defaultValues: {
       nickname: `${userProfile.nickname}`,
-      ridingSkill: `${userProfile.ridingSkill}`,
+      Bicyclecareer: userProfile.ridingSkill,
       bicycleType: `${userProfile.bicycleType}`,
       introduce: '',
     },
@@ -62,6 +61,7 @@ const ModifierForm = () => {
 
     let newProfile = { ...data };
     delete newProfile.profileImgUrl;
+    console.log(newProfile);
 
     axios
       .patch('/users/profile-img', imgData)
@@ -69,7 +69,11 @@ const ModifierForm = () => {
       .catch(error => console.log(error));
 
     axios
-      .patch('/users/profile', JSON.stringify(newProfile))
+      .patch('/users/profile', JSON.stringify(newProfile), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       .then(response => console.log(response)) // 성공 핸들링
       .catch(error => console.log(error));
   };
@@ -153,7 +157,7 @@ const ModifierForm = () => {
             <ul className={cn('row')}>
               <Controller
                 control={control}
-                name="ridingSkill"
+                name="Bicyclecareer"
                 rules={{ required: true }}
                 render={({ field: { value, ...others } }) => (
                   <>
@@ -172,11 +176,11 @@ const ModifierForm = () => {
                   </>
                 )}
               />
-              {errors.ridingSkill && (
+              {errors.Bicyclecareer && (
                 <ErrorMessage
                   message={getModifierFormFieldErrorMessage(
-                    'ridingSkill',
-                    errors.ridingSkill.type
+                    'Bicyclecareer',
+                    errors.Bicyclecareer.type
                   )}
                 />
               )}
