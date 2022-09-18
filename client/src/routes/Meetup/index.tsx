@@ -26,6 +26,8 @@ import Loading from 'components/common/Loading';
 import RidingSkills from 'components/common/RidingSkills';
 import MeetupPathMapGuide from 'components/meetup/MeetupPathMapGuide';
 import AskLogin from 'components/common/AskLogin';
+import MeetupCommentList from 'components/meetup/MeetupCommentList';
+import MeetupCommentCreationForm from 'components/meetup/MeetupCommentCreationForm';
 
 // const testPath = [
 //   '안합',
@@ -294,12 +296,14 @@ const Meetup = () => {
         )}
       </section>
 
-      {/* <section className={cn('comments-section')}>
+      <section className={cn('comments-section')}>
         <h2 className={cn('subtitle')}>
           댓글
           <span className={cn('subtitle__num')}>12</span>
         </h2>
-      </section> */}
+        <MeetupCommentList comments={meetup.comments} />
+        <MeetupCommentCreationForm meetupId={meetup.id} />
+      </section>
 
       <MeetupJoinBar
         {...getJoinBarButtonProps(meetup, userId)}
