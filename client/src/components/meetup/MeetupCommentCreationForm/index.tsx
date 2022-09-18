@@ -2,7 +2,6 @@ import styles from './MeetupCommentCreationForm.module.scss';
 import classNames from 'classnames/bind';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userIdState } from 'states/auth';
-import Button from 'components/common/Button';
 import { modalContentState, toastMessageState } from 'states/common';
 import { SubmitHandler } from 'types/callback';
 import { useRef } from 'react';
@@ -13,11 +12,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 const cn = classNames.bind(styles);
 
 interface MeetupCommentCreationFormProp {
-  meetId: number;
+  meetupId: number;
 }
 
 const MeetupCommentCreationForm = ({
-  meetId,
+  meetupId,
 }: MeetupCommentCreationFormProp) => {
   const userId = useRecoilValue(userIdState);
   const formRef = useRef<HTMLFormElement>(null);
@@ -29,7 +28,7 @@ const MeetupCommentCreationForm = ({
   const { mutate } = useMutation(meetupAPI.createComment, {
     onSuccess: () => {
       showToastMessage('댓글이 등록되었습니다.');
-      queryClient.invalidateQueries(['meetup', Number(meetId)]);
+      queryClient.invalidateQueries(['meetup', meetupId]);
       formRef.current?.reset();
     },
     onError: () => showToastMessage('댓글 등록 중 문제가 발생했습니다.'),
@@ -42,7 +41,7 @@ const MeetupCommentCreationForm = ({
       return;
     }
     if (!textareaRef.current?.value) return;
-    mutate({ meetId, content: textareaRef.current.value });
+    mutate({ meetId: meetupId, content: textareaRef.current.value });
   };
 
   return (
@@ -51,9 +50,10 @@ const MeetupCommentCreationForm = ({
         ref={textareaRef}
         className={cn('content')}
         defaultValue=""
+        rows={3}
         placeholder="댓글을 입력하세요."
       />
-      <Button type="submit" color="main" size="md" content="등록" />
+      <button className={cn('create-btn')}>등록</button>
     </form>
   );
 };
