@@ -78,54 +78,57 @@ const App = () => {
       <Suspense fallback={<div />}>
         <Routes>
           <Route path="/" element={<Layout />}>
-            {/* <Route element={<ErrorBoundary />}> */}
-            <Route index element={<Home />} />
+            <Route element={<ErrorBoundary />}>
+              <Route index element={<Home />} />
 
-            <Route path="roads">
-              <Route index element={<Roads />} />
-              <Route path=":roadId">
-                <Route index element={<Road />} />
-                <Route path="map" element={<MapDetail lat={lat} lng={lng} />} />
+              <Route path="roads">
+                <Route index element={<Roads />} />
+                <Route path=":roadId">
+                  <Route index element={<Road />} />
+                  <Route
+                    path="map"
+                    element={<MapDetail lat={lat} lng={lng} />}
+                  />
+                </Route>
               </Route>
-            </Route>
 
-            <Route path="meetups">
-              <Route index element={<Meetups />} />
-              <Route path=":meetupId" element={<Meetup />} />
-            </Route>
-
-            <Route path="search" element={<Search />} />
-
-            <Route element={<PrivateRoute />}>
-              <Route path="mypage">
-                <Route index element={<MyPage />} />
-                <Route path="modify_profile" element={<ModifyProfile />} />
-                <Route path="courses/like" element={<LikedCourses />} />
-                {/* TODO: host */}
-                <Route path="meetups/admin" element={<MyMeetups />} />
-                <Route path="meetups/join" element={<JoinedMeetups />} />
-                <Route
-                  path="meetups/bookmark"
-                  element={<BookmarkedMeetups />}
-                />
+              <Route path="meetups">
+                <Route index element={<Meetups />} />
+                <Route path=":meetupId" element={<Meetup />} />
               </Route>
-            </Route>
 
-            <Route element={<PublicOnlyRoute />}>
-              <Route path="auth" element={<Auth />}>
-                <Route path="login" element={<Login />} />
-                <Route path="signup" element={<Signup />} />
-                <Route path="find_email" element={<FindEmail />} />
-                <Route path="reset_password" element={<ComingSoon />} />
-                {/* <Route path="reset_password" element={<ResetPassword />} /> */}
+              <Route path="search" element={<Search />} />
+
+              <Route element={<PrivateRoute />}>
+                <Route path="mypage">
+                  <Route index element={<MyPage />} />
+                  <Route path="modify_profile" element={<ModifyProfile />} />
+                  <Route path="courses/like" element={<LikedCourses />} />
+                  {/* TODO: host */}
+                  <Route path="meetups/admin" element={<MyMeetups />} />
+                  <Route path="meetups/join" element={<JoinedMeetups />} />
+                  <Route
+                    path="meetups/bookmark"
+                    element={<BookmarkedMeetups />}
+                  />
+                </Route>
               </Route>
+
+              <Route element={<PublicOnlyRoute />}>
+                <Route path="auth" element={<Auth />}>
+                  <Route path="login" element={<Login />} />
+                  <Route path="signup" element={<Signup />} />
+                  <Route path="find_email" element={<FindEmail />} />
+                  <Route path="reset_password" element={<ComingSoon />} />
+                  {/* <Route path="reset_password" element={<ResetPassword />} /> */}
+                </Route>
+              </Route>
+
+              <Route path="delete_account" element={<DeleteAccount />} />
+
+              <Route path="*" element={<Error404 />} />
             </Route>
-
-            <Route path="delete_account" element={<DeleteAccount />} />
-
-            <Route path="*" element={<Error404 />} />
           </Route>
-          {/* </Route> */}
         </Routes>
         <Modal />
         <Toast />
