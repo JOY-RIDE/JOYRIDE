@@ -44,7 +44,7 @@ const ReviewWriter = () => {
         <Button
           type="button"
           color="whiteMain"
-          size="xl"
+          size="md"
           content="후기 쓰기"
           onClick={handlePopupOpen}
         ></Button>

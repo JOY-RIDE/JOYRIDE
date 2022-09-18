@@ -20,6 +20,8 @@ import FilteredReview from 'components/road/FilteredReview';
 import ReviewFilter from 'components/road/ReviewFilter';
 import AskLogin from 'components/common/AskLogin';
 import RelatedMeetups from 'components/road/RelatedMeetups';
+import ItemList from 'components/mypage/ItemList';
+import SearchedMeetupItem from 'components/search/SearchedMeetupItem/SearchedMeetupItem';
 import {
   IRoad,
   ServerIRoad,
@@ -160,7 +162,7 @@ const Road = () => {
             <img
               src={serverData?.image}
               alt="코스사진"
-              width="400px"
+              width="343px"
               height="auto"
             />
             <p className={cn('copyright')}>
@@ -224,7 +226,7 @@ const Road = () => {
             <PageTitle size="sm">관련 모임</PageTitle>
             <span className={cn('cnt')}>{relatedMeetups?.length}</span>
           </div>
-          <RelatedMeetups meetups={relatedMeetups} />
+          <ItemList items={relatedMeetups} ItemComponent={SearchedMeetupItem} />
         </div>
       )}
     </section>
