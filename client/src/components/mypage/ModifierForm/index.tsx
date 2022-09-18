@@ -23,7 +23,7 @@ interface ModifierForm {
   image: string;
   profileImgUrl?: FileList;
   nickname: string;
-  Bicyclecareer: number;
+  BicycleCareer: number;
   bicycleType: string;
   introduce: string;
 }
@@ -42,7 +42,7 @@ const ModifierForm = () => {
   } = useForm<ModifierForm>({
     defaultValues: {
       nickname: `${userProfile.nickname}`,
-      Bicyclecareer: userProfile.ridingSkill,
+      BicycleCareer: userProfile.ridingSkill,
       bicycleType: `${userProfile.bicycleType}`,
       introduce: '',
     },
@@ -157,7 +157,7 @@ const ModifierForm = () => {
             <ul className={cn('row')}>
               <Controller
                 control={control}
-                name="Bicyclecareer"
+                name="BicycleCareer"
                 rules={{ required: true }}
                 render={({ field: { value, ...others } }) => (
                   <>
@@ -176,11 +176,11 @@ const ModifierForm = () => {
                   </>
                 )}
               />
-              {errors.Bicyclecareer && (
+              {errors.BicycleCareer && (
                 <ErrorMessage
                   message={getModifierFormFieldErrorMessage(
-                    'Bicyclecareer',
-                    errors.Bicyclecareer.type
+                    'BicycleCareer',
+                    errors.BicycleCareer.type
                   )}
                 />
               )}
