@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCourseInfo, fetchCourseFromServer } from '../../apis/coursesAPI';
 import { fetchFilteredReviews } from '../../apis/courseAPI';
+import { fetchMeetups } from 'apis/meetupAPI';
 import styles from './Road.module.scss';
 import classNames from 'classnames/bind';
 import Loading from 'components/common/Loading';
@@ -18,15 +19,17 @@ import ReviewItem from 'components/road/ReviewItem';
 import FilteredReview from 'components/road/FilteredReview';
 import ReviewFilter from 'components/road/ReviewFilter';
 import AskLogin from 'components/common/AskLogin';
+import RelatedMeetups from 'components/road/RelatedMeetups';
 import {
   IRoad,
   ServerIRoad,
   ICourseReview,
   ICourseFilteredReview,
 } from 'types/course';
+import { MeetupData } from 'types/meetup';
 import { userIdState } from 'states/auth';
 import { reviewFilterState } from 'states/course';
-// import _ from 'lodash';
+import _ from 'lodash';
 
 const cn = classNames.bind(styles);
 
@@ -62,6 +65,12 @@ const Road = () => {
   useEffect(() => {
     window.scrollY && window.scrollTo({ top: 0 });
   }, []);
+
+  const { data: meetupData } = useQuery<MeetupData[]>(
+    ['allMeetups'],
+    fetchMeetups
+  );
+  const relatedMeetups = _.filter(meetupData, { courseName: crsNm });
 
   //   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   //   const { isLoading: isServerLoading, data: serverData } =
@@ -151,14 +160,14 @@ const Road = () => {
             <img
               src={serverData?.image}
               alt="코스사진"
-              width="342px"
+              width="400px"
               height="auto"
             />
             <p className={cn('copyright')}>
               <span>ⓒ한국관광공사 사진갤러리</span>
             </p>
           </div>
-          <div className={cn('review-title')}>
+          <div className={cn('title')}>
             <PageTitle size="sm">코스 후기</PageTitle>
             <span className={cn('cnt')}>
               {serverData?.getCourseReviewRes.length}
@@ -211,7 +220,11 @@ const Road = () => {
                   />
                 ))}
           </div>
-          <PageTitle size="sm">관련 모임</PageTitle>
+          <div className={cn('title')}>
+            <PageTitle size="sm">관련 모임</PageTitle>
+            <span className={cn('cnt')}>{relatedMeetups?.length}</span>
+          </div>
+          <RelatedMeetups meetups={relatedMeetups} />
         </div>
       )}
     </section>

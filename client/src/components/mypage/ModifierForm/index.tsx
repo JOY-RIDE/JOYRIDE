@@ -55,7 +55,7 @@ const ModifierForm = () => {
       birthYear: userProfile.birthYear,
       bicycleCareer: userProfile.ridingSkill,
       bicycleType: `${userProfile.bicycleType}`,
-      introduce: `${userProfile.introduce}`,
+      introduce: `${userProfile.introduce}` || '',
     },
   });
 

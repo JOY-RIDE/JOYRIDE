@@ -47,8 +47,13 @@ const AskLogin = () => {
             provider="카카오"
             imgSRC={socialLogin_kakao}
           />
+<<<<<<< HEAD
         </li> */}
       {/* <li>
+=======
+        </li>
+        <li>
+>>>>>>> develop
           <SocialLoginButton
             href="https://prod.joyride.site/oauth2/authorization/google"
             provider="구글"
