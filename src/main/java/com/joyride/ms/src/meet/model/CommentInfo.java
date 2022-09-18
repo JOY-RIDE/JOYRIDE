@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
+public class CommentInfo {
     private Integer id;
     private Integer userId;
-    private Integer meetId;
     private String content;
     private String createdAt;
 }

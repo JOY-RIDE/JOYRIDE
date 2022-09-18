@@ -1,6 +1,7 @@
 package com.joyride.ms.src.meet.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.joyride.ms.src.meet.model.CommentInfo;
 import com.joyride.ms.src.user.model.UserDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({"id", "userId", "courseName","title","localLocation","ridingSkill","pathDifficulty","meetingImgUrl","gender","joinPeople",
-        "maxPeople","path","participationFee","content","minBirthYear","maxBirthYear","gatheringPlace","status", "meetingDate","dueDate","createdAt","bicycleTypes","admin","participants"})
+        "maxPeople","path","participationFee","content","minBirthYear","maxBirthYear","gatheringPlace","status", "meetingDate","dueDate","createdAt","bicycleTypes","admin","participants","comments"})
 public class MeetDetailRes {
     private Integer id;
     private Integer userId;
@@ -37,4 +38,6 @@ public class MeetDetailRes {
     private List<String> bicycleTypes;
     private UserDetail admin;
     private List<UserDetail> participants;
+    private List<CommentInfo> comments;
+
 }
