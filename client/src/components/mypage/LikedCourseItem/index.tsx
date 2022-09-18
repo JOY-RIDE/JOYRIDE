@@ -17,7 +17,7 @@ const LikedCourseItem = ({ crsKorNm, image, crsContents }: any) => {
   const cancelCourseLike = async () => {
     try {
       await courseAPI.cancelCourseLike(crsKorNm, userId);
-      showToastMessage('좋아요를 취소했습니다.');
+      showToastMessage('좋아요가 취소되었습니다.');
       queryClient.invalidateQueries(['serverInfo', 'like']);
     } catch (e: any) {
       showToastMessage('좋아요 취소 중 문제가 발생했습니다.');

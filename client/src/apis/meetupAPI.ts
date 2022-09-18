@@ -27,6 +27,12 @@ interface MeetupAPI {
 
   closeMeetup: (meetupId: number) => Promise<void>;
   exitMeetup: (meetupId: number) => Promise<void>;
+
+  createComment: (newComment: {
+    meetId: number;
+    content: string;
+  }) => Promise<void>;
+  deleteComment: (commentID: number) => Promise<void>;
 }
 
 export const meetupAPI: MeetupAPI = {
@@ -153,6 +159,26 @@ export const meetupAPI: MeetupAPI = {
     const {
       data: { code },
     } = await axios.delete('/meets/join/' + meetupId);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
+  async createComment(newComment) {
+    const {
+      data: { code },
+    } = await axios.post('/meets/comment', newComment);
+
+    if (code !== 1000) {
+      throw new Error(code);
+    }
+  },
+
+  async deleteComment(commentId) {
+    const {
+      data: { code },
+    } = await axios.delete('/meets/comment/' + commentId);
 
     if (code !== 1000) {
       throw new Error(code);

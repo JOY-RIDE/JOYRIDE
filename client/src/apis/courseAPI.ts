@@ -35,6 +35,7 @@ export const courseAPI: CourseAPI = {
     return result;
   },
 
+  // TODO: refactor
   async cancelCourseLike(courseName, userId) {
     const {
       data: { code },
