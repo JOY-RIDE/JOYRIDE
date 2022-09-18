@@ -214,7 +214,7 @@ export function getMeetupCreationFormFieldErrorMessage(
 type ModifierFormField =
   | 'image'
   | 'nickname'
-  | 'Bicyclecareer'
+  | 'BicycleCareer'
   | 'bicycleType'
   | 'introduce';
 export function getModifierFormFieldErrorMessage(
@@ -244,7 +244,7 @@ export function getModifierFormFieldErrorMessage(
       }
     }
 
-    case 'Bicyclecareer': {
+    case 'BicycleCareer': {
       switch (errorType) {
         default:
           throw new Error();
