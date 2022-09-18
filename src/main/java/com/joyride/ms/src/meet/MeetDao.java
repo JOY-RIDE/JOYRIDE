@@ -1,6 +1,7 @@
 package com.joyride.ms.src.meet;
 
 import com.joyride.ms.src.meet.dto.*;
+import com.joyride.ms.src.meet.model.CommentInfo;
 import com.joyride.ms.src.user.model.User;
 import com.joyride.ms.src.user.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,6 +166,8 @@ public class MeetDao {
         String selectParticipantsByMeetIdQuery = "select user.id,nickname,manner,profile_img_url from user join meet_join\n" +
                 "                                          on user.id  = meet_join.user_id\n" +
                 "                                          where meet_join.meet_id = ?";
+        String selectCommentsByMeetIdQuery = "select id, user_id, content, created_at from meet_comment where meet_id = ?";
+
 
         return this.jdbcTemplate.queryForObject(selectMeetByIdQuery,
                 (rs, rowNum) -> new MeetDetailRes(
@@ -208,6 +211,14 @@ public class MeetDao {
                                                 rs4.getString("nickname"),
                                                 rs4.getDouble("manner"),
                                                 rs4.getString("profile_img_url")
+                                        ),meetId),
+                        this.jdbcTemplate.query(selectCommentsByMeetIdQuery,
+                                (rs5,rowNum5) ->
+                                        new CommentInfo(
+                                                rs5.getInt("id"),
+                                                rs5.getInt("user_id"),
+                                                rs5.getString("content"),
+                                                rs5.getString("created_at")
                                         ),meetId)),
                         meetId);
     }
