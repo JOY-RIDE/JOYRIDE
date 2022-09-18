@@ -9,7 +9,6 @@ export const userIdState = atom<number | null>({
 export const userProfileState = selector<UserProfile | null>({
   key: 'userProfile',
   get: async ({ get }) => {
-    // TODO: 캐싱 확인
     const userId = get(userIdState);
     if (!userId) return null;
     return await userAPI.getProfile(userId);
