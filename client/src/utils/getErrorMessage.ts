@@ -214,7 +214,9 @@ export function getMeetupCreationFormFieldErrorMessage(
 type ModifierFormField =
   | 'image'
   | 'nickname'
-  | 'BicycleCareer'
+  | 'gender'
+  | 'birthYear'
+  | 'bicycleCareer'
   | 'bicycleType'
   | 'introduce';
 export function getModifierFormFieldErrorMessage(
@@ -224,6 +226,8 @@ export function getModifierFormFieldErrorMessage(
   switch (field) {
     case 'image': {
       switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
         case 'validate':
           return '파일 형식을 확인해주세요.';
         default:
@@ -233,6 +237,8 @@ export function getModifierFormFieldErrorMessage(
 
     case 'nickname': {
       switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
         case 'maxLength':
           return '10자를 초과하였습니다';
         case 'duplicated':
@@ -244,8 +250,40 @@ export function getModifierFormFieldErrorMessage(
       }
     }
 
-    case 'BicycleCareer': {
+    case 'gender': {
       switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    case 'birthYear': {
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        case 'min':
+        case 'max':
+          return '올바른 네자리 년도를 입력해 주세요';
+        default:
+          throw new Error();
+      }
+    }
+
+    case 'bicycleCareer': {
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
+        default:
+          throw new Error();
+      }
+    }
+
+    case 'bicycleType': {
+      switch (errorType) {
+        case 'required':
+          return '필수 항목입니다';
         default:
           throw new Error();
       }

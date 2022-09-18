@@ -61,7 +61,7 @@ const Search = () => {
         <input
           {...register('keyword', { required: true })}
           className={cn('input')}
-          placeholder="궁금한 내용을 검색해 보세요!"
+          placeholder="코스명이나 지역 등 궁금한 내용을 검색해 보세요!"
           defaultValue={keyword!}
         />
         <button type="submit" className={cn('icon')}>
