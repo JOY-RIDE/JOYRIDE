@@ -27,9 +27,9 @@ const Profile = () => {
       <div className={cn('text')}>
         <div className={cn('nickname-wrapper')}>
           <h1 className={cn('nickname')}>{nickname}</h1>
-          {/* <Link to="modify_profile" aria-label="정보 수정 링크 버튼">
+          <Link to="modify_profile" aria-label="정보 수정 링크 버튼">
             <BiPencil />
-          </Link> */}
+          </Link>
         </div>
 
         <div className={cn('details')}>
@@ -66,10 +66,10 @@ const Profile = () => {
               {ridingSkill ? stringifyRidingSkill(ridingSkill) : '없음'}
             </span>
           </div>
-          {/* <div className={cn('field')}>
+          <div className={cn('field')}>
             <label className={cn('label')}>상태 메세지</label>
             <span className={cn('data', 'null')}>{introduce || '없음'}</span>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
