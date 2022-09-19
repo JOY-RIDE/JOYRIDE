@@ -91,8 +91,8 @@ const ModifierForm = () => {
       .catch(error => console.log(error));
 
     userProfileCacheRefresher();
-    // window.location.replace('/mypage');
-    navigate('/mypage');
+    window.location.replace('/mypage');
+    //navigate('/mypage');
   };
 
   const handleUserDelete = () => {
