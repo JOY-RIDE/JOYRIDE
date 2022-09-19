@@ -1,4 +1,4 @@
-import { BicycleType, Gender, Location, RidingSkill } from './common';
+import { BicycleType, Comment, Gender, Location, RidingSkill } from './common';
 import { CourseName } from './course';
 
 // Response 기준
@@ -59,6 +59,7 @@ export interface MeetupData extends Omit<NewMeetup, 'meetingImgUrl' | 'path'> {
 export interface MeetupDetail extends MeetupData {
   admin: MeetupParticipant;
   participants: MeetupParticipant[];
+  comments: Comment[];
 }
 
 // export type MeetupFiltersKey =

@@ -52,3 +52,12 @@ export interface OrderState {
 export interface OrderOption extends OrderState {
   sign?: string;
 }
+
+export interface Comment {
+  id: number;
+  userId: number;
+  nickname: string;
+  profileImgUrl: string;
+  content: string;
+  createdAt: string;
+}
