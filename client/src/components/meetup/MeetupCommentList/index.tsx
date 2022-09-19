@@ -7,22 +7,16 @@ import { modalContentState, toastMessageState } from 'states/common';
 import Confirm from 'components/common/Confirm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
+import { Comment } from 'types/common';
 
 const cn = classNames.bind(styles);
 
-interface Comment {
-  id: number;
-  userId: number;
-  content: string;
-  createdAt: string;
-}
-interface MeetupCommentListProp {
+interface MeetupCommentListProps {
   meetupId: number;
   comments: Comment[];
 }
 
-// TODO
-const MeetupCommentList = ({ meetupId, comments }: MeetupCommentListProp) => {
+const MeetupCommentList = ({ meetupId, comments }: MeetupCommentListProps) => {
   const userId = useRecoilValue(userIdState);
   const displayModal = useSetRecoilState(modalContentState);
   const showToastMessage = useSetRecoilState(toastMessageState);
@@ -49,12 +43,12 @@ const MeetupCommentList = ({ meetupId, comments }: MeetupCommentListProp) => {
         <li key={comment.id} className={cn('comment')}>
           <div className={cn('top')}>
             <div className={cn('top__data')}>
-              {/* <img
+              <img
                 className={cn('avatar')}
-                src={comment.author.image}
-                alt={comment.author.nickname}
-              /> */}
-              {/* <span className={cn('nickname')}>{comment.author.nickname}</span> */}
+                src={comment.profileImgUrl}
+                alt={comment.nickname}
+              />
+              <span className={cn('nickname')}>{comment.nickname}</span>
               <span className={cn('createdAt')}>
                 {dayjs(comment.createdAt).format('YYYY.MM.DD')}
               </span>
