@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useRecoilRefresher_UNSTABLE } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import classNames from 'classnames/bind';
 import styles from './ModifierForm.module.scss';
@@ -12,6 +12,7 @@ import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';
 import SelectButton from 'components/common/SelectButton';
 import AuthFormInput from 'components/common/AuthFormInput';
+import { toastMessageState } from 'states/common';
 import { getModifierFormFieldErrorMessage } from 'utils/getErrorMessage';
 import {
   BIRTH_YEAR_OPTIONS,
@@ -40,6 +41,7 @@ const ModifierForm = () => {
   const userProfileCacheRefresher = useRecoilCacheRefresh(userProfileState);
   //   const refresh = useRecoilRefresher_UNSTABLE(userProfileState);
   const navigate = useNavigate();
+  const showToastMessage = useSetRecoilState(toastMessageState);
 
   const {
     register,
@@ -90,6 +92,7 @@ const ModifierForm = () => {
       .then(response => console.log(response)) // 성공 핸들링
       .catch(error => console.log(error));
 
+    showToastMessage('정보가 변경되었습니다.');
     userProfileCacheRefresher();
     window.location.replace('/mypage');
     //navigate('/mypage');

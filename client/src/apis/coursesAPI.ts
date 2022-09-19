@@ -17,7 +17,7 @@ export function fetchCourses() {
 }
 
 export function fetchFilteredCourses(
-  level: string | undefined,
+  level: number | undefined,
   sigun: string | undefined
 ) {
   return fetch(`${SERVER_URL}/courses/filter`, {
@@ -26,7 +26,7 @@ export function fetchFilteredCourses(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      level: `${level}`,
+      level: level,
       sigun: `${sigun}`,
     }),
   })
