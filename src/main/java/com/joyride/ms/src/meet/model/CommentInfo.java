@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class CommentInfo {
     private Integer id;
     private Integer userId;
+    private String nickname;
+    private String profileImgUrl;
     private String content;
     private String createdAt;
 }

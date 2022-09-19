@@ -166,7 +166,7 @@ public class MeetDao {
         String selectParticipantsByMeetIdQuery = "select user.id,nickname,manner,profile_img_url from user join meet_join\n" +
                 "                                          on user.id  = meet_join.user_id\n" +
                 "                                          where meet_join.meet_id = ?";
-        String selectCommentsByMeetIdQuery = "select id, user_id, content, created_at from meet_comment where meet_id = ?";
+        String selectCommentsByMeetIdQuery = "select c.id, c.user_id, u.nickname,u.profile_img_url, c.content, c.created_at from meet_comment as c join user as u on c.user_id = u.id where c.meet_id = ?";
 
 
         return this.jdbcTemplate.queryForObject(selectMeetByIdQuery,
@@ -217,6 +217,8 @@ public class MeetDao {
                                         new CommentInfo(
                                                 rs5.getInt("id"),
                                                 rs5.getInt("user_id"),
+                                                rs5.getString("nickname"),
+                                                rs5.getString("profile_img_url"),
                                                 rs5.getString("content"),
                                                 rs5.getString("created_at")
                                         ),meetId)),
