@@ -44,6 +44,7 @@ interface RouteState {
 
 const Road = () => {
   const { roadId: crsNm } = useParams();
+  //   console.log(crsNm);
   const [loggedInUser, setLoggedInUser] = useRecoilState(userIdState);
   const [currentFilter, setCurrentFilter] = useRecoilState(reviewFilterState);
 
@@ -51,11 +52,13 @@ const Road = () => {
     ['info', crsNm],
     () => fetchCourseInfo(crsNm)
   );
+  //   console.log(durunubiData);
 
   const { isLoading: isServerLoading, data: serverData } =
     useQuery<ServerIRoad>(['serverInfo', crsNm], () =>
       fetchCourseFromServer(crsNm)
     );
+  //   console.log(serverData);
   const lat = Number(serverData?.latitude);
   const lng = Number(serverData?.longitude);
 
@@ -90,9 +93,7 @@ const Road = () => {
           <div className={cn('head')}>
             <div className={cn('left')}>
               <PageTitle size="md">
-                <span className={cn('title-sigun')}>
-                  {durunubiData?.sigun}{' '}
-                </span>
+                <span className={cn('title-sigun')}>{serverData?.sigun} </span>
                 {crsNm}
               </PageTitle>
 

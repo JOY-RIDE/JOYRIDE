@@ -48,15 +48,15 @@ const Roads = () => {
   let tmp = [...serverRoads];
   tmp.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
-  const { filters: boardFilters } = useClientFilter(
-    courseBoardFiltersState,
-    // @ts-ignore
-    COURSE_FILTERS_DISPATCHES
-  );
+  //   const { filters: boardFilters } = useClientFilter(
+  //     courseBoardFiltersState,
+  //     // @ts-ignore
+  //     COURSE_FILTERS_DISPATCHES
+  //   );
   //   console.log(boardFilters);
 
-  const filterLocation = boardFilters?.location?.value;
-  const filterLevel = boardFilters?.pathDifficulty?.value;
+  //   const filterLocation = boardFilters?.location?.value;
+  //   const filterLevel = boardFilters?.pathDifficulty?.value;
 
   //   const { data: filteredData } = useQuery<ServerIRoads[]>(
   //     ['filteredCourses', filterLevel, filterLocation],
@@ -109,20 +109,20 @@ const Roads = () => {
           <>
             <div className={cn('contents')}>
               {/* {boardFilters ? (
-              <>
-                {filteredData?.slice(offset, offset + LIMIT).map(road => (
-                  <CourseItem course={road} />
-                ))}
-              </>
-            ) : (
-              <> */}
+                <>
+                  {filteredData?.slice(offset, offset + LIMIT).map(road => (
+                    <CourseItem course={road} />
+                  ))}
+                </>
+              ) : (
+                <> */}
               {getCoursesOrderedBy(order.name, tmp)
                 .slice(offset, offset + LIMIT)
                 .map(road => (
                   <CourseItem course={road} />
                 ))}
               {/* </>
-            )} */}
+              )} */}
             </div>
             <Paging
               total={tmp.length}
