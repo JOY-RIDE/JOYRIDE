@@ -143,8 +143,8 @@ public class UserDao {
     }
 
     public void updateProfile(Integer userId, PatchUserReq patchUserReq) {
-        String updateProfileQuery = "update user set nickname = ?, bicycle_type = ?, bicycle_career = ?, introduce = ? where id = ? and status = 1";
-        Object[] updateProfileParams = new Object[]{patchUserReq.getNickname(), patchUserReq.getBicycleType(),patchUserReq.getBicycleCareer(), patchUserReq.getIntroduce(), userId};
+        String updateProfileQuery = "update user set nickname = ?, gender = ?, birth_year = ?, bicycle_type = ?, bicycle_career = ?, introduce = ? where id = ? and status = 1";
+        Object[] updateProfileParams = new Object[]{patchUserReq.getNickname(),patchUserReq.getGender(),patchUserReq.getBirthYear(), patchUserReq.getBicycleType(),patchUserReq.getBicycleCareer(), patchUserReq.getIntroduce(), userId};
 
         this.jdbcTemplate.update(updateProfileQuery, updateProfileParams);
 
