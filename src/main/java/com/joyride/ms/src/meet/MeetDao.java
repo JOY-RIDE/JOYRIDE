@@ -105,8 +105,8 @@ public class MeetDao {
     }
 
     public int checkMeetJoinById(Integer userId,Integer meetId) {
-        String checkJoinByIdQuery = "select exists(select meet_join.id from meet_join join meet on meet_join.meet_id = meet.id where meet_join.user_id = ? and meet_join.meet_id = ? or meet.id = ?)";
-        Object[] checkJoinByIdParams = new Object[]{userId, meetId, meetId};
+        String checkJoinByIdQuery = "select exists(select meet_join.id from meet_join join meet on meet_join.meet_id = meet.id where meet_join.user_id = ? and meet_join.meet_id = ?)";
+        Object[] checkJoinByIdParams = new Object[]{userId, meetId};
         return this.jdbcTemplate.queryForObject(checkJoinByIdQuery, int.class, checkJoinByIdParams);
     }
 
