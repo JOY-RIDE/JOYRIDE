@@ -43,6 +43,11 @@
   }
 }
 
+.help-text {
+  color: $color-grey-600;
+  font-size: 1.3rem;
+}
+
 .fields {
   display: flex;
   flex-direction: column;
