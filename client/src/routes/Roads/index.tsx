@@ -28,6 +28,7 @@ import { getCoursesOrderedBy } from 'utils/order';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import { IRoad, ServerIRoads } from 'types/course';
 import useClientFilter from 'hooks/useClientFilter';
+import NoResults from 'components/common/NoResults';
 
 const cn = classNames.bind(styles);
 
@@ -40,31 +41,33 @@ const Roads = () => {
   //   let newRoads = [...RoadsData];
   //   newRoads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
 
-  const { isLoading: isServerLoading, data: serverData } = useQuery<
-    ServerIRoads[]
-  >(['serverCourses'], fetchCoursesFromServer);
-  const serverRoads = _.uniqBy(serverData, 'crsKorNm');
-
-  let tmp = [...serverRoads];
-  tmp.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
-
-  //   const { filters: boardFilters } = useClientFilter(
-  //     courseBoardFiltersState,
-  //     // @ts-ignore
-  //     COURSE_FILTERS_DISPATCHES
-  //   );
-  //   console.log(boardFilters);
-
-  //   const filterLocation = boardFilters?.location?.value;
-  //   const filterLevel = boardFilters?.pathDifficulty?.value;
-
-  //   const { data: filteredData } = useQuery<ServerIRoads[]>(
-  //     ['filteredCourses', filterLevel, filterLocation],
-  //     () => fetchFilteredCourses(filterLevel, filterLocation)
-  //   );
-  //   console.log(filteredData);
-
+  const filters = useRecoilValue(courseFiltersState);
   const order = useRecoilValue(courseOrderState);
+
+  const { isLoading: isServerLoading, data: roads } = useQuery<ServerIRoads[]>(
+    ['serverCourses', filters],
+    () => fetchCoursesFromServer(filters),
+    {
+      select: data => {
+        const roads = [..._.uniqBy(data, 'crsKorNm')];
+        roads.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+        return getCoursesOrderedBy(order.name, roads);
+      },
+    }
+  );
+
+  // const serverRoads = _.uniqBy(serverData, 'crsKorNm');
+  // let tmp = [...serverRoads];
+  // tmp.sort((a, b) => (a.crsKorNm < b.crsKorNm ? -1 : 1));
+
+  // const filterLocation = filters?.location?.value;
+  // const filterLevel = filters?.pathDifficulty?.value;
+  // const { data: filteredData } = useQuery<ServerIRoads[]>(
+  //   ['filteredCourses', filterLevel, filterLocation],
+  //   () => fetchFilteredCourses(filterLevel, filterLocation)
+  // );
+  // console.log(filteredData);
+
   const resetFilters = useResetRecoilState(courseFiltersState);
   const resetOrder = useResetRecoilState(courseOrderState);
   useEffect(() => resetFilters, []);
@@ -80,6 +83,8 @@ const Roads = () => {
     Number(useSearchParams()[0].get('page')) || 1
   );
   const offset = (page - 1) * LIMIT;
+
+  useEffect(() => setPage(1), [filters, order.name]);
 
   return (
     <section className={styles.roads}>
@@ -116,20 +121,26 @@ const Roads = () => {
                 </>
               ) : (
                 <> */}
-              {getCoursesOrderedBy(order.name, tmp)
-                .slice(offset, offset + LIMIT)
-                .map(road => (
-                  <CourseItem course={road} />
-                ))}
-              {/* </>
-              )} */}
+
+              {roads?.length ? (
+                roads
+                  .slice(offset, offset + LIMIT)
+                  .map((road: ServerIRoads) => (
+                    <CourseItem key={road.id} course={road} />
+                  ))
+              ) : (
+                <NoResults />
+              )}
             </div>
-            <Paging
-              total={tmp.length}
-              limit={LIMIT}
-              page={page}
-              setPage={setPage}
-            />
+
+            {!!roads?.length && (
+              <Paging
+                total={roads.length}
+                limit={LIMIT}
+                page={page}
+                setPage={setPage}
+              />
+            )}
           </>
         )}
       </div>

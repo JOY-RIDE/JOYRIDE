@@ -15,13 +15,14 @@ import CourseList from 'components/home/CourseList';
 import MeetupList from 'components/home/MeetupList';
 import { getMeetupsOrderedBy } from 'utils/order';
 import { MEETUP_FILTERS_INITIAL_STATE } from 'states/meetup';
+import { COURSE_FILTERS_INITIAL_STATE } from 'states/course';
 
 const cn = classNames.bind(styles);
 
 const Home = () => {
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { data: courses } = useQuery<ServerIRoads[]>(
-    ['serverCourses'],
+    ['serverCourses', COURSE_FILTERS_INITIAL_STATE],
     fetchCoursesFromServer
   );
   const mainCourses = _.sortBy(courses, 'likeCount').reverse().slice(0, 3);

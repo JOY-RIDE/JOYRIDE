@@ -11,7 +11,6 @@ import { useParams } from 'react-router-dom';
 import Confirm from 'components/common/Confirm';
 
 function getMeetupJoinFailErrorMessage(code: string) {
-  console.log(code);
   switch (code) {
     case '2038':
       return '참가 가능한 연령이 아닙니다.';
