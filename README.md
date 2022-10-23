@@ -1,5 +1,7 @@
 # JOYRIDE
 
+https://www.notion.so/Joyride-065c51c1d8ec4fbb9b95479d2beb631e#a98a3360ab45479482343b4b301aca49
+
 ### 프론트엔드 폴더 구조
 
 ```
