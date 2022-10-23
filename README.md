@@ -1,6 +1,6 @@
 # JOYRIDE
 
-![joyrideUI]([https://s3.us-west-2.amazonaws.com/secure.notion-static.com/5896127f-546b-49eb-9eee-d51ef4b36680/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221023%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221023T162239Z&X-Amz-Expires=86400&X-Amz-Signature=de4cd438504efdfe81f57652fac20dd0a8fa7a396b9144edc4765d4ffe3dd4df&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c3db21ec-0f8a-475f-9bcd-e30c249759f1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221023%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221023T162424Z&X-Amz-Expires=86400&X-Amz-Signature=191e4a927811a0a7d50bec648dd5617313313c27cd848153a82eb97ea63105e8&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject))
+![joyrideUI](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c3db21ec-0f8a-475f-9bcd-e30c249759f1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221023%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221023T162424Z&X-Amz-Expires=86400&X-Amz-Signature=191e4a927811a0a7d50bec648dd5617313313c27cd848153a82eb97ea63105e8&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
 
 ### 프론트엔드 폴더 구조
 
