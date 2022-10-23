@@ -3,7 +3,7 @@
 ![joyrideUI](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c3db21ec-0f8a-475f-9bcd-e30c249759f1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221023%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221023T162424Z&X-Amz-Expires=86400&X-Amz-Signature=191e4a927811a0a7d50bec648dd5617313313c27cd848153a82eb97ea63105e8&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
 
 ### 서비스 소개
-코스 정보부터 맞춤형 모임까지, 내게 필요한 라이딩 웹 서비스
+#### 코스 정보부터 맞춤형 모임까지, 내게 필요한 라이딩 웹 서비스
 
 ### 프론트엔드 폴더 구조
 
