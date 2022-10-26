@@ -13,7 +13,6 @@
   display: flex;
   gap: 2rem;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 1rem;
 
   & a {
@@ -51,6 +50,7 @@
 }
 
 .close-btn {
+  align-self: flex-start;
   flex-shrink: 0;
   font-size: 1.3rem;
   display: flex;

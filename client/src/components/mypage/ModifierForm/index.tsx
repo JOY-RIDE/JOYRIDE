@@ -36,6 +36,8 @@ interface ModifierForm {
   introduce: string;
 }
 
+const IMG_MAX_SIZE = 1024 * 1024;
+
 const ModifierForm = () => {
   const userProfile = useRecoilValue(userProfileState) as UserProfile;
   const userProfileCacheRefresher = useRecoilCacheRefresh(userProfileState);
@@ -69,12 +71,15 @@ const ModifierForm = () => {
   const onSubmit: SubmitHandler<ModifierForm> = data => {
     const imgData = new FormData();
     if (imgFile?.length) {
+      if (imgFile[0].size > IMG_MAX_SIZE) {
+        showToastMessage('이미지 파일 크기를 확인해 주세요.');
+        return;
+      }
       imgData.append('profile-img', imgFile[0]);
     }
 
     let newProfile = { ...data };
     delete newProfile.profileImgUrl;
-    console.log(newProfile);
 
     if (imgFile?.length) {
       axios
@@ -89,12 +94,13 @@ const ModifierForm = () => {
           'Content-Type': 'application/json',
         },
       })
-      .then(response => console.log(response)) // 성공 핸들링
-      .catch(error => console.log(error));
+      .then(() => {
+        showToastMessage('정보가 변경되었습니다.');
+        setTimeout(() => window.location.replace('/'), 2900);
+      })
+      .catch(() => showToastMessage('정보 변경 중 문제가 발생했습니다.'));
 
-    showToastMessage('정보가 변경되었습니다.');
-    userProfileCacheRefresher();
-    window.location.replace('/mypage');
+    // userProfileCacheRefresher();
     //navigate('/mypage');
   };
 
@@ -119,6 +125,9 @@ const ModifierForm = () => {
           />
           <label htmlFor={cn('img')}>편집</label>
         </div>
+        <p className={cn('help-text')}>
+          * 1MB 이내의 파일을 첨부할 수 있습니다.
+        </p>
         <div className={cn('fields')}>
           <div className={cn('field')}>
             <h3 className={cn('label')}>닉네임</h3>

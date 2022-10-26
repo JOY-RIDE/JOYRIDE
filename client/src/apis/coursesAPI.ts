@@ -1,4 +1,6 @@
-import { uniqBy } from 'lodash';
+import { COURSE_FILTERS_INITIAL_STATE } from 'states/course';
+import QueryString from 'qs';
+import { mapValues, uniqBy } from 'lodash';
 // const BASE_URL = 'http://localhost:3000';
 const BASE_URL = `https://apis.data.go.kr/B551011/Durunubi/courseList?MobileOS=ETC&MobileApp=joyride&ServiceKey=${process.env.REACT_APP_TOUR_API_KEY}&brdDiv=DNBW`;
 const SERVER_URL = process.env.REACT_APP_JOYRIDE_API_URL;
@@ -41,8 +43,12 @@ export function fetchCourseInfo(courseNm: string | undefined) {
   //   return fetch(`${BASE_URL}/course:${id}`).then(response => response.json());
 }
 
-export function fetchCoursesFromServer() {
-  return fetch(`${SERVER_URL}/courses`)
+export function fetchCoursesFromServer(filters = COURSE_FILTERS_INITIAL_STATE) {
+  const filtersWithValueOnly = mapValues(filters, 'value');
+  const query = QueryString.stringify(filtersWithValueOnly, {
+    encode: false,
+  });
+  return fetch(`${SERVER_URL}/courses` + (query && '?' + query))
     .then(response => response.json())
     .then(json => json.result);
 }

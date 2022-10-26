@@ -14,7 +14,7 @@ export const CoursePageState = atom({
 });
 
 export const COURSE_FILTERS_INITIAL_STATE = {
-  location: { value: '전체', content: '전체' },
+  // location: { value: '전체', content: '전체' },
 };
 
 export const courseFiltersState = atom<CourseFiltersState>({

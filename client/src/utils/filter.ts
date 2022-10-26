@@ -130,6 +130,7 @@ function courseFiltersDispatchForRemoving(
       throw new Error();
   }
 }
+// 안 씀
 function courseFiltersDispatchForToggling(
   state: CourseFiltersState,
   { key }: FiltersReducerPayload
@@ -146,12 +147,7 @@ function courseFiltersDispatchForClearing(
   state: CourseFiltersState,
   { key }: FiltersReducerPayload
 ) {
-  switch (key) {
-    case 'location':
-      return { ...state, ...COURSE_FILTERS_INITIAL_STATE };
-    default:
-      return omit(state, [key]);
-  }
+  return omit(state, [key]);
 }
 export const COURSE_FILTERS_DISPATCHES = {
   choose: courseFiltersDispatchForChoosing,

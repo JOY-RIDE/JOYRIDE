@@ -1,6 +1,7 @@
 @use '../../../styles/variables.scss' as *;
 
 .container {
+  color: $color-grey-800;
   border: $border-grey;
   border-radius: 0.3rem;
   margin-bottom: 2rem;
@@ -17,19 +18,14 @@
 
 .top {
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
 
 .top__data {
   display: flex;
-  gap: 0.5rem;
   align-items: center;
-
-  & .nickname {
-    color: $color-grey-800;
-  }
 
   & .avatar {
     width: 2.5rem;
@@ -37,13 +33,17 @@
     object-fit: cover;
     border-radius: 50%;
   }
+
+  & .nickname {
+    margin-left: 0.5rem;
+  }
 }
 
 .createdAt {
   color: $color-grey-500;
+  margin-left: 1rem;
 }
 
 .content {
-  color: $color-grey-800;
   line-height: 1.5;
 }
