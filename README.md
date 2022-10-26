@@ -1,6 +1,6 @@
 # JOYRIDE
 
-![joyrideUI](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c3db21ec-0f8a-475f-9bcd-e30c249759f1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221023%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221023T162424Z&X-Amz-Expires=86400&X-Amz-Signature=191e4a927811a0a7d50bec648dd5617313313c27cd848153a82eb97ea63105e8&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![joyrideUI](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/c3db21ec-0f8a-475f-9bcd-e30c249759f1/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221026%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221026T064039Z&X-Amz-Expires=86400&X-Amz-Signature=255a5c3240d8c42143375670021e2e806aed2ee020f8eff46d58cf20c1d81ca1&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
 
 ### 서비스 소개
 #### 바로가기 : https://joyride.site/
