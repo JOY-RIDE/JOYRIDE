@@ -91,7 +91,9 @@ client
        └── resources
 ```
 
-## 📋 개발 Wiki
+## 📗 개발 Wiki
+
+[Git 컨벤션, 코드 컨벤션 보기](https://github.com/JOY-RIDE/JOYRIDE/wiki/%EA%B0%9C%EB%B0%9C-Wiki)
 
 ## 👨‍👩‍👧‍👦 만든 사람들
 
