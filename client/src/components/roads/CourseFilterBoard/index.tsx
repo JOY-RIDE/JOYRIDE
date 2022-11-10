@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useSetRecoilState } from 'recoil';
 import { courseBoardFiltersState, courseFiltersState } from 'states/course';
 import { SubmitHandler } from 'types/callback';
-import useClientFilter from 'hooks/useClientFilter';
+import useFilter from 'hooks/useFilter';
 import CourseFilterChoices from '../CourseFilterChoices';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import CourseFilterBoardOptions from '../CourseFilterBoardOptions';
@@ -15,7 +15,7 @@ interface CourseFilterBoardProp {
 }
 
 const CourseFilterBoard = ({ close }: CourseFilterBoardProp) => {
-  const { filters: boardFilters, handleReset } = useClientFilter(
+  const { filters: boardFilters, handleReset } = useFilter(
     courseBoardFiltersState,
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES

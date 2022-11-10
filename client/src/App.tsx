@@ -1,8 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { userIdState } from 'states/auth';
-import { authAPI } from 'apis/authAPI';
 import Layout from 'routes/Layout';
 import Home from 'routes/Home';
 import Roads from 'routes/Roads';
@@ -34,6 +31,7 @@ import ModifyProfile from 'routes/Mypage/ModifyProfile';
 import ErrorBoundary from 'components/common/ErrorBoundary';
 import Auth from 'routes/Auth';
 import ComingSoon from 'components/common/ComingSoon';
+import useAuthAPI from 'hooks/useAuthAPI';
 
 declare module '@emotion/react' {
   export interface Theme extends MuiTheme {}
@@ -62,10 +60,9 @@ interface locationProps {
 const Error404 = lazy(() => import('components/common/Error404'));
 
 const App = () => {
-  const setUserId = useSetRecoilState(userIdState);
-  const { silentRefresh } = authAPI;
+  const { silentlyRefreshAccessToken } = useAuthAPI();
   useEffect(() => {
-    silentRefresh(setUserId);
+    silentlyRefreshAccessToken();
   }, []);
 
   const location = useLocation() as locationProps;
@@ -111,6 +108,7 @@ const App = () => {
                     path="meetups/bookmark"
                     element={<BookmarkedMeetups />}
                   />
+                  <Route path="delete_account" element={<DeleteAccount />} />
                 </Route>
               </Route>
 
@@ -123,8 +121,6 @@ const App = () => {
                   {/* <Route path="reset_password" element={<ResetPassword />} /> */}
                 </Route>
               </Route>
-
-              <Route path="delete_account" element={<DeleteAccount />} />
 
               <Route path="*" element={<Error404 />} />
             </Route>

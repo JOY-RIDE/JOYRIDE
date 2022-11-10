@@ -1,6 +1,6 @@
 import { userAPI } from 'apis/userAPI';
 import { atom, selector } from 'recoil';
-import { SignupFormData, UserProfile } from 'types/auth';
+import { UserProfile } from 'types/auth';
 
 export const userIdState = atom<number | null>({
   key: 'userId',
@@ -13,9 +13,4 @@ export const userProfileState = selector<UserProfile | null>({
     if (!userId) return null;
     return await userAPI.getProfile(userId);
   },
-});
-
-export const signupFormDataState = atom<SignupFormData>({
-  key: 'signupFormData',
-  default: { email: '', password: '', nickname: '' },
 });

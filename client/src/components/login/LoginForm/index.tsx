@@ -1,15 +1,14 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { userIdState } from 'states/auth';
 import { toastMessageState } from 'states/common';
-import { authAPI } from 'apis/authAPI';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import CheckBox from 'components/common/CheckBox';
 import Button from 'components/common/Button';
 import styles from './LoginForm.module.scss';
 import classNames from 'classnames/bind';
+import useAuthAPI from 'hooks/useAuthAPI';
 
 const cn = classNames.bind(styles);
 
@@ -50,7 +49,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   // Callbacks
-  const setUserId = useSetRecoilState(userIdState);
+  const { login } = useAuthAPI();
   const showToastMessage = useSetRecoilState(toastMessageState);
   const onSubmit: SubmitHandler<LoginForm> = async ({
     email,
@@ -58,7 +57,7 @@ const LoginForm = () => {
     isAuto,
   }) => {
     try {
-      await authAPI.login(email, password, isAuto, setUserId);
+      await login(email, password, isAuto);
       navigate(nextURL || '/');
     } catch (e: any) {
       showToastMessage(getLoginFailErrorMessage(e.message));

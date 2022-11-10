@@ -3,20 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { signupFormDataState } from 'states/auth';
-import { useEffect } from 'react';
 import { CgCheckO } from 'react-icons/cg';
+import { useSignupFormDataContext } from 'routes/Auth/Signup';
 
 const cn = classNames.bind(styles);
 
 const SignupCompleted = () => {
-  const { email, nickname } = useRecoilValue(signupFormDataState);
-  const resetSignupFormData = useResetRecoilState(signupFormDataState);
-  useEffect(() => resetSignupFormData, []);
-
+  const {
+    data: { email, nickname },
+  } = useSignupFormDataContext();
   const navigate = useNavigate();
   const handleLoginClick = () => navigate('/auth/login');
+
   return (
     <div className={cn('wrapper')}>
       <CgCheckO />
