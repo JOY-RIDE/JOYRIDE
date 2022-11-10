@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './ErrorBoundary.module.scss';
 import { TbFaceIdError } from 'react-icons/tb';
 import { Outlet } from 'react-router-dom';
+import Button from '../Button';
 
 const cn = classNames.bind(styles);
 
@@ -33,6 +34,15 @@ export default class ErrorBoundary extends React.Component<
         <p className={cn('content')}>
           문제가 지속될 시 관리자에게 문의해 주세요.
         </p>
+        <Button
+          type="button"
+          color="main"
+          size="md"
+          content="메인으로 이동"
+          onClick={() => {
+            location.href = '/';
+          }}
+        />
       </section>
     ) : (
       <Outlet />

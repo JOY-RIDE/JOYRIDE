@@ -10,7 +10,7 @@ const useAuthAPI = () => {
   const silentlyRefreshAccessTokenAfterInterval = () =>
     setTimeout(
       silentlyRefreshAccessToken,
-      (JWT_EXPIRY_TIME_IN_SECONDS - 5) * 1000
+      (JWT_EXPIRY_TIME_IN_SECONDS - 3) * 1000
     );
 
   const handleAuthenticationSuccess = (accessToken: string, userId: number) => {
