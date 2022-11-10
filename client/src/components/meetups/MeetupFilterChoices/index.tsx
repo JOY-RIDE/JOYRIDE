@@ -5,7 +5,7 @@ import {
   meetupFiltersState,
   MEETUP_FILTERS_INITIAL_STATE,
 } from 'states/meetup';
-import useClientFilter from 'hooks/useClientFilter';
+import useFilter from 'hooks/useFilter';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
@@ -19,7 +19,7 @@ interface MeetupFilterChoicesProp {
 
 const MeetupFilterChoices = ({ onBoard }: MeetupFilterChoicesProp) => {
   const state = onBoard ? meetupBoardFiltersState : meetupFiltersState;
-  const { filters, handleRemove, handleClear, handleReset } = useClientFilter(
+  const { filters, handleRemove, handleClear, handleReset } = useFilter(
     state,
     MEETUP_FILTERS_REDUCERS
   );

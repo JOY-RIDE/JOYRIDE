@@ -6,7 +6,7 @@ import {
   COURSE_FILTERS_INITIAL_STATE,
 } from 'states/course';
 import { FilterOptionData } from 'types/common';
-import useClientFilter from 'hooks/useClientFilter';
+import useFilter from 'hooks/useFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
@@ -20,7 +20,7 @@ interface CourseFilterChoicesProp {
 
 const CourseFilterChoices = ({ onBoard }: CourseFilterChoicesProp) => {
   const state = onBoard ? courseBoardFiltersState : courseFiltersState;
-  const { filters, handleRemove, handleReset } = useClientFilter(
+  const { filters, handleRemove, handleReset } = useFilter(
     state,
     // @ts-ignore
     COURSE_FILTERS_DISPATCHES

@@ -7,7 +7,7 @@ import { useCallback, useEffect } from 'react';
 import { FilterOptionData, FiltersReducerPayload } from 'types/common';
 import { courseBoardFiltersState } from 'states/course';
 import { ChangeHandler, ClickHandler } from 'types/callback';
-import useClientFilter from 'hooks/useClientFilter';
+import useFilter from 'hooks/useFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import FilterOptionChip from 'components/common/FilterOptionChip';
 
@@ -27,7 +27,7 @@ const CourseFilterBoardOptions = () => {
     handleToggle,
     handleClear,
     // @ts-ignore
-  } = useClientFilter(courseBoardFiltersState, COURSE_FILTERS_DISPATCHES);
+  } = useFilter(courseBoardFiltersState, COURSE_FILTERS_DISPATCHES);
 
   const toggleSpecificOption = useCallback(
     (payload: FiltersReducerPayload) => () => handleToggle(payload),

@@ -13,7 +13,7 @@ interface FiltersReducers {
   clear: FiltersReducer<FiltersState>;
 }
 
-export const useClientFilter = (
+export const useFilter = (
   recoilState: RecoilState<FiltersState>,
   { choose, remove, toggle, clear }: FiltersReducers
 ) => {
@@ -51,4 +51,4 @@ export const useClientFilter = (
   };
 };
 
-export default useClientFilter;
+export default useFilter;

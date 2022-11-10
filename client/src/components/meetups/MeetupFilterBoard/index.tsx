@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useSetRecoilState } from 'recoil';
 import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import { SubmitHandler } from 'types/callback';
-import useClientFilter from 'hooks/useClientFilter';
+import useFilter from 'hooks/useFilter';
 import { toastMessageState } from 'states/common';
 import MeetupFilterChoices from '../MeetupFilterChoices';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
@@ -16,7 +16,7 @@ interface MeetupFilterBoardProp {
 }
 
 const MeetupFilterBoard = ({ close }: MeetupFilterBoardProp) => {
-  const { filters: boardFilters, handleReset } = useClientFilter(
+  const { filters: boardFilters, handleReset } = useFilter(
     meetupBoardFiltersState,
     MEETUP_FILTERS_REDUCERS
   );
