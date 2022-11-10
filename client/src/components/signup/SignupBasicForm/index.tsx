@@ -1,14 +1,15 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
-import { useSetRecoilState } from 'recoil';
-import { useSignupStepControls } from 'routes/Auth/Signup';
+import {
+  useSignupFormDataContext,
+  useSignupStepControls,
+} from 'routes/Auth/Signup';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
 import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
-import { signupFormDataState } from 'states/auth';
 import { REGEX } from 'utils/regex';
 
 const cn = classNames.bind(styles);
@@ -53,7 +54,7 @@ const SignupBasicForm = () => {
     }
   };
 
-  const setSignupFormData = useSetRecoilState(signupFormDataState);
+  const { data, setData } = useSignupFormDataContext();
   const { decreaseStep, increaseStep } = useSignupStepControls();
   const onSubmit: SubmitHandler<SignupBasicForm> = async ({
     email,
@@ -61,7 +62,7 @@ const SignupBasicForm = () => {
   }) => {
     const isEmailValid = await validateEmail(email);
     if (!isEmailValid) return;
-    setSignupFormData(data => ({ ...data, email, password }));
+    setData(data => ({ ...data, email, password }));
     increaseStep();
   };
 

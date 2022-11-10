@@ -1,7 +1,10 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useSignupStepControls } from 'routes/Auth/Signup';
+import { useSetRecoilState } from 'recoil';
+import {
+  useSignupFormDataContext,
+  useSignupStepControls,
+} from 'routes/Auth/Signup';
 import { authAPI } from 'apis/authAPI';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -11,7 +14,6 @@ import SelectList from 'components/common/SelectList';
 import Button from 'components/common/Button';
 import styles from './SignupDetailForm.module.scss';
 import classNames from 'classnames/bind';
-import { signupFormDataState } from 'states/auth';
 import {
   BICYCLE_TYPE_OPTIONS,
   GENDER_OPTIONS,
@@ -64,8 +66,10 @@ const SignupDetailForm = () => {
     }
   };
 
-  const [{ email, password }, setSignupFormData] =
-    useRecoilState(signupFormDataState);
+  const {
+    data: { email, password },
+    setData,
+  } = useSignupFormDataContext();
   const showToastMessage = useSetRecoilState(toastMessageState);
   const { decreaseStep, increaseStep } = useSignupStepControls();
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
@@ -91,7 +95,7 @@ const SignupDetailForm = () => {
 
     try {
       await authAPI.signup(newUser);
-      setSignupFormData(data => ({ ...data, nickname }));
+      setData(data => ({ ...data, nickname }));
       increaseStep();
     } catch (e) {
       showToastMessage('회원가입 중 문제가 발생했습니다.');
