@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import styles from './ModifierForm.module.scss';
 import { userProfileState } from 'states/auth';
 import { UserProfile } from 'types/auth';
-import useRecoilCacheRefresh from 'hooks/useRecoilCacheRefresh';
+import useRecoilCacheRefresh from 'hooks/common/useRecoilCacheRefresh';
 import Button from 'components/common/Button';
 import TextArea from 'components/common/TextArea';
 import ErrorMessage from 'components/common/ErrorMessage';

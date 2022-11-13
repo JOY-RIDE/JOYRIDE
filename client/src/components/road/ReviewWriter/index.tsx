@@ -8,7 +8,7 @@ import PopupSlide from 'components/transitions/PopupSlide';
 import PageTitle from 'components/common/PageTitle';
 import Button from 'components/common/Button';
 import ReviewForm from '../ReviewForm';
-import useDialog from 'hooks/useDialog';
+import useDialog from 'hooks/common/useDialog';
 import { toastMessageState } from 'states/common';
 import { Dialog } from '@mui/material';
 import { HiX } from 'react-icons/hi';

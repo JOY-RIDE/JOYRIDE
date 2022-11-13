@@ -40,7 +40,7 @@ export default class ErrorBoundary extends React.Component<
           size="md"
           content="메인으로 이동"
           onClick={() => {
-            location.href = '/';
+            window.location.href = '/';
           }}
         />
       </section>

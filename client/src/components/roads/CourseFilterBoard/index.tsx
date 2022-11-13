@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useSetRecoilState } from 'recoil';
 import { courseBoardFiltersState, courseFiltersState } from 'states/course';
 import { SubmitHandler } from 'types/callback';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import CourseFilterChoices from '../CourseFilterChoices';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import CourseFilterBoardOptions from '../CourseFilterBoardOptions';

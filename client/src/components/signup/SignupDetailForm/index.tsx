@@ -1,10 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { toastMessageState } from 'states/common';
 import { useSetRecoilState } from 'recoil';
-import {
-  useSignupFormDataContext,
-  useSignupStepControls,
-} from 'routes/Auth/Signup';
 import { authAPI } from 'apis/authAPI';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
@@ -22,6 +18,8 @@ import {
 import { BicycleType, Gender, Option, RidingSkill } from 'types/common';
 import { ChangeEvent } from 'react';
 import RidingSkills from 'components/common/RidingSkills';
+import useSignupFormData from 'hooks/signup/useSignupFormData';
+import useSignupStepActions from 'hooks/signup/useSignupStepActions';
 
 const cn = classNames.bind(styles);
 
@@ -66,12 +64,10 @@ const SignupDetailForm = () => {
     }
   };
 
-  const {
-    data: { email, password },
-    setData,
-  } = useSignupFormDataContext();
+  const [data, setData] = useSignupFormData();
+  const { email, password } = data;
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { decreaseStep, increaseStep } = useSignupStepControls();
+  const { decreaseStep, increaseStep } = useSignupStepActions();
   const onSubmit: SubmitHandler<SignupDetailForm> = async ({
     nickname,
     gender,

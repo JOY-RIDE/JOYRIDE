@@ -15,7 +15,7 @@ import { FiltersReducerPayload } from 'types/common';
 import { meetupBoardFiltersState } from 'states/meetup';
 import { ChangeHandler, ClickHandler } from 'types/callback';
 import PlusMinusButton from 'components/common/PlusMinusButton';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import FilterOptionChip from 'components/common/FilterOptionChip';
 import RidingSkills from 'components/common/RidingSkills';

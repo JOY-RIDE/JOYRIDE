@@ -1,42 +1,30 @@
-import { createContext, useContext, useState } from 'react';
-import { SignupFormData, SignupStepControls } from 'types/auth';
+import { createContext, useState } from 'react';
 import PageTitle from 'components/common/PageTitle';
 import SignupForms from 'components/signup/SignupForms';
 import SignupCompleted from 'components/signup/SignupCompleted';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
+import SignupFormDataProvider from 'components/signup/SignupFormDataProvider';
 
 const cn = classNames.bind(styles);
-
-const SignupStepControlsContext = createContext({});
-export const useSignupStepControls = () =>
-  useContext(SignupStepControlsContext);
-
-const SignupFormDataContext = createContext({});
-export const useSignupFormDataContext = () => useContext(SignupFormDataContext);
-
 const TOTAL_STEPS = 3;
-const INITIAL_SIGNUP_FORM_DATA = { email: '', password: '', nickname: '' };
 
+export const SignupStepActionsContext = createContext({
+  increaseStep: () => {},
+  decreaseStep: () => {},
+});
+
+// TODO: refactor
 const Signup = () => {
   const [step, setStep] = useState<number>(1);
   const decreaseStep = () => setStep(step => step - 1);
   const increaseStep = () => setStep(step => step + 1);
 
-  const [signupFormData, setSignupFormData] = useState<SignupFormData>(
-    INITIAL_SIGNUP_FORM_DATA
-  );
-
   return (
-    <SignupStepControlsContext.Provider
-      value={{
-        decreaseStep,
-        increaseStep,
-      }}
-    >
-      <SignupFormDataContext.Provider
-        value={{ data: signupFormData, setData: setSignupFormData }}
-      >
+    // 따로 분리한 step provider 쓰려면 하위 컴포넌트 구조 수정 필요
+    <SignupStepActionsContext.Provider value={{ decreaseStep, increaseStep }}>
+      {/* TODO: SignupForms에서 그냥 prop으로..? */}
+      <SignupFormDataProvider>
         {step <= TOTAL_STEPS ? (
           <>
             <header className={cn('header')}>
@@ -51,8 +39,8 @@ const Signup = () => {
         ) : (
           <SignupCompleted />
         )}
-      </SignupFormDataContext.Provider>
-    </SignupStepControlsContext.Provider>
+      </SignupFormDataProvider>
+    </SignupStepActionsContext.Provider>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useOnClickOutside } from 'hooks/useOnClickOutside';
+import { useOnClickOutside } from 'hooks/common/useOnClickOutside';
 
 const useToggle = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

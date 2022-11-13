@@ -1,9 +1,10 @@
 import { joyrideAxios as axios } from 'apis/axios';
 import { userAPI } from 'apis/userAPI';
-import useSetUserId from './useSetUserId';
+import useSetUserId from './common/useSetUserId';
 
 const JWT_EXPIRY_TIME_IN_SECONDS = 20 * 60;
 
+// TODO: 이동
 const useAuthAPI = () => {
   const setUserId = useSetUserId();
 
