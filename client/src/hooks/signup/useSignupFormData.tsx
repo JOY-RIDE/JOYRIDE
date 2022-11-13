@@ -1,4 +1,6 @@
-import { createContext, useContext } from 'react';
+import { SignupFormDataContext } from 'components/signup/SignupFormDataProvider';
+import { useContext } from 'react';
 
-export const SignupFormDataContext = createContext({});
-export const useSignupFormData = () => useContext(SignupFormDataContext);
+const useSignupFormData = () => useContext(SignupFormDataContext);
+
+export default useSignupFormData;

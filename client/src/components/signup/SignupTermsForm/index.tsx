@@ -1,5 +1,5 @@
 import { FormEvent, useEffect } from 'react';
-import { useCheckBox } from 'hooks/common/useCheckBox';
+import useCheckBox from 'hooks/common/useCheckBox';
 import { useSetRecoilState } from 'recoil';
 import { toastMessageState } from 'states/common';
 import CheckBox from 'components/common/CheckBox';
@@ -8,7 +8,7 @@ import { privacyTerm, serviceTerm } from './terms';
 import Button from 'components/common/Button';
 import styles from './SignupTermsForm.module.scss';
 import classNames from 'classnames/bind';
-import { useSignupStepControls } from 'hooks/signup/useSignupStepControls';
+import useSignupStepActions from 'hooks/signup/useSignupStepActions';
 
 const cn = classNames.bind(styles);
 
@@ -36,7 +36,7 @@ const SignupTermsForm = () => {
   }, [areAllTermsAgreed]);
 
   const showToastMessage = useSetRecoilState(toastMessageState);
-  const { increaseStep } = useSignupStepControls();
+  const { increaseStep } = useSignupStepActions();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

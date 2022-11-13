@@ -11,7 +11,7 @@ import classNames from 'classnames/bind';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
+import { useOnClickOutside } from 'hooks/common/useOnClickOutside';
 import { userAPI } from 'apis/userAPI';
 import { JOYRDIE_LOGO_IMAGE } from 'utils/urls';
 

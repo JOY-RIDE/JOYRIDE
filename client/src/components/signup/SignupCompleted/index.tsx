@@ -4,14 +4,13 @@ import Button from 'components/common/Button';
 import styles from './SignupCompleted.module.scss';
 import classNames from 'classnames/bind';
 import { CgCheckO } from 'react-icons/cg';
-import { useSignupFormDataContext } from 'routes/Auth/Signup';
+import useSignupFormData from 'hooks/signup/useSignupFormData';
 
 const cn = classNames.bind(styles);
 
 const SignupCompleted = () => {
-  const {
-    data: { email, nickname },
-  } = useSignupFormDataContext();
+  const [data] = useSignupFormData();
+  const { nickname } = data;
   const navigate = useNavigate();
   const handleLoginClick = () => navigate('/auth/login');
 

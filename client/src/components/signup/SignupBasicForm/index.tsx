@@ -1,9 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { authAPI } from 'apis/authAPI';
-import {
-  useSignupFormDataContext,
-  useSignupStepControls,
-} from 'routes/Auth/Signup';
 import AuthFormInput from 'components/common/AuthFormInput';
 import ErrorMessage from 'components/common/ErrorMessage';
 import { getSignupFormFieldErrorMessage } from 'utils/getErrorMessage';
@@ -11,6 +7,8 @@ import Button from 'components/common/Button';
 import styles from './SignupBasicForm.module.scss';
 import classNames from 'classnames/bind';
 import { REGEX } from 'utils/regex';
+import useSignupStepActions from 'hooks/signup/useSignupStepActions';
+import useSignupFormData from 'hooks/signup/useSignupFormData';
 
 const cn = classNames.bind(styles);
 
@@ -54,8 +52,8 @@ const SignupBasicForm = () => {
     }
   };
 
-  const { data, setData } = useSignupFormDataContext();
-  const { decreaseStep, increaseStep } = useSignupStepControls();
+  const [, setData] = useSignupFormData();
+  const { decreaseStep, increaseStep } = useSignupStepActions();
   const onSubmit: SubmitHandler<SignupBasicForm> = async ({
     email,
     password,
