@@ -5,7 +5,7 @@ import PopupSlide from 'components/transitions/PopupSlide';
 import styles from './MeetupCreator.module.scss';
 import classNames from 'classnames/bind';
 import MeetupCreationForm from '../MeetupCreationForm';
-import useDialog from 'hooks/useDialog';
+import useDialog from 'hooks/common/useDialog';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { meetupAPI } from 'apis/meetupAPI';
 import { useSetRecoilState } from 'recoil';

@@ -1,4 +1,4 @@
-import useToggle from 'hooks/useToggle';
+import useToggle from 'hooks/common/useToggle';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import styles from './CourseFilterToggleButton.module.scss';
 import classNames from 'classnames/bind';

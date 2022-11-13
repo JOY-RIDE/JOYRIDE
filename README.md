@@ -135,6 +135,8 @@ client
    |  ├── signup
    |  └── transitions
    ├── hooks
+   |  ├── common
+   |  ├── signup
    ├── routes
    |  ├── Auth
    |  ├── Home

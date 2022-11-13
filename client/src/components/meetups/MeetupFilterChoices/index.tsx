@@ -5,7 +5,7 @@ import {
   meetupFiltersState,
   MEETUP_FILTERS_INITIAL_STATE,
 } from 'states/meetup';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';

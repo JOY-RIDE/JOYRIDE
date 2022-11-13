@@ -1,19 +1,14 @@
-import { createContext, useContext, useState } from 'react';
-import { SignupFormData, SignupStepControls } from 'types/auth';
+import { useState } from 'react';
+import { SignupFormData } from 'types/auth';
 import PageTitle from 'components/common/PageTitle';
 import SignupForms from 'components/signup/SignupForms';
 import SignupCompleted from 'components/signup/SignupCompleted';
 import styles from './Signup.module.scss';
 import classNames from 'classnames/bind';
+import { SignupStepControlsContext } from 'hooks/signup/useSignupStepControls';
+import { SignupFormDataContext } from 'hooks/signup/useSignupFormData';
 
 const cn = classNames.bind(styles);
-
-const SignupStepControlsContext = createContext({});
-export const useSignupStepControls = () =>
-  useContext(SignupStepControlsContext);
-
-const SignupFormDataContext = createContext({});
-export const useSignupFormDataContext = () => useContext(SignupFormDataContext);
 
 const TOTAL_STEPS = 3;
 const INITIAL_SIGNUP_FORM_DATA = { email: '', password: '', nickname: '' };
@@ -22,7 +17,6 @@ const Signup = () => {
   const [step, setStep] = useState<number>(1);
   const decreaseStep = () => setStep(step => step - 1);
   const increaseStep = () => setStep(step => step + 1);
-
   const [signupFormData, setSignupFormData] = useState<SignupFormData>(
     INITIAL_SIGNUP_FORM_DATA
   );

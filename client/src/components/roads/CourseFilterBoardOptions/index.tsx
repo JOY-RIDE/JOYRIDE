@@ -7,7 +7,7 @@ import { useCallback, useEffect } from 'react';
 import { FilterOptionData, FiltersReducerPayload } from 'types/common';
 import { courseBoardFiltersState } from 'states/course';
 import { ChangeHandler, ClickHandler } from 'types/callback';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import FilterOptionChip from 'components/common/FilterOptionChip';
 

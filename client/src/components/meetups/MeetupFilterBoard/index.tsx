@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { useSetRecoilState } from 'recoil';
 import { meetupBoardFiltersState, meetupFiltersState } from 'states/meetup';
 import { SubmitHandler } from 'types/callback';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import { toastMessageState } from 'states/common';
 import MeetupFilterChoices from '../MeetupFilterChoices';
 import { MEETUP_FILTERS_REDUCERS } from 'utils/filter';

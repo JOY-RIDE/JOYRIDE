@@ -6,7 +6,7 @@ import {
   COURSE_FILTERS_INITIAL_STATE,
 } from 'states/course';
 import { FilterOptionData } from 'types/common';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';

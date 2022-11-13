@@ -27,7 +27,7 @@ import {
 import { getCoursesOrderedBy } from 'utils/order';
 import { COURSE_FILTERS_DISPATCHES } from 'utils/filter';
 import { IRoad, ServerIRoads } from 'types/course';
-import useFilter from 'hooks/useFilter';
+import useFilter from 'hooks/common/useFilter';
 import NoResults from 'components/common/NoResults';
 
 const cn = classNames.bind(styles);
